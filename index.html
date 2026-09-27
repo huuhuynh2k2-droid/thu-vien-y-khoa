@@ -105,6 +105,11 @@ tbody tr:nth-child(even){background:var(--wash)}
 tbody tr:hover{background:color-mix(in srgb, var(--gold) 12%, transparent)}
 td .nm{font-weight:700;display:block}
 td .cat{font-size:12.5px;color:var(--ink2);margin-top:2px}
+tr.grouphead td{padding:9px 12px;background:linear-gradient(120deg, color-mix(in srgb, var(--gc,var(--accent)) 14%, var(--surface)), color-mix(in srgb, var(--gc,var(--accent)) 5%, var(--surface)));border-top:1px solid var(--grid);font-weight:800;font-size:12.5px;letter-spacing:.2px;color:var(--ink)}
+tr.grouphead .gicon{display:inline-flex;align-items:center;gap:7px}
+tr.grouphead .gicon i{width:9px;height:9px;border-radius:50%;background:var(--gc,var(--accent));flex:none}
+tr.grouphead .gn{color:var(--muted);font-weight:600;font-size:11.5px;margin-left:6px}
+@media (max-width:720px){tr.grouphead td{display:block}}
 td .note{font-size:12.5px;color:var(--ink2);margin-top:4px;max-width:420px}
 td a.open{color:var(--accent);text-decoration:underline;text-underline-offset:2px;font-weight:600}
 .spdot{display:inline-flex;align-items:center;gap:6px;font-weight:600}
@@ -225,14 +230,27 @@ function renderSpecialties(){
   document.getElementById("spGrid").innerHTML=h;
 }
 
+// Thứ tự chuyên khoa (để gom nhóm ổn định) + thứ tự "topic" đầu tiên xuất hiện trong mỗi chuyên khoa
+// (giữ đúng thứ tự tác giả sắp trong library-data.js, không sắp lại theo abc).
+var SPIDX={};L.specialties.forEach(function(s,i){SPIDX[s.id]=i});
+var TOPICIDX={};(function(){var c=0;L.items.forEach(function(it){var k=it.sp+"|"+(it.topic||"");if(!(k in TOPICIDX))TOPICIDX[k]=c++})})();
+
 function renderTable(){
   var q=F.q.trim().toLowerCase();
+  var grouping=(F.sort==="title"); // chỉ gom nhóm theo chủ đề khi đang ở kiểu sắp xếp mặc định
   var list=L.items.filter(function(it){
     if(F.sp!=="all"&&it.sp!==F.sp)return false;
     if(F.st!=="all"&&String(it.status)!==F.st)return false;
-    if(q){var hay=(it.title+" "+(it.org||"")+" "+(it.year||"")+" "+(it.cat||"")).toLowerCase();if(hay.indexOf(q)<0)return false}
+    if(q){var hay=(it.title+" "+(it.org||"")+" "+(it.year||"")+" "+(it.cat||"")+" "+(it.topic||"")).toLowerCase();if(hay.indexOf(q)<0)return false}
     return true;
   }).sort(function(a,b){
+    if(grouping){
+      var ga=SPIDX[a.sp]!=null?SPIDX[a.sp]:999,gb=SPIDX[b.sp]!=null?SPIDX[b.sp]:999;
+      if(ga!==gb)return ga-gb;
+      var ta=TOPICIDX[a.sp+"|"+(a.topic||"")]||0,tb=TOPICIDX[b.sp+"|"+(b.topic||"")]||0;
+      if(ta!==tb)return ta-tb;
+      var r=a.title<b.title?-1:a.title>b.title?1:0;return r*F.dir;
+    }
     var x=a[F.sort],y=b[F.sort];
     if(F.sort==="sp"){x=SP[a.sp]?SP[a.sp].name:"";y=SP[b.sp]?SP[b.sp].name:""}
     if(F.sort==="year"){x=x||0;y=y||0}
@@ -240,16 +258,30 @@ function renderTable(){
   });
   document.getElementById("count").textContent=list.length+" / "+L.items.length+" bài";
   document.getElementById("empty").classList.toggle("hide",list.length>0);
-  document.getElementById("tb").innerHTML=list.map(function(it){
+  var showSpInHeader=(F.sp==="all");
+  var lastKey=null,html="";
+  list.forEach(function(it){
+    if(grouping&&it.topic){
+      var key=it.sp+"|"+it.topic;
+      if(key!==lastKey){
+        lastKey=key;
+        var n=list.filter(function(x){return x.sp===it.sp&&x.topic===it.topic}).length;
+        var label=showSpInHeader?(SPICON[it.sp]||"🩺")+" "+esc((SP[it.sp]?SP[it.sp].name:it.sp))+" · "+esc(it.topic):esc(it.topic);
+        html+='<tr class="grouphead" style="--gc:var(--c-'+it.sp+')"><td colspan="6"><span class="gicon"><i></i>'+label+'</span><span class="gn">'+n+' bài</span></td></tr>';
+      }
+    }else if(grouping&&!it.topic&&lastKey!==null){
+      lastKey=null; // các bài chưa gắn topic hiển thị liền mạch, không chèn tiêu đề nhóm
+    }
     var u=openUrl(it),sp=SP[it.sp]?SP[it.sp].name:it.sp;
     var nm=u?'<a class="open" href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(it.title)+'</a>':esc(it.title);
-    return '<tr><td data-l="Tên bài"><span class="nm">'+nm+'</span>'+(it.cat?'<div class="cat">'+esc(it.cat)+'</div>':'')+(it.note?'<div class="note">'+esc(it.note)+'</div>':'')+'</td>'+
+    html+='<tr><td data-l="Tên bài"><span class="nm">'+nm+'</span>'+(it.cat?'<div class="cat">'+esc(it.cat)+'</div>':'')+(it.note?'<div class="note">'+esc(it.note)+'</div>':'')+'</td>'+
       '<td data-l="Chuyên khoa"><span class="spdot" style="--sc:var(--c-'+it.sp+')"><i></i>'+esc(sp)+'</span></td>'+
       '<td data-l="Tổ chức / Nguồn">'+(it.doi?'<a class="open" href="'+esc(it.doi)+'" target="_blank" rel="noopener">'+esc(it.org||"Nguồn")+'</a>':esc(it.org||"–"))+'</td>'+
       '<td data-l="Năm" class="dim">'+(it.year||"–")+'</td>'+
       '<td data-l="Trạng thái"><span class="tag '+STC[it.status]+'">'+STICON[it.status]+' '+STN[it.status]+'</span></td>'+
       '<td data-l="Cập nhật">'+(fmtDate(it.updated)||"–")+'</td></tr>';
-  }).join("");
+  });
+  document.getElementById("tb").innerHTML=html;
 }
 
 function refresh(){renderTiles();renderSpecialties();renderTable()}
