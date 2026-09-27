@@ -9,6 +9,8 @@
 window.LIBRARY = {
   updated: "2026-09-27",
   dashboardUrl: "https://huuhuynh2k2-droid.github.io/on-thi-dashboard/",
+  // "topic" mới trong "tm" (Tim mạch): "Kháng kết tập tiểu cầu" — nhóm này chưa từng có bài
+  // nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
   specialties: [
     { id: "tm",  name: "Tim mạch",             en: "Cardiology" },
     { id: "hh",  name: "Hô hấp",               en: "Pulmonology" },
@@ -21,6 +23,12 @@ window.LIBRARY = {
     { id: "hscc",name: "Hồi sức – Cấp cứu",    en: "Critical Care & Emergency" }
   ],
   items: [
+    { id: "tm-aspirin-lam-sang-hien-dai", sp: "tm", topic: "Kháng kết tập tiểu cầu", title: "Vị thế của Aspirin trong dòng chảy Tim mạch hiện đại — Tổng hợp lâm sàng",
+      org: "Bài giảng BS. Trần Tuấn Anh — tổng hợp từ các RCT và khuyến cáo 2026", year: 2026, doi: "", status: 2,
+      cat: "Aspirin & DAPT",
+      note: "Từ vỏ liễu đến cơ chế phân tử; 3 RCT bản lề 2018 đã đổi hướng dự phòng tiên phát; so sánh Aspirin/Clopidogrel/Ticagrelor/Prasugrel, CYP2C19 và \"nghịch lý Đông Á\"; DAPT sau ACS/PCI, xu hướng rút ngắn và xuống thang; PREMIUM (bỏ Aspirin từ đầu trong STEMI cấp?), A-CLOSE (duy trì Aspirin hay Clopidogrel sau 12 tháng); thuật toán quyết định kháng kết tập tiểu cầu theo mốc thời gian sau PCI.",
+      updated: "2026-09-27", url: "https://huuhuynh2k2-droid.github.io/aspirin-trong-lam-sang-hien-dai/" },
+
     { id: "hour1-sepsis-bundle", sp: "hscc", topic: "Sepsis và sốc nhiễm khuẩn", title: "Hour-1 Sepsis Bundle: cập nhật bằng chứng (Gói can thiệp Hour-1 trong sepsis)",
       org: "J. Clin. Med. (bài tổng quan về hướng dẫn SSC 2026)", year: 2026, doi: "https://doi.org/10.3390/jcm15156049", status: 2,
       cat: "Bài tổng quan",
