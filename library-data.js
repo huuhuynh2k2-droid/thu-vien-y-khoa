@@ -23,10 +23,10 @@ window.LIBRARY = {
     { id: "hscc",name: "Hồi sức – Cấp cứu",    en: "Critical Care & Emergency" }
   ],
   items: [
-    { id: "tm-dyslipidemia-2026-p1", sp: "tm", topic: "Rối loạn lipid máu", title: "2026 ACC/AHA Guideline Quản lý Rối loạn lipid máu — Phần 1-2: Đánh giá, lối sống & điều trị dược lý",
-      org: "ACC/AHA (Circulation 2026;153:e1154–e1276)", year: 2026, doi: "https://doi.org/10.1161/CIR.0000000000001423", status: 1,
-      cat: "Phần 1-2/3 · Đang biên soạn tiếp",
-      note: "Phần 1: 10 thông điệp chính, khung COR/LOE, định nghĩa CKM/ASCVD, sàng lọc, đo TC/LDL-C/HDL-C/TG/non-HDL-C/ApoB/Lp(a), theo dõi & bảng mục tiêu lipoprotein, quản lý lối sống. Phần 2 (mới): điều trị dược lý (statin & không statin, Bảng đặc điểm thuốc/tương tác), phòng ngừa tiên phát bằng PREVENT-ASCVD & khung CPR (kèm sơ đồ gốc), yếu tố tăng nguy cơ/nguy cơ sinh sản/điểm đa gen, chỉ định CAC, tăng cholesterol máu nặng & FH/HoFH (kèm sơ đồ), đái tháo đường, phòng ngừa thứ phát theo mức nguy cơ, quản lý xơ vữa dưới lâm sàng theo CAC, trẻ em/người trẻ/người cao tuổi. Phần 3 (tăng TG máu, Lp(a) cao, tác dụng phụ statin, an toàn thuốc, nhóm bệnh nhân đặc biệt còn lại) sẽ cập nhật tiếp vào cùng bài này.",
+    { id: "tm-dyslipidemia-2026-p1", sp: "tm", topic: "Rối loạn lipid máu", title: "2026 ACC/AHA Guideline Quản lý Rối loạn lipid máu — Bản dịch đầy đủ",
+      org: "ACC/AHA (Circulation 2026;153:e1154–e1276)", year: 2026, doi: "https://doi.org/10.1161/CIR.0000000000001423", status: 2,
+      cat: "Đầy đủ · Guideline thay thế 2018",
+      note: "Bản dịch đầy đủ, chia 3 phần đọc liền trong 1 trang: (1) Tóm tắt/10 thông điệp, khung COR/LOE, định nghĩa CKM/ASCVD, sàng lọc, đo TC/LDL-C/HDL-C/TG/non-HDL-C/ApoB/Lp(a), theo dõi & bảng mục tiêu lipoprotein, quản lý lối sống. (2) Điều trị dược lý (statin & không statin), PREVENT-ASCVD & khung CPR, yếu tố tăng nguy cơ/nguy cơ sinh sản/điểm đa gen, chỉ định CAC, tăng cholesterol máu nặng & FH/HoFH, đái tháo đường, phòng ngừa thứ phát, quản lý xơ vữa dưới lâm sàng, trẻ em/người trẻ/người cao tuổi. (3) Thai kỳ/cho con bú, chủng tộc/sắc tộc, suy tim, bệnh viêm mạn, CKD, HIV, ung thư, tăng triglyceride máu, tiếp cận Lp(a) cao, hội chứng cơ do statin, an toàn thuốc & tương tác thuốc, khoảng trống bằng chứng. 15 sơ đồ/thuật toán gốc được nhúng dạng ảnh; các bảng số liệu dựng lại thành HTML tiếng Việt.",
       updated: "2026-09-27", url: "docs/dyslipidemia-2026-phan1.html" },
 
     { id: "tm-aspirin-lam-sang-hien-dai", sp: "tm", topic: "Kháng kết tập tiểu cầu", title: "Vị thế của Aspirin trong dòng chảy Tim mạch hiện đại — Tổng hợp lâm sàng",
