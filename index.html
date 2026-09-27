@@ -43,6 +43,9 @@ h1{font-size:22px;margin:0;font-weight:650}
 .tiles{grid-template-columns:repeat(4,1fr)}
 .mt{margin-top:12px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px}
+.card.tile{cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit}
+.card.tile:hover{background:var(--wash)}
+.card.tile[aria-pressed="true"]{outline:2px solid var(--accent)}
 .tile .v{font-size:30px;font-weight:650;line-height:1.15}
 .tile .l{color:var(--ink2);font-size:13px}
 .tile .d{font-size:12.5px;margin-top:4px;color:var(--ink2)}
@@ -149,12 +152,12 @@ var F={q:"",sp:"all",st:"all",sort:"title",dir:1};
 function renderTiles(){
   var n=L.items.length,done=L.items.filter(function(i){return i.status===2}).length,wip=L.items.filter(function(i){return i.status===1}).length,todo=n-done-wip;
   document.getElementById("tiles").innerHTML=
-    tile(n,"Tổng số bài","")+
-    tile(done,"Đã hoàn thành",n?Math.round(done/n*100)+"%":"")+
-    tile(wip,"Đang biên soạn","")+
-    tile(todo,"Chưa soạn / cần cập nhật","");
+    tile("all",n,"Tổng số bài","")+
+    tile("2",done,"Đã hoàn thành",n?Math.round(done/n*100)+"%":"")+
+    tile("1",wip,"Đang biên soạn","")+
+    tile("0",todo,"Chưa soạn / cần cập nhật","");
 }
-function tile(v,l,d){return'<div class="card tile"><div class="v">'+v+'</div><div class="l">'+l+'</div><div class="d">'+d+'</div></div>'}
+function tile(st,v,l,d){return'<button type="button" class="card tile" data-st="'+st+'" aria-pressed="'+(F.st===st)+'"><div class="v">'+v+'</div><div class="l">'+l+'</div><div class="d">'+d+'</div></button>'}
 
 function renderSpecialties(){
   var h="";
@@ -193,6 +196,12 @@ function renderTable(){
 }
 
 function refresh(){renderTiles();renderSpecialties();renderTable()}
+document.getElementById("tiles").addEventListener("click",function(e){
+  var b=e.target.closest("[data-st]");if(!b)return;
+  F.st=F.st===b.dataset.st?"all":b.dataset.st;
+  document.getElementById("fSt").value=F.st;
+  renderTiles();renderTable();
+});
 document.getElementById("spGrid").addEventListener("click",function(e){
   var b=e.target.closest("[data-sp]");if(!b)return;
   F.sp=F.sp===b.dataset.sp?"all":b.dataset.sp;
