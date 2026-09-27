@@ -23,6 +23,12 @@ window.LIBRARY = {
     { id: "hscc",name: "Hồi sức – Cấp cứu",    en: "Critical Care & Emergency" }
   ],
   items: [
+    { id: "tm-dyslipidemia-2026-p1", sp: "tm", topic: "Rối loạn lipid máu", title: "2026 ACC/AHA Guideline Quản lý Rối loạn lipid máu — Phần 1: Đánh giá, chẩn đoán & lối sống",
+      org: "ACC/AHA (Circulation 2026;153:e1154–e1276)", year: 2026, doi: "https://doi.org/10.1161/CIR.0000000000001423", status: 1,
+      cat: "Phần 1/3 · Đang biên soạn tiếp",
+      note: "10 thông điệp chính, khung phân loại COR/LOE, định nghĩa CKM/ASCVD, sàng lọc, đo TC/LDL-C/HDL-C/TG/non-HDL-C (công thức Martin/Hopkins, Sampson/NIH), đo ApoB, đo Lp(a) (kèm bảng nguy cơ), theo dõi & bảng mục tiêu lipoprotein đầy đủ theo 6 nhóm bệnh nhân, quản lý lối sống (dinh dưỡng LDL-C và TG, cân nặng, vận động, TPCN, khi nào chuyển chuyên gia dinh dưỡng). Phần 2–3 (điều trị dược lý, PREVENT-ASCVD, LDL-C rất cao/FH, đái tháo đường, phòng ngừa thứ phát, TG cao, Lp(a) cao, tác dụng phụ statin) sẽ cập nhật tiếp vào cùng bài này.",
+      updated: "2026-09-27", url: "docs/dyslipidemia-2026-phan1.html" },
+
     { id: "tm-aspirin-lam-sang-hien-dai", sp: "tm", topic: "Kháng kết tập tiểu cầu", title: "Vị thế của Aspirin trong dòng chảy Tim mạch hiện đại — Tổng hợp lâm sàng",
       org: "Bài giảng BS. Trần Tuấn Anh — tổng hợp từ các RCT và khuyến cáo 2026", year: 2026, doi: "", status: 2,
       cat: "Aspirin & DAPT",

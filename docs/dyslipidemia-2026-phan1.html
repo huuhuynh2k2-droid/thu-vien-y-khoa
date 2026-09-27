@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guideline 2026 ACC/AHA Rối loạn lipid máu (Phần 1) — BS. Huỳnh Hữu Minh</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#0E6E6B; --accent-ink:#04302E; --accent-bg:#E3F1EF;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">Dyslipidemia 2026 (P1)</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">CLINICAL PRACTICE GUIDELINE · CIRCULATION 2026</div>
+    <div class="doc-title">2026 ACC/AHA Guideline Quản lý Rối loạn lipid máu — Phần 1: Đánh giá, chẩn đoán & lối sống</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">PHẦN 1/3 · ĐÁNH GIÁ — CHẨN ĐOÁN — LỐI SỐNG</span>
+    <h1>2026 ACC/AHA Guideline Quản lý Rối loạn lipid máu</h1>
+    <div class="byline">Blumenthal RS, Morris PB, et al. — Ủy ban chung ACC/AHA về Guideline Thực hành Lâm sàng</div>
+    <div class="cite">Nguồn: Circulation. 2026;153:e1154–e1276. DOI: 10.1161/CIR.0000000000001423. Bản dịch tham khảo phục vụ học tập lâm sàng — không thay thế bản gốc.</div>
+
+    <div class="box" style="margin-bottom:26px;">
+  <div class="box-title">VỀ BÀI NÀY — PHẦN 1/3</div>
+  <p style="margin-bottom:0;">Guideline 2026 ACC/AHA về Rối loạn lipid máu rất dài (91 trang, hàng chục khung khuyến cáo). Bài này là <strong>Phần 1</strong>, dịch trọn các mục: Tóm tắt/10 thông điệp chính, khung phân loại mức khuyến cáo, Định nghĩa, Đánh giá &amp; chẩn đoán (xét nghiệm lipid, ApoB, Lp(a), theo dõi), và Quản lý lối sống. <strong>Phần 2</strong> (điều trị dược lý, phòng ngừa tiên phát bằng PREVENT-ASCVD, LDL-C rất cao/tăng cholesterol máu gia đình, đái tháo đường, phòng ngừa thứ phát, xơ vữa dưới lâm sàng) và <strong>Phần 3</strong> (tăng triglyceride máu, Lp(a) cao, tác dụng phụ statin, an toàn thuốc, khoảng trống bằng chứng) sẽ được bổ sung tiếp theo và cập nhật lại link này.</p>
+</div>
+
+<h2 id="h-tomtat">Tóm tắt &amp; 10 thông điệp chính</h2>
+<p><strong>Mục tiêu:</strong> Guideline 2026 ACC/AHA/AACVPR/ABC/ACPM/ADA/AGS/APhA/ASPC/NLA/PCNA này <strong>thay thế hoàn toàn</strong> guideline 2018 về Quản lý Cholesterol máu. Đổi tên từ "Cholesterol máu" sang "Rối loạn lipid máu" để phản ánh hiểu biết mới về vai trò của các lipoprotein sinh xơ vữa ngoài LDL — bao gồm triglyceride (TG), các hạt remnant, và Lp(a).</p>
+<p><strong>Phương pháp:</strong> Tổng hợp y văn từ 10/2024–12/2024 (MEDLINE/PubMed, EMBASE, Cochrane, AHRQ...), bổ sung nghiên cứu quan trọng đến 4/2025.</p>
+
+<div class="box">
+  <div class="box-title">10 THÔNG ĐIỆP CHÍNH (TOP TAKE-HOME MESSAGES)</div>
+  <ul>
+    <li><strong>1.</strong> Điều trị rối loạn lipid máu sớm hơn để giảm nguy cơ tích lũy suốt đời do phơi nhiễm kéo dài với lipoprotein sinh xơ vữa. Tư vấn hành vi lối sống nên bắt đầu từ tuổi trẻ; cân nhắc điều trị thuốc sớm ở người trẻ có tăng cholesterol máu gia đình (FH) hoặc LDL-C ≥160 mg/dL hoặc tiền sử gia đình ASCVD sớm.</li>
+    <li><strong>2.</strong> Dùng phương trình <strong>PREVENT™</strong> (American Heart Association Predicting Risk of cardiovascular disease EVENTs) mới thay cho Pooled Cohort Equations (PCE) cũ để ước tính nguy cơ 10 năm/30 năm trong phòng ngừa tiên phát (30–79 tuổi). Dùng mô hình "CPR": <strong>C</strong>alculate (Tính) → <strong>P</strong>ersonalize (Cá thể hóa bằng các yếu tố tăng nguy cơ) → <strong>R</strong>eclassify (Tái phân loại bằng CAC khi cần).</li>
+    <li><strong>3.</strong> Điều trị hạ LDL-C có thể được <em>cân nhắc</em> ở người có nguy cơ 10 năm 3–&lt;5% (nguy cơ ranh giới) và <em>nên được cân nhắc</em> ở người 5–&lt;10% (nguy cơ trung bình), sau thảo luận bác sĩ–bệnh nhân.</li>
+    <li><strong>4.</strong> Mục tiêu LDL-C và non-HDL-C quay trở lại làm kim chỉ nam điều trị. Giảm LDL-C theo phần trăm vẫn quan trọng với tất cả mọi người; mục tiêu % giảm phụ thuộc mức nguy cơ ASCVD.</li>
+    <li><strong>5.</strong> Xét nghiệm ApoB hữu ích để cải thiện đánh giá nguy cơ và định hướng điều trị khi đã đạt mục tiêu LDL-C/non-HDL-C, đặc biệt ở người có TG ≥150 mg/dL, đái tháo đường, hoặc LDL-C đã đạt thấp (&lt;70 mg/dL).</li>
+    <li><strong>6.</strong> Lp(a) nên được đo <strong>ít nhất 1 lần</strong> ở mọi người trưởng thành để xác định nhóm nguy cơ cao hơn. Lp(a) ≥125 nmol/L (50 mg/dL) là yếu tố tăng nguy cơ (tăng ~1,4 lần); ≥250 nmol/L (100 mg/dL) tăng ≥2 lần nguy cơ. Lp(a) cao nên là chỉ định để kiểm soát tích cực hơn LDL-C và các yếu tố nguy cơ khác.</li>
+    <li><strong>7.</strong> Điểm canxi vành (CAC) ở nam ≥40 tuổi và nữ ≥45 tuổi có thể cải thiện phân tầng nguy cơ và định hướng mục tiêu LDL-C/non-HDL-C.</li>
+    <li><strong>8.</strong> Điều trị hạ LDL-C được khuyến cáo cho phòng ngừa tiên phát ở người 40–75 tuổi có đái tháo đường, bệnh thận mạn giai đoạn 3–4, hoặc HIV — bất kể mức LDL-C. Sau 75 tuổi, có thể cân nhắc phối hợp với thay đổi lối sống.</li>
+    <li><strong>9.</strong> Trong phòng ngừa thứ phát, mục tiêu LDL-C &lt;55 mg/dL (1,4 mmol/L) và non-HDL-C &lt;85 mg/dL (2,2 mmol/L) được khuyến cáo cho nhóm nguy cơ rất cao. Đa số bệnh nhân ASCVD sẽ đạt mục tiêu LDL-C &lt;55 mg/dL.</li>
+    <li><strong>10.</strong> Với TG cao dai dẳng, statin vẫn là nền tảng điều trị bổ trợ cho lối sống để giảm ASCVD. Có thể thêm thuốc hạ TG, đặc biệt khi TG ≥1000 mg/dL (11,3 mmol/L), để phòng viêm tụy cấp.</li>
+  </ul>
+</div>
+
+<h3 id="h-cor-loe">Khung phân loại mức khuyến cáo (COR/LOE) — dùng xuyên suốt bài</h3>
+<p>Mỗi khuyến cáo trong guideline này đi kèm 2 mã: <strong>COR</strong> (Class of Recommendation — độ mạnh khuyến cáo, lợi ích so với nguy cơ) và <strong>LOE</strong> (Level of Evidence — chất lượng bằng chứng). Bài dịch giữ nguyên các khung này (nhãn màu <span class="grade">COR X</span>) để tiện tra cứu nhanh.</p>
+<div class="tbl-wrap">
+<table>
+<caption>Bảng 3 (rút gọn) — Ý nghĩa các mức COR và LOE</caption>
+<tr><th>Mã</th><th>Ý nghĩa</th><th>Cụm từ thường dùng</th></tr>
+<tr><td><strong>COR 1</strong></td><td>Mạnh — Lợi ích &gt;&gt;&gt; Nguy cơ</td><td>"được khuyến cáo", "có ích/hiệu quả"</td></tr>
+<tr><td><strong>COR 2a</strong></td><td>Trung bình — Lợi ích &gt;&gt; Nguy cơ</td><td>"hợp lý", "có thể có ích"</td></tr>
+<tr><td><strong>COR 2b</strong></td><td>Yếu — Lợi ích ≥ Nguy cơ</td><td>"có thể cân nhắc", "chưa rõ hiệu quả"</td></tr>
+<tr><td><strong>COR 3: Không lợi ích</strong></td><td>Lợi ích = Nguy cơ</td><td>"không được khuyến cáo"</td></tr>
+<tr><td><strong>COR 3: Có hại</strong></td><td>Nguy cơ &gt; Lợi ích</td><td>"không nên thực hiện", "có hại"</td></tr>
+<tr><td><strong>LOE A</strong></td><td>Bằng chứng chất lượng cao — nhiều RCT hoặc meta-analysis RCT chất lượng cao</td><td>—</td></tr>
+<tr><td><strong>LOE B-R</strong></td><td>Chất lượng trung bình — 1 RCT hoặc meta-analysis RCT trung bình (R = Randomized)</td><td>—</td></tr>
+<tr><td><strong>LOE B-NR</strong></td><td>Chất lượng trung bình — nghiên cứu không ngẫu nhiên thiết kế tốt (NR = Nonrandomized)</td><td>—</td></tr>
+<tr><td><strong>LOE C-LD</strong></td><td>Dữ liệu hạn chế — nghiên cứu quan sát/đăng ký có hạn chế thiết kế</td><td>—</td></tr>
+<tr><td><strong>LOE C-EO</strong></td><td>Ý kiến chuyên gia đồng thuận</td><td>—</td></tr>
+</table>
+</div>
+
+<h2 id="h-dinhnghia">Định nghĩa &amp; phân loại</h2>
+<p><strong>Hội chứng tim mạch–thận–chuyển hóa (CKM syndrome):</strong> đặc trưng bởi béo bụng (BMI cao và/hoặc vòng eo lớn), kháng insulin (tăng insulin máu, rối loạn dung nạp glucose, đái tháo đường típ 2), rối loạn lipid máu (TG cao, HDL-C thấp), tăng huyết áp, và đôi khi có tiểu đạm vi lượng, protein niệu, hoặc bệnh thận mạn.</p>
+<p><strong>Trẻ em:</strong> trong guideline này được định nghĩa là ≤18 tuổi.</p>
+<p><strong>ASCVD lâm sàng:</strong> bao gồm tiền sử hội chứng vành cấp, nhồi máu cơ tim, đau thắt ngực ổn định/không ổn định, tái thông mạch vành hoặc động mạch khác, đột quỵ, cơn thiếu máu não thoáng qua (TIA), hoặc bệnh động mạch ngoại biên (PAD).</p>
+<p><strong>ASCVD nguy cơ rất cao</strong> được định nghĩa là: ≥2 biến cố ASCVD chính trong 12 tháng gần nhất (không tính biến cố khởi phát), tiền sử nhồi máu cơ tim (ngoài NMCT gần nhất), tiền sử đột quỵ thiếu máu, PAD có triệu chứng — <em>hoặc</em> 1 biến cố ASCVD chính kèm ≥2 đặc điểm nguy cơ cao (tuổi ≥65, tái thông mạch vành/bắc cầu, hút thuốc hiện tại, đái tháo đường, tiền sử suy tim, tăng huyết áp, LDL-C ≥100 mg/dL [2,6 mmol/L] dù đã dùng statin tối đa dung nạp cộng ezetimibe).</p>
+<p><strong>Rối loạn lipid máu</strong> trong guideline này bao gồm: tăng cholesterol máu, tăng triglyceride máu, và tăng Lp(a).</p>
+<p><strong>Xơ vữa động mạch dưới lâm sàng:</strong> có mảng xơ vữa ở ≥1 vùng động mạch nhưng chưa có triệu chứng, dấu hiệu, hoặc biến cố lâm sàng rõ.</p>
+
+<h2 id="h-sangloc">Sàng lọc ở trẻ em và người lớn</h2>
+<div class="rec"><span class="num">1.</span> Ở người lớn, sàng lọc bằng bộ lipid máu được khuyến cáo bắt đầu từ 19 tuổi và ít nhất mỗi 5 năm sau đó để phát hiện nguy cơ ASCVD có thể điều trị được; sàng lọc thường xuyên hơn ở người có thêm yếu tố nguy cơ ASCVD. <span class="grade">COR 1 · B-NR</span></div>
+<div class="rec"><span class="num">2.</span> Ở trẻ 9–11 tuổi chưa từng xét nghiệm, khuyến cáo sàng lọc bằng bộ lipid máu để phát hiện tăng cholesterol máu gia đình (FH) và các rối loạn lipid quan trọng khác. <span class="grade">COR 1 · B-NR</span></div>
+<div class="rec"><span class="num">3.</span> Ở cá nhân có người thân thế hệ 1 hoặc 2 bị ASCVD sớm, tăng cholesterol máu nặng, hoặc FH, hợp lý khi sàng lọc bằng 1 bộ lipid máu ("sàng lọc tầng") bắt đầu từ ≥2 tuổi để phát hiện FH. <span class="grade">COR 2a · B-NR</span></div>
+<p><em>Điểm lâm sàng:</em> khoảng 25% người lớn Mỹ có LDL-C ≥130 mg/dL; kiểu hình FH dị hợp tử (HeFH) gặp ở 1/250–300 người nhưng đến 90% chưa được chẩn đoán. Tiền sử gia đình đơn thuần <strong>không đủ nhạy</strong> để phát hiện — đến một nửa số người có LDL-C cao không biết có tiền sử gia đình rối loạn lipid. Xét nghiệm "sàng lọc tầng ngược" (reverse cascade) cho người thân thế hệ 1–2 của người được chẩn đoán FH (anh chị em, con cái, cha mẹ, ông bà, cô/dì/chú/bác) giúp phát hiện thêm ca bệnh và có thể tiết kiệm chi phí hệ thống y tế.</p>
+
+<h2 id="h-do-lipid">Đo TC, LDL-C, HDL-C, TG và Non-HDL-C</h2>
+<div class="rec"><span class="num">1.</span> Ở người lớn và trẻ em, khuyến cáo làm bộ lipid máu chuẩn (đói hoặc không đói) để ghi nhận mức lipid nền, ước tính nguy cơ ASCVD, và định hướng khởi trị hạ lipid. <span class="grade">COR 1 · B-NR</span></div>
+<div class="rec"><span class="num">2.</span> Ở người có tiền sử gia đình rối loạn lipid sớm, nghi ngờ/xác định rối loạn chuyển hóa TG, hoặc bộ lipid không đói cho TG ≥400 mg/dL (4,5 mmol/L), nên làm lại bộ lipid lúc đói để ước tính LDL-C chính xác hơn. <span class="grade">COR 1 · B-NR</span></div>
+<div class="rec"><span class="num">3–4.</span> Khi đã có bộ lipid chuẩn, nên dùng công thức <strong>Martin/Hopkins</strong> hoặc <strong>Sampson/NIH</strong> thay vì công thức Friedewald (hoặc thay vì đo LDL-C trực tiếp) để ước tính LDL-C — chính xác hơn trên phổ rộng TG và LDL-C, đặc biệt khi TG ≥150 mg/dL, LDL-C &lt;70 mg/dL, hoặc non-HDL-C &lt;100 mg/dL. <span class="grade">COR 1 · B-NR</span></div>
+<div class="rec"><span class="num">5.</span> Nên báo cáo <strong>non-HDL-C</strong> thường quy để đánh giá nguy cơ ASCVD và định hướng điều trị hạ lipid. <span class="grade">COR 1 · B-NR</span></div>
+<div class="rec"><span class="num">6.</span> <strong>Không khuyến cáo</strong> xét nghiệm lipoprotein nâng cao thường quy (điện di gel gradient, siêu ly tâm mật độ gradient, cộng hưởng từ hạt nhân, phân tích độ linh động ion...) để đánh giá kích thước hạt LDL cho mục đích đánh giá nguy cơ ASCVD thường quy. <span class="grade">COR 3: Không lợi ích · B-NR</span></div>
+<div class="box">
+  <div class="box-title">TẠI SAO ĐỔI CÔNG THỨC TÍNH LDL-C?</div>
+  <p style="margin-bottom:0;">Công thức Friedewald cổ điển (LDL-C = TC − HDL-C − TG/5) kém chính xác khi TG tăng, và <strong>không dùng được</strong> khi TG ≥400 mg/dL (4,5 mmol/L). Martin/Hopkins và Sampson/NIH dùng hệ số hiệu chỉnh linh hoạt hơn theo mức TG/non-HDL-C thực tế, cho kết quả sát với chuẩn vàng (siêu ly tâm) hơn — đặc biệt quan trọng ở nhóm LDL-C thấp (&lt;70 mg/dL) hoặc TG cao, là nhóm hay bị đánh giá sai lệch LDL-C nếu dùng Friedewald.</p>
+</div>
+
+<h2 id="h-apob">Đo ApoB</h2>
+<div class="rec"><span class="num">1.</span> Ở người đang điều trị hạ lipid, đặc biệt có ASCVD, hội chứng CKM, đái tháo đường típ 2, và/hoặc TG cao, đo ApoB là hợp lý để định hướng quyết định tăng cường điều trị khi đã đạt mục tiêu LDL-C/non-HDL-C. <span class="grade">COR 2a · B-NR</span></div>
+<div class="rec"><span class="num">2.</span> Ở người chưa điều trị hạ lipid, đo ApoB có thể hữu ích để tăng cường đánh giá nguy cơ ASCVD, định hướng khởi trị, và xác định đặc điểm rối loạn lipid di truyền. <span class="grade">COR 2b · B-NR</span></div>
+<p>ApoB đo trực tiếp <strong>số lượng hạt lipoprotein sinh xơ vữa</strong> (1 phân tử ApoB/hạt LDL, VLDL, Lp(a)), trong khi LDL-C chỉ phản ánh <em>khối lượng cholesterol</em> trong các hạt đó. Khi có "bất tương xứng" LDL-C thấp nhưng ApoB vẫn cao (thường gặp ở hội chứng CKM, đái tháo đường, TG ≥150 mg/dL) — ApoB phản ánh gánh nặng hạt sinh xơ vữa tồn dư tốt hơn, giúp tránh đánh giá thấp nguy cơ còn lại và bỏ sót nhu cầu tăng cường điều trị.</p>
+
+<h2 id="h-lpa">Đo Lp(a)</h2>
+<div class="rec"><span class="num">1.</span> Ở mọi người lớn, đo nồng độ Lp(a) <strong>ít nhất 1 lần</strong> được khuyến cáo để đánh giá nguy cơ ASCVD. <span class="grade">COR 1 · B-NR</span></div>
+<div class="rec"><span class="num">2.</span> Ở người có FH, ASCVD sớm, hoặc Lp(a) cao, khuyến cáo làm "xét nghiệm tầng" (cascade testing) cho người thân thế hệ 1 để phát hiện Lp(a) cao trong gia đình. <span class="grade">COR 1 · B-NR</span></div>
+<div class="rec"><span class="num">3.</span> Với người đang được đo Lp(a), khuyến cáo dùng xét nghiệm hiệu chuẩn theo đơn vị mol (nmol/L), không phụ thuộc kích thước isoform apo(a), và truy xuất được về chuẩn tham chiếu quốc tế — để đo Lp(a) chính xác hơn. <span class="grade">COR 1 · B-NR</span></div>
+
+<div class="tbl-wrap">
+<table>
+<caption>Bảng 4 — Nguy cơ ASCVD liên quan nồng độ Lp(a)</caption>
+<tr><th>Lp(a) (nmol/L / mg/dL)</th><th>Nguy cơ ASCVD tương đối (so với trung vị dân số 20 nmol/L)</th></tr>
+<tr><td>430 nmol/L (180 mg/dL)</td><td>Tăng 4 lần</td></tr>
+<tr><td>350 nmol/L (150 mg/dL)</td><td>Tăng 3 lần</td></tr>
+<tr><td>250 nmol/L (100 mg/dL)</td><td>Tăng 2 lần</td></tr>
+<tr><td>125 nmol/L (50 mg/dL)</td><td>Tăng 1,4 lần</td></tr>
+<tr><td>75–124 nmol/L (30–49 mg/dL)</td><td>Tăng 1,2 lần</td></tr>
+<tr><td>&lt;75 nmol/L (&lt;30 mg/dL)</td><td>Tham chiếu</td></tr>
+</table>
+</div>
+<p>Lp(a) là hạt giống LDL nhưng gắn thêm 1 chuỗi apolipoprotein(a). Nồng độ chủ yếu do <strong>di truyền quyết định</strong> (gen <em>LPA</em>), ổn định suốt đời (trừ vài tình huống: mãn kinh, bệnh thận/gan/giáp, thai kỳ, một số thuốc) → về nguyên tắc <strong>chỉ cần đo 1 lần</strong> là đủ. Lp(a) cao góp phần gây ASCVD qua nhiều cơ chế (tiền huyết khối, tiền viêm — một phần qua phospholipid oxy hóa gắn trên Lp(a)) và liên quan độc lập với hẹp van động mạch chủ do vôi hóa. Không khuyến cáo xét nghiệm gen Lp(a) cho mục đích lâm sàng — đo nồng độ trực tiếp là đủ.</p>
+
+<h2 id="h-theodoi">Theo dõi và tái khám</h2>
+<div class="rec"><span class="num">1.</span> Ở người đang điều trị hạ lipid, nên làm lại bộ lipid máu 4–12 tuần sau khởi trị hoặc chỉnh liều, và mỗi 6–12 tháng sau đó để đánh giá hiệu quả và tuân thủ điều trị. <span class="grade">COR 1 · LOE A</span></div>
+<p>Đáp ứng điều trị được đánh giá bằng cả % giảm LDL-C so với nền <em>và</em> đạt được mục tiêu tuyệt đối LDL-C/non-HDL-C (Hình 1). Không cần nhịn đói khi lấy máu theo dõi ở đa số bệnh nhân, trừ khi có tăng TG đã biết. Theo dõi định kỳ giúp phát hiện sớm đáp ứng kém (cần tăng cường điều trị/đổi thuốc), cải thiện tuân thủ, và giảm "quán tính điều trị" (không khởi trị/tăng liều khi có chỉ định).</p>
+
+<div class="tbl-wrap">
+<table>
+<caption>Hình 1 — Mục tiêu Lipoprotein để giảm nguy cơ ASCVD (bảng gốc dịch lại toàn bộ)</caption>
+<tr><th>Nhóm bệnh nhân</th><th>LDL-C &lt;100 mg/dL (2,6 mmol/L)<br>Non-HDL-C &lt;130 mg/dL (3,4 mmol/L)</th><th>LDL-C &lt;70 mg/dL (1,8 mmol/L)<br>Non-HDL-C &lt;100 mg/dL (2,6 mmol/L)</th><th>LDL-C &lt;55 mg/dL (1,4 mmol/L)<br>Non-HDL-C &lt;85 mg/dL (2,2 mmol/L)</th></tr>
+<tr><td><strong>Phòng ngừa tiên phát</strong></td><td>PREVENT-ASCVD &lt;10%<br>· Nếu TG 150–499 mg/dL: mục tiêu ApoB &lt;90 mg/dL</td><td>PREVENT-ASCVD ≥10%<br>· Nếu TG 150–499 mg/dL: mục tiêu ApoB &lt;70 mg/dL</td><td>N/A</td></tr>
+<tr><td><strong>Tăng cholesterol máu nặng</strong></td><td>Không FH, không yếu tố nguy cơ ASCVD, không xơ vữa dưới lâm sàng</td><td>Có FH, yếu tố nguy cơ ASCVD, hoặc xơ vữa dưới lâm sàng</td><td>Tăng cholesterol máu nặng hoặc HeFH kèm ASCVD lâm sàng</td></tr>
+<tr><td><strong>Đái tháo đường</strong></td><td>Không yếu tố nguy cơ ASCVD hoặc yếu tố đặc hiệu đái tháo đường<br>· Mục tiêu ApoB &lt;90 mg/dL</td><td>Có yếu tố nguy cơ ASCVD hoặc yếu tố đặc hiệu đái tháo đường<br>· Mục tiêu ApoB &lt;70 mg/dL</td><td>N/A</td></tr>
+<tr><td><strong>Xơ vữa dưới lâm sàng</strong></td><td>CAC 1–99 AU và &lt;bách phân vị 75 theo tuổi/giới/chủng tộc</td><td>CAC 100–299 AU hoặc ≥bách phân vị 75; hoặc CAC 300–999 AU<br>· Mục tiêu tùy chọn: LDL-C &lt;55, non-HDL-C &lt;85, cân nhắc ApoB &lt;55 mg/dL</td><td>CAC ≥1000 AU</td></tr>
+<tr><td><strong>Tăng triglyceride máu</strong></td><td>&lt;50 tuổi, không yếu tố tăng nguy cơ thêm</td><td>Có ASCVD lâm sàng, không nguy cơ rất cao<br>· ApoB &lt;70 mg/dL<br>Hoặc 40–75 tuổi có ≥1 yếu tố nguy cơ ASCVD<br>· ApoB &lt;70 mg/dL</td><td>Có ASCVD lâm sàng, nguy cơ rất cao<br>· ApoB &lt;55 mg/dL</td></tr>
+<tr><td><strong>ASCVD lâm sàng</strong></td><td>N/A</td><td>Không nguy cơ rất cao<br>· Mục tiêu tùy chọn: LDL-C &lt;55, non-HDL-C &lt;85, cân nhắc ApoB &lt;55 mg/dL</td><td>Nguy cơ rất cao<br>· ApoB &lt;55 mg/dL<br>· Kèm bệnh thận mạn (CKD)</td></tr>
+</table>
+</div>
+<p><em>Điểm mấu chốt:</em> mục tiêu càng thấp khi nguy cơ càng cao — nguyên tắc xuyên suốt là "thấp hơn với người nguy cơ cao hơn", không còn áp dụng 1 mục tiêu chung cho mọi bệnh nhân. Ngưỡng LDL-C/non-HDL-C đánh dấu mức nên cân nhắc tăng cường điều trị.</p>
+
+<h2 id="h-loisong">Quản lý lối sống</h2>
+<h3 id="h-loisong-tienphat">Phòng ngừa nguyên phát (primordial): từ trẻ em đến người lớn</h3>
+<div class="rec"><span class="num">1.</span> Ở trẻ em và người lớn khỏe mạnh, nên thúc đẩy và duy trì chế độ ăn lành mạnh, hoạt động thể lực đều đặn, duy trì cân nặng hợp lý, ngủ đủ giấc, quản lý stress, và tránh mọi sản phẩm có nicotine suốt đời để giảm nguy cơ rối loạn lipid máu và ASCVD. <span class="grade">COR 1 · LOE A</span></div>
+<p>Phòng ngừa nguyên phát hiệu quả nhất khi bắt đầu sớm, hình thành thói quen, và duy trì lâu dài. Xơ vữa động mạch tiến triển nhanh hơn và dai dẳng hơn khi ApoB tăng cao từ sớm; thời gian phơi nhiễm với LDL-C cao là yếu tố quyết định nguy cơ ASCVD quan trọng — biến thể di truyền làm tăng/giảm LDL-C tác động lên ASCVD nhiều hơn mức quan sát trong các RCT (thường chỉ kéo dài 3–5 năm) vì phản ánh phơi nhiễm suốt đời.</p>
+
+<h3 id="h-loisong-anuong">Chế độ ăn cho rối loạn LDL-C</h3>
+<div class="rec"><span class="num">1.</span> Ở người lớn và trẻ em có hoặc không có ASCVD, khuyến cáo chế độ ăn nhấn mạnh trái cây, rau, đậu, ngũ cốc nguyên hạt, chất xơ, thay chất béo bão hòa/trans bằng chất béo không bão hòa đơn/đa để giảm LDL-C và nguy cơ ASCVD. <span class="grade">COR 1 · B-R</span></div>
+<p>Các chế độ ăn Địa Trung Hải, DASH, và thuần chay/ăn chay có bằng chứng cải thiện tim mạch mạnh nhất. Hạn chế chất béo bão hòa (thịt đỏ, bơ, sữa nguyên kem, dầu dừa, dầu cọ) là thành phần quan trọng nhất — thay bằng nguồn không bão hòa (cá, hạt, dầu ô liu/canola/hướng dương/đậu nành) cho hiệu quả giảm LDL-C ổn định hơn so với chỉ hạn chế cholesterol trong thức ăn. Một số số liệu tham khảo: chế độ thuần chay/chay giảm LDL-C trung bình ~11,6 mg/dL so với ăn tạp; mỗi khẩu phần hạt/ngày giảm ~4,8 mg/dL; 3 khẩu phần yến mạch/ngày (28g) giảm &lt;5 mg/dL; chế độ ăn Portfolio (kết hợp hạt, protein đậu nành, chất xơ, margarine bổ sung sterol thực vật) giảm trung bình 26 mg/dL.</p>
+
+<h3 id="h-loisong-tg">Quản lý lối sống cho tăng triglyceride máu</h3>
+<div class="rec"><span class="num">1.</span> TG 150–499 mg/dL: chế độ ăn ít đường bổ sung, ít carbohydrate tinh chế, ít chất béo bão hòa, hạn chế rượu (Hình 2) giúp giảm TG và nguy cơ ASCVD. <span class="grade">COR 1 · LOE A</span></div>
+<div class="rec"><span class="num">2.</span> TG 500–999 mg/dL: chế độ ăn ít đường bổ sung, ít carbohydrate tinh chế, ít chất béo bão hòa, không rượu, giới hạn tổng chất béo cá thể hóa. <span class="grade">COR 1 · B-NR</span></div>
+<div class="rec"><span class="num">3.</span> TG ≥1000 mg/dL: chế độ ăn rất ít chất béo tổng, hạn chế carbohydrate tinh chế, loại bỏ hoàn toàn rượu và đường bổ sung — để giảm TG và nguy cơ viêm tụy cấp. <span class="grade">COR 1 · B-NR</span></div>
+<div class="rec"><span class="num">4.</span> TG ≥150 (đói) hoặc ≥175 mg/dL (không đói): cải thiện thừa cân/béo phì và hội chứng CKM, giảm 5–10% cân nặng, hoạt động thể lực cường độ trung bình–mạnh ≥150 phút/tuần, và bài tập kháng lực giúp giảm TG. <span class="grade">COR 1 · B-NR</span></div>
+
+<div class="tbl-wrap">
+<table>
+<caption>Hình 2 — Can thiệp hành vi sức khỏe ở bệnh nhân tăng triglyceride máu</caption>
+<tr><th>Can thiệp (quyết định chia sẻ)</th><th>TG 150–499 mg/dL* (1,7–&lt;5,7 mmol/L)</th><th>TG 500–999 mg/dL* (5,7–&lt;11,3 mmol/L)</th><th>TG ≥1000 mg/dL† (≥11,3 mmol/L)</th></tr>
+<tr><td>Đường bổ sung (% năng lượng)</td><td>&lt;6%</td><td>&lt;5%</td><td>Loại bỏ hoàn toàn</td></tr>
+<tr><td>Tổng chất béo (% năng lượng)</td><td>30–35%</td><td>20–25%‡</td><td>10–15%§¶</td></tr>
+<tr><td>Rượu bia</td><td>Tránh</td><td>Kiêng hoàn toàn</td><td>Kiêng hoàn toàn</td></tr>
+<tr><td>Hoạt động thể lực</td><td colspan="3">≥150 phút/tuần cường độ trung bình (hoặc 75 phút/tuần cường độ mạnh) cộng 2 buổi/tuần tập kháng lực thân trên và thân dưới║</td></tr>
+<tr><td>Giảm cân (% cân nặng cơ thể)</td><td colspan="3">Mục tiêu giảm 5–10% cho người thừa cân/béo phì kèm TG cao</td></tr>
+</table>
+</div>
+<p style="font-size:13px; color:var(--ink-2);">*Nên tư vấn RDN và chuyên gia lipid. †Bắt buộc chuyển RDN. ‡Có thể giảm xuống 10–15% ở một số bệnh nhân (tiền sử viêm tụy, hoặc TG ở mức cao của khoảng này). §Giới hạn chất béo 10–15% cần có RDN hướng dẫn ở bệnh nhân hội chứng dưỡng chấp máu gia đình (FCS). ¶Ở rối loạn TG ngoài FCS, giới hạn chất béo cá thể hóa dưới hướng dẫn RDN. ║Bất kỳ mức hoạt động thể lực nào cũng có lợi ở người ít vận động.</p>
+<p>Ở người TG tăng vừa, chế độ ăn rất ít carbohydrate hạ TG hiệu quả hơn chế độ ít carbohydrate mức độ vừa (~24 mg/dL so với ~16 mg/dL). Chất lượng carbohydrate (chỉ số đường huyết thấp, nhiều chất xơ) và ăn cá (đặc biệt cá béo) ≥2 lần/tuần cũng có ích. TG ≥1000 mg/dL làm tăng đáng kể nguy cơ viêm tụy cấp do dưỡng chấp máu (chylomicron) dư thừa — cần hạn chế chất béo nghiêm ngặt (10–15% năng lượng) đến khi dưỡng chấp máu hết và TG cải thiện rõ, có thể cần bổ sung vitamin tan trong dầu và dầu MCT (medium-chain triglyceride).</p>
+
+<h3 id="h-loisong-cannang">Đạt và duy trì cân nặng hợp lý</h3>
+<div class="rec"><span class="num">1.</span> Ở người thừa cân/béo phì kèm rối loạn lipid máu, khuyến cáo tư vấn và điều trị giảm/duy trì cân nặng hợp lý để cải thiện lipid máu. <span class="grade">COR 1 · B-NR</span></div>
+<p>Giảm cân thường đi kèm giảm TG rõ rệt hơn (~1,3–4,0 mg/dL mỗi kg giảm) so với giảm LDL-C (~0,3–1,7 mg/dL mỗi kg). Thuốc đồng vận GLP-1 receptor cho hiệu quả giảm TG và LDL-C dường như vượt trội hơn mức tương ứng với lượng cân giảm được so với các liệu pháp giảm cân khác.</p>
+
+<h3 id="h-loisong-vandong">Hoạt động thể lực</h3>
+<div class="rec"><span class="num">1.</span> Ở người rối loạn lipid máu, khuyến cáo hoạt động thể lực đều đặn cường độ trung bình–mạnh ≥150 phút/tuần, kèm bài tập kháng lực thân trên và thân dưới 2 buổi/tuần, để cải thiện lipid máu và sức khỏe tim mạch. <span class="grade">COR 1 · B-R</span></div>
+<p>Meta-analysis 148 RCT ghi nhận tập luyện cải thiện HDL-C (+2,11 mg/dL), giảm LDL-C (-7,22 mg/dL) và giảm TG (-8,01 mg/dL). Hoạt động thể lực có thể là liệu pháp bổ trợ cho thuốc hạ lipid và mang lại lợi ích tim mạch thêm ngoài tác dụng trên lipid.</p>
+
+<h3 id="h-loisong-tpcn">Thực phẩm chức năng (dietary supplements)</h3>
+<div class="rec"><span class="num">1.</span> Ở người rối loạn lipid máu, <strong>không khuyến cáo</strong> dùng thực phẩm chức năng để hạ LDL-C hoặc TG, do dữ liệu hạn chế/không nhất quán và/hoặc lợi ích hạn chế trong giảm nguy cơ ASCVD. <span class="grade">COR 3: Không lợi ích · B-R</span></div>
+<div class="box">
+  <div class="box-title">THỬ NGHIỆM SPORT (Supplements, Placebo, or Rosuvastatin Trial)</div>
+  <p style="margin-bottom:0;">So sánh rosuvastatin 5 mg/ngày với 6 loại thực phẩm chức năng phổ biến (dầu cá, quế, tỏi, nghệ, sterol thực vật, gạo men đỏ) hoặc giả dược ở người LDL-C 70–189 mg/dL. Rosuvastatin giảm LDL-C 37,9% (vượt trội rõ rệt, P&lt;0,001); <strong>không thực phẩm chức năng nào</strong> cho thấy giảm LDL-C có ý nghĩa so với giả dược. Dầu cá không kê đơn có thể làm tăng nhẹ LDL-C và tăng nguy cơ rung nhĩ.</p>
+</div>
+
+<h3 id="h-loisong-rdn">Khi nào chuyển chuyên gia dinh dưỡng (RDN)</h3>
+<div class="rec"><span class="num">1.</span> TG đói ≥1000 mg/dL (11,3 mmol/L): khuyến cáo chuyển RDN để xây dựng kế hoạch điều trị cá thể hóa nhằm giảm TG và nguy cơ viêm tụy. <span class="grade">COR 1 · B-NR</span></div>
+<div class="rec"><span class="num">2.</span> TG đói 150–999 mg/dL kèm đặc điểm hội chứng CKM: hợp lý khi chuyển RDN để tư vấn chế độ ăn dựa bằng chứng nhằm cải thiện lipoprotein và giảm nguy cơ viêm tụy. <span class="grade">COR 2a · B-NR</span></div>
+<p>Meta-analysis lớn cho thấy tư vấn dinh dưỡng bởi RDN (so với chăm sóc thường quy) cải thiện TC trung bình -20,8 mg/dL, LDL-C -11,6 mg/dL, TG -32,6 mg/dL. Ở TG rất cao (500–700 mg/dL), khi men lipoprotein lipase bị bão hòa, kiểm soát chặt chất béo ăn vào cùng loại bỏ rượu/đường là then chốt để tránh dưỡng chấp máu và viêm tụy cấp.</p>
+</div>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Bản dịch Phần 1/3 của guideline 2026 ACC/AHA/AACVPR/ABC/ACPM/ADA/AGS/APhA/ASPC/NLA/PCNA về Quản lý Rối loạn lipid máu (Circulation. 2026;153:e1154–e1276. DOI: 10.1161/CIR.0000000000001423). Danh mục tài liệu tham khảo đầy đủ (>300 trích dẫn) không được chép lại ở đây — xem bản gốc để tra cứu từng trích dẫn số. Các phần tiếp theo (điều trị dược lý, phòng ngừa tiên phát/thứ phát, LDL-C rất cao, đái tháo đường, tăng triglyceride máu, Lp(a) cao, tác dụng phụ statin) sẽ được thêm vào thư viện trong các bài kế tiếp.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'dyslipidemia2026_p1_highlights_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>
