@@ -73,6 +73,12 @@ window.LIBRARY = {
       org: "Oxford University Hospitals NHS", year: 2022, doi: "", status: 2,
       cat: "Rối loạn điện giải",
       note: "Định nghĩa, nguyên nhân, đường uống và tĩnh mạch, liều dùng và theo dõi, giới hạn an toàn khi bù kali.",
-      updated: "", url: "https://huuhuynh2k2-droid.github.io/ha-kali-mau/" }
+      updated: "", url: "https://huuhuynh2k2-droid.github.io/ha-kali-mau/" },
+
+    { id: "nt-tang-duong-huyet-noi-tru", sp: "nt", title: "Quản lý tăng đường huyết ở bệnh nhân nội trú",
+      org: "Annals of Internal Medicine — In the Clinic", year: 2024, doi: "https://doi.org/10.7326/ANNALS-24-02754", status: 2,
+      cat: "Đái tháo đường · Nội viện",
+      note: "Bài In the Clinic đầy đủ: định nghĩa và mục tiêu đường huyết nội trú, 3 bước khởi động insulin dưới da (kèm sơ đồ gốc), thang hiệu chỉnh, DPP4i/SGLT2i/GLP-1RA, xử trí hạ đường huyết, tăng đường huyết do glucocorticoid (kèm sơ đồ liều NPH), chu phẫu, nuôi ăn qua sonde/PN, CGM, bơm insulin, và danh mục xuất viện — kèm 4 ví dụ ca lâm sàng tính liều insulin.",
+      updated: "2026-09-27", url: "docs/hyperglycemia-hospitalized.html" }
   ]
 };
