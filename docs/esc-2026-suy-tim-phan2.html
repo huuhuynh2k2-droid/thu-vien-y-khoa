@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ESC 2026 — Suy tim (Phần 2/5): Điều trị suy tim mạn — Dược lý & Thiết bị (Chương 6)</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#8a5a2b; --accent-ink:#5c3a17; --accent-bg:#F3ECE0;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">ESC 2026 Suy tim — P2</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">TÓM TẮT & VIẾT LẠI · ESC GUIDELINES 2026 · PHẦN 2/5</div>
+    <div class="doc-title">ESC 2026 — Suy tim (Phần 2/5)</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">ESC GUIDELINES 2026 · PHẦN 2/5</span>
+    <h1>Suy tim theo ESC 2026 — Phần 2: Quản lý suy tim mạn (Chương 6) — Dược lý & Điều trị can thiệp</h1>
+    <div class="byline">Tổng hợp và viết lại bởi Claude, theo yêu cầu học tập của BS. Huỳnh Hữu Minh · Dựa trên: Køber L, Adamo M, et al. (ESC Task Force)</div>
+    <div class="cite">Nguồn: 2026 ESC Guidelines for the management of heart failure. Eur Heart J 2026. DOI: 10.1093/eurheartj/ehag100 — Bản tóm tắt/viết lại tiếng Việt kèm giải thích cơ chế, không phải bản dịch chính thức.</div>
+
+    <div class="box">
+<div class="box-title">TRONG PHẦN NÀY</div>
+<ul>
+<li>Cách "phiên dịch" 4 nhóm thuốc nền tảng (FMT) thành cơ chế sinh lý bệnh cụ thể — vì sao phối hợp 4 thuốc lại hiệp đồng chứ không chỉ cộng dồn</li>
+<li>AMT (thuốc bổ sung) cho từng nhóm bệnh nhân đặc biệt — ivabradine, vericiguat, digoxin/digitoxin, hydralazine/ISDN</li>
+<li>Vì sao HFpEF chỉ có 2 thuốc nền tảng (không phải 4) và ARNI "có thể xem xét" chứ không phải khuyến cáo mạnh</li>
+<li>Cơ chế điện sinh lý đằng sau chỉ định ICD và CRT — không học thuộc bảng mà hiểu logic chọn bệnh nhân</li>
+<li>Bẫy thi hay gặp: "ngưng thuốc khi LVEF về bình thường", "CRT cho QRS hẹp", "ICD ngay sau nhồi máu"</li>
+</ul>
+</div>
+
+<h2 id="h-gdmt-khung">6.1. Khung điều trị dược lý: từ GDMT đến FMT/AMT</h2>
+<p>Phần 3 đã giới thiệu khái niệm <strong>FMT</strong> (Foundational Medical Therapy – điều trị nền tảng, khuyến cáo Class I cho toàn bộ quần thể một kiểu hình), <strong>AMT</strong> (Additional Medical Therapy – điều trị bổ sung, Class IIa/IIb hoặc Class I nhưng chỉ cho phân nhóm cụ thể) và <strong>GDIT</strong> (Guideline-Directed Interventional Therapy – can thiệp/thiết bị). Tổng của FMT + AMT tạo thành GDMT (Guideline-Directed Medical Therapy) — thuật ngữ quen thuộc hơn nhưng ít chính xác hơn vì gộp chung hai tầng bằng chứng khác nhau.</p>
+<p>Tại sao ESC 2026 tách bạch FMT khỏi AMT một cách tường minh? Vì trong thực hành, đây là hai câu hỏi lâm sàng khác nhau: FMT trả lời câu "bệnh nhân HFrEF/HFpEF <em>bất kỳ</em> nên được cho gì ngay khi chẩn đoán?" — không cần chờ đặc điểm riêng. AMT trả lời câu "sau khi đã tối ưu FMT, bệnh nhân <em>này</em> còn đặc điểm gì (nhịp tim nhanh dù đã chẹn beta tối đa, còn triệu chứng dù NT-proBNP đã giảm, gốc Phi/Mỹ gốc Phi, rung nhĩ...) khiến tôi cân nhắc thêm một thuốc nữa?". Nhầm lẫn hai tầng này là nguồn gốc phổ biến của bẫy thi: một thuốc AMT (ví dụ ivabradine) không bao giờ được dùng "thay thế" một thuốc FMT còn thiếu.</p>
+<div class="box">
+<div class="box-title">MỤC TIÊU CỦA ĐIỀU TRỊ DƯỢC LÝ TRONG HFrEF</div>
+<p>Bốn nhóm thuốc FMT cho HFrEF (chẹn beta, ACEi/ARNI/ARB, MRA, SGLT2i) không chỉ "làm giảm triệu chứng" — chúng tác động lên <strong>bốn con đường bệnh sinh khác nhau và bổ sung cho nhau</strong> của quá trình tái cấu trúc thất trái xấu đi: (1) hoạt hóa giao cảm quá mức, (2) hoạt hóa trục renin–angiotensin–aldosterone (RAAS), (3) mất cân bằng hệ peptide lợi niệu (bị thoái giáng bởi neprilysin), và (4) rối loạn chuyển hóa năng lượng tế bào cơ tim/ứ dịch. Vì bốn con đường này song song và củng cố lẫn nhau, phối hợp cả 4 thuốc cho hiệu quả <strong>cộng gộp gần như độc lập</strong> trên tỷ lệ tử vong — đây là lý do "tứ trụ" (four pillars) ra đời và vì sao guideline nhấn mạnh khởi trị đồng thời/nhanh chóng thay vì tuần tự chờ dung nạp từng thuốc.</p>
+</div>
+
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; background:#FAFAF7; border:1px solid #E4E1D8; border-radius:10px;" font-family="-apple-system,Segoe UI,Arial,sans-serif">
+  <defs>
+    <marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8478"/>
+    </marker>
+  </defs>
+  <text x="450" y="28" text-anchor="middle" font-size="14" font-weight="600" fill="#3a372f">Bốn trụ cột FMT trong HFrEF — bốn con đường bệnh sinh song song</text>
+
+  <!-- 4 pillar boxes -->
+  <rect x="20" y="55" width="200" height="140" rx="12" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="120" y="80" text-anchor="middle" font-size="13.5" font-weight="600" fill="#3a372f">Chẹn beta</text>
+  <text x="120" y="100" text-anchor="middle" font-size="11" fill="#6B6862">Chặn quá tải</text>
+  <text x="120" y="115" text-anchor="middle" font-size="11" fill="#6B6862">giao cảm mạn tính</text>
+  <text x="120" y="140" text-anchor="middle" font-size="10.5" fill="#8a8478">→ giảm độc tính</text>
+  <text x="120" y="155" text-anchor="middle" font-size="10.5" fill="#8a8478">catecholamine,</text>
+  <text x="120" y="170" text-anchor="middle" font-size="10.5" fill="#8a8478">giảm loạn nhịp thất</text>
+
+  <rect x="240" y="55" width="200" height="140" rx="12" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="340" y="80" text-anchor="middle" font-size="13.5" font-weight="600" fill="#3a372f">ACEi/ARNI/ARB</text>
+  <text x="340" y="100" text-anchor="middle" font-size="11" fill="#6B6862">Chặn trục RAAS +</text>
+  <text x="340" y="115" text-anchor="middle" font-size="11" fill="#6B6862">khuếch đại peptide</text>
+  <text x="340" y="130" text-anchor="middle" font-size="11" fill="#6B6862">lợi niệu (ARNI)</text>
+  <text x="340" y="155" text-anchor="middle" font-size="10.5" fill="#8a8478">→ giảm co mạch,</text>
+  <text x="340" y="170" text-anchor="middle" font-size="10.5" fill="#8a8478">xơ hóa, giữ muối nước</text>
+
+  <rect x="460" y="55" width="200" height="140" rx="12" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="560" y="80" text-anchor="middle" font-size="13.5" font-weight="600" fill="#3a372f">MRA</text>
+  <text x="560" y="100" text-anchor="middle" font-size="11" fill="#6B6862">Chặn thụ thể</text>
+  <text x="560" y="115" text-anchor="middle" font-size="11" fill="#6B6862">aldosterone "hạ nguồn"</text>
+  <text x="560" y="130" text-anchor="middle" font-size="11" fill="#6B6862">(kể cả khi "escape")</text>
+  <text x="560" y="155" text-anchor="middle" font-size="10.5" fill="#8a8478">→ giảm xơ hóa,</text>
+  <text x="560" y="170" text-anchor="middle" font-size="10.5" fill="#8a8478">phì đại cơ tim</text>
+
+  <rect x="680" y="55" width="200" height="140" rx="12" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="780" y="80" text-anchor="middle" font-size="13.5" font-weight="600" fill="#3a372f">SGLT2i</text>
+  <text x="780" y="100" text-anchor="middle" font-size="11" fill="#6B6862">Lợi niệu thẩm thấu +</text>
+  <text x="780" y="115" text-anchor="middle" font-size="11" fill="#6B6862">chuyển hóa năng lượng</text>
+  <text x="780" y="130" text-anchor="middle" font-size="11" fill="#6B6862">sang thể ketone</text>
+  <text x="780" y="155" text-anchor="middle" font-size="10.5" fill="#8a8478">→ giảm tiền tải,</text>
+  <text x="780" y="170" text-anchor="middle" font-size="10.5" fill="#8a8478">bảo vệ thận độc lập RAAS</text>
+
+  <!-- convergence arrows -->
+  <line x1="120" y1="195" x2="420" y2="250" stroke="#8a8478" stroke-width="1.5"/>
+  <line x1="340" y1="195" x2="430" y2="250" stroke="#8a8478" stroke-width="1.5"/>
+  <line x1="560" y1="195" x2="470" y2="250" stroke="#8a8478" stroke-width="1.5"/>
+  <line x1="780" y1="195" x2="480" y2="250" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+  <rect x="290" y="255" width="320" height="90" rx="12" fill="#F1EFE6" stroke="#8a5a2b" stroke-width="1.5"/>
+  <text x="450" y="285" text-anchor="middle" font-size="13" font-weight="600" fill="#5c3a17">Hiệp đồng trên 4 con đường độc lập</text>
+  <text x="450" y="305" text-anchor="middle" font-size="11" fill="#6B6862">→ giảm cộng gộp tử vong/nhập viện,</text>
+  <text x="450" y="322" text-anchor="middle" font-size="11" fill="#6B6862">không thuốc nào "thay thế" được thuốc còn lại</text>
+
+  <text x="450" y="375" text-anchor="middle" font-size="10.5" fill="#8a8478" font-style="italic">Nguyên tắc thực hành: khởi trị đồng thời/nhanh, chuẩn độ song song 4 nhóm — không chờ tuần tự</text>
+</svg>
+<figcaption class="fig-caption">Sơ đồ minh họa (tự vẽ) — bốn trụ cột FMT của HFrEF theo bốn cơ chế bệnh sinh song song, không sao chép hình gốc từ guideline.</figcaption>
+</figure>
+
+<h3 id="h-fmt-moilvef">6.1.1. FMT không phụ thuộc LVEF: SGLT2i và MRA</h3>
+<p>Đây là điểm đặc biệt của ESC 2026: hai nhóm thuốc này được xếp là FMT cho <strong>mọi</strong> bệnh nhân suy tim có triệu chứng — bất kể LVEF là bao nhiêu. Điều này phản ánh một thực tế bệnh sinh quan trọng: cơ chế bảo vệ của chúng không phụ thuộc vào việc tim co bóp yếu (HFrEF) hay giãn nở kém (HFpEF).</p>
+
+<h4 id="h-sglt2i">SGLT2i (dapagliflozin, empagliflozin)</h4>
+<p><strong>Cơ chế lợi ích không đến từ hạ đường huyết.</strong> Đây là điểm hay bị hiểu lầm nhất: lợi ích tim mạch của SGLT2i trong suy tim xuất hiện ở cả bệnh nhân không đái tháo đường, với mức độ tương đương. Ức chế kênh đồng vận chuyển natri–glucose 2 (SGLT2) ở ống lượn gần làm giảm tái hấp thu natri và glucose, gây ra:</p>
+<ul>
+<li><strong>Lợi niệu thẩm thấu nhẹ, bền vững</strong> — khác lợi tiểu quai vì không hoạt hóa RAAS phản ứng dội ngược mạnh, nên giảm tiền tải mà ít gây "tụt huyết áp phản xạ"</li>
+<li><strong>Điều chỉnh cân bằng ống-cầu thận (tubuloglomerular feedback)</strong> — tăng natri đến vết đặc (macula densa) làm co tiểu động mạch đến, giảm áp lực trong cầu thận → hiệu ứng bảo vệ thận tương tự nhưng độc lập với ACEi/ARNI</li>
+<li><strong>Chuyển hướng chuyển hóa năng lượng cơ tim sang thể ketone</strong> — thể ketone là nguồn năng lượng "hiệu quả oxy" hơn glucose/acid béo cho tế bào cơ tim suy yếu</li>
+<li>Có thể giảm viêm hệ thống độ thấp và cải thiện chức năng ty thể — vẫn đang nghiên cứu thêm</li>
+</ul>
+<p>Về bằng chứng: DAPA-HF và EMPEROR-Reduced (HFrEF) cũng như DELIVER và EMPEROR-Preserved (HFpEF/HFmrEF cũ) đều cho thấy giảm nguy cơ nhập viện vì suy tim hoặc tử vong tim mạch. Điểm cần nhớ: ở nhóm HFpEF, lợi ích chủ yếu đến từ <strong>giảm nhập viện</strong> (HFH) chứ không phải giảm tử vong tim mạch — khác với HFrEF nơi cả hai đều giảm rõ.</p>
+<div class="warn"><strong>Lưu ý an toàn:</strong> tác dụng phụ thường gặp là nhiễm trùng niệu-sinh dục (đặc biệt nấm sinh dục), và một đợt giảm eGFR thoáng qua khi khởi trị (do co tiểu động mạch đến) — đây <strong>không phải</strong> dấu hiệu tổn thương thận cần ngừng thuốc, tương tự hiện tượng gặp với ACEi/ARNI.</div>
+
+<h4 id="h-mra">MRA (kháng thụ thể mineralocorticoid): spironolactone, eplerenone, finerenone</h4>
+<p>Aldosterone không chỉ giữ natri/nước ở ống thận — nó còn gắn trực tiếp lên thụ thể mineralocorticoid ở tim và mạch máu, thúc đẩy <strong>xơ hóa cơ tim, phì đại tế bào cơ tim, và rối loạn chức năng nội mô</strong>. Đây là lý do MRA vẫn có lợi ích rõ rệt dù bệnh nhân đã dùng ACEi/ARNI (ức chế RAAS ở "thượng nguồn") — vì có hiện tượng "aldosterone escape": nồng độ aldosterone tăng trở lại theo thời gian dù đã ức chế angiotensin II, nên cần chẹn trực tiếp thụ thể ở "hạ nguồn".</p>
+<p>Ba thuốc trong nhóm khác nhau về tính chọn lọc thụ thể — đây là điểm hay bị hỏi thi:</p>
+<div class="tbl-wrap">
+<table>
+<caption>So sánh 3 MRA</caption>
+<thead><tr><th>Thuốc</th><th>Loại</th><th>Tính chọn lọc</th><th>Đặc điểm lâm sàng</th></tr></thead>
+<tbody>
+<tr><td>Spironolactone</td><td>Steroid</td><td>Thấp — gắn cả thụ thể androgen/progesterone</td><td>Nguy cơ vú to ở nam (gynecomastia), rối loạn kinh nguyệt</td></tr>
+<tr><td>Eplerenone</td><td>Steroid</td><td>Cao hơn cho thụ thể mineralocorticoid</td><td>Ít vú to hơn, nhưng vẫn steroid</td></tr>
+<tr><td>Finerenone</td><td>Không steroid (non-steroidal)</td><td>Rất cao, ái lực mạnh nhưng thời gian gắn ngắn hơn</td><td>Hầu như không gây vú to; bằng chứng chủ yếu ở HFpEF/bệnh thận đái tháo đường</td></tr>
+</tbody>
+</table>
+</div>
+<p>Cảnh báo quan trọng nhất khi dùng MRA là <strong>tăng kali máu</strong>. Guideline khuyến cáo thận trọng khi eGFR &lt;25 mL/min/1.73m² và cần có kế hoạch xử trí khi kali ≥5.0–5.5 mmol/L (giảm liều) hoặc ngừng tạm thời khi kali &gt;5.5–6 mmol/L. Ghi nhớ: bằng chứng MRA ở HFrEF đến từ spironolactone/eplerenone (sMRA), còn ở HFpEF đến từ phân tích gộp bao gồm cả finerenone (nsMRA) — vì vậy bảng khuyến cáo ghi "sMRA cho HFrEF, sMRA/nsMRA cho HFpEF".</p>
+
+<h3 id="h-amt-moilvef">6.1.2. AMT không phụ thuộc LVEF: lợi tiểu quai và chất gắn kali</h3>
+<p><strong>Lợi tiểu quai</strong> (furosemide và tương tự) vẫn là AMT chứ không phải FMT — nghe có vẻ nghịch lý vì đây là thuốc dùng phổ biến nhất trên lâm sàng, nhưng lý do là: chưa từng có RCT đủ mạnh chứng minh giảm tử vong (và về mặt đạo đức sẽ khó thực hiện RCT placebo ở bệnh nhân đang ứ dịch rõ). Guideline vẫn xếp mức bằng chứng Class I/Level A cho việc <strong>chỉnh liều linh hoạt theo tình trạng thể tích</strong> — không phải vì có RCT, mà vì tác dụng lâm sàng quá rõ ràng và đã được chấp nhận rộng rãi (tương tự cách insulin được coi là chuẩn trong đái tháo đường type 1 mà không cần RCT so với giả dược). Nguyên tắc thực hành: liều lợi tiểu nên <strong>linh động, cá thể hóa</strong> theo dấu hiệu sung huyết — không dùng liều cố định kéo dài, và tránh phối hợp thiazide mạn tính ở bệnh nhân đã ổn định (nguy cơ rối loạn điện giải nặng).</p>
+<p><strong>Chất gắn kali</strong> (patiromer, natri zirconium cyclosilicate) giúp kiểm soát tăng kali máu để duy trì được liều FMT (đặc biệt MRA/ACEi/ARNI) — nhưng ESC 2026 <em>chưa</em> đưa ra khuyến cáo cụ thể vì thiếu bằng chứng về kết cục lâm sàng cứng; đáng chú ý, thử nghiệm REALIZE-K thậm chí gợi ý tín hiệu bất lợi tiềm tàng cần thêm nghiên cứu.</p>
+
+<h3 id="h-fmt-hfref">6.1.3. FMT cho HFrEF: bốn trụ cột kinh điển</h3>
+
+<h4 id="h-acei-arni-arb">ACEi / ARNI / ARB — trục RAAS và hệ neprilysin</h4>
+<p>Để hiểu vì sao ARNI (sacubitril–valsartan) vượt trội hơn ACEi đơn thuần, cần hiểu hai hệ thống đối trọng nhau trong suy tim:</p>
+<ul>
+<li><strong>Trục RAAS</strong> (renin → angiotensin I → angiotensin II qua men chuyển ACE → co mạch, giữ muối nước, xơ hóa, phì đại) — đây là hệ thống "gây hại" khi bị hoạt hóa mạn tính trong suy tim. ACEi ức chế men chuyển; ARB chẹn trực tiếp thụ thể AT1 của angiotensin II (dùng khi không dung nạp ACEi, thường do ho khan qua cơ chế tăng bradykinin).</li>
+<li><strong>Hệ peptide lợi niệu</strong> (ANP, BNP — được tiết ra khi thành tim bị căng giãn, có tác dụng lợi niệu, giãn mạch, chống xơ hóa "bảo vệ") bị thoái giáng bởi men <strong>neprilysin</strong>. Sacubitril ức chế neprilysin → tăng nồng độ và kéo dài tác dụng của các peptide lợi niệu nội sinh.</li>
+</ul>
+<p>Vấn đề là neprilysin cũng thoái giáng angiotensin II — nên nếu chỉ ức chế neprilysin đơn thuần sẽ làm tăng cả angiotensin II (có hại). Đó là lý do sacubitril luôn được phối hợp với valsartan (một ARB) trong cùng viên thuốc — để "khóa" tác dụng có hại của angiotensin II trong khi "khuếch đại" tác dụng có lợi của hệ peptide lợi niệu. Đây chính là nguyên lý của thuật ngữ "angiotensin receptor–neprilysin inhibitor".</p>
+<p>Bằng chứng: thử nghiệm PARADIGM-HF cho thấy ARNI giảm 20% nguy cơ phối hợp tử vong tim mạch/nhập viện vì suy tim so với enalapril — đây là lý do ESC 2026 khuyến cáo <strong>chuyển từ ACEi/ARB sang ARNI</strong> (Class I, Level B1) chứ không chỉ "có thể xem xét dùng ARNI".</p>
+<div class="warn"><strong>An toàn khi chuyển đổi:</strong> cần khoảng trống (washout) 36 giờ giữa ngừng ACEi và bắt đầu ARNI để tránh phù mạch (angioedema) do tích lũy bradykinin từ cả hai cơ chế ức chế ACE và neprilysin cùng lúc (cả hai enzyme đều thoái giáng bradykinin). Thận trọng khi huyết áp tâm thu &lt;100 mmHg, eGFR &lt;30, hoặc kali &gt;5.2 mmol/L.</div>
+<p>Về ARB đơn thuần: các thử nghiệm CHARM-Alternative, HEAAL, Val-HeFT đều cho thấy lợi ích trên nhập viện/tử vong tim mạch, nhưng — điểm hay hỏi thi — <strong>không một ARB nào từng chứng minh giảm tử vong do mọi nguyên nhân</strong> trong HFrEF. Vì vậy ARB chỉ là lựa chọn khi bệnh nhân không dung nạp được ACEi hoặc ARNI, chứ không phải lựa chọn ngang hàng.</p>
+
+<h4 id="h-betablocker">Chẹn beta</h4>
+<p>Trong suy tim, hoạt hóa giao cảm mạn tính ban đầu là cơ chế bù trừ (tăng co bóp, tăng nhịp tim để duy trì cung lượng tim) nhưng về lâu dài gây độc trực tiếp lên tế bào cơ tim (nhiễm độc catecholamine), thúc đẩy loạn nhịp thất, và làm nặng thêm tái cấu trúc thất trái. Chẹn beta "ngắt" vòng xoắn bệnh lý này.</p>
+<p>Không phải mọi chẹn beta đều như nhau: chỉ <strong>bisoprolol, metoprolol succinate phóng thích chậm, và carvedilol</strong> chứng minh giảm tử vong trong các RCT nền tảng. Nebivolol chỉ giảm được tiêu chí phối hợp (không giảm rõ tử vong đơn thuần) — có thể liên quan đến cơ chế dược lý khác biệt (nebivolol còn có tác dụng giãn mạch qua giải phóng nitric oxide, dân số nghiên cứu SENIORS là người cao tuổi có nhiều bệnh đồng mắc). Một điểm gây tranh cãi và hay bị hỏi: hiệu quả của chẹn beta ở bệnh nhân suy tim <strong>kèm rung nhĩ</strong> chưa rõ ràng như ở bệnh nhân nhịp xoang — phân tích dưới nhóm gợi ý lợi ích trên tử vong có thể giảm hoặc mất ở nhóm rung nhĩ, dù chẹn beta vẫn có vai trò kiểm soát tần số thất.</p>
+
+<h3 id="h-amt-hfref">6.1.4. AMT cho HFrEF: khi bệnh nhân còn "chưa đủ"</h3>
+<p>Sau khi đã tối ưu 4 trụ cột FMT, một số bệnh nhân vẫn còn triệu chứng hoặc còn đặc điểm nguy cơ riêng — đây là lúc cân nhắc AMT, thuốc nào tùy đặc điểm bệnh nhân cụ thể chứ không dùng đại trà.</p>
+
+<h4 id="h-ivabradine">Ivabradine — ức chế dòng "kỳ lạ" (funny current, I<sub>f</sub>)</h4>
+<p>Nút xoang tạo nhịp tim nhờ một dòng ion đặc biệt gọi là "funny current" (I<sub>f</sub>) chạy qua kênh HCN (hyperpolarization-activated cyclic nucleotide-gated) — dòng này quyết định tốc độ khử cực tâm trương pha 4, tức là quyết định tần số tim. Ivabradine ức chọn lọc kênh này, làm <strong>chậm nhịp tim đơn thuần mà không ảnh hưởng đến sức co bóp cơ tim hay huyết áp</strong> — khác biệt căn bản so với chẹn beta (vốn cũng làm chậm nhịp nhưng đồng thời giảm co bóp và có thể hạ huyết áp).</p>
+<p>Vì cơ chế chỉ tác động lên nút xoang, ivabradine <strong>chỉ có hiệu quả ở bệnh nhân nhịp xoang</strong> — không có tác dụng ở rung nhĩ (đây là bẫy thi kinh điển: hỏi ivabradine cho bệnh nhân rung nhĩ nhịp nhanh → sai, không có chỉ định). Tiêu chuẩn theo thử nghiệm SHIFT và khuyến cáo ESC 2026: nhịp xoang, tần số tim nghỉ &gt;70 lần/phút, LVEF ≤35%, đã dùng liều tối đa dung nạp được của chẹn beta (hoặc không dung nạp chẹn beta) cùng ACEi/ARNI và MRA.</p>
+
+<h4 id="h-vericiguat">Vericiguat — con đường NO–sGC–cGMP</h4>
+<p>Trong suy tim, tình trạng stress oxy hóa và rối loạn chức năng nội mô làm giảm sản xuất nitric oxide (NO) và giảm đáp ứng của guanylate cyclase hòa tan (soluble guanylate cyclase, sGC) — enzyme chuyển GTP thành cGMP, chất truyền tin nội bào quan trọng giúp giãn mạch, chống xơ hóa và chống phì đại cơ tim. Vericiguat là chất <strong>kích thích trực tiếp sGC độc lập với NO</strong> (đồng thời làm sGC nhạy hơn với NO còn lại), khôi phục lại con đường tín hiệu bảo vệ này.</p>
+<p>Bằng chứng có phần phức tạp và hay bị hỏi lắt léo: thử nghiệm <strong>VICTORIA</strong> (bệnh nhân vừa có đợt mất bù gần đây, LVEF &lt;45%) cho thấy giảm tiêu chí phối hợp tử vong tim mạch/nhập viện — nhưng lợi ích chủ yếu do giảm nhập viện, không phải giảm tử vong. Thử nghiệm <strong>VICTOR</strong> (nhóm nguy cơ thấp hơn) lại cho kết quả trung tính trên tiêu chí chính, nhưng bất ngờ giảm tử vong do mọi nguyên nhân ở tiêu chí phụ. Kết luận thực hành: vericiguat được xếp AMT mức Class IIb (chỉ "có thể xem xét"), dành cho bệnh nhân LVEF &lt;45% vẫn còn triệu chứng dù đã tối ưu FMT.</p>
+
+<h4 id="h-glycoside">Digoxin và digitoxin — glycoside tim</h4>
+<p>Cơ chế: ức chế bơm Na⁺/K⁺-ATPase trên màng tế bào cơ tim → tăng natri nội bào → giảm hoạt động của kênh trao đổi Na⁺/Ca²⁺ → tăng canxi nội bào → tăng nhẹ sức co bóp (tác dụng inotropic dương nhẹ). Đồng thời, glycoside tim còn tăng trương lực phế vị, làm chậm dẫn truyền qua nút nhĩ thất — đây là lý do digoxin còn được dùng kiểm soát tần số thất trong rung nhĩ khi các lựa chọn khác không phù hợp.</p>
+<p>Trong thử nghiệm DIG kinh điển, digoxin trung tính về tử vong nhưng giảm nhập viện vì suy tim. Thử nghiệm DIGIT-HF gần đây với digitoxin (thêm vào nền FMT hiện đại) cũng cho kết quả tương tự: giảm tiêu chí phối hợp tử vong/nhập viện (chủ yếu do giảm nhập viện), không giảm rõ tử vong đơn thuần. Cửa sổ điều trị hẹp — cần theo dõi nồng độ huyết thanh (mục tiêu digoxin &lt;1,2 ng/mL). Khác biệt dược động học quan trọng: <strong>digoxin thải trừ chủ yếu qua thận</strong> (cần giảm liều khi suy thận), còn <strong>digitoxin thải trừ chủ yếu qua gan</strong> (có thể ưu tiên khi chức năng thận kém).</p>
+
+<h4 id="h-hydralazine">Hydralazine + Isosorbide dinitrate (H-ISDN)</h4>
+<p>Hai thuốc giãn mạch phối hợp: hydralazine giãn động mạch (giảm hậu tải) qua cơ chế chưa hoàn toàn rõ ràng nhưng có liên quan hoạt hóa kênh kali và có thể có tác dụng chống oxy hóa; isosorbide dinitrate giãn tĩnh mạch (giảm tiền tải) qua giải phóng NO. Bằng chứng đặc thù về chủng tộc: nghiên cứu ở bệnh nhân da đen tự nhận (African-American) cho thấy lợi ích rõ trên tử vong và nhập viện khi thêm vào nền điều trị — cơ chế giả thuyết liên quan đến sự khác biệt về đáp ứng RAAS và sinh khả dụng NO nội sinh theo yếu tố di truyền quần thể. Ở bệnh nhân không thuộc nhóm này, bằng chứng yếu hơn nhiều; H-ISDN chủ yếu dành cho người <strong>không dung nạp được cả ACEi, ARNI lẫn ARB</strong>.</p>
+
+<h4 id="h-omecamtiv">Omecamtiv mecarbil — chất hoạt hóa myosin tim</h4>
+<p>Cơ chế mới lạ: thay vì tác động lên dòng canxi như các inotrope cổ điển (vốn tăng nguy cơ loạn nhịp và tử vong), omecamtiv mecarbil gắn trực tiếp lên myosin tim, kéo dài thời gian gắn kết actin-myosin, tăng số lượng "cầu ngang" hoạt động trong mỗi chu kỳ co bóp — về lý thuyết tăng sức co bóp mà <strong>không tăng nhu cầu oxy cơ tim hay canxi nội bào</strong> (nên ít gây loạn nhịp hơn). Trong thử nghiệm GALACTIC-HF, thuốc giảm khiêm tốn biến cố suy tim nhưng không có lợi ích rõ trên tử vong — hiện <strong>chưa được phê duyệt sử dụng lâm sàng</strong> cho suy tim.</p>
+
+<h3 id="h-uptitration">6.1.5. Chuẩn độ và duy trì FMT — vì sao không được ngừng thuốc</h3>
+<p>Các RCT nền tảng của FMT đều khởi trị liều thấp và chuẩn độ theo protocol lên liều đích <strong>bất kể bệnh nhân đã bớt triệu chứng hay chưa</strong> — chính liều đích trong các thử nghiệm này mới là liều đã được chứng minh hiệu quả/an toàn, không phải liều khởi đầu. Đây là lý do guideline khuyến cáo chuẩn độ mỗi 1–2 tuần hướng đến liều đích hoặc liều tối đa dung nạp được (Class I, Level C) — dữ liệu đăng ký thực tế cho thấy tình trạng "dưới liều điều trị" (under-implementation) rất phổ biến, và một nguyên nhân hay gặp là <strong>hiểu sai về thay đổi chức năng thận</strong>: eGFR giảm nhẹ sau khởi trị ACEi/ARNI/ARNI/SGLT2i thường là biến đổi huyết động học có lợi (do điều chỉnh áp lực trong cầu thận), không phải tổn thương thận — nếu vội ngừng thuốc vì lý do này sẽ mất đi lợi ích lâu dài.</p>
+<div class="box">
+<div class="box-title">CƠ CHẾ VÌ SAO KHÔNG NGỪNG FMT KHI LVEF ĐÃ CẢI THIỆN</div>
+<p>Khi FMT được duy trì đủ lâu, sự ức chế liên tục trục giao cảm–RAAS cho phép thất trái "tái cấu trúc ngược" (reverse remodelling): buồng thất co nhỏ lại, thành dày lên tương đối, chức năng co bóp cải thiện. Nhưng đây là tình trạng <strong>thuyên giảm nhờ điều trị (remission)</strong>, không phải hồi phục cấu trúc thật sự (recovery) — cơ tim vẫn còn tổn thương nền tảng (xơ hóa vi thể, bất thường gen/protein co cơ ở một số bệnh nhân). Ngừng thuốc sẽ để trục giao cảm–RAAS hoạt hóa trở lại, và thất trái tái giãn ra. Thử nghiệm TRED-HF (ngừng FMT có kiểm soát ở bệnh nhân LVEF đã cải thiện về ≥50%, NT-proBNP đã về &lt;250 ng/L) cho thấy <strong>40% tái phát suy tim trong vòng 6 tháng</strong>. Vì vậy nguyên tắc chung: duy trì FMT liều tối đa dung nạp được <strong>suốt đời</strong>, kể cả khi hết triệu chứng và LVEF bình thường hóa.</p>
+</div>
+<p>Ngoại lệ hẹp: nếu nguyên nhân suy tim là một tình trạng <strong>hoàn toàn có thể hồi phục</strong> (bệnh cơ tim Takotsubo, suy tim do loạn nhịp đã được kiểm soát triệt để, viêm cơ tim đã khỏi, suy tim do rối loạn dẫn truyền đã được điều trị bằng CRT) và có bằng chứng khách quan về bình thường hóa hoàn toàn thể tích/chức năng thất trái cũng như peptide lợi niệu, có thể cân nhắc thử ngừng thuốc dần dưới giám sát chặt chẽ — nhưng đây là quyết định ngoại lệ, theo yêu cầu bệnh nhân, không phải quy trình thường quy.</p>
+
+<h3 id="h-hfpef-duoc">6.1.6. Điều trị dược lý HFpEF</h3>
+<p>HFpEF khác biệt về mặt bệnh sinh và dân số bệnh nhân so với HFrEF (như đã trình bày ở Phần 1: cơ chế chủ yếu là rối loạn chức năng tâm trương/độ cứng cơ tim do viêm hệ thống độ thấp liên quan bệnh đồng mắc chuyển hóa, chứ không phải mất tế bào cơ tim co bóp). Bệnh nhân HFpEF thường lớn tuổi hơn, nhiều nữ giới hơn, gánh nặng bệnh đồng mắc cao (rung nhĩ, bệnh thận mạn, béo phì, đái tháo đường). Vì các thuốc ức chế RAAS/chẹn beta chủ yếu nhắm vào cơ chế "quá tải giao cảm/RAAS gây tổn thương tế bào co bóp" — vốn không phải cơ chế chủ đạo của HFpEF — nên hiệu quả của chúng trên tiêu chí cứng ở HFpEF yếu hơn nhiều so với HFrEF. Đây là lý do <strong>FMT của HFpEF chỉ gồm SGLT2i và MRA</strong> — hai nhóm có cơ chế không phụ thuộc trạng thái co bóp (kháng viêm, cải thiện chuyển hóa, chống xơ hóa qua chẹn aldosterone).</p>
+<p><strong>ARNI trong HFpEF</strong> là điểm hay gây nhầm lẫn: thử nghiệm PARAGON-HF (LVEF ≥45%) không đạt ý nghĩa thống kê ở tiêu chí chính, nhưng phân tích gộp PARADIGM-HF + PARAGON-HF gợi ý lợi ích ở nhóm LVEF dưới khoảng 60-65% — tức là vùng "giáp ranh" gần với HFrEF cũ hơn là HFpEF điển hình LVEF rất cao. Do đó ARNI được xếp mức <strong>"có thể xem xét" (Class IIb)</strong> ở HFpEF, đặc biệt khi LVEF ở mức thấp hơn trong khoảng bình thường, chứ không phải khuyến cáo mạnh như ở HFrEF.</p>
+<p>ACEi/ARB tương tự chưa chứng minh lợi ích rõ ràng trên tử vong/nhập viện ở HFpEF thuần túy (phân tích gộp 4 thử nghiệm ARB: không có tín hiệu lợi ích trên tử vong tim mạch/toàn bộ hay nhập viện) — nhưng vì đa số bệnh nhân HFpEF có chỉ định đồng mắc khác cho các thuốc này (tăng huyết áp, đái tháo đường, bệnh thận mạn), chúng vẫn thường được dùng, chỉ không phải vì lý do suy tim.</p>
+<p>Một điểm mới đáng chú ý: các thuốc đồng vận thụ thể GLP-1 (semaglutide) và đồng vận kép GIP/GLP-1 (tirzepatide) cải thiện chất lượng cuộc sống và giảm cân ở bệnh nhân HFpEF kèm béo phì, <strong>độc lập với tình trạng đái tháo đường</strong> — phản ánh vai trò trực tiếp của béo phì/viêm chuyển hóa trong cơ chế bệnh sinh HFpEF (không chỉ là yếu tố nguy cơ đi kèm).</p>
+
+<h3 id="h-hfimpef">6.1.7. Suy tim với EF cải thiện (HFimpEF) — thuyên giảm chứ không phải khỏi bệnh</h3>
+<p>Mục này củng cố nguyên lý đã nêu ở 6.1.5: nhiều nguyên nhân suy tim <em>có thể</em> hồi phục một phần (Takotsubo, viêm cơ tim, loạn nhịp kéo dài, suy tim do rối loạn dẫn truyền) và với FMT + GDIT tối ưu, LVEF/triệu chứng/NT-proBNP có thể cải thiện đáng kể — nhưng phần lớn không bình thường hóa hoàn toàn cấu trúc thất trái. Ngoài TRED-HF (40% tái phát khi ngừng thuốc), một thử nghiệm nhỏ hơn là CATHEDRAL-HF (ngừng FMT trừ carvedilol ở nhóm được chọn kỹ) lại không cho thấy tăng tái phát rõ rệt — cho thấy dữ liệu về việc "ai có thể ngừng thuốc an toàn" vẫn còn rất hạn chế và cần thêm RCT lớn hơn trước khi áp dụng rộng rãi. Tương tự, thử nghiệm STOP-CRT gợi ý một số bệnh nhân đã CRT với LVEF bình thường hóa có thể ngừng thuốc ức chế thần kinh-nội tiết an toàn (chiến lược "chỉ CRT") — nhưng cũng chỉ ở nhóm rất chọn lọc, dưới giám sát lâm sàng/xét nghiệm/hình ảnh học chặt chẽ.</p>
+
+<h3 id="h-bang-lieu">6.1.8. Bảng liều tham khảo (thuốc thay đổi bệnh — trích từ các RCT nền tảng)</h3>
+<div class="tbl-wrap">
+<table>
+<caption>Liều khởi đầu và liều đích của các thuốc FMT/AMT chính</caption>
+<thead><tr><th>Thuốc</th><th>Liều khởi đầu</th><th>Liều đích</th></tr></thead>
+<tbody>
+<tr><td>Enalapril (ACEi)</td><td>2.5 mg × 2/ngày</td><td>10–20 mg × 2/ngày</td></tr>
+<tr><td>Ramipril (ACEi)</td><td>1.25–2.5 mg × 2/ngày</td><td>5 mg × 2/ngày</td></tr>
+<tr><td>Sacubitril–valsartan (ARNI)</td><td>49/51 mg × 2/ngày*</td><td>97/103 mg × 2/ngày</td></tr>
+<tr><td>Candesartan (ARB)</td><td>4 mg/ngày</td><td>32 mg/ngày</td></tr>
+<tr><td>Valsartan (ARB)</td><td>40 mg × 2/ngày</td><td>160 mg × 2/ngày</td></tr>
+<tr><td>Bisoprolol</td><td>1.25 mg/ngày</td><td>10 mg/ngày</td></tr>
+<tr><td>Carvedilol</td><td>3.125 mg × 2/ngày</td><td>25 mg × 2/ngày</td></tr>
+<tr><td>Metoprolol succinate CR/XL</td><td>12.5–25 mg/ngày</td><td>200 mg/ngày</td></tr>
+<tr><td>Spironolactone</td><td>12.5–25 mg/ngày</td><td>50 mg/ngày</td></tr>
+<tr><td>Eplerenone</td><td>25 mg/ngày</td><td>50 mg/ngày</td></tr>
+<tr><td>Finerenone</td><td>10–20 mg/ngày**</td><td>20–40 mg/ngày**</td></tr>
+<tr><td>Dapagliflozin / Empagliflozin</td><td>10 mg/ngày</td><td>10 mg/ngày (không cần chuẩn độ)</td></tr>
+<tr><td>Digoxin</td><td>62.5 µg/ngày</td><td>250 µg/ngày (theo nồng độ)</td></tr>
+<tr><td>Digitoxin</td><td>0.07 mg/ngày</td><td>0.1 mg/ngày (theo nồng độ)</td></tr>
+<tr><td>Ivabradine</td><td>5 mg × 2/ngày</td><td>7.5 mg × 2/ngày</td></tr>
+<tr><td>Vericiguat</td><td>2.5 mg/ngày</td><td>10 mg/ngày</td></tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:12.5px;color:var(--ink-2)">*Có thể khởi đầu thấp hơn (24/26 mg × 2/ngày) nếu tiền sử hạ huyết áp có triệu chứng, chưa từng dùng ACEi, hoặc eGFR 30–60. **Liều finerenone khác nhau theo eGFR (10–20 mg nếu eGFR ≤60; 20–40 mg nếu eGFR &gt;60). SGLT2i không cần chuẩn độ — đây cũng là một lý do khiến việc khởi trị sớm SGLT2i được ưu tiên vì "dễ, nhanh đạt liều đích".</p>
+
+<div class="warn">
+<strong>Bẫy thi thường gặp về dược lý:</strong>
+<ul>
+<li>Ivabradine cho bệnh nhân <strong>rung nhĩ</strong> → sai, chỉ có tác dụng ở nhịp xoang</li>
+<li>Ngừng ACEi/ARNI/SGLT2i chỉ vì eGFR giảm nhẹ sau khởi trị → sai, đây thường là thay đổi huyết động học có lợi, không phải tổn thương thận thật sự</li>
+<li>Coi ARNI ở HFpEF là khuyến cáo mạnh giống HFrEF → sai, chỉ Class IIb</li>
+<li>Cho rằng digoxin/vericiguat/omecamtiv mecarbil giảm tử vong rõ rệt → sai, các bằng chứng chủ yếu trên nhập viện, không phải tử vong (trừ tín hiệu tử vong thứ phát của vericiguat trong VICTOR)</li>
+<li>Ngừng hẳn FMT khi bệnh nhân hết triệu chứng và LVEF bình thường → sai, đây là remission chứ không phải recovery, cần duy trì suốt đời trừ trường hợp ngoại lệ hẹp</li>
+</ul>
+</div>
+
+<h2 id="h-gdit">6.2. Điều trị can thiệp theo khuyến cáo (GDIT): ICD và CRT</h2>
+<p>GDIT là "trụ thứ ba" bên cạnh FMT và AMT — bao gồm các thiết bị cấy ghép có bằng chứng RCT vững chắc. ESC 2026 tập trung khuyến cáo cho hai nhóm thiết bị chính: máy khử rung tim cấy được (ICD) và liệu pháp tái đồng bộ tim (CRT); các thiết bị khác (điều hòa hệ thần kinh tự động, thông liên nhĩ...) vẫn chưa đủ bằng chứng để đưa ra khuyến cáo chính thức.</p>
+
+<h3 id="h-icd">6.2.1. Máy khử rung tim cấy được (ICD)</h3>
+<p><strong>Cơ chế bệnh sinh cần nhớ:</strong> trong các thử nghiệm suy tim giai đoạn đầu, tử vong đột ngột do loạn nhịp thất (đột tử do tim, SCD) chiếm tới 30–60% tổng số tử vong. Cơ chế nền là sự tái cấu trúc điện học của cơ tim suy yếu (xơ hóa tạo vòng vào lại, mất cân bằng ion, tăng hoạt tính giao cảm tại chỗ) tạo nền cho nhịp nhanh thất/rung thất. Thuốc chống loạn nhịp (amiodarone, dronedarone) có thể giảm tần suất loạn nhịp thất nhưng <strong>không kéo dài sống còn</strong> — thậm chí có thể rút ngắn (do tác dụng inotropic âm và tiền loạn nhịp của một số thuốc). Ngược lại, ICD "chờ sẵn" để sốc điện cắt cơn loạn nhịp đe dọa tính mạng ngay khi xảy ra — đây là lý do ICD trở thành chuẩn mực dự phòng đột tử ở HFrEF nguy cơ cao, thay vì thuốc chống loạn nhịp.</p>
+
+<h4 id="h-icd-thu-phat">Dự phòng thứ phát</h4>
+<p>Áp dụng cho bệnh nhân đã từng bị ngừng tim được cứu sống hoặc loạn nhịp thất gây rối loạn huyết động — không phụ thuộc LVEF hay có suy tim hay không, miễn tiên lượng sống &gt;1 năm với chức năng tốt, không có nguyên nhân hồi phục được, và loạn nhịp không xảy ra trong 48 giờ đầu sau nhồi máu cơ tim (biến cố loạn nhịp giai đoạn cấp tính sau nhồi máu thường liên quan tổn thương mô cấp tính hồi phục được, không phản ánh nguy cơ nền dài hạn).</p>
+
+<h4 id="h-icd-tien-phat">Dự phòng tiên phát</h4>
+<p>Dành cho bệnh nhân HFrEF <strong>chưa từng</strong> có biến cố loạn nhịp nhưng có nguy cơ nền cao. Bằng chứng kinh điển: SCD-HeFT (ICD giảm 23% tử vong toàn bộ so với amiodarone) và MADIT-II (giảm 31% tử vong toàn bộ so với điều trị chuẩn). Dù nguy cơ đột tử đã giảm theo thời gian nhờ FMT hiện đại, nguy cơ tồn dư vẫn đáng kể (khoảng 3,3/100 bệnh nhân-năm trong PARADIGM-HF) — đủ để duy trì chỉ định ICD tiên phát ở nhóm nguy cơ cao.</p>
+<div class="rec"><span class="num">Class I / Level B1</span> — ICD được khuyến cáo ở bệnh nhân HFrEF có triệu chứng (NYHA II/III), <strong>nguyên nhân thiếu máu cục bộ</strong> (không có nhồi máu trong 40 ngày trước), LVEF ≤35% dù đã tối ưu FMT ≥3 tháng, kỳ vọng sống &gt;1 năm với chức năng tốt.</div>
+<div class="rec"><span class="num">Class IIa / Level B1</span> — Cùng tiêu chuẩn nhưng nguyên nhân <strong>không do thiếu máu cục bộ</strong> — mức khuyến cáo thấp hơn một bậc vì các phân tích dưới nhóm ban đầu gợi ý lợi ích ít rõ ràng hơn ở nhóm này (dù một phân tích gộp RCT sau đó cho thấy lợi ích sống còn tổng thể, kể cả ở bệnh cơ tim không do thiếu máu cục bộ).</div>
+<p>Điểm hay hỏi thi: tại sao lại phân biệt thiếu máu cục bộ và không thiếu máu cục bộ nếu bằng chứng gộp cho thấy lợi ích ở cả hai? Vì mức khuyến cáo phản ánh <strong>chất lượng và độ chắc chắn của bằng chứng gốc</strong> (từng RCT riêng lẻ mạnh hơn ở nhóm thiếu máu cục bộ), không hẳn phản ánh sự khác biệt sinh học tuyệt đối về lợi ích.</p>
+
+<h4 id="h-icd-thoi-diem">Thời điểm cấy ICD</h4>
+<p>Hai nguyên tắc thời gian quan trọng, đều là bẫy thi:</p>
+<ul>
+<li><strong>Không cấy ICD dự phòng tiên phát trong vòng 40 ngày sau nhồi máu cơ tim</strong> (Class III — chống chỉ định) — vì hai nghiên cứu lớn cho thấy không cải thiện tiên lượng trong giai đoạn này (một phần vì LVEF có thể còn đang hồi phục, một phần vì nguy cơ loạn nhịp giai đoạn sớm khác về bản chất và có thể tự giới hạn)</li>
+<li><strong>Nên chờ ít nhất 3 tháng sau khi tối ưu FMT</strong> trước khi cân nhắc cấy ICD tiên phát — vì LVEF có thể cải thiện đáng kể sau khi FMT phát huy tác dụng đầy đủ, làm thay đổi chỉ định. Tuy nhiên trì hoãn cũng có giá: nguy cơ đột tử tích lũy khoảng 2–4% ở 6 tháng và ~7% ở 1 năm nếu không cấy — nên đây là một cân bằng cần đánh giá cá thể hóa, không trì hoãn vô thời hạn.</li>
+</ul>
+
+<h4 id="h-icd-thay-may">Thay máy tạo nhịp/ICD (generator replacement) và các loại ICD khác</h4>
+<p>Việc cấy ICD là cam kết theo dõi và thay máy suốt đời — nhưng hơn 15% bệnh nhân chưa từng có cú sốc thích hợp trong suốt vòng đời máy đầu tiên vẫn cấy lại máy mới theo phản xạ. Guideline nhấn mạnh cần <strong>ra quyết định chia sẻ (shared decision-making)</strong> trước mỗi lần thay máy — đánh giá lại nguy cơ đột tử hiện tại, tuổi thọ kỳ vọng, nguy cơ biến chứng, bệnh đồng mắc/suy yếu (frailty), và nguyện vọng bệnh nhân — vì lợi ích của ICD có thể giảm dần khi bệnh tiến triển và các nguy cơ tử vong cạnh tranh khác (không do loạn nhịp) tăng lên.</p>
+<p>ICD dưới da (S-ICD) đặt điện cực ngoài mạch máu → tránh nguy cơ nhiễm trùng nội mạch, phù hợp bệnh nhân khó tiếp cận tĩnh mạch hoặc nguy cơ nhiễm trùng cao — nhưng <strong>không thể điều trị nhịp chậm</strong> (trừ tạo nhịp sau sốc) và không có chức năng tạo nhịp chống nhịp nhanh (anti-tachycardia pacing). Máy khử rung đeo ngoài (wearable defibrillator) là giải pháp tạm thời/bắc cầu cho bệnh nhân nguy cơ đột tử cao trong giai đoạn chờ quyết định cấy ICD vĩnh viễn — chưa chứng minh lợi ích tử vong trong RCT.</p>
+
+<h3 id="h-crt">6.2.2. Liệu pháp tái đồng bộ tim (CRT)</h3>
+<p><strong>Cơ chế điện-cơ học:</strong> block nhánh trái (LBBB) làm chậm dẫn truyền điện đến thành bên thất trái, khiến vách liên thất co trước, thành bên co sau — tạo ra sự "mất đồng bộ" co bóp giữa các vùng cơ tim, làm giảm hiệu quả bơm máu (một phần năng lượng co bóp bị "lãng phí" vì các vùng co không cùng lúc, thậm chí đẩy máu qua lại giữa các vùng thay vì tống ra động mạch chủ). CRT đặt thêm một điện cực ở thành bên thất trái (qua xoang vành) để tạo nhịp đồng thời cả hai thất, khôi phục lại sự đồng bộ co bóp.</p>
+<p>Bằng chứng nền tảng qua các thử nghiệm lớn: COMPANION (CRT-P/CRT-D giảm 20% tiêu chí phối hợp tử vong/nhập viện), CARE-HF (CRT-P giảm tử vong và nhập viện), MADIT-CRT và REVERSE (CRT có lợi ích cả ở NYHA I-II, mở rộng chỉ định ra ngoài nhóm triệu chứng nặng).</p>
+<div class="rec"><span class="num">Class I / Level A</span> — CRT được khuyến cáo cho HFrEF có triệu chứng, LVEF ≤35%, nhịp xoang, <strong>LBBB và QRS ≥150 ms</strong>, dù đã tối ưu FMT.</div>
+<p>Điểm mấu chốt cần hiểu, không chỉ nhớ: lợi ích CRT phụ thuộc mạnh vào <strong>hình thái và độ rộng QRS</strong> vì đây là chỉ dấu trực tiếp của mức độ mất đồng bộ điện học. QRS càng rộng với hình thái LBBB điển hình càng phản ánh mất đồng bộ rõ rệt → càng nhiều tiềm năng cải thiện khi tái đồng bộ. Ngược lại, QRS hẹp (&lt;130 ms) không có bằng chứng mất đồng bộ điện học đáng kể → CRT <strong>không có lợi, thậm chí có thể có hại</strong> (Class III — chống chỉ định trừ khi có chỉ định tạo nhịp do block nhĩ thất độ cao).</p>
+<div class="tbl-wrap">
+<table>
+<caption>Phân tầng chỉ định CRT theo hình thái/độ rộng QRS (HFrEF, LVEF ≤35%, nhịp xoang, đã tối ưu FMT)</caption>
+<thead><tr><th>Hình thái QRS</th><th>Độ rộng QRS</th><th>Khuyến cáo</th></tr></thead>
+<tbody>
+<tr><td>LBBB</td><td>≥150 ms</td><td>Class I, Level A</td></tr>
+<tr><td>LBBB</td><td>130–149 ms</td><td>Class IIa, Level C</td></tr>
+<tr><td>Không LBBB</td><td>≥150 ms</td><td>Class IIa, Level C</td></tr>
+<tr><td>Không LBBB</td><td>130–149 ms</td><td>Class IIb, Level C</td></tr>
+<tr><td>Bất kỳ (không LBBB điển hình)</td><td>&lt;130 ms</td><td>Class III (không khuyến cáo, trừ có chỉ định tạo nhịp do block AV độ cao)</td></tr>
+</tbody>
+</table>
+</div>
+
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; background:#FAFAF7; border:1px solid #E4E1D8; border-radius:10px;" font-family="-apple-system,Segoe UI,Arial,sans-serif">
+  <defs>
+    <marker id="arrow3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8478"/>
+    </marker>
+  </defs>
+  <text x="450" y="28" text-anchor="middle" font-size="14" font-weight="600" fill="#3a372f">Cây quyết định CRT — HFrEF, LVEF ≤35%, nhịp xoang, đã tối ưu FMT</text>
+
+  <!-- root -->
+  <rect x="350" y="45" width="200" height="55" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="450" y="68" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3a372f">Độ rộng QRS?</text>
+  <text x="450" y="86" text-anchor="middle" font-size="10.5" fill="#6B6862">(phản ánh mức độ mất đồng bộ)</text>
+
+  <!-- branch <130 -->
+  <line x1="400" y1="100" x2="150" y2="145" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <text x="250" y="120" text-anchor="middle" font-size="11" fill="#a85a1f" font-weight="600">&lt;130 ms</text>
+  <rect x="30" y="150" width="240" height="70" rx="10" fill="#F1EFE6" stroke="#a83d3d" stroke-width="1.5"/>
+  <text x="150" y="175" text-anchor="middle" font-size="12" font-weight="600" fill="#5c3a17">Không mất đồng bộ đáng kể</text>
+  <text x="150" y="195" text-anchor="middle" font-size="11" fill="#6B6862">CRT: Class III</text>
+  <text x="150" y="210" text-anchor="middle" font-size="10" fill="#6B6862">(trừ khi có chỉ định tạo nhịp do block AV cao độ)</text>
+
+  <!-- branch 130-149 -->
+  <line x1="430" y1="100" x2="330" y2="145" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <text x="410" y="120" text-anchor="middle" font-size="11" fill="#a85a1f" font-weight="600">130–149 ms</text>
+  <rect x="290" y="150" width="220" height="140" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="400" y="172" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3a372f">Hình thái QRS?</text>
+  <text x="400" y="200" text-anchor="middle" font-size="11" fill="#6B6862">LBBB → Class IIa, Level C</text>
+  <text x="400" y="225" text-anchor="middle" font-size="11" fill="#6B6862">Không LBBB → Class IIb, Level C</text>
+  <text x="400" y="255" text-anchor="middle" font-size="10" fill="#8a8478">Mất đồng bộ vừa phải —</text>
+  <text x="400" y="270" text-anchor="middle" font-size="10" fill="#8a8478">lợi ích phụ thuộc hình thái</text>
+
+  <!-- branch >=150 -->
+  <line x1="500" y1="100" x2="620" y2="145" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <text x="580" y="120" text-anchor="middle" font-size="11" fill="#a85a1f" font-weight="600">≥150 ms</text>
+  <rect x="560" y="150" width="230" height="140" rx="10" fill="#F1EFE6" stroke="#8a5a2b" stroke-width="1.5"/>
+  <text x="675" y="172" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3a372f">Hình thái QRS?</text>
+  <text x="675" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#5c3a17">LBBB → Class I, Level A</text>
+  <text x="675" y="225" text-anchor="middle" font-size="11" fill="#6B6862">Không LBBB → Class IIa, Level C</text>
+  <text x="675" y="255" text-anchor="middle" font-size="10" fill="#8a8478">Mất đồng bộ rõ rệt —</text>
+  <text x="675" y="270" text-anchor="middle" font-size="10" fill="#8a8478">tiềm năng cải thiện lớn nhất</text>
+
+  <!-- special notes -->
+  <rect x="150" y="320" width="600" height="110" rx="10" fill="#FBEFE0" stroke="#EBCE9C" stroke-width="1.5"/>
+  <text x="450" y="345" text-anchor="middle" font-size="12" font-weight="600" fill="#6B3E06">Hai tình huống đặc biệt (bất kể sơ đồ trên)</text>
+  <text x="450" y="368" text-anchor="middle" font-size="11" fill="#6B3E06">• Chỉ định tạo nhịp do block AV độ cao → ưu tiên CRT thay vì tạo nhịp thất phải đơn thuần (Class IIa)</text>
+  <text x="450" y="388" text-anchor="middle" font-size="11" fill="#6B3E06">• Suy tim do rối loạn dẫn truyền là nguyên nhân duy nhất → có thể lên kế hoạch CRT sớm, trước khi hoàn tất FMT</text>
+  <text x="450" y="408" text-anchor="middle" font-size="11" fill="#6B3E06">• Gánh nặng tạo nhịp thất phải ≥20% + QRS ≥150 ms → nâng cấp CRT-D (Class IIa, Level B1)</text>
+
+  <text x="450" y="450" text-anchor="middle" font-size="10.5" fill="#8a8478" font-style="italic">Nguyên tắc chung: QRS càng rộng + hình thái LBBB càng điển hình → mất đồng bộ càng rõ → lợi ích CRT càng chắc chắn</text>
+</svg>
+<figcaption class="fig-caption">Sơ đồ minh họa (tự vẽ) — logic phân tầng chỉ định CRT theo độ rộng/hình thái QRS, không sao chép hình gốc từ guideline.</figcaption>
+</figure>
+
+<h4 id="h-crt-dandtruyen">CRT cho suy tim do rối loạn dẫn truyền bất thường</h4>
+<p>Khi rối loạn dẫn truyền (không phải thiếu máu cục bộ, van tim hay nguyên nhân khác) là nguyên nhân <strong>duy nhất</strong> gây suy tim, và khả năng LVEF tự hồi phục thấp, có thể cân nhắc lên kế hoạch cấy CRT sớm — thậm chí trước khi hoàn tất chuẩn độ FMT đầy đủ, vì bản chất vấn đề là cơ học/điện học chứ không phải thiếu ức chế thần kinh-nội tiết.</p>
+
+<h4 id="h-crt-rv-pacing">Suy tim do tạo nhịp thất phải (RV pacing-induced HF)</h4>
+<p>Tạo nhịp thất phải đơn thuần (ví dụ ở bệnh nhân đặt máy tạo nhịp vì block nhĩ thất) về bản chất tạo ra một dạng "LBBB nhân tạo" — kích thích lan từ đỉnh thất phải, gây mất đồng bộ tương tự LBBB tự nhiên, có thể dẫn đến suy tim mới mắc (tỷ lệ 5,9–39% tùy định nghĩa). Thử nghiệm BUDAPEST-CRT Upgrade cho thấy nâng cấp lên CRT-D ở bệnh nhân có gánh nặng tạo nhịp thất phải ≥20% và QRS ≥150 ms giảm rõ rệt tử vong/nhập viện — nên nâng cấp CRT-D nên được cân nhắc ở nhóm này (Class IIa, Level B1).</p>
+
+<h4 id="h-crt-thoidiem">Thời điểm cấy CRT</h4>
+<p>Dữ liệu quan sát cho thấy kết cục tốt nhất khi CRT được cấy <strong>sớm</strong> — trước khi xảy ra đợt nhập viện vì suy tim đầu tiên, hoặc ngay trong đợt nhập viện đầu tiên — so với cấy trong vòng một năm sau đợt nhập viện đầu. Logic tương tự nguyên tắc "thời gian là cơ tim": mỗi đợt mất bù là một bước tiến triển bệnh, trì hoãn can thiệp cơ học đồng nghĩa để tái cấu trúc thất trái tiếp diễn.</p>
+
+<h3 id="h-csp">6.2.3. Tạo nhịp hệ thống dẫn truyền (Conduction System Pacing)</h3>
+<p>Kỹ thuật mới hơn (tạo nhịp bó His hoặc vùng nhánh trái) nhằm kích thích trực tiếp vào mạng Purkinje để tạo ra sự khử cực thất nhanh và đồng bộ sinh lý hơn — về lý thuyết hấp dẫn hơn CRT quy ước (vốn tạo nhịp từ thành bên thất trái, không hoàn toàn theo đường dẫn truyền tự nhiên) và có thể là lựa chọn thay thế khi đặt điện cực xoang vành khó khăn về mặt kỹ thuật. Tuy nhiên, <strong>chưa có RCT nào với tiêu chí lấy bệnh nhân làm trung tâm</strong> đánh giá hiệu quả/an toàn dài hạn — vì vậy ESC 2026 <strong>chưa đưa ra khuyến cáo chính thức</strong> cho kỹ thuật này ở HFrEF.</p>
+
+<h3 id="h-cied-theodoi">6.2.4. Lập trình và theo dõi thiết bị (CIED programming)</h3>
+<p>Cũng như FMT cần tuân thủ suốt đời, CIED cần theo dõi định kỳ suốt đời. Một số điểm thực hành quan trọng: xét nghiệm hiệu quả sốc điện thường quy (defibrillation testing) khi cấy ICD <strong>không còn được khuyến cáo</strong> vì không giảm tử vong do loạn nhịp mà chỉ tăng nguy cơ thủ thuật. Lập trình ngưỡng tần số cao và kéo dài thời gian phát hiện trước khi sốc/tạo nhịp chống nhịp nhanh giúp giảm đáng kể tỷ lệ sốc không phù hợp. Trong theo dõi định kỳ, gánh nặng tạo nhịp thất phải và độ rộng QRS nội tại là hai yếu tố quan trọng để quyết định có nên nâng cấp từ ICD lên CRT-D hay không. Với bệnh nhân đã có CRT, tối ưu hóa khoảng dẫn truyền nhĩ-thất và vị trí điện cực thất trái là yếu tố quyết định đáp ứng điều trị; ở bệnh nhân rung nhĩ, tỷ lệ tạo nhịp hai thất hiệu quả (không bị fusion/pseudofusion) cần được theo dõi sát vì rung nhĩ dễ làm giảm hiệu quả tái đồng bộ thực tế.</p>
+
+<h3 id="h-cied-khac">6.2.5–6.2.6. Các thiết bị khác</h3>
+<p>Điều biến co bóp tim (cardiac contractility modulation) và liệu pháp kích hoạt thụ thể áp lực (baroreceptor activation therapy) cho thấy cải thiện chất lượng cuộc sống/khả năng gắng sức trong các nghiên cứu nhỏ, nhưng chưa có dữ liệu kết cục lâm sàng cứng đủ mạnh — hiện <strong>chưa đủ bằng chứng để đưa vào khuyến cáo</strong>. Tương tự, thiết bị tạo luồng thông liên nhĩ (interatrial shunt) — với giả thuyết giảm áp lực nhĩ trái bằng cách "xả bớt" máu sang nhĩ phải — cho kết quả trung tính trong các thử nghiệm lớn (RELIEVE-HF, REDUCE LAP-HF II) khi so với thủ thuật giả (sham); đáng chú ý, RELIEVE-HF gợi ý xu hướng khác biệt theo LVEF: bệnh nhân LVEF giảm có xu hướng lợi từ shunt, trong khi bệnh nhân HFpEF lại có xu hướng nhiều biến cố tim mạch hơn — có thể phản ánh khác biệt sinh lý huyết động giữa hai kiểu hình (ở HFpEF, tăng thêm tiền tải thất phải qua shunt có thể bất lợi hơn do độ giãn nở tâm thất kém sẵn).</p>
+
+<div class="warn">
+<strong>Bẫy thi thường gặp về ICD/CRT:</strong>
+<ul>
+<li>Cấy ICD tiên phát ngay sau nhồi máu cơ tim (trong 40 ngày) → sai, Class III</li>
+<li>Chỉ định CRT cho bệnh nhân QRS hẹp &lt;130 ms không có block AV độ cao → sai, Class III</li>
+<li>Cho rằng mức độ khuyến cáo CRT chỉ phụ thuộc độ rộng QRS → sai, hình thái (LBBB hay không) cũng quyết định mức khuyến cáo tương đương độ rộng</li>
+<li>Nghĩ ICD luôn cần thiết ở NYHA IV không đáp ứng thuốc → sai, Class III trừ khi là cầu nối cho CRT/LVAD/ghép tim</li>
+<li>Coi tạo nhịp hệ thống dẫn truyền (CSP) đã có khuyến cáo chính thức thay CRT → sai, hiện chưa đủ bằng chứng RCT</li>
+</ul>
+</div>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Phần 3/5 (Suy tim mất bù) sẽ tiếp nối. Tài liệu này là bản tổng hợp/viết lại phục vụ học tập, không thay thế guideline gốc hay quyết định lâm sàng thực tế.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'hl_esc2026_hf_part2';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>
