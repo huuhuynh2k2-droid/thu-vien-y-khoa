@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ESC 2026 — Suy tim (Phần 4/5): Suy tim nặng (Chương 8)</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#8a5a2b; --accent-ink:#5c3a17; --accent-bg:#F3ECE0;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">ESC 2026 Suy tim — P4</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">TÓM TẮT & VIẾT LẠI · ESC GUIDELINES 2026 · PHẦN 4/5</div>
+    <div class="doc-title">ESC 2026 — Suy tim (Phần 4/5)</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">ESC GUIDELINES 2026 · PHẦN 4/5</span>
+    <h1>Suy tim theo ESC 2026 — Phần 4: Suy tim nặng (Chương 8) — MCS lâu dài, ghép tim, chăm sóc cuối đời</h1>
+    <div class="byline">Tổng hợp và viết lại bởi Claude, theo yêu cầu học tập của BS. Huỳnh Hữu Minh · Dựa trên: Køber L, Adamo M, et al. (ESC Task Force)</div>
+    <div class="cite">Nguồn: 2026 ESC Guidelines for the management of heart failure. Eur Heart J 2026. DOI: 10.1093/eurheartj/ehag100 — Bản tóm tắt/viết lại tiếng Việt kèm giải thích cơ chế, không phải bản dịch chính thức.</div>
+
+    <div class="box">
+<div class="box-title">TRONG PHẦN NÀY</div>
+<ul>
+<li>Nhắc lại và làm rõ 4 tiêu chuẩn chẩn đoán suy tim nặng (giai đoạn D) — vì sao LVEF thấp không bắt buộc phải có</li>
+<li>Bộ tiêu chuẩn "Rule of three" và "I NEED HELP" để nhận diện sớm bệnh nhân cần chuyển tuyến — công cụ sàng lọc thực hành, không chỉ để nhớ</li>
+<li>Nghịch lý điều trị dược lý ở suy tim nặng: khi nào giảm liều/ngừng thuốc nền tảng lại là quyết định đúng</li>
+<li>Phân loại INTERMACS 1–7 — cách hiểu logic phân tầng theo mức độ cấp cứu huyết động, không học vẹt số</li>
+<li>LVAD lâu dài: bốn vai trò khác nhau (BTT/BTC/BTR/liệu pháp đích) và vì sao đây không phải bốn chỉ định riêng biệt mà là một quang phổ</li>
+<li>Ghép tim — tiêu chuẩn chọn lựa, rào cản chính, và cách cân bằng với LVAD</li>
+<li>Chăm sóc cuối đời trong suy tim nặng — góc nhìn hay bị bỏ sót trong ôn thi</li>
+<li>Bẫy thi: "suy tim nặng luôn có LVEF rất thấp", "chỉ định LVAD giống hệt chỉ định ghép tim", "inotrope kéo dài luôn có lợi"</li>
+</ul>
+</div>
+
+<h2 id="h-atn-dinhnghia">8.1. Dịch tễ, định nghĩa, tiên lượng và chuyển tuyến</h2>
+<p>Nhiều bệnh nhân suy tim cuối cùng tiến triển đến một giai đoạn gọi là <strong>suy tim nặng (advanced HF, tương ứng giai đoạn D)</strong> — đặc trưng bởi triệu chứng nặng dai dẳng và bằng chứng khách quan về suy giảm chức năng tim dù đã điều trị tối ưu. Trong quần thể nghiên cứu Framingham, 5,1–7,7% bệnh nhân suy tim thuộc nhóm này. Tiên lượng rất nặng nề: tử vong 1 năm với điều trị nội khoa đơn thuần &gt;40% — đây là con số cần ghi nhớ để đặt đúng mức độ khẩn cấp khi tiếp cận nhóm bệnh nhân này.</p>
+<div class="box">
+<div class="box-title">BỐN TIÊU CHUẨN CHẨN ĐOÁN SUY TIM NẶNG — PHẢI ĐỦ CẢ 4, DÙ ĐÃ ĐIỀU TRỊ TỐI ƯU (FMT + AMT + GDIT)</div>
+<ol>
+<li><strong>Triệu chứng nặng, dai dẳng:</strong> NYHA III hoặc IV</li>
+<li><strong>Rối loạn chức năng tim nặng</strong> — chỉ cần MỘT trong các tiêu chí sau: LVEF ≤30%; suy thất phải đơn độc (ví dụ bệnh cơ tim thất phải gây loạn nhịp — ARVC); bệnh van tim nặng không thể phẫu thuật; bệnh tim bẩm sinh nặng không thể phẫu thuật; <strong>hoặc</strong> peptide lợi niệu tăng dai dẳng/tăng dần kèm rối loạn chức năng tâm trương nặng hay bất thường cấu trúc (tức là <strong>HFpEF, bệnh cơ tim phì đại hoặc hạn chế cũng có thể là suy tim nặng</strong> — đây là điểm hay bị bỏ sót, vì suy tim nặng thường bị mặc định gắn với "LVEF rất thấp")</li>
+<li><strong>Đợt sung huyết nặng</strong> cần lợi tiểu tĩnh mạch liều cao (hoặc phối hợp lợi tiểu) hoặc loạn nhịp ác tính gây ≥2 lần khám/nhập viện ngoài kế hoạch trong 12 tháng qua, hoặc ≥1 đợt giảm cung lượng tim cần inotrope/thuốc vận mạch</li>
+<li><strong>Suy giảm nặng khả năng gắng sức</strong> — không thể gắng sức do suy tim, hoặc test đi bộ 6 phút &lt;300m, hoặc pVO2 &lt;12–14 mL/kg/phút (hoặc &lt;50% giá trị dự đoán) — được đánh giá là có nguồn gốc từ tim</li>
+</ol>
+</div>
+<p>Nhận diện sớm và chuyển tuyến kịp thời đến trung tâm suy tim nặng là yếu tố quyết định cải thiện tiên lượng — đây là thông điệp xuyên suốt của chương này. ESC 2026 đề xuất hai bộ tiêu chuẩn sàng lọc song song, dễ nhớ và áp dụng nhanh tại giường:</p>
+<div class="tbl-wrap">
+<table>
+<caption>Hai bộ tiêu chuẩn nhận diện nguy cơ cao cần chuyển tuyến sớm (chỉ cần đạt ≥1 tiêu chí mỗi bộ)</caption>
+<thead><tr><th>"Rule of three" (Quy tắc số 3)</th><th>"I NEED HELP"</th></tr></thead>
+<tbody>
+<tr><td>Nhập viện vì suy tim (≥2 lần, hoặc ≥1 lần cần inotrope) trong năm qua</td><td><strong>I</strong>notropes — cần inotrope</td></tr>
+<tr><td>Kháng lợi tiểu (diuretic resistance)</td><td><strong>N</strong>YHA III/IV hoặc peptide lợi niệu tăng dai dẳng</td></tr>
+<tr><td>Không dung nạp thuốc ức chế thần kinh-nội tiết kèm khởi phát hội chứng tim-thận</td><td><strong>E</strong>nd-organ dysfunction — rối loạn chức năng cơ quan đích (gan, thận)</td></tr>
+<tr><td></td><td><strong>E</strong>F &lt;20% hoặc chức năng thất phải kém</td></tr>
+<tr><td></td><td><strong>D</strong>efibrillator shocks — từng bị sốc điện từ ICD</td></tr>
+<tr><td></td><td><strong>H</strong>FH &gt;1 lần</td></tr>
+<tr><td></td><td><strong>E</strong>scalating diuretics — leo thang liều lợi tiểu</td></tr>
+<tr><td></td><td><strong>L</strong>ow blood pressure, high heart rate — huyết áp thấp, nhịp tim nhanh</td></tr>
+<tr><td></td><td><strong>P</strong>rognostic medication intolerance — không dung nạp thuốc tiên lượng, cần giảm liều</td></tr>
+</tbody>
+</table>
+</div>
+<p>Một điểm công bằng y tế đáng chú ý được guideline nêu rõ: phụ nữ và các nhóm thiểu số văn hóa-xã hội có xu hướng ít được tiếp cận MCS và ghép tim hơn, mà không thể giải thích đầy đủ bằng yếu tố y khoa hay yếu tố xã hội đã biết — đây là lời nhắc cần chú ý đặc biệt để đảm bảo chuyển tuyến kịp thời và công bằng cho mọi bệnh nhân đủ tiêu chuẩn.</p>
+<p>Kiểm tra bằng nghiệm pháp gắng sức tim phổi (CPET) và thông tim phải (RHC) là hai công cụ then chốt trong đánh giá phân tầng nguy cơ và xét chỉ định các liệu pháp nâng cao (ghép tim, MCS lâu dài) — cả hai đều là khuyến cáo Class I.</p>
+
+<h2 id="h-quanly-atn">8.2. Quản lý điều trị</h2>
+<p>Chỉ định và thời điểm áp dụng các liệu pháp suy tim nặng được định hướng bởi mục tiêu điều trị của bệnh nhân, bệnh đồng mắc, và tình trạng lâm sàng — đây là giai đoạn bệnh mà việc ra quyết định mang tính cá thể hóa cao nhất trong toàn bộ guideline.</p>
+
+<h3 id="h-nghichLy-fmt">8.2.1. Nghịch lý điều trị dược lý — khi giảm liều FMT lại là quyết định đúng</h3>
+<p>Đây là nội dung dễ gây "sốc nhận thức" nếu chỉ quen tư duy "FMT luôn phải tối đa hóa" từ Phần 2: ở suy tim nặng, phần lớn bệnh nhân cuối cùng đến giai đoạn cần <strong>giảm liều hoặc ngừng</strong> một số thuốc ức chế thần kinh-nội tiết do mất dung nạp tiến triển — vì nhóm bệnh nhân này bị đại diện thiếu (under-represented) trong hầu hết RCT nền tảng của FMT, guideline thừa nhận thẳng thắn là bằng chứng còn hạn chế, và khuyến cáo cách tiếp cận <strong>cá thể hóa hoàn toàn</strong> theo đặc điểm huyết động học chủ đạo của từng bệnh nhân:</p>
+<ul>
+<li><strong>Bệnh nhân tụt huyết áp + gánh nặng loạn nhịp cao:</strong> ưu tiên giảm liều ACEi trước, để duy trì được chẹn beta (vì chẹn beta có vai trò bảo vệ chống loạn nhịp quan trọng hơn trong tình huống này)</li>
+<li><strong>Bệnh nhân giảm tưới máu + thể tích nhát bóp thấp dai dẳng dù đã điều trị:</strong> ngược lại, giảm liều hoặc ngừng <strong>chẹn beta trước</strong> có thể là bước đầu để duy trì cung lượng tim (vì tác dụng giảm co bóp/giảm nhịp của chẹn beta lúc này trở thành bất lợi hơn là bảo vệ) — trong trường hợp này, nếu xuất hiện loạn nhịp, amiodarone có thể dung nạp tốt hơn chẹn beta</li>
+</ul>
+<p>Nguyên tắc bao trùm quan trọng nhất: <strong>bất kỳ lần giảm liều nào như trên đều phải là tín hiệu để liên hệ/chuyển tuyến đến trung tâm suy tim nặng</strong> (nếu không có chống chỉ định tuyệt đối với MCS/ghép tim) — việc điều chỉnh AMT không được phép làm trì hoãn việc chuyển tuyến sớm đến các liệu pháp nâng cao.</p>
+<p><strong>Vai trò của inotrope ở giai đoạn này khác với ở DHF cấp tính</strong> (đã học ở Phần 3) — ở đây inotrope có thêm hai vai trò đặc thù: (1) công cụ chẩn đoán trong giai đoạn sàng lọc — đánh giá xem rối loạn chức năng cơ quan đích có <strong>khả năng hồi phục</strong> hay không trước khi quyết định MCS lâu dài/ghép tim, và (2) điều trị giảm nhẹ triệu chứng ở bệnh nhân không còn lựa chọn điều trị nào khác. Vẫn cần thận trọng: dùng liều thấp nhất cần thiết, thời gian ngắn nhất có thể, vì nguy cơ thúc đẩy thiếu máu cơ tim/loạn nhịp thất vẫn tồn tại.</p>
+<p>Về xử trí kháng lợi tiểu tiến triển: sau khi đã thử gấp đôi liều lợi tiểu quai và phối hợp thuốc khác cơ chế (như học ở Phần 3), nếu vẫn thất bại, <strong>liệu pháp thay thế thận</strong> (siêu lọc máu, lọc màng bụng) nên được cân nhắc — dù bằng chứng về tác động lên kết cục lâm sàng còn chưa thống nhất.</p>
+
+<h3 id="h-mcs-atn">8.2.2. Hỗ trợ tuần hoàn cơ học — từ tạm thời đến lâu dài</h3>
+<p>Hai công cụ phân tầng chính được dùng song song: thang <strong>SCAI</strong> (đã học ở Phần 3, áp dụng cho MCS tạm thời) và phân loại <strong>INTERMACS</strong> (dành riêng cho quyết định MCS lâu dài/ghép tim).</p>
+
+<h4 id="h-mcs-tamthoi-atn">MCS tạm thời trong bối cảnh suy tim nặng</h4>
+<p>Vai trò của MCS tạm thời ở đây rộng hơn so với vai trò "cứu nguy cấp tính" đã học ở sốc tim (Phần 3): mục tiêu là hỗ trợ tưới máu não/cơ quan đích, đảo ngược toan chuyển hóa và suy đa cơ quan, <strong>đồng thời tạo thời gian để quỹ đạo bệnh trở nên rõ ràng hơn</strong> — có thể là hồi phục cơ tim, chuyển sang MCS lâu dài, ghép tim cấp cứu, hoặc chuyển hướng sang chăm sóc giảm nhẹ. Đây là lý do các thuật ngữ "cầu nối" (bridge) xuất hiện dày đặc trong chương này — phản ánh đúng bản chất MCS tạm thời là một <em>khoảng đệm quyết định</em>, không phải đích đến. Chăm sóc bệnh nhân dùng MCS tạm thời đòi hỏi chuyên môn cao, bao gồm cả chiến lược rút hỗ trợ định trước khi không có dấu hiệu hồi phục thần kinh/tim có ý nghĩa — một khía cạnh đạo đức lâm sàng quan trọng, không chỉ là vấn đề kỹ thuật.</p>
+
+<div class="box">
+<div class="box-title">PHÂN LOẠI INTERMACS 1–7 — LOGIC PHÂN TẦNG THEO MỨC ĐỘ CẤP CỨU HUYẾT ĐỘNG</div>
+<p>Khác với SCAI (dùng cho sốc tim cấp, thang A→E theo mức can thiệp), INTERMACS là thang dành riêng cho quần thể suy tim nặng mạn tính, đánh số 1 (nặng nhất) đến 7 (nhẹ nhất) theo mức độ ổn định huyết động và nhu cầu hỗ trợ:</p>
+<ul>
+<li><strong>INTERMACS 1</strong> ("sốc tim nguy kịch — crash and burn"): huyết động không ổn định đe dọa tính mạng dù đã dùng inotrope/MCS tạm thời liều cao — cần quyết định can thiệp cấp cứu trong vài giờ</li>
+<li><strong>INTERMACS 2</strong> ("trượt dốc trên hỗ trợ thuốc — sliding on inotropes"): còn phụ thuộc inotrope nhưng chưa nguy kịch tức thời, chức năng cơ quan đích đang xấu dần</li>
+<li><strong>INTERMACS 3</strong> ("ổn định nhưng phụ thuộc inotrope — dependent stability"): ổn định trên inotrope liều thấp/trung bình nhưng không thể cai được</li>
+<li><strong>INTERMACS 4</strong> ("triệu chứng lúc nghỉ khi ngừng inotrope — frequent flyer"): không cần inotrope liên tục nhưng triệu chứng tái phát thường xuyên, nhập viện lặp lại</li>
+<li><strong>INTERMACS 5–6</strong>: giới hạn khi gắng sức nhẹ đến trung bình, tương đối ổn định ngoại trú</li>
+<li><strong>INTERMACS 7</strong>: NYHA III tiến triển, triệu chứng ổn định khi hoạt động thông thường</li>
+</ul>
+<p>Ý nghĩa thực hành cốt lõi: INTERMACS 1–2 (đặc biệt khi đã dùng MCS tạm thời mà chưa hồi phục thần kinh/tim) là nhóm cần MCS tạm thời như cầu nối quyết định/hồi phục/chuyển sang MCS lâu dài hoặc ghép tim cấp cứu. INTERMACS 2–4 (và nhóm NYHA III/IV với INTERMACS &gt;4 kèm tiêu chí bổ sung) là vùng chỉ định chính của <strong>LVAD lâu dài</strong>.</p>
+</div>
+
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; background:#FAFAF7; border:1px solid #E4E1D8; border-radius:10px;" font-family="-apple-system,Segoe UI,Arial,sans-serif">
+  <defs>
+    <marker id="arrow6" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8478"/>
+    </marker>
+  </defs>
+  <text x="450" y="24" text-anchor="middle" font-size="14" font-weight="600" fill="#3a372f">Thang INTERMACS 1–7 — mức độ cấp cứu huyết động giảm dần</text>
+
+  <rect x="20" y="45" width="120" height="150" rx="10" fill="#F1EFE6" stroke="#a83d3d" stroke-width="1.5"/>
+  <text x="80" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#5c3a17">1</text>
+  <text x="80" y="86" text-anchor="middle" font-size="9.5" fill="#6B6862">"Crash and</text>
+  <text x="80" y="99" text-anchor="middle" font-size="9.5" fill="#6B6862">burn" — sốc</text>
+  <text x="80" y="112" text-anchor="middle" font-size="9.5" fill="#6B6862">nguy kịch</text>
+  <text x="80" y="135" text-anchor="middle" font-size="9" fill="#a83d3d" font-weight="600">Quyết định</text>
+  <text x="80" y="148" text-anchor="middle" font-size="9" fill="#a83d3d" font-weight="600">trong vài giờ</text>
+
+  <rect x="150" y="45" width="120" height="150" rx="10" fill="#F1EFE6" stroke="#C97B3D" stroke-width="1.5"/>
+  <text x="210" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#5c3a17">2</text>
+  <text x="210" y="86" text-anchor="middle" font-size="9.5" fill="#6B6862">"Sliding on</text>
+  <text x="210" y="99" text-anchor="middle" font-size="9.5" fill="#6B6862">inotropes"</text>
+  <text x="210" y="112" text-anchor="middle" font-size="9.5" fill="#6B6862">Trượt dốc</text>
+  <text x="210" y="135" text-anchor="middle" font-size="9" fill="#a85a1f">Cơ quan đích</text>
+  <text x="210" y="148" text-anchor="middle" font-size="9" fill="#a85a1f">đang xấu dần</text>
+
+  <rect x="280" y="45" width="120" height="150" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="340" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#3a372f">3</text>
+  <text x="340" y="86" text-anchor="middle" font-size="9.5" fill="#6B6862">Ổn định nhưng</text>
+  <text x="340" y="99" text-anchor="middle" font-size="9.5" fill="#6B6862">phụ thuộc</text>
+  <text x="340" y="112" text-anchor="middle" font-size="9.5" fill="#6B6862">inotrope</text>
+  <text x="340" y="135" text-anchor="middle" font-size="9" fill="#8a8478">Không cai được</text>
+  <text x="340" y="148" text-anchor="middle" font-size="9" fill="#8a8478">inotrope</text>
+
+  <rect x="410" y="45" width="120" height="150" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="470" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#3a372f">4</text>
+  <text x="470" y="86" text-anchor="middle" font-size="9.5" fill="#6B6862">"Frequent</text>
+  <text x="470" y="99" text-anchor="middle" font-size="9.5" fill="#6B6862">flyer" — tái</text>
+  <text x="470" y="112" text-anchor="middle" font-size="9.5" fill="#6B6862">nhập viện</text>
+  <text x="470" y="135" text-anchor="middle" font-size="9" fill="#8a8478">Không cần</text>
+  <text x="470" y="148" text-anchor="middle" font-size="9" fill="#8a8478">inotrope liên tục</text>
+
+  <rect x="540" y="45" width="180" height="150" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="630" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#3a372f">5–6</text>
+  <text x="630" y="90" text-anchor="middle" font-size="10" fill="#6B6862">Giới hạn khi gắng sức</text>
+  <text x="630" y="105" text-anchor="middle" font-size="10" fill="#6B6862">nhẹ-trung bình,</text>
+  <text x="630" y="120" text-anchor="middle" font-size="10" fill="#6B6862">tương đối ổn định</text>
+  <text x="630" y="140" text-anchor="middle" font-size="9" fill="#8a8478">ngoại trú</text>
+
+  <rect x="730" y="45" width="150" height="150" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="805" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#3a372f">7</text>
+  <text x="805" y="90" text-anchor="middle" font-size="10" fill="#6B6862">NYHA III</text>
+  <text x="805" y="105" text-anchor="middle" font-size="10" fill="#6B6862">tiến triển,</text>
+  <text x="805" y="120" text-anchor="middle" font-size="10" fill="#6B6862">ổn định khi</text>
+  <text x="805" y="135" text-anchor="middle" font-size="10" fill="#6B6862">hoạt động thường</text>
+
+  <line x1="20" y1="205" x2="880" y2="205" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow6)"/>
+  <text x="450" y="222" text-anchor="middle" font-size="10.5" fill="#8a8478">Mức cấp cứu giảm dần →</text>
+
+  <rect x="20" y="240" width="400" height="50" rx="8" fill="#F1EFE6" stroke="#a83d3d" stroke-width="1.2"/>
+  <text x="220" y="260" text-anchor="middle" font-size="11" font-weight="600" fill="#5c3a17">1–2: MCS tạm thời → cầu nối quyết định/</text>
+  <text x="220" y="276" text-anchor="middle" font-size="11" font-weight="600" fill="#5c3a17">hồi phục/MCS lâu dài/ghép tim cấp cứu</text>
+
+  <rect x="440" y="240" width="440" height="50" rx="8" fill="#F1EFE6" stroke="#8a5a2b" stroke-width="1.2"/>
+  <text x="660" y="260" text-anchor="middle" font-size="11" font-weight="600" fill="#5c3a17">2–4 (± NYHA III/IV, INTERMACS &gt;4 kèm tiêu chí):</text>
+  <text x="660" y="276" text-anchor="middle" font-size="11" font-weight="600" fill="#5c3a17">vùng chỉ định chính của LVAD lâu dài</text>
+</svg>
+<figcaption class="fig-caption">Sơ đồ minh họa (tự vẽ) — thang phân loại INTERMACS và ứng dụng lâm sàng, không sao chép hình gốc từ guideline.</figcaption>
+</figure>
+
+<h4 id="h-lvad">MCS lâu dài — LVAD (Left Ventricular Assist Device)</h4>
+<p>LVAD là loại MCS lâu dài phổ biến và tin cậy nhất — chỉ trong trường hợp suy hai thất hoặc giải phẫu đặc biệt mới cần đến tim nhân tạo toàn phần hoặc thiết bị hỗ trợ hai thất. Về hiệu quả: tỷ lệ sống còn hiện tại với các LVAD dòng chảy liên tục nâng đỡ bằng từ trường hoàn toàn (fully magnetically levitated) đã tiệm cận với ghép tim — thử nghiệm MOMENTUM 3 ghi nhận sống còn 79% ở 2 năm và 58,4% ở 5 năm, cao hơn đáng kể so với điều trị nội khoa đơn thuần ở quần thể tương ứng (&gt;85% bệnh nhân thuộc INTERMACS 1–3 tại thời điểm cấy).</p>
+<div class="box">
+<div class="box-title">BỐN VAI TRÒ CỦA LVAD — MỘT QUANG PHỔ, KHÔNG PHẢI BỐN CHỈ ĐỊNH TÁCH BIỆT</div>
+<p>Đây là điểm dễ gây nhầm lẫn khi ôn thi vì các chữ viết tắt (BTT, BTC, BTR, liệu pháp đích) trông như bốn chỉ định riêng — thực chất chúng mô tả <strong>cùng một quyết định cấy LVAD nhưng ở bốn "vai trò kỳ vọng" khác nhau</strong>, có thể thay đổi theo thời gian ở cùng một bệnh nhân:</p>
+<ul>
+<li><strong>BTT (Bridge to Transplantation)</strong> — cầu nối chờ ghép tim, dùng khi bệnh nhân đủ tiêu chuẩn ghép nhưng chưa có tạng phù hợp</li>
+<li><strong>BTC (Bridge to Candidacy)</strong> — cầu nối để trở thành ứng viên ghép tim, dùng khi bệnh nhân hiện chưa đủ điều kiện ghép (ví dụ còn tăng áp phổi cố định, suy dinh dưỡng) nhưng có khả năng cải thiện đủ điều kiện sau khi được LVAD hỗ trợ huyết động ổn định</li>
+<li><strong>BTR (Bridge to Recovery)</strong> — cầu nối chờ cơ tim tự hồi phục (hiếm gặp hơn, thường ở bệnh cơ tim có khả năng hồi phục như viêm cơ tim cấp)</li>
+<li><strong>Liệu pháp đích (Destination Therapy)</strong> — dùng LVAD vĩnh viễn ở bệnh nhân không phải/không muốn ứng viên ghép tim (do tuổi, bệnh đồng mắc, hoặc nguyện vọng cá nhân)</li>
+</ul>
+<p>Một số bệnh nhân trẻ tuổi thậm chí chủ động chọn <strong>ở lại với LVAD lâu hơn</strong> thay vì ghép tim ngay khi đủ điều kiện — để tối đa hóa tổng số năm sống còn kỳ vọng (cân nhắc thời gian chờ tạng, tuổi thọ trung bình của một quả tim ghép so với thời gian hoạt động của thiết bị).</p>
+</div>
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; background:#FAFAF7; border:1px solid #E4E1D8; border-radius:10px;" font-family="-apple-system,Segoe UI,Arial,sans-serif">
+  <defs>
+    <marker id="arrow7" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8478"/>
+    </marker>
+  </defs>
+  <text x="450" y="26" text-anchor="middle" font-size="14" font-weight="600" fill="#3a372f">Bốn vai trò của LVAD — một quang phổ quyết định, không phải bốn chỉ định tách biệt</text>
+
+  <rect x="330" y="45" width="240" height="60" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="450" y="68" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3a372f">Bệnh nhân suy tim nặng</text>
+  <text x="450" y="88" text-anchor="middle" font-size="10.5" fill="#6B6862">đủ tiêu chuẩn cấy LVAD</text>
+
+  <line x1="450" y1="105" x2="450" y2="130" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow7)"/>
+
+  <rect x="290" y="135" width="320" height="55" rx="10" fill="#F1EFE6" stroke="#8a5a2b" stroke-width="1.5"/>
+  <text x="450" y="158" text-anchor="middle" font-size="12" font-weight="600" fill="#5c3a17">Có phải ứng viên ghép tim không?</text>
+  <text x="450" y="176" text-anchor="middle" font-size="10" fill="#6B6862">(tuổi, bệnh đồng mắc, nguyện vọng)</text>
+
+  <!-- eligible for transplant -->
+  <line x1="380" y1="190" x2="220" y2="225" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow7)"/>
+  <text x="270" y="212" text-anchor="middle" font-size="10.5" fill="#4a7a4a" font-weight="600">Đủ điều kiện</text>
+  <rect x="40" y="230" width="260" height="70" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="170" y="252" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3a372f">BTT — Bridge to Transplantation</text>
+  <text x="170" y="270" text-anchor="middle" font-size="10" fill="#6B6862">Cầu nối chờ có tạng phù hợp</text>
+  <text x="170" y="286" text-anchor="middle" font-size="9.5" fill="#8a8478">± chọn ở lại LVAD lâu hơn nếu muốn</text>
+
+  <!-- not yet eligible -->
+  <line x1="480" y1="190" x2="600" y2="225" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow7)"/>
+  <text x="570" y="212" text-anchor="middle" font-size="10.5" fill="#a85a1f" font-weight="600">Chưa đủ điều kiện</text>
+  <rect x="470" y="230" width="260" height="70" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="600" y="252" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3a372f">BTC — Bridge to Candidacy</text>
+  <text x="600" y="270" text-anchor="middle" font-size="10" fill="#6B6862">Cầu nối để "trở thành" ứng viên</text>
+  <text x="600" y="286" text-anchor="middle" font-size="9.5" fill="#8a8478">(vd. cải thiện tăng áp phổi, dinh dưỡng)</text>
+
+  <!-- not candidate -->
+  <line x1="560" y1="190" x2="800" y2="225" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow7)"/>
+  <text x="740" y="212" text-anchor="middle" font-size="10.5" fill="#a83d3d" font-weight="600">Không phải ứng viên</text>
+  <rect x="740" y="230" width="150" height="70" rx="10" fill="#F1EFE6" stroke="#a83d3d" stroke-width="1.5"/>
+  <text x="815" y="255" text-anchor="middle" font-size="11.5" font-weight="600" fill="#5c3a17">Liệu pháp đích</text>
+  <text x="815" y="273" text-anchor="middle" font-size="10" fill="#6B6862">(Destination</text>
+  <text x="815" y="288" text-anchor="middle" font-size="10" fill="#6B6862">Therapy)</text>
+
+  <rect x="330" y="310" width="240" height="40" rx="8" fill="#FBEFE0" stroke="#EBCE9C" stroke-width="1.2"/>
+  <text x="450" y="335" text-anchor="middle" font-size="10.5" fill="#6B3E06">BTR (Bridge to Recovery) — hiếm hơn,</text>
+  <text x="450" y="348" text-anchor="middle" font-size="9" fill="#6B3E06">áp dụng khi cơ tim có khả năng tự hồi phục</text>
+</svg>
+<figcaption class="fig-caption">Sơ đồ minh họa (tự vẽ) — bốn vai trò của LVAD trong suy tim nặng, không sao chép hình gốc từ guideline.</figcaption>
+</figure>
+
+<p>Về biến chứng — bảng dữ liệu thực tế cho thấy huyết khối bơm đã trở nên rất hiếm với thế hệ thiết bị mới, nhưng nhiễm trùng đường ra dây dẫn (driveline) vẫn phổ biến tương tự thiết bị cũ; suy thất phải và loạn nhịp là hai nguyên nhân tái nhập viện thường gặp; biến cố chảy máu có thể giảm thiểu bằng cách tránh phối hợp kháng kết tập tiểu cầu cùng kháng đông (chỉ dùng kháng đông đơn thuần theo phác đồ chuẩn).</p>
+<p><strong>Sinh thiết mô tim khi cấy LVAD hoặc ghép tim</strong> là một cơ hội chẩn đoán quý giá hay bị bỏ qua trên lâm sàng: có thể phát hiện nguyên nhân bệnh sinh có thể điều trị được hoặc mang tính di truyền (hữu ích cho sàng lọc gia đình) và đánh giá tiềm năng hồi phục cơ tim — Class IIa khi nguyên nhân không do thiếu máu cục bộ.</p>
+
+<h3 id="h-ghep-tim">8.2.3. Ghép tim</h3>
+<p>Dù chưa từng được đánh giá qua RCT (vì lý do đạo đức hiển nhiên — không thể ngẫu nhiên hóa việc "không ghép tim" cho nhóm chứng), ghép tim vẫn là <strong>tiêu chuẩn vàng</strong> cho suy tim nặng khi không có chống chỉ định. Sống còn 1 năm sau ghép đạt 80–90%, thời gian sống còn trung vị khoảng 12,5 năm — cải thiện rõ rệt chất lượng cuộc sống và tình trạng chức năng. Thách thức chính sau ghép là cân bằng giữa hiệu quả và tác dụng phụ của thuốc ức chế miễn dịch; rào cản lớn nhất vẫn là <strong>thiếu nguồn tạng hiến</strong> — nhiều quốc gia đã mở rộng chương trình hiến tạng sau ngừng tuần hoàn (bên cạnh hiến tạng sau chết não truyền thống) với kết quả trung hạn tương đương, giúp tăng số ca ghép thực hiện được.</p>
+<p>Về lựa chọn ứng viên: dù bệnh nhân dưới 65 tuổi thường được xem là ứng viên phù hợp hơn về mặt kỳ vọng sống, hầu hết các chương trình chấp nhận đến 70 tuổi — <strong>tuổi sinh học cần được cân nhắc cùng tuổi thời gian</strong>, và độ phức tạp phẫu thuật (tiền sử mở xương ức, xạ trị trung thất, bệnh tim bẩm sinh người lớn) cũng là yếu tố quan trọng. Con đường quyết định giữa ghép tim và LVAD hiếm khi đơn giản, luôn cần cá thể hóa theo từng bệnh nhân — cân nhắc cả yếu tố không liên quan trực tiếp đến bệnh nhân như thời gian chờ ghép trung bình tại khu vực, kinh nghiệm phẫu thuật của trung tâm, và nguồn lực sẵn có.</p>
+
+<h3 id="h-cuoicoi">8.2.4. Kiểm soát triệu chứng và chăm sóc cuối đời</h3>
+<p>Đây là mảng nội dung thường bị xem nhẹ trong ôn thi nhưng có ý nghĩa lâm sàng và nhân văn sâu sắc: <strong>lập kế hoạch chăm sóc trước (advance care planning)</strong> nên được thảo luận song song với các liệu pháp suy tim nặng khác — không phải chỉ khi "đã hết cách" mới nhắc đến. Mục tiêu là xác định rõ mục tiêu điều trị của bệnh nhân và cải thiện chất lượng cuộc sống xuyên suốt quá trình bệnh tiến triển, chứ không chờ đến giai đoạn cuối mới đặt vấn đề.</p>
+<p>Chăm sóc cuối đời tập trung vào kiểm soát triệu chứng (khó thở, đau, lo âu và trầm cảm), đảm bảo sự thoải mái và duy trì chất lượng cuộc sống thông qua chăm sóc cá thể hóa, giàu lòng trắc ẩn — bao gồm giao tiếp rõ ràng, ra quyết định chia sẻ, và tích hợp chăm sóc giảm nhẹ/chăm sóc cuối đời để hỗ trợ cả bệnh nhân và gia đình.</p>
+<div class="warn"><strong>Vấn đề đạo đức lâm sàng đặc thù của MCS lâu dài:</strong> bệnh nhân đang dùng MCS lâu dài có thể yêu cầu ngừng các biện pháp duy trì sự sống vì không còn phù hợp với mục tiêu chăm sóc của họ nữa (do chất lượng cuộc sống kém hoặc mắc thêm bệnh nặng mới như ung thư). Việc <strong>ngừng hoạt động thiết bị MCS</strong> chỉ nên thực hiện sau khi đánh giá cẩn thận nguyện vọng bệnh nhân, dưới sự giám sát của đội ngũ chuyên trách, và phải tuân thủ luật pháp quốc gia liên quan — đây là quyết định phức tạp về mặt đạo đức-pháp lý, không đơn thuần là quyết định y khoa kỹ thuật.</div>
+
+<div class="warn">
+<strong>Bẫy thi thường gặp về suy tim nặng:</strong>
+<ul>
+<li>Cho rằng suy tim nặng (giai đoạn D) luôn có LVEF rất thấp → sai, HFpEF/bệnh cơ tim phì đại-hạn chế cũng có thể đạt tiêu chuẩn suy tim nặng qua tiêu chí peptide lợi niệu + rối loạn tâm trương nặng</li>
+<li>Nghĩ chỉ định LVAD và ghép tim là một, có thể dùng thay thế nhau tùy ý → sai, đây là hai lộ trình với tiêu chuẩn chọn lựa và mục tiêu khác nhau (LVAD có 4 vai trò khác nhau, một trong số đó là cầu nối CHỜ ghép)</li>
+<li>Cho rằng luôn phải tăng tối đa FMT ở mọi bệnh nhân suy tim kể cả giai đoạn nặng → sai, ở suy tim nặng có tình huống giảm liều/ngừng thuốc là quyết định đúng, cá thể hóa theo huyết động chủ đạo</li>
+<li>Nghĩ inotrope kéo dài luôn có lợi vì cải thiện triệu chứng tức thời → sai, tăng nguy cơ thiếu máu cơ tim/loạn nhịp, chỉ dùng liều thấp nhất/thời gian ngắn nhất cần thiết trừ khi là điều trị giảm nhẹ cuối đời</li>
+<li>Nhầm phân loại INTERMACS (dành cho suy tim nặng mạn/MCS lâu dài) với thang SCAI (dành cho sốc tim cấp) → hai công cụ phân tầng khác mục đích, dùng song song chứ không thay thế nhau</li>
+<li>Trì hoãn thảo luận chăm sóc cuối đời đến khi "hết mọi lựa chọn điều trị" → sai, nên lồng ghép song song ngay từ khi tiếp cận suy tim nặng</li>
+</ul>
+</div>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Phần 5/5 (Bệnh đồng mắc & quản lý đa chuyên khoa) sẽ tiếp nối. Tài liệu này là bản tổng hợp/viết lại phục vụ học tập, không thay thế guideline gốc hay quyết định lâm sàng thực tế.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'hl_esc2026_hf_part4';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>
