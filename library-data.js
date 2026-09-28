@@ -30,6 +30,12 @@ window.LIBRARY = {
       note: "Bản dịch đầy đủ kèm Central Illustration (hình gốc): chẩn đoán HFpEF tại châu Á (HFA-PEFF/H2FPEF kém nhạy ở người châu Á, Bảng 1 so sánh 7 hướng dẫn quốc tế/khu vực, AI-ECG và siêu âm tim hỗ trợ AI); 3 phân nhóm chính (cao tuổi/rung nhĩ/tăng huyết áp, béo phì, \"gầy-đái tháo đường\" đặc thù châu Á với béo bụng ở BMI thấp); kết cục và tử vong theo vùng (Đông Nam Á vs Đông Bắc Á); điều trị: thất bại của ACEi/ARB/MRA cổ điển, bước đột phá SGLT2i (EMPEROR-Preserved, DELIVER), ns-MRA (FINEARTS-HF), GLP-1RA (STEP-HFpEF, SUMMIT) và giới hạn ngưỡng BMI phương Tây khi áp dụng cho người châu Á, khoảng trống chi phí-hiệu quả.",
       updated: "2026-09-28", url: "docs/hfpef-chau-a-2026.html" },
 
+    { id: "tm-hfpef-nejm-2025", sp: "tm", topic: "Suy tim", title: "Suy tim phân suất tống máu bảo tồn (HFpEF) — Clinical Practice",
+      org: "Cannata A, McDonagh TA. N Engl J Med 2025;392:173-84 (bản dịch: CLB Nội khoa ĐHYD TP.HCM)", year: 2025, doi: "https://doi.org/10.1056/NEJMcp2305181", status: 2,
+      cat: "Suy tim phân suất tống máu bảo tồn · Clinical Practice",
+      note: "Bản dịch đầy đủ (CLB Nội khoa – ĐH Y Dược TP.HCM: Minh Khôi Y20, Thiên Nhi Y21, Minh Quang Y22, Hoàng Phúc Y24) kèm 2 hình gốc: Hình 1 — lưu đồ thực hành chẩn đoán HFpEF (loại trừ các bệnh lý giả dạng: bệnh tim thoái hóa dạng bột, sarcoidosis, phì đại, bẩm sinh...; bảng chỉ điểm bất thường tim mạch lúc nghỉ/gắng sức); Hình 2 — forest plot hiệu quả SGLT2i/RAS-i/MRA trên 8 thử nghiệm (DELIVER, EMPEROR-Preserved, SOLOIST-WHF, PARAGON, CHARM, TOPCAT, FINEARTS-HF). Nội dung: dịch tễ và tiên lượng, chẩn đoán (NT-proBNP, loại trừ bệnh giả dạng, CMR/đo huyết động xâm lấn), điều trị bằng thuốc (RAS-i, ARNI — PARAGON-HF/PARAGLIDE-HF/PARALLAX, MRA — TOPCAT/FINEARTS-HF, chẹn beta, lợi tiểu, SGLT2i — EMPEROR-Preserved/DELIVER, GLP-1RA — STEP-HFpEF/SUMMIT), thiết bị (CardioMEMS, shunt liên nhĩ), Bảng 1 so sánh khuyến cáo liều dùng theo 5 guideline quốc tế (ACC/AHA, ESC, CCS-CCFS, JCS/JHFS, NHFA-CSANZ), và hướng dẫn thực hành lâm sàng quay lại ca bệnh mở đầu.",
+      updated: "2026-09-28", url: "docs/hfpef-nejm-2025-clb-noikhoa.html" },
+
     { id: "tm-dyslipidemia-2026-p1", sp: "tm", topic: "Rối loạn lipid máu", title: "2026 ACC/AHA Guideline Quản lý Rối loạn lipid máu — Bản dịch đầy đủ",
       org: "ACC/AHA (Circulation 2026;153:e1154–e1276)", year: 2026, doi: "https://doi.org/10.1161/CIR.0000000000001423", status: 2,
       cat: "Đầy đủ · Guideline thay thế 2018",
