@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ESC 2026 — Suy tim (Phần 3/5): Suy tim mất bù (Chương 7)</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#8a5a2b; --accent-ink:#5c3a17; --accent-bg:#F3ECE0;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">ESC 2026 Suy tim — P3</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">TÓM TẮT & VIẾT LẠI · ESC GUIDELINES 2026 · PHẦN 3/5</div>
+    <div class="doc-title">ESC 2026 — Suy tim (Phần 3/5)</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">ESC GUIDELINES 2026 · PHẦN 3/5</span>
+    <h1>Suy tim theo ESC 2026 — Phần 3: Suy tim mất bù (Chương 7)</h1>
+    <div class="byline">Tổng hợp và viết lại bởi Claude, theo yêu cầu học tập của BS. Huỳnh Hữu Minh · Dựa trên: Køber L, Adamo M, et al. (ESC Task Force)</div>
+    <div class="cite">Nguồn: 2026 ESC Guidelines for the management of heart failure. Eur Heart J 2026. DOI: 10.1093/eurheartj/ehag100 — Bản tóm tắt/viết lại tiếng Việt kèm giải thích cơ chế, không phải bản dịch chính thức.</div>
+
+    <div class="box">
+<div class="box-title">TRONG PHẦN NÀY</div>
+<ul>
+<li>Vì sao ESC 2026 đổi tên "suy tim cấp" thành "suy tim mất bù" (DHF) — và phân biệt DHF với WHF (suy tim nặng lên)</li>
+<li>Bốn thể lâm sàng của DHF và cơ chế huyết động học riêng biệt của từng thể — chìa khóa để không nhầm lẫn hướng xử trí</li>
+<li>Thang phân độ SCAI cho sốc tim (A→E) — hiểu logic phân tầng thay vì học thuộc chữ cái</li>
+<li>Ba giai đoạn quản lý nội trú và vì sao "khởi trị FMT sớm ngay trong đợt mất bù" lại là khuyến cáo mới quan trọng</li>
+<li>Chiến lược lợi tiểu hướng theo natri niệu (uNa+-guided) — cơ chế và ngưỡng đáp ứng cụ thể</li>
+<li>Hỗ trợ tuần hoàn cơ học tạm thời (MCS) — khi nào thật sự có lợi, khi nào chỉ thêm biến chứng</li>
+<li>Bẫy thi: "sốc tim luôn có tụt huyết áp", "IABP thường quy cho mọi sốc tim", "ngừng FMT khi nhập viện vì mất bù"</li>
+</ul>
+</div>
+
+<h2 id="h-dhf-dinhnghia">7.1. Định nghĩa và dịch tễ học</h2>
+<p>ESC 2026 thay thuật ngữ "suy tim cấp" (acute HF) bằng <strong>suy tim mất bù (Decompensated Heart Failure, DHF)</strong> — đây không chỉ là đổi tên mà phản ánh một sự phân biệt khái niệm quan trọng, dễ nhầm lẫn nếu chỉ học thuộc:</p>
+<ul>
+<li><strong>WHF (Worsening Heart Failure — suy tim nặng lên)</strong>: một <em>sự kiện</em> trong quá trình tiến triển tự nhiên của bệnh — triệu chứng/dấu hiệu xấu đi, phản ánh bệnh đang tiến triển</li>
+<li><strong>DHF (suy tim mất bù)</strong>: được định nghĩa bởi <em>nhu cầu can thiệp điều trị</em> — khởi động hoặc tăng cường điều trị khẩn cấp, dù khởi phát cấp tính hay từ từ, dù là đợt nặng lên của suy tim đã biết hay biểu hiện lần đầu (suy tim mới mắc, "de novo")</li>
+</ul>
+<p>Nói cách khác: mọi DHF đều có WHF đi kèm (hoặc là biểu hiện khởi phát), nhưng không phải mọi WHF đều đủ nặng để trở thành DHF (ví dụ khó thở tăng nhẹ khi gắng sức, xử trí ngoại trú bằng tăng liều lợi tiểu uống, không cần "can thiệp khẩn cấp" — đây là WHF nhưng chưa hẳn là DHF theo định nghĩa chặt).</p>
+<p>Tiên lượng của DHF rất nặng nề — đây là điểm cần nhớ để đặt đúng mức độ ưu tiên lâm sàng: tử vong trong đợt nhập viện 3–10%, tử vong 1 năm 20–30%, và trên 50% ở mốc 5 năm. Đáng chú ý, DHF khởi phát lần đầu ("de novo") có xu hướng tử vong nội viện cao hơn (do chưa được chẩn đoán/điều trị nền trước đó, nguyên nhân cấp tính có thể nặng hơn) nhưng tử vong/tái nhập viện sau xuất viện lại thấp hơn so với DHF trên nền suy tim mạn đã biết — có thể vì nhóm suy tim mạn đã biết thường có bệnh nền tiến triển nặng, nhiều bệnh đồng mắc tích lũy hơn.</p>
+
+<h2 id="h-dhf-chandoan">7.2. Chẩn đoán</h2>
+<p>Chẩn đoán DHF cần thực hiện nhanh — mỗi giờ trì hoãn đều có ý nghĩa tiên lượng, tương tự tinh thần "thời gian là cơ tim" trong nhồi máu cấp. Ngay tại lần tiếp xúc y tế đầu tiên, cần đánh giá đồng thời hai trục biểu hiện: <strong>sung huyết</strong> và <strong>giảm tưới máu</strong> (xem lại cơ chế "suy tim thuận/nghịch" ở Phần 1) — đo huyết áp không xâm lấn, nhịp thở, SpO2, nhiệt độ, ECG ngay từ đầu; nếu nghi ngờ giảm tưới máu kèm huyết động không ổn định, cần đo lactate máu động mạch sớm.</p>
+<div class="box">
+<div class="box-title">NGƯỠNG PEPTIDE LỢI NIỆU TRONG DHF — KHÁC VỚI NGƯỠNG CHẨN ĐOÁN SUY TIM MẠN</div>
+<p>Đây là điểm hay gây nhầm lẫn với ngưỡng tuổi-hiệu chỉnh đã học ở Phần 1 (dùng cho chẩn đoán suy tim <em>mạn</em>, ngoại trú). Trong bối cảnh <em>cấp</em> (nghi DHF), ngưỡng "loại trừ" (rule-out) không hiệu chỉnh theo tuổi: NT-proBNP &lt;300 pg/mL, hoặc BNP &lt;100 ng/mL, hoặc MR-proANP &lt;120 pg/mL. Ngưỡng "khả năng cao" (rule-in) mới có hiệu chỉnh theo tuổi (xem chú thích Hình 11 trong guideline): NT-proBNP &gt;450 pg/mL (&lt;50 tuổi), &gt;900 pg/mL (50–74 tuổi), &gt;1800 pg/mL (&gt;74 tuổi). Nếu NT-proBNP &gt;5000 pg/mL: nguy cơ rất cao, thường cần nhập viện. Vì sao có hai bộ ngưỡng khác nhau cho cùng một xét nghiệm? Vì trong bối cảnh cấp cứu, câu hỏi lâm sàng là "loại trừ nhanh DHF để tránh bỏ sót" (ưu tiên độ nhạy, ngưỡng thấp cố định) chứ không phải "chẩn đoán xác định mạn tính" (ưu tiên độ đặc hiệu, cần hiệu chỉnh nhiễu do tuổi).</p>
+</div>
+<p>Nếu vẫn nghi ngờ lâm sàng dù peptide lợi niệu dưới ngưỡng loại trừ, cần siêu âm tim và đánh giá chuyên khoa thêm — không nên loại trừ hoàn toàn chỉ dựa vào một trị số xét nghiệm. Siêu âm phổi tại giường (lung ultrasound, LUS) — khi có nhân lực được đào tạo — giúp phát hiện sung huyết phổi (qua hình ảnh đường B) và theo dõi động học đáp ứng điều trị, bổ sung hữu ích cho khám lâm sàng.</p>
+
+<h2 id="h-dhf-benhcanh">7.3. Các thể lâm sàng của suy tim mất bù</h2>
+<p>ESC 2026 phân DHF thành 4 thể lâm sàng riêng biệt — không chỉ để phân loại mà vì mỗi thể có <strong>cơ chế huyết động học chủ đạo khác nhau</strong>, dẫn đến chiến lược điều trị ban đầu khác nhau. Đây là nội dung dễ bị đơn giản hóa thành "suy tim mất bù thì cho lợi tiểu" — trong khi thực tế mỗi thể cần một trọng tâm riêng.</p>
+
+<h3 id="h-dhf-traiphai">7.3.1–7.3.2. Suy tim mất bù trái và phải</h3>
+<p><strong>Suy tim mất bù trái</strong> điển hình khởi phát từ từ, cơ chế chủ đạo là <strong>tích lũy sung huyết dần dần</strong> (ứ dịch tiến triển qua nhiều ngày) — có thể xảy ra ở bất kỳ mức LVEF nào, và ở giai đoạn nặng có thể kéo theo rối loạn chức năng thất phải thứ phát. Xử trí trọng tâm là lợi tiểu để giảm sung huyết; nơi điều trị có thể là ngoại trú hoặc nội trú tùy mức độ.</p>
+<p><strong>Suy tim mất bù phải đơn độc</strong> có cơ chế đặc trưng: tăng áp lực thất phải/nhĩ phải → sung huyết hệ thống (không phải phổi) — thường kèm hở van ba lá. Do hiện tượng <strong>phụ thuộc lẫn nhau giữa hai thất (ventricular interdependence)</strong> — vách liên thất chung cho cả hai buồng, thất phải giãn quá mức sẽ đẩy vách liên thất lệch sang trái, làm giảm đổ đầy thất trái và giảm cung lượng tim toàn thân dù bản thân thất trái không hề yếu. Cần loại trừ thuyên tắc phổi và nhồi máu thất phải cấp — đây là hai nguyên nhân "bắt buộc phải nghĩ đến và loại trừ" khi tiếp cận thể này. Chức năng thất phải và ảnh hưởng của nó lên các cơ quan đích (thận, gan) thường quyết định diễn tiến lâm sàng — cần theo dõi sát chức năng thận/gan song song.</p>
+
+<h3 id="h-apo">7.3.3. Phù phổi cấp (APO)</h3>
+<p>Đây là thể có cơ chế sinh lý bệnh khác biệt nhất và dễ bị hiểu lầm nhất: phù phổi cấp <strong>không nhất thiết là quá tải thể tích toàn thân</strong>. Cơ chế chủ đạo là <strong>tái phân bố dịch cấp tính</strong> (fluid redistribution) — máu bị "dồn" đột ngột vào tuần hoàn phổi (thường do tăng huyết áp cấp/hậu tải tăng đột ngột làm thất trái không tống máu kịp), chứ không phải do tổng lượng dịch cơ thể tăng lên. Đây là lý do bệnh nhân APO điển hình <strong>không cần liều lợi tiểu cao</strong> như trong quá tải thể tích thực sự — trọng tâm điều trị là thuốc giãn mạch (giảm hậu tải nhanh) hơn là lợi tiểu mạnh. Luôn cần tìm nguyên nhân khởi phát (thường là tăng huyết áp cấp, thiếu máu cục bộ cấp, loạn nhịp) và điều trị theo nguyên nhân nếu có thể.</p>
+
+<h3 id="h-cs">7.3.4. Sốc tim (Cardiogenic Shock)</h3>
+<p>Định nghĩa: tình trạng giảm tưới máu cơ quan đích nghiêm trọng do <strong>rối loạn chức năng tim nguyên phát</strong>. Điểm hay bị hiểu sai nhất — cũng là bẫy thi kinh điển: <strong>sốc tim không bắt buộc phải có tụt huyết áp</strong>. Guideline nhấn mạnh không có một ngưỡng huyết áp cụ thể nào định nghĩa sốc tim vì đây là một hội chứng lâm sàng phức tạp, đa yếu tố. Thực tế có nhóm bệnh nhân "sốc tim huyết áp bình thường" (normotensive CS) — giảm tưới máu rõ nhưng huyết áp còn duy trì được nhờ cơ chế bù trừ co mạch — và nhóm này có <strong>tiên lượng tốt hơn</strong> sốc tim có tụt huyết áp.</p>
+<p>Chỉ dấu sinh hóa khách quan tốt nhất của giảm tưới máu mô là <strong>lactate máu động mạch &gt;2 mmol/L</strong> — nên nhớ đến khi đánh giá mức độ nặng, kèm theo tổn thương thận cấp và/hoặc tổn thương gan cấp là các dấu hiệu hỗ trợ. Một điểm thực hành quan trọng: sốc nhiễm khuẩn và sốc giảm thể tích cũng biểu hiện tụt huyết áp + giảm tưới máu — các thể sốc phối hợp không hiếm gặp trên lâm sàng, cần khai thác bệnh sử và thăm khám kỹ để phân biệt.</p>
+<div class="box">
+<div class="box-title">THANG PHÂN ĐỘ SCAI CHO SỐC TIM — LOGIC PHÂN TẦNG</div>
+<p>Thang SCAI (Society for Cardiovascular Angiography and Interventions) chia sốc tim thành 5 giai đoạn theo một trục logic duy nhất: <strong>mức độ can thiệp cần thiết và đáp ứng với can thiệp đó</strong>, không đơn thuần theo mức độ nặng lâm sàng tĩnh tại một thời điểm.</p>
+<ul>
+<li><strong>A — "Nguy cơ" (At risk):</strong> chưa có triệu chứng/dấu hiệu sốc tim nhưng có nguy cơ cao (ví dụ nhồi máu cơ tim diện rộng, suy tim mất bù nặng)</li>
+<li><strong>B — "Khởi phát/tiền sốc" (Beginning/pre-shock):</strong> có bằng chứng huyết động không ổn định (tụt huyết áp tương đối, nhịp nhanh) nhưng <strong>chưa có giảm tưới máu</strong></li>
+<li><strong>C — "Điển hình" (Classic):</strong> đã có giảm tưới máu, <strong>cần can thiệp</strong> (inotrope, vận mạch, hoặc hỗ trợ cơ học)</li>
+<li><strong>D — "Xấu đi" (Deteriorating):</strong> giống C nhưng <strong>không đáp ứng</strong> với các can thiệp ban đầu</li>
+<li><strong>E — "Nguy kịch" (Extremis):</strong> sốc kháng trị hoặc ngừng tim, cần nhiều can thiệp cấp cứu đồng thời kể cả hồi sức tim phổi</li>
+</ul>
+<p>Cách ghi nhớ nhanh, tránh học vẹt: A và B đều <strong>chưa có giảm tưới máu</strong> (khác nhau ở việc đã có bất ổn huyết động hay chưa) — còn C, D, E đều <strong>đã có giảm tưới máu</strong>, khác nhau ở đáp ứng điều trị (C = mới cần can thiệp, D = đã can thiệp nhưng không đáp ứng, E = nguy kịch/ngừng tim).</p>
+</div>
+
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; background:#FAFAF7; border:1px solid #E4E1D8; border-radius:10px;" font-family="-apple-system,Segoe UI,Arial,sans-serif">
+  <defs>
+    <marker id="arrow4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8478"/>
+    </marker>
+  </defs>
+  <text x="450" y="26" text-anchor="middle" font-size="14" font-weight="600" fill="#3a372f">Bốn thể lâm sàng của suy tim mất bù — cơ chế huyết động học chủ đạo</text>
+
+  <rect x="20" y="50" width="200" height="160" rx="12" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="120" y="75" text-anchor="middle" font-size="13" font-weight="600" fill="#3a372f">Mất bù trái</text>
+  <text x="120" y="98" text-anchor="middle" font-size="10.5" fill="#6B6862">Cơ chế: tích lũy</text>
+  <text x="120" y="112" text-anchor="middle" font-size="10.5" fill="#6B6862">sung huyết dần dần</text>
+  <text x="120" y="135" text-anchor="middle" font-size="10.5" fill="#8a8478">Trọng tâm:</text>
+  <text x="120" y="150" text-anchor="middle" font-size="10.5" fill="#8a8478">lợi tiểu giảm sung huyết</text>
+  <text x="120" y="175" text-anchor="middle" font-size="9.5" fill="#a85a1f">± rối loạn thất phải</text>
+  <text x="120" y="190" text-anchor="middle" font-size="9.5" fill="#a85a1f">thứ phát (giai đoạn nặng)</text>
+
+  <rect x="240" y="50" width="200" height="160" rx="12" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="340" y="75" text-anchor="middle" font-size="13" font-weight="600" fill="#3a372f">Mất bù phải</text>
+  <text x="340" y="98" text-anchor="middle" font-size="10.5" fill="#6B6862">Cơ chế: tăng áp lực</text>
+  <text x="340" y="112" text-anchor="middle" font-size="10.5" fill="#6B6862">nhĩ/thất phải + lệch</text>
+  <text x="340" y="126" text-anchor="middle" font-size="10.5" fill="#6B6862">vách liên thất</text>
+  <text x="340" y="150" text-anchor="middle" font-size="10.5" fill="#8a8478">Bắt buộc loại trừ:</text>
+  <text x="340" y="165" text-anchor="middle" font-size="10.5" fill="#8a8478">thuyên tắc phổi,</text>
+  <text x="340" y="180" text-anchor="middle" font-size="10.5" fill="#8a8478">nhồi máu thất phải</text>
+
+  <rect x="460" y="50" width="200" height="160" rx="12" fill="#F1EFE6" stroke="#C97B3D" stroke-width="1.5"/>
+  <text x="560" y="75" text-anchor="middle" font-size="13" font-weight="600" fill="#3a372f">Phù phổi cấp (APO)</text>
+  <text x="560" y="98" text-anchor="middle" font-size="10.5" fill="#6B6862">Cơ chế: tái phân bố</text>
+  <text x="560" y="112" text-anchor="middle" font-size="10.5" fill="#6B6862">dịch cấp tính</text>
+  <text x="560" y="126" text-anchor="middle" font-size="10.5" fill="#6B6862">(không phải quá tải)</text>
+  <text x="560" y="150" text-anchor="middle" font-size="10.5" fill="#a85a1f" font-weight="600">Trọng tâm: giãn mạch</text>
+  <text x="560" y="165" text-anchor="middle" font-size="10.5" fill="#a85a1f" font-weight="600">giảm hậu tải nhanh</text>
+  <text x="560" y="185" text-anchor="middle" font-size="9.5" fill="#8a8478">(không cần lợi tiểu liều cao)</text>
+
+  <rect x="680" y="50" width="200" height="160" rx="12" fill="#F1EFE6" stroke="#a83d3d" stroke-width="1.5"/>
+  <text x="780" y="75" text-anchor="middle" font-size="13" font-weight="600" fill="#3a372f">Sốc tim (CS)</text>
+  <text x="780" y="98" text-anchor="middle" font-size="10.5" fill="#6B6862">Giảm tưới máu nặng do</text>
+  <text x="780" y="112" text-anchor="middle" font-size="10.5" fill="#6B6862">rối loạn chức năng tim</text>
+  <text x="780" y="135" text-anchor="middle" font-size="10.5" fill="#a83d3d" font-weight="600">Không bắt buộc tụt HA</text>
+  <text x="780" y="155" text-anchor="middle" font-size="10.5" fill="#8a8478">Lactate &gt;2 mmol/L =</text>
+  <text x="780" y="170" text-anchor="middle" font-size="10.5" fill="#8a8478">chỉ dấu giảm tưới máu</text>
+  <text x="780" y="190" text-anchor="middle" font-size="9.5" fill="#8a8478">→ phân độ SCAI A-E</text>
+
+  <!-- SCAI scale -->
+  <text x="450" y="245" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3a372f">Thang SCAI cho sốc tim — logic theo mức can thiệp cần thiết</text>
+
+  <rect x="30" y="265" width="160" height="95" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="110" y="288" text-anchor="middle" font-size="12" font-weight="700" fill="#3a372f">A · Nguy cơ</text>
+  <text x="110" y="308" text-anchor="middle" font-size="10" fill="#6B6862">Chưa triệu chứng,</text>
+  <text x="110" y="322" text-anchor="middle" font-size="10" fill="#6B6862">chưa giảm tưới máu</text>
+  <text x="110" y="342" text-anchor="middle" font-size="9.5" fill="#8a8478">nguy cơ cao</text>
+
+  <rect x="200" y="265" width="160" height="95" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="280" y="288" text-anchor="middle" font-size="12" font-weight="700" fill="#3a372f">B · Tiền sốc</text>
+  <text x="280" y="308" text-anchor="middle" font-size="10" fill="#6B6862">Bất ổn huyết động</text>
+  <text x="280" y="322" text-anchor="middle" font-size="10" fill="#6B6862">chưa giảm tưới máu</text>
+
+  <rect x="370" y="265" width="160" height="95" rx="10" fill="#F1EFE6" stroke="#C97B3D" stroke-width="1.5"/>
+  <text x="450" y="288" text-anchor="middle" font-size="12" font-weight="700" fill="#5c3a17">C · Điển hình</text>
+  <text x="450" y="308" text-anchor="middle" font-size="10" fill="#6B6862">Đã giảm tưới máu</text>
+  <text x="450" y="322" text-anchor="middle" font-size="10" fill="#6B6862">→ cần can thiệp</text>
+
+  <rect x="540" y="265" width="160" height="95" rx="10" fill="#F1EFE6" stroke="#C97B3D" stroke-width="1.5"/>
+  <text x="620" y="288" text-anchor="middle" font-size="12" font-weight="700" fill="#5c3a17">D · Xấu đi</text>
+  <text x="620" y="308" text-anchor="middle" font-size="10" fill="#6B6862">Như C nhưng</text>
+  <text x="620" y="322" text-anchor="middle" font-size="10" fill="#6B6862">không đáp ứng</text>
+
+  <rect x="710" y="265" width="160" height="95" rx="10" fill="#F1EFE6" stroke="#a83d3d" stroke-width="1.5"/>
+  <text x="790" y="288" text-anchor="middle" font-size="12" font-weight="700" fill="#5c3a17">E · Nguy kịch</text>
+  <text x="790" y="308" text-anchor="middle" font-size="10" fill="#6B6862">Sốc kháng trị /</text>
+  <text x="790" y="322" text-anchor="middle" font-size="10" fill="#6B6862">ngừng tim, cần CPR</text>
+
+  <line x1="190" y1="312" x2="198" y2="312" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="360" y1="312" x2="368" y2="312" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="530" y1="312" x2="538" y2="312" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="700" y1="312" x2="708" y2="312" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow4)"/>
+
+  <text x="450" y="395" text-anchor="middle" font-size="10.5" fill="#8a8478" font-style="italic">A–B: chưa giảm tưới máu · C–D–E: đã giảm tưới máu, khác nhau ở đáp ứng điều trị</text>
+</svg>
+<figcaption class="fig-caption">Sơ đồ minh họa (tự vẽ) — bốn thể lâm sàng DHF và thang phân độ SCAI cho sốc tim, không sao chép hình gốc từ guideline.</figcaption>
+</figure>
+
+<div class="tbl-wrap">
+<table>
+<caption>Đặc điểm phân biệt sung huyết trái/phải và giảm tưới máu (Bảng 12 rút gọn)</caption>
+<thead><tr><th>Sung huyết trái</th><th>Sung huyết phải</th><th>Giảm tưới máu</th></tr></thead>
+<tbody>
+<tr><td>Khó thở, khó thở khi nằm, ho, thở nhanh, ran ẩm, tiếng T3, tràn dịch màng phổi, tăng peptide lợi niệu</td><td>Phù ngoại biên, chướng bụng, gan to, tĩnh mạch cổ nổi, phản hồi gan-tĩnh mạch cổ (+), tràn dịch màng phổi, tăng creatinine, tăng bilirubin/ALP/GGT, peptide lợi niệu tăng nhẹ</td><td>Đầu chi lạnh ẩm, da tái, chóng mặt, lú lẫn, thiểu niệu, hiệu áp hẹp, tăng lactate, tăng creatinine, tăng transaminase</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="h-quanly-chung">7.4. Nguyên tắc quản lý chung: ba giai đoạn nội trú</h2>
+<p>Quản lý nội trú DHF được chia thành 3 giai đoạn có mục tiêu khác nhau — quỹ đạo qua các giai đoạn này khác nhau tùy thể lâm sàng (ví dụ bệnh nhân sốc tim có thể ở giai đoạn 1 nhiều ngày, thậm chí không bao giờ đến giai đoạn 2; trong khi suy tim mất bù trái/phải không biến chứng hay phù phổi cấp đơn thuần có thể chuyển nhanh qua cả 3 giai đoạn).</p>
+
+<h3 id="h-giaidoan1">7.4.1. Giai đoạn 1 — Xử trí ban đầu</h3>
+<p>Thường bắt đầu ngay từ giai đoạn trước viện — nguyên tắc là <strong>không được để việc xử trí trước viện làm chậm trễ vận chuyển</strong> đến cơ sở y tế phù hợp. Cần phân loại nhanh theo tình trạng huyết động/lâm sàng để xác định mức độ chăm sóc và theo dõi cần thiết. Với bệnh nhân nghi sốc tim có khả năng cần hỗ trợ tuần hoàn cơ học tạm thời, nên hội chẩn sớm với "Đội Sốc" (Shock Team) đa chuyên khoa.</p>
+<div class="box">
+<div class="box-title">ĐIỂM MỚI QUAN TRỌNG: KHÔNG NGỪNG FMT KHI NHẬP VIỆN VÌ MẤT BÙ</div>
+<p>Đây là một thay đổi tư duy so với thực hành cũ (trước đây nhiều nơi có xu hướng ngừng hết thuốc "nền" khi bệnh nhân nhập viện vì mất bù, chờ ổn định rồi mới khởi động lại). Guideline hiện khuyến cáo: ở bệnh nhân đã dùng FMT, cần <strong>tiếp tục và/hoặc tái khởi động nhanh nhất có thể</strong> — chỉ ngừng khi có dấu hiệu rõ ràng của giảm tưới máu hoặc chỉ định lâm sàng cụ thể khác. Logic là: bản thân đợt mất bù chính là biểu hiện của bệnh đang tiến triển vì thiếu ức chế thần kinh-nội tiết đầy đủ — ngừng thêm thuốc chỉ làm trầm trọng thêm vòng xoắn này.</p>
+</div>
+
+<h3 id="h-giaidoan2">7.4.2. Giai đoạn 2 — Ổn định</h3>
+<p>Mục tiêu: duy trì/cải thiện huyết động và — quan trọng không kém — <strong>bắt đầu/tối ưu FMT dài hạn</strong> ngay khi có thể để thay đổi tiến trình bệnh. Nhiều RCT gần đây đã chứng minh việc khởi trị MRA, SGLT2i, hoặc ARNI ngay trong giai đoạn này là khả thi và an toàn — đây là một thay đổi thực hành quan trọng so với cách tiếp cận cũ (chờ ổn định hoàn toàn, xuất viện rồi mới khởi trị ngoại trú).</p>
+<p>Về chiến lược khởi trị: cách tiếp cận tuần tự truyền thống (chờ dung nạp thuốc này rồi mới thêm thuốc kia) được nhận định là <strong>dưới mức tối ưu và tốn thời gian</strong>. Bằng chứng ngày càng ủng hộ khởi trị đồng thời nhiều nhóm thuốc — hiệu quả, an toàn và có lợi ích lâm sàng rõ hơn. Tuy nhiên vì chưa có RCT tiến cứu so sánh trực tiếp các chiến lược triển khai khác nhau, guideline chưa đưa ra khuyến cáo cụ thể về số lượng nhóm thuốc nên khởi trị đồng thời — cách tiếp cận thận trọng hơn (tuần tự, chậm hơn) vẫn có chỗ đứng ở nhóm nguy cơ cao đặc biệt (eGFR thấp, tụt huyết áp, tiền sử tăng kali máu).</p>
+
+<h3 id="h-giaidoan3">7.4.3. Giai đoạn 3 — Trước xuất viện và giai đoạn sớm sau xuất viện</h3>
+<p>Đây là "cửa sổ dễ tổn thương" (vulnerable phase) — nguy cơ tái nhập viện cao nhất tập trung vào những tuần đầu sau xuất viện. Thử nghiệm <strong>STRONG-HF</strong> đã chứng minh tính an toàn/hiệu quả của chiến lược khởi trị và chuẩn độ FMT nhanh, mạnh trước xuất viện, kết hợp tái khám ngoại trú sát sao sau đó. Cần lưu ý các hạn chế của nghiên cứu này khi diễn giải (dân số chọn lọc theo giá trị/biến thiên NT-proBNP, điều trị nhóm chứng chưa tối ưu, không có SGLT2i do thời điểm nghiên cứu) — nhưng nhìn chung, chiến lược "chuẩn độ nhanh sau xuất viện" vẫn được khuyến cáo áp dụng.</p>
+<div class="rec"><span class="num">Class I / Level B2</span> — Chiến lược khởi trị và chuẩn độ FMT nhanh, mạnh trước xuất viện và trong các lần tái khám sát sao 6 tuần đầu sau nhập viện vì DHF được khuyến cáo để giảm nguy cơ tái nhập viện hoặc tử vong.</div>
+<p><strong>Đánh giá sung huyết tồn dư trước xuất viện</strong> là bước bắt buộc (Class I/Level C) vì sung huyết tồn dư liên quan chặt với kết cục xấu và nguy cơ tái nhập viện cao. Các công cụ hỗ trợ (điểm sung huyết lâm sàng, siêu âm phổi, đường kính tĩnh mạch chủ dưới, peptide lợi niệu) đều mang tính <strong>tùy chọn</strong> vì chưa có RCT chứng minh lợi ích trực tiếp — bản thân thăm khám lâm sàng cẩn thận vẫn là nền tảng. Đây cũng là thời điểm thích hợp để bổ sung sắt ở bệnh nhân thiếu sắt (theo bằng chứng từ AFFIRM-AHF) nếu chưa thực hiện trước đó, đồng thời đăng ký chương trình quản lý bệnh/phục hồi chức năng và giáo dục lối sống.</p>
+
+<h2 id="h-dieutri-cuthe">7.5. Điều trị cụ thể</h2>
+
+<h3 id="h-oxy">7.5.1–7.5.2. Oxy và hỗ trợ thông khí</h3>
+<p>Nguyên tắc quan trọng, hay bị vi phạm trên thực hành và hay bị hỏi thi: oxy chỉ nên cho khi có <strong>thiếu oxy máu thực sự</strong> (SpO2 &lt;90% hoặc PaO2 &lt;60 mmHg). Cho oxy tràn lan ở bệnh nhân không thiếu oxy máu đã được RCT chứng minh có thể <strong>gây hại</strong> (qua cơ chế co mạch do tăng oxy máu quá mức, tăng stress oxy hóa). Thông khí áp lực dương không xâm lấn (NIV) được chỉ định trong phù phổi cấp/sốc tim kèm suy hô hấp — nhưng cần thận trọng vì tăng áp lực trong lồng ngực làm giảm hồi lưu tĩnh mạch và tiền tải hai thất, có thể làm tụt huyết áp thêm — đặc biệt nguy hiểm ở bệnh nhân suy tim phải mất bù (vốn đã phụ thuộc tiền tải).</p>
+
+<h3 id="h-loitieu">7.5.3. Lợi tiểu — nền tảng của giảm sung huyết</h3>
+<p>Lợi tiểu quai tĩnh mạch là "xương sống" điều trị giảm sung huyết. Điểm thực hành quan trọng từ DOSE-AHF: <strong>không có khác biệt giữa liều cao và liều thấp</strong> trên tiêu chí đáp ứng triệu chứng tổng thể, và không có khác biệt giữa bolus ngắt quãng và truyền liên tục. Liều khởi đầu thực hành: 40 mg furosemide tĩnh mạch (hoặc tương đương) ở bệnh nhân chưa từng dùng lợi tiểu; gấp đôi liều uống thường dùng (chuyển sang tĩnh mạch) ở bệnh nhân đã dùng lợi tiểu quai mạn tính.</p>
+<div class="warn"><strong>Về creatinine tăng trong khi lợi tiểu:</strong> mức tăng nhẹ, thoáng qua của creatinine huyết thanh trong quá trình lợi tiểu <strong>không liên quan đến kết cục xấu nếu đạt được giảm sung huyết</strong> — đây là hiện tượng huyết động học (giảm tưới máu thận tương đối do giảm thể tích nội mạch nhanh), không phải tổn thương thận thực sự. Tránh phản xạ ngừng/giảm liều lợi tiểu chỉ vì creatinine tăng nhẹ khi bệnh nhân còn sung huyết rõ trên lâm sàng.</div>
+<p><strong>Chiến lược hướng theo natri niệu (uNa⁺-guided):</strong> đây là điểm mới đáng chú ý về mặt cơ chế. Thay vì chỉ theo dõi lượng nước tiểu hoặc cân nặng, đo natri niệu tại chỗ (spot uNa⁺) 2 giờ sau liều lợi tiểu đầu tiên cho phép đánh giá sớm đáp ứng thực sự của ống thận với thuốc — vì bài niệu natri mới là chỉ dấu trực tiếp của tác dụng lợi tiểu quai (ức chế kênh đồng vận chuyển Na-K-2Cl ở quai Henle), trong khi lượng nước tiểu đơn thuần có thể bị nhiễu bởi nhiều yếu tố khác. Ngưỡng đáp ứng tốt: uNa⁺ ≥70 mEq/L tại 2 giờ, hoặc lưu lượng nước tiểu ≥100 mL/giờ trong 6 giờ đầu. Thử nghiệm PUSH-AHF và ENACT-HF đều cho thấy chiến lược này tăng bài niệu natri ở 24 giờ (ENACT-HF còn cho thấy rút ngắn thời gian nằm viện) — nhưng đến nay <strong>chưa có RCT nào chứng minh lợi ích trên tử vong hay tái nhập viện</strong>, nên mức khuyến cáo chỉ ở IIb.</p>
+
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; background:#FAFAF7; border:1px solid #E4E1D8; border-radius:10px;" font-family="-apple-system,Segoe UI,Arial,sans-serif">
+  <defs>
+    <marker id="arrow5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8478"/>
+    </marker>
+  </defs>
+  <text x="450" y="26" text-anchor="middle" font-size="14" font-weight="600" fill="#3a372f">Thuật toán xử trí lợi tiểu trong DHF (hướng theo natri niệu)</text>
+
+  <rect x="300" y="45" width="300" height="55" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="450" y="68" text-anchor="middle" font-size="12" font-weight="600" fill="#3a372f">Lợi tiểu quai TM khởi đầu</text>
+  <text x="450" y="86" text-anchor="middle" font-size="10" fill="#6B6862">40mg furosemide (mới) / gấp đôi liều uống (mạn tính)</text>
+
+  <line x1="450" y1="100" x2="450" y2="130" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow5)"/>
+
+  <rect x="290" y="135" width="320" height="60" rx="10" fill="#F1EFE6" stroke="#8a5a2b" stroke-width="1.5"/>
+  <text x="450" y="158" text-anchor="middle" font-size="12" font-weight="600" fill="#5c3a17">Đo uNa⁺ tại 2 giờ HOẶC lượng nước tiểu tại 6 giờ</text>
+  <text x="450" y="178" text-anchor="middle" font-size="10" fill="#6B6862">Ngưỡng đáp ứng tốt: uNa⁺ ≥70 mEq/L · nước tiểu ≥100 mL/giờ</text>
+
+  <!-- branch good -->
+  <line x1="380" y1="195" x2="220" y2="240" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow5)"/>
+  <text x="270" y="220" text-anchor="middle" font-size="11" fill="#4a7a4a" font-weight="600">Đạt ngưỡng</text>
+  <rect x="60" y="245" width="240" height="80" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="180" y="268" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3a372f">Lặp lại liều mỗi 12 giờ</text>
+  <text x="180" y="288" text-anchor="middle" font-size="10.5" fill="#6B6862">đến khi hết sung huyết</text>
+  <text x="180" y="305" text-anchor="middle" font-size="10" fill="#8a8478">+ khởi trị/chuẩn độ FMT song song</text>
+
+  <!-- branch poor -->
+  <line x1="520" y1="195" x2="680" y2="240" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow5)"/>
+  <text x="630" y="220" text-anchor="middle" font-size="11" fill="#a85a1f" font-weight="600">Không đạt</text>
+  <rect x="560" y="245" width="280" height="95" rx="10" fill="#F1EFE6" stroke="#C97B3D" stroke-width="1.5"/>
+  <text x="700" y="268" text-anchor="middle" font-size="11.5" font-weight="600" fill="#5c3a17">Gấp đôi liều lợi tiểu quai</text>
+  <text x="700" y="285" text-anchor="middle" font-size="10.5" fill="#6B6862">HOẶC thêm acetazolamide TM</text>
+  <text x="700" y="300" text-anchor="middle" font-size="10.5" fill="#6B6862">(ADVOR) / hydrochlorothiazide</text>
+  <text x="700" y="315" text-anchor="middle" font-size="10.5" fill="#6B6862">theo eGFR (CLOROTIC)</text>
+  <text x="700" y="330" text-anchor="middle" font-size="9.5" fill="#8a8478">"phong tỏa nephron tuần tự"</text>
+
+  <line x1="700" y1="340" x2="700" y2="370" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow5)"/>
+  <text x="750" y="358" text-anchor="middle" font-size="11" fill="#a83d3d" font-weight="600">Vẫn không đạt</text>
+
+  <rect x="530" y="375" width="340" height="80" rx="10" fill="#FBEFE0" stroke="#EBCE9C" stroke-width="1.5"/>
+  <text x="700" y="398" text-anchor="middle" font-size="11.5" font-weight="600" fill="#6B3E06">Leo thang lợi tiểu quai tới liều TM tối đa</text>
+  <text x="700" y="416" text-anchor="middle" font-size="10.5" fill="#6B3E06">+ cân nhắc phối hợp lợi tiểu khác cơ chế</text>
+  <text x="700" y="434" text-anchor="middle" font-size="10.5" fill="#6B3E06">Xem xét siêu lọc máu nếu vẫn thất bại</text>
+
+  <text x="450" y="465" text-anchor="middle" font-size="10.5" fill="#8a8478" font-style="italic">Tăng creatinine thoáng qua khi đang lợi tiểu hiệu quả ≠ chỉ định ngừng thuốc</text>
+</svg>
+<figcaption class="fig-caption">Sơ đồ minh họa (tự vẽ) — thuật toán lợi tiểu hướng theo natri niệu trong DHF, không sao chép hình gốc từ guideline.</figcaption>
+</figure>
+
+<h4 id="h-loitieu-phoihop">Phối hợp lợi tiểu khi đáp ứng không đủ — nguyên lý "phong tỏa nephron tuần tự"</h4>
+<p>Khi đáp ứng lợi tiểu quai không đạt ngưỡng trên, hai lựa chọn chính có bằng chứng RCT gần đây:</p>
+<ul>
+<li><strong>Acetazolamide tĩnh mạch</strong> (thử nghiệm ADVOR) — ức chế carbonic anhydrase ở ống lượn gần, tăng đào thải bicarbonate/natri, hiệp đồng với lợi tiểu quai (vốn tác động ở quai Henle) → tăng tỷ lệ giảm sung huyết thành công</li>
+<li><strong>Hydrochlorothiazide đường uống</strong> (thử nghiệm CLOROTIC) — thiazide ức chế đồng vận chuyển Na-Cl ở ống lượn xa, cũng theo nguyên lý phong tỏa nephron ở vị trí khác quai Henle → tăng lợi niệu 24 giờ rõ rệt hơn, nhưng đi kèm nguy cơ cao hơn về suy giảm chức năng thận và hạ kali máu, cần thận trọng</li>
+</ul>
+<p>Cả hai thử nghiệm đều <strong>không chứng minh được lợi ích trên tiêu chí cứng</strong> (tử vong/tái nhập viện) — lợi ích chỉ dừng ở mức tăng hiệu quả giảm sung huyết trước mắt. Với bệnh nhân kháng trị lợi tiểu nặng dù đã leo thang tối đa, có thể cân nhắc <strong>siêu lọc máu (ultrafiltration)</strong> — nhưng vai trò vẫn chưa rõ ràng, chỉ dành cho nhóm chọn lọc.</p>
+
+<h3 id="h-sglt2i-dhf">7.5.5. SGLT2i trong bối cảnh cấp — một thay đổi thực hành quan trọng</h3>
+<p>Trước đây có tâm lý e ngại khởi trị "thuốc mới" trong giai đoạn cấp tính. Bằng chứng hiện nay (thử nghiệm EMPULSE với empagliflozin, SOLOIST-WHF với sotagliflozin) cho thấy khởi trị SGLT2i <strong>ngay trong bệnh viện</strong> vừa an toàn vừa mang lại lợi ích lâm sàng rõ ở 90 ngày — không cần chờ ra viện. Về mặt cơ chế, khởi trị sớm còn giúp <strong>giảm nhu cầu lợi tiểu và hỗ trợ giảm sung huyết</strong> (dù cơ chế "tác dụng lợi tiểu" dài hạn của SGLT2i vẫn chưa được hiểu đầy đủ) — nên SGLT2i sớm vừa có ý nghĩa tiên lượng lâu dài (là một phần FMT) vừa có ý nghĩa hỗ trợ giảm sung huyết cấp tính, hai công dụng trong một.</p>
+<div class="rec"><span class="num">Class I / Level B1</span> — Khởi trị SGLT2i trong bệnh viện được khuyến cáo ở bệnh nhân DHF sau ổn định ban đầu để cải thiện chất lượng cuộc sống, triệu chứng sung huyết và giảm nguy cơ tái nhập viện.</div>
+
+<h3 id="h-giandmach-inotrope">7.5.7–7.5.10. Giãn mạch, inotrope, thuốc vận mạch, opiate</h3>
+<p><strong>Thuốc giãn mạch tĩnh mạch</strong> (nitroglycerine, nitroprusside) có ích nhất ở nhóm bệnh nhân co mạch/tái phân bố dịch chiếm ưu thế — điển hình là phù phổi cấp với huyết áp còn cao, nơi giảm hậu tải nhanh giúp giảm sung huyết phổi hiệu quả hơn lợi tiểu. Cần theo dõi huyết áp sát vì tụt huyết áp do giãn mạch có thể gây hại. Đáng chú ý: dù được dùng rộng rãi trên lâm sàng, <strong>chưa RCT quy mô lớn nào chứng minh lợi ích rõ trên tiêu chí cứng</strong> — phân tích gộp chỉ cho thấy giảm nguy cơ đặt nội khí quản, không ảnh hưởng tử vong hay thời gian nằm viện.</p>
+<p><strong>Thuốc tăng co bóp (inotrope)</strong> chỉ nên cân nhắc ở bệnh nhân huyết áp tâm thu &lt;90 mmHg kèm bằng chứng giảm tưới máu, không đáp ứng với điều trị chuẩn kể cả test dịch truyền — vì nguy cơ loạn nhịp và thiếu máu cơ tim, việc dùng thường quy <strong>không được khuyến cáo</strong>. Phân tích Cochrane không tìm đủ bằng chứng về lợi ích tử vong của bất kỳ inotrope nào trong sốc tim/cung lượng tim thấp; milrinone và dobutamine không khác biệt trong một RCT. Về nguyên tắc dược lý thực hành: ở bệnh nhân đang dùng chẹn beta, levosimendan hoặc ức chế phosphodiesterase-III (milrinone) có thể được ưu tiên hơn dobutamine — vì dobutamine tác động qua thụ thể beta-adrenergic (bị chẹn beta cạnh tranh làm giảm hiệu quả), trong khi hai nhóm kia tác động qua cơ chế độc lập với thụ thể beta (levosimendan tăng nhạy cảm troponin C với canxi; milrinone ức chế thoái giáng cAMP).</p>
+<p><strong>Thuốc vận mạch</strong> — norepinephrine được ưu tiên hơn dopamine hoặc epinephrine dựa trên dữ liệu hạn chế nhưng nhất quán: dopamine liên quan nhiều biến cố loạn nhịp hơn; ở phân nhóm sốc tim, norepinephrine cho thấy xu hướng lợi ích tử vong (dù không đạt ý nghĩa thống kê về tương tác). <strong>Opiate</strong> không nên dùng thường quy trong DHF do nguy cơ ức chế hô hấp — chỉ giới hạn cho các trường hợp lo âu/đau nặng kháng trị các biện pháp khác.</p>
+
+<h3 id="h-mcs">7.5.11. Hỗ trợ tuần hoàn cơ học tạm thời (MCS)</h3>
+<p>Đây là nội dung có nhiều sắc thái và hay bị đơn giản hóa quá mức thành "sốc tim thì đặt MCS" — thực tế bằng chứng RCT cho thấy bức tranh phức tạp và nhiều thận trọng hơn nhiều.</p>
+<h4 id="h-mcs-bomdongtruc">Bơm dòng trục vi mô (microaxial flow pump, ví dụ Impella)</h4>
+<p>Nhiều nghiên cứu quan sát/so khớp xu hướng quy mô lớn trước đây <strong>không cho thấy lợi ích sống còn</strong> mà còn tăng biến chứng (chảy máu lớn, thiếu máu chi). Thử nghiệm <strong>DanGer Shock</strong> (chọn lọc rất kỹ: sốc tim do nhồi máu ST chênh lên) là RCT đầu tiên cho thấy giảm tử vong 180 ngày rõ rệt (duy trì đến 10 năm theo dõi) — nhưng đi kèm tăng chảy máu và thiếu máu chi. Kết luận thực hành: chỉ cân nhắc ở <strong>nhóm rất chọn lọc</strong> — sốc tim do nhồi máu ST chênh lên, không có nguy cơ tổn thương não do thiếu oxy — <strong>không dùng thường quy</strong> cho sốc tim nói chung, và chưa có RCT nào đánh giá hiệu quả ở sốc tim không do nhồi máu.</p>
+<h4 id="h-mcs-ecls">Hỗ trợ sự sống ngoài cơ thể tĩnh mạch-động mạch (VA-ECLS/ECMO)</h4>
+<p>Cung cấp hỗ trợ tuần hoàn <em>và</em> hô hấp toàn diện — nhưng thử nghiệm ECLS-SHOCK (sốc tim do nhồi máu nặng) không cho thấy khác biệt tử vong 30 ngày so với điều trị chuẩn, phù hợp với phân tích gộp dữ liệu cá thể trước đó. Điểm cơ chế quan trọng cần hiểu: VA-ECLS có thể <strong>gây hại trực tiếp cho tim</strong> — vì bơm máu ngược dòng vào động mạch chủ làm <strong>tăng hậu tải thất trái</strong> (dòng máu từ ECLS đi ngược chiều với dòng tống máu tự nhiên của tim) — nghịch lý là một liệu pháp "hỗ trợ tuần hoàn" lại làm tim phải làm việc vất vả hơn. Vì vậy các chiến lược "giảm tải" chủ động thất trái song song (bằng bơm dòng trục vi mô hoặc bóng đối xung động mạch chủ) được đề xuất để hạn chế tác hại này — dù RCT so sánh trực tiếp chưa cho thấy khác biệt rõ về tử vong.</p>
+<h4 id="h-mcs-iabp">Bóng đối xung động mạch chủ (IABP)</h4>
+<p>Đây là thiết bị có bằng chứng phủ định rõ ràng nhất: nhiều RCT quy mô khác nhau (bao gồm thử nghiệm IABP-SHOCK II lớn) đều <strong>không cho thấy lợi ích sống còn</strong> so với điều trị nội khoa chuẩn, kể cả ở sốc tim do nhồi máu hay ở suy tim nặng. Do đó, <strong>sử dụng thường quy IABP không được khuyến cáo</strong> ở bệnh nhân sốc tim chưa chọn lọc — quyết định dùng cần cá thể hóa cao, cân nhắc các yếu tố đặc thù bệnh nhân và các lựa chọn thay thế sẵn có.</p>
+<div class="box">
+<div class="box-title">VAI TRÒ CỦA "ĐỘI SỐC" (SHOCK TEAM) ĐA CHUYÊN KHOA</div>
+<p>Vì không có một thiết bị MCS nào "tốt nhất cho tất cả", quyết định lựa chọn loại và phối hợp thiết bị (có thể dùng đơn lẻ hoặc phối hợp để hỗ trợ thất trái, thất phải, hoặc cả hai) cần một nhóm đa chuyên khoa gồm bác sĩ chuyên suy tim, phẫu thuật viên tim mạch, bác sĩ can thiệp tim mạch, và bác sĩ hồi sức tích cực — tại trung tâm có kinh nghiệm và khối lượng ca bệnh đủ lớn (Class I, Level C). Đây phản ánh triết lý chung của guideline: các quyết định phức tạp, nhiều bằng chứng còn hạn chế nên cần "ra quyết định chia sẻ" giữa nhiều chuyên khoa, không phải quyết định đơn phương của một bác sĩ.</p>
+</div>
+
+<div class="warn">
+<strong>Bẫy thi thường gặp về DHF:</strong>
+<ul>
+<li>Cho rằng sốc tim luôn có tụt huyết áp → sai, có thể "sốc tim huyết áp bình thường" với giảm tưới máu rõ nhưng HA còn bù trừ được</li>
+<li>Nhầm phù phổi cấp là quá tải thể tích toàn thân cần lợi tiểu liều cao → sai, cơ chế chủ đạo là tái phân bố dịch, trọng tâm là giãn mạch giảm hậu tải</li>
+<li>Cho oxy thường quy cho mọi bệnh nhân DHF dù không thiếu oxy máu → sai, có thể gây hại, chỉ cho khi SpO2&lt;90%/PaO2&lt;60</li>
+<li>Ngừng hẳn FMT khi bệnh nhân nhập viện vì mất bù → sai, nên tiếp tục/tái khởi động sớm trừ khi có giảm tưới máu rõ</li>
+<li>Coi IABP hay VA-ECLS là điều trị chuẩn/thường quy cho sốc tim → sai, cả hai đều không chứng minh được lợi ích sống còn ở quần thể chưa chọn lọc</li>
+<li>Nghĩ tăng nhẹ creatinine khi đang lợi tiểu luôn là dấu hiệu cần ngừng thuốc → sai, thường là thay đổi huyết động học thoáng qua nếu đang đạt hiệu quả giảm sung huyết</li>
+</ul>
+</div>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Phần 4/5 (Suy tim nặng & bệnh đồng mắc) sẽ tiếp nối. Tài liệu này là bản tổng hợp/viết lại phục vụ học tập, không thay thế guideline gốc hay quyết định lâm sàng thực tế.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'hl_esc2026_hf_part3';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>
