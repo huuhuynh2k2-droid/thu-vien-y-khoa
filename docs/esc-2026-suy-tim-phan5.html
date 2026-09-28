@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ESC 2026 — Suy tim (Phần 5/5): Bệnh đồng mắc (Chương 9–10)</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#8a5a2b; --accent-ink:#5c3a17; --accent-bg:#F3ECE0;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">ESC 2026 Suy tim — P5</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">TÓM TẮT & VIẾT LẠI · ESC GUIDELINES 2026 · PHẦN 5/5 (HOÀN TẤT)</div>
+    <div class="doc-title">ESC 2026 — Suy tim (Phần 5/5)</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">ESC GUIDELINES 2026 · PHẦN 5/5</span>
+    <h1>Suy tim theo ESC 2026 — Phần 5: Bệnh đồng mắc tim mạch & ngoài tim mạch (Chương 9–10)</h1>
+    <div class="byline">Tổng hợp và viết lại bởi Claude, theo yêu cầu học tập của BS. Huỳnh Hữu Minh · Dựa trên: Køber L, Adamo M, et al. (ESC Task Force)</div>
+    <div class="cite">Nguồn: 2026 ESC Guidelines for the management of heart failure. Eur Heart J 2026. DOI: 10.1093/eurheartj/ehag100 — Bản tóm tắt/viết lại tiếng Việt kèm giải thích cơ chế, không phải bản dịch chính thức.</div>
+
+    <div class="box">
+<div class="box-title">TRONG PHẦN NÀY — PHẦN CUỐI CÙNG CỦA BỘ 5 PHẦN</div>
+<ul>
+<li>Rung nhĩ và suy tim — mối quan hệ hai chiều, thang điểm CHA2DS2-VA mới, và vì sao "kiểm soát nhịp hay tần số" chưa có câu trả lời dứt khoát</li>
+<li>Bệnh mạch vành mạn trong suy tim — khi nào tái tưới máu thực sự cải thiện tiên lượng (không phải lúc nào cũng có lợi)</li>
+<li>Bệnh van tim — hẹp van động mạch chủ và hở van hai lá thứ phát, tiêu chuẩn chọn lựa TEER cụ thể</li>
+<li>Tăng huyết áp và đột quỵ trong bối cảnh suy tim — những nguyên tắc dễ bị áp dụng sai</li>
+<li>Béo phì và GLP-1RA/GIP-GLP-1RA — cơ chế bệnh sinh riêng của "kiểu hình béo phì" trong HFpEF</li>
+<li>Đái tháo đường — thuốc nào nên dùng, thuốc nào chống chỉ định tuyệt đối trong suy tim</li>
+<li>Bệnh thận mạn — nhắc lại và mở rộng nguyên lý "tăng creatinine thoáng qua không phải lý do ngừng thuốc"</li>
+<li>Thiếu sắt — định nghĩa chẩn đoán ĐANG THAY ĐỔI (TSAT&lt;20% thay vì ferritin) — điểm rất mới, dễ ra thi</li>
+<li>Ung thư, bệnh phổi/ngưng thở khi ngủ, lo âu-trầm cảm, suy yếu, và các bệnh đồng mắc khác</li>
+<li>Bẫy thi: "luôn dùng erythropoietin cho thiếu máu do suy tim", "ASV luôn có lợi cho ngưng thở khi ngủ", "NSAID an toàn ở suy tim"</li>
+</ul>
+</div>
+
+<h2 id="h-loannguy">9.1. Loạn nhịp và rối loạn dẫn truyền</h2>
+
+<h3 id="h-af">9.1.1. Rung nhĩ</h3>
+<p>Suy tim và rung nhĩ (AF) là "cặp đôi" cùng tồn tại cực kỳ phổ biến — AF xuất hiện ở hơn một nửa bệnh nhân suy tim, và ngược lại hơn một phần ba bệnh nhân AF có suy tim đi kèm. AF nhỉnh hơn một chút ở HFpEF so với HFrEF. Đây không phải sự trùng hợp ngẫu nhiên: hai bệnh có <strong>chung nhiều yếu tố nguy cơ và cơ chế bệnh sinh</strong> (tăng huyết áp, tuổi cao, viêm hệ thống, xơ hóa nhĩ) và có mối quan hệ hai chiều — AF có thể là hậu quả của suy tim (tăng áp lực nhĩ trái mạn tính gây giãn nhĩ, tái cấu trúc điện học) hoặc chính là nguyên nhân gây suy tim (bệnh cơ tim do nhịp nhanh — tachycardia-induced cardiomyopathy). Một điểm tiên lượng thú vị: <strong>suy tim do AF gây ra có xu hướng tiên lượng thuận lợi hơn</strong> AF do suy tim gây ra — vì nhóm đầu thường hồi phục tốt sau khi kiểm soát được nhịp/tần số, phản ánh bản chất "có thể đảo ngược" của cơ chế bệnh sinh.</p>
+
+<h4 id="h-af-dubao">Dự phòng thuyên tắc — thang điểm CHA2DS2-VA mới</h4>
+<p>ESC 2026 áp dụng thang điểm <strong>CHA2DS2-VA</strong> — bỏ chữ "Sc" (Sex category/giới tính nữ) so với thang CHA2DS2-VASc quen thuộc trước đây, phản ánh bằng chứng ngày càng cho thấy giới tính nữ đơn thuần không phải yếu tố nguy cơ độc lập đủ mạnh để được tính điểm riêng.</p>
+<div class="tbl-wrap">
+<table>
+<caption>Thang điểm CHA2DS2-VA</caption>
+<thead><tr><th>Tiêu chí</th><th>Điểm</th></tr></thead>
+<tbody>
+<tr><td><strong>C</strong> — Suy tim mạn giai đoạn B, C, D</td><td>1</td></tr>
+<tr><td><strong>H</strong> — Tăng huyết áp</td><td>1</td></tr>
+<tr><td><strong>A</strong> — Tuổi ≥75</td><td>2</td></tr>
+<tr><td><strong>D</strong> — Đái tháo đường</td><td>1</td></tr>
+<tr><td><strong>S</strong> — Đột quỵ/cơn thiếu máu não thoáng qua/thuyên tắc động mạch</td><td>2</td></tr>
+<tr><td><strong>V</strong> — Bệnh mạch máu (bệnh mạch vành và/hoặc bệnh động mạch ngoại biên)</td><td>1</td></tr>
+<tr><td><strong>A</strong> — Tuổi 65–74</td><td>1</td></tr>
+</tbody>
+</table>
+</div>
+<p>Điểm ≥2 là chỉ định kháng đông rõ ràng; điểm =1 cũng nên được xem là có nguy cơ thuyên tắc tăng và cân nhắc kháng đông. Một ngoại lệ quan trọng cần nhớ: bệnh nhân <strong>bệnh cơ tim phì đại (HCM) hoặc bệnh amyloidosis tim (CA)</strong> có nguy cơ thuyên tắc cao bất kể điểm CHA2DS2-VA — <strong>luôn</strong> chỉ định kháng đông nếu có AF, không cần tính điểm. Về lựa chọn thuốc: DOAC được ưu tiên hơn kháng vitamin K, trừ khi có van tim cơ học hoặc hẹp van hai lá từ trung bình đến nặng (khi đó bắt buộc dùng kháng vitamin K).</p>
+
+<h4 id="h-af-kiemsoat">Chiến lược kiểm soát nhịp vs tần số — vẫn còn tranh cãi</h4>
+<p>Đây là điểm hay bị học sinh cho là "đã có câu trả lời rõ ràng" khi thực tế guideline thẳng thắn thừa nhận <strong>chưa đủ bằng chứng để khẳng định chiến lược kiểm soát nhịp vượt trội hơn kiểm soát tần số</strong> ở bệnh nhân suy tim có AF. Quyết định cần cá thể hóa dựa trên mối quan hệ nhân-quả giữa AF và suy tim, biểu hiện lâm sàng, gánh nặng triệu chứng, giai đoạn bệnh, bệnh đồng mắc và nguyện vọng bệnh nhân.</p>
+<p><strong>Kiểm soát tần số:</strong> dữ liệu về đích tần số chặt (strict, &lt;80 lần/phút) hay lỏng (lenient, &lt;110 lần/phút) còn chưa nhất quán — nhưng xu hướng chung ủng hộ bắt đầu với đích lỏng &lt;110 lần/phút, đánh giá lại theo triệu chứng. Chẹn beta là lựa chọn đầu tay (đã được chứng minh an toàn/hiệu quả ở AF+HFrEF); nếu không đủ hiệu quả hoặc không dung nạp, digoxin/digitoxin được cân nhắc thêm vào — đây là một trong những chỉ định kinh điển của digoxin đã học ở Phần 2, nay được củng cố thêm trong bối cảnh AF. Một kỹ thuật đặc biệt đáng chú ý: <strong>cắt đốt nút nhĩ thất kết hợp CRT</strong> đã chứng minh vượt trội hơn điều trị nội khoa đơn thuần trong giảm tử vong/nhập viện ở bệnh nhân AF vĩnh viễn có triệu chứng nặng, kiểm soát tần số kém — về bản chất đây là "buộc" tim tạo nhịp hoàn toàn qua CRT (loại bỏ hoàn toàn dẫn truyền tự nhiên hỗn loạn từ nhĩ), đảm bảo đồng bộ hai thất tuyệt đối.</p>
+<p><strong>Kiểm soát nhịp — cắt đốt qua catheter:</strong> RCT so sánh cắt đốt với thuốc chống loạn nhịp chưa đủ thuyết phục về tiêu chí cứng (tử vong/nhập viện), dù cắt đốt vượt trội rõ về giảm tái phát AF. Task Force đề xuất 3 tiêu chí để chọn bệnh nhân HFrEF phù hợp cắt đốt: gánh nặng AF cao, thời gian AF dai dẳng liên tục &lt;1 năm, và có mối quan hệ nhân-quả rõ ràng giữa AF và suy tim (tức là nghi ngờ bệnh cơ tim do nhịp nhanh — nhóm này hưởng lợi nhiều nhất vì khả năng hồi phục LVEF sau khi kiểm soát được nhịp).</p>
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; background:#FAFAF7; border:1px solid #E4E1D8; border-radius:10px;" font-family="-apple-system,Segoe UI,Arial,sans-serif">
+  <defs>
+    <marker id="arrow8" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8478"/>
+    </marker>
+  </defs>
+  <text x="450" y="24" text-anchor="middle" font-size="14" font-weight="600" fill="#3a372f">Rung nhĩ trong suy tim — hướng tiếp cận tổng quát</text>
+
+  <rect x="330" y="42" width="240" height="50" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="450" y="63" text-anchor="middle" font-size="12" font-weight="600" fill="#3a372f">Bệnh nhân suy tim + AF</text>
+  <text x="450" y="80" text-anchor="middle" font-size="10" fill="#6B6862">FMT/AMT/GDIT tối ưu bất kể AF</text>
+
+  <line x1="450" y1="92" x2="450" y2="112" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow8)"/>
+
+  <rect x="320" y="117" width="260" height="55" rx="10" fill="#F1EFE6" stroke="#8a5a2b" stroke-width="1.5"/>
+  <text x="450" y="138" text-anchor="middle" font-size="11.5" font-weight="600" fill="#5c3a17">Đánh giá thuyên tắc: CHA2DS2-VA</text>
+  <text x="450" y="155" text-anchor="middle" font-size="10" fill="#6B6862">≥2: kháng đông · =1: cân nhắc · HCM/CA: luôn kháng đông</text>
+
+  <line x1="450" y1="172" x2="450" y2="195" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow8)"/>
+
+  <rect x="300" y="200" width="300" height="45" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="450" y="227" text-anchor="middle" font-size="11.5" font-weight="600" fill="#3a372f">Chọn chiến lược: tần số hay nhịp?</text>
+  <text x="600" y="227" font-size="9" fill="#8a8478"></text>
+
+  <!-- rate control branch -->
+  <line x1="380" y1="245" x2="220" y2="275" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow8)"/>
+  <text x="290" y="262" text-anchor="middle" font-size="10.5" fill="#a85a1f" font-weight="600">Kiểm soát tần số</text>
+  <rect x="30" y="280" width="290" height="90" rx="10" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="175" y="302" text-anchor="middle" font-size="11" font-weight="600" fill="#3a372f">Chẹn beta (đầu tay)</text>
+  <text x="175" y="320" text-anchor="middle" font-size="10" fill="#6B6862">→ không đủ/không dung nạp: + digoxin</text>
+  <text x="175" y="338" text-anchor="middle" font-size="10" fill="#6B6862">Đích lỏng &lt;110 nhịp/phút ban đầu</text>
+  <text x="175" y="356" text-anchor="middle" font-size="9.5" fill="#8a8478">Kháng trị nặng: cắt đốt nút AV + CRT</text>
+
+  <!-- rhythm control branch -->
+  <line x1="520" y1="245" x2="680" y2="275" stroke="#8a8478" stroke-width="1.5" marker-end="url(#arrow8)"/>
+  <text x="620" y="262" text-anchor="middle" font-size="10.5" fill="#a85a1f" font-weight="600">Kiểm soát nhịp</text>
+  <rect x="580" y="280" width="290" height="90" rx="10" fill="#F1EFE6" stroke="#C97B3D" stroke-width="1.5"/>
+  <text x="725" y="302" text-anchor="middle" font-size="11" font-weight="600" fill="#5c3a17">Cắt đốt qua catheter — cân nhắc khi:</text>
+  <text x="725" y="320" text-anchor="middle" font-size="9.5" fill="#6B6862">Gánh nặng AF cao</text>
+  <text x="725" y="336" text-anchor="middle" font-size="9.5" fill="#6B6862">AF dai dẳng liên tục &lt;1 năm</text>
+  <text x="725" y="352" text-anchor="middle" font-size="9.5" fill="#6B6862">Quan hệ nhân-quả AF↔suy tim rõ ràng</text>
+
+  <text x="450" y="360" text-anchor="middle" font-size="10.5" fill="#8a8478" font-style="italic" transform="translate(0,0)"></text>
+  <rect x="330" y="285" width="0" height="0"/>
+
+  <text x="450" y="365" text-anchor="middle" font-size="10.5" fill="#8a8478" font-style="italic">Chưa đủ bằng chứng khẳng định chiến lược nào vượt trội — cá thể hóa theo bệnh cảnh</text>
+</svg>
+<figcaption class="fig-caption">Sơ đồ minh họa (tự vẽ) — hướng tiếp cận rung nhĩ trong suy tim, không sao chép hình gốc từ guideline.</figcaption>
+</figure>
+
+<div class="warn"><strong>Về thuốc chống loạn nhịp trong chuyển nhịp:</strong> amiodarone là lựa chọn được khuyến cáo khi cần chuyển nhịp bằng thuốc ở bệnh nhân HFrEF. Các thuốc khác như propafenone, flecainide, dronedarone liên quan đến kết cục xấu hơn ở HFrEF và <strong>nên tránh</strong> — đây là nhóm thuốc chống loạn nhịp nhóm Ic (propafenone, flecainide) có tác dụng ức chế co bóp và tiền loạn nhịp rõ rệt hơn ở tim đã suy yếu.</div>
+
+<h3 id="h-loanthatthat">9.1.2–9.1.3. Loạn nhịp thất và loạn nhịp chậm</h3>
+<p>Loạn nhịp thất có thể vừa là <em>nguyên nhân</em> vừa là <em>hậu quả</em> của suy tim — một vòng xoắn hai chiều tương tự AF. Với nhịp nhanh thất bền bỉ, xử trí ban đầu là ổn định (chuyển nhịp bằng điện), sau đó tìm và sửa yếu tố khởi phát, tối ưu FMT. Amiodarone giảm tần suất loạn nhịp thất nhưng — điểm cần nhớ — <strong>không giảm đột tử hay tử vong chung</strong>, khác biệt căn bản so với ICD (đã học ở Phần 2).</p>
+<p>Một cơ chế đáng chú ý: <strong>ngoại tâm thu thất (PVC) tần suất cao có thể tự nó gây ra suy tim</strong> — gánh nặng PVC khoảng 10% tổng số nhịp đã đủ làm tăng nguy cơ suy tim, và nguy cơ tăng dần theo gánh nặng (cơ chế tương tự tạo nhịp thất phải gây mất đồng bộ đã học ở Phần 2 — PVC lặp đi lặp lại tạo ra hàng nghìn nhịp "lệch pha" mỗi ngày). Vì vậy cần đánh giá LVEF định kỳ ở bệnh nhân PVC gánh nặng cao; amiodarone hoặc cắt đốt PVC qua catheter có thể cải thiện chức năng thất trái.</p>
+<p>Về loạn nhịp chậm: chỉ định tạo nhịp ở bệnh nhân suy tim không khác quần thể chung — nhưng cần nhớ nguyên tắc đã học ở Phần 2: nếu dự đoán tỷ lệ tạo nhịp thất phải sẽ cao (block nhĩ thất hoàn toàn, AF đáp ứng thất chậm), nên ưu tiên CRT ngay từ đầu thay vì máy tạo nhịp thông thường — để tránh tạo ra tình trạng suy tim do tạo nhịp thất phải sau này.</p>
+
+<h2 id="h-mvv">9.2. Bệnh mạch vành mạn</h2>
+<p>Bệnh mạch vành tắc nghẽn là nguyên nhân phổ biến gây suy tim, nhưng cũng cần nhớ một điểm hay bị bỏ sót: <strong>rối loạn chức năng vi mạch vành</strong> (không thấy hẹp trên chụp mạch) ảnh hưởng đến tới 80% bệnh nhân HFpEF và liên quan tiên lượng xấu — củng cố lại cơ chế Paulus-Bauersachs đã học ở Phần 1 (rối loạn chức năng nội mô vi mạch là mắt xích trung tâm của HFpEF).</p>
+<p><strong>Điều trị nội khoa:</strong> chẹn beta là hàng đầu ở HFrEF kèm bệnh mạch vành (vừa có lợi ích chống đau thắt ngực vừa có lợi ích tiên lượng của FMT — "một mũi tên trúng hai đích"). Ivabradine có thể thêm vào khi nhịp còn nhanh dù đã tối ưu chẹn beta. Các thuốc chống đau thắt ngực khác (amlodipine, felodipine, nicorandil, ranolazine, trimetazidine) không ảnh hưởng tử vong nhưng có thể cải thiện triệu chứng — điểm quan trọng: <strong>khởi trị/tăng liều thuốc chống đau thắt ngực không được làm giảm liều FMT</strong>. Chẹn kênh canxi non-dihydropyridine (verapamil, diltiazem) <strong>chống chỉ định ở HFrEF</strong> do tác dụng giảm co bóp trực tiếp có thể thúc đẩy biến cố suy tim — nhưng lại an toàn ở HFpEF.</p>
+<div class="box">
+<div class="box-title">TÁI TƯỚI MÁU TRONG SUY TIM — KHÔNG PHẢI LUÔN CÓ LỢI</div>
+<p>Đây là nội dung có sắc thái quan trọng, dễ bị đơn giản hóa: bằng chứng về lợi ích tiên lượng của tái tưới máu ở bệnh mạch vành ổn định kèm suy tim còn <strong>hạn chế và có phần mâu thuẫn</strong>. Thử nghiệm STICH (mổ bắc cầu CABG so với điều trị nội khoa) cho thấy lợi ích sống còn ở theo dõi dài hạn (STICHES). Ngược lại, thử nghiệm REVIVED-BCIS2 (can thiệp qua da PCI + điều trị nội khoa tối ưu so với điều trị nội khoa tối ưu đơn thuần) lại cho kết quả <strong>trung tính</strong> — không có lợi ích thêm từ PCI. Vì dân số hai nghiên cứu khác nhau (REVIVED-BCIS2 có bệnh nhân già hơn STICH khoảng 10 tuổi), khó so sánh trực tiếp — nhưng thông điệp thực hành rút ra là: <strong>FMT luôn phải đi trước tái tưới máu</strong>, và quyết định tái tưới máu cần một Đội Tim mạch (Heart Team) đa chuyên khoa có bác sĩ chuyên suy tim tham gia, không phải quyết định đơn phương dựa trên hình ảnh giải phẫu mạch vành.</p>
+</div>
+<div class="rec"><span class="num">Class I / Level C</span> — Tái tưới máu mạch vành được khuyến cáo khi còn đau thắt ngực dai dẳng dù đã tối ưu FMT và thuốc chống đau thắt ngực, nhằm cải thiện triệu chứng (áp dụng cho cả HFrEF và HFpEF).</div>
+<div class="rec"><span class="num">Class IIa / Level B1</span> — Nếu Đội Tim mạch quyết định tái tưới máu vì mục tiêu cải thiện sống còn, ở bệnh nhân LVEF ≤35% kèm bệnh nhiều nhánh mạch vành phù hợp phẫu thuật, <strong>CABG nên là lựa chọn ưu tiên</strong> hơn PCI.</div>
+<p>Một chi tiết thú vị về phương pháp luận mà guideline chủ động nêu ra: mức khuyến cáo CABG ở đây (IIa/B1) có vẻ "yếu" hơn so với guideline bệnh mạch vành mạn 2024 (Class I) — Task Force giải thích sự khác biệt này đến từ việc áp dụng hệ thống phân độ bằng chứng mới, nghiêm ngặt hơn (chỉ có STICHES làm bằng chứng, với nhiều hạn chế: tuổi trung bình chỉ 60, số biến cố ở mốc 10 năm hạn chế, FMT dùng trong nghiên cứu chưa phải FMT hiện đại) — đây là một minh chứng cho việc các guideline khác nhau có thể đưa ra mức khuyến cáo khác nhau từ cùng một bằng chứng, tùy tiêu chuẩn đánh giá bằng chứng được áp dụng.</p>
+
+<h2 id="h-vantim">9.3. Bệnh van tim</h2>
+<h3 id="h-hepvandmc">Hẹp van động mạch chủ</h3>
+<p>Cơ chế liên quan suy tim rất trực tiếp: hẹp van gây tăng hậu tải thất trái mạn tính → phì đại đồng tâm → cuối cùng suy chức năng. Một khi triệu chứng suy tim xuất hiện, tiên lượng xấu đi nhanh — can thiệp van kịp thời là bắt buộc, không nên trì hoãn vì đang tối ưu hóa điều trị nội khoa suy tim. Đáng chú ý, thử nghiệm DapaTAVI gần đây (bệnh nhân có tiền sử suy tim + ít nhất 1 yếu tố nguy cơ, sau thay van qua da TAVI) cho thấy dapagliflozin giảm 28% nguy cơ phối hợp tử vong/biến cố suy tim nặng lên — chủ yếu nhờ giảm biến cố suy tim nặng lên — củng cố việc khởi trị SGLT2i thường quy ở nhóm bệnh nhân này sau can thiệp van.</p>
+<h3 id="h-hoh2la">Hở van hai lá thứ phát</h3>
+<p>Khác với hở van hai lá nguyên phát (bệnh của chính bộ máy van), hở van hai lá <strong>thứ phát</strong> về bản chất là "bệnh của tâm thất/tâm nhĩ trái" chứ không phải bệnh của van — thất trái giãn kéo giãn vòng van và làm lệch hướng các lá van, gây hở dù bản thân lá van hoàn toàn bình thường. Đây là lý do nguyên tắc điều trị hoàn toàn khác hở van nguyên phát: <strong>phải tối ưu FMT và GDIT (kể cả CRT nếu có chỉ định) trước</strong>, vì cải thiện chức năng/kích thước thất trái có thể tự làm giảm mức độ hở van mà không cần can thiệp van.</p>
+<div class="box">
+<div class="box-title">TIÊU CHUẨN CHỌN BỆNH NHÂN CHO TEER (SỬA VAN HAI LÁ QUA DA) — VÌ SAO CẦN NHIỀU TIÊU CHÍ ĐỒNG THỜI</div>
+<p>Bảng tiêu chuẩn (rút gọn) phản ánh logic: TEER chỉ mang lại lợi ích sống còn khi hở van hai lá <strong>thực sự là vấn đề chi phối</strong> chứ không phải chỉ là "hậu quả đi kèm" của một trái tim đã suy quá nặng để can thiệp còn ý nghĩa:</p>
+<ul>
+<li>Đã tối ưu FMT và GDIT (CRT nếu cần) — loại trừ khả năng hở van chỉ là do chưa điều trị đủ</li>
+<li>NYHA ≥II, kèm ≥1 lần nhập viện năm qua HOẶC peptide lợi niệu tăng — xác nhận còn triệu chứng có ý nghĩa</li>
+<li>Chưa đến giai đoạn D (suy tim nặng) — vì ở giai đoạn này LVAD/ghép tim mới là lựa chọn chính, TEER chỉ còn vai trò giảm nhẹ triệu chứng</li>
+<li>Không có bệnh mạch vành cần tái tưới máu, không có bệnh cơ tim phì đại/hạn chế/thâm nhiễm — loại trừ các nguyên nhân khác cần hướng xử trí riêng</li>
+<li>LVEF 20–50%, đường kính thất trái cuối tâm thu ≤70mm — thất chưa giãn/suy quá mức để can thiệp còn ý nghĩa</li>
+<li>Áp lực động mạch phổi tâm thu ≤70mmHg, không suy thất phải nặng, không bệnh van động mạch chủ/ba lá nặng đi kèm — đảm bảo hệ tuần hoàn phải còn đủ dự trữ để hưởng lợi từ giảm hở van bên trái</li>
+</ul>
+<p>Nếu không đạt đủ các tiêu chí trên (đặc biệt ở suy tim nặng), LVAD hoặc ghép tim là lựa chọn hàng đầu; TEER khi đó chỉ còn vai trò cải thiện triệu chứng ở bệnh nhân không phù hợp hoặc đang chờ các liệu pháp đó.</p>
+</div>
+
+<h2 id="h-tha-dotquy">9.4–9.5. Tăng huyết áp và đột quỵ trong suy tim</h2>
+<p><strong>Tăng huyết áp</strong> đặc biệt phổ biến ở HFpEF, nơi tăng huyết áp mạn tính gây phì đại đồng tâm và góp phần trực tiếp vào cơ chế rối loạn chức năng tâm trương. Với HFpEF, cần loại trừ nguyên nhân tăng huyết áp thứ phát (cường aldosterone nguyên phát, tăng huyết áp do bệnh mạch thận, ngưng thở khi ngủ tắc nghẽn) nếu tăng huyết áp kháng trị. Nguyên tắc thực hành quan trọng cần nhớ: bệnh nhân HFpEF có <strong>dự trữ tiền tải hạn chế</strong> — nên mục tiêu là duy trì huyết áp bình thường, tránh cả tăng lẫn hạ huyết áp quá mức. Ở HFrEF, sau khi FMT đã được tối ưu và chuẩn độ đầy đủ, tình trạng huyết áp khó kiểm soát khá hiếm gặp — nếu cần thêm thuốc, amlodipine/felodipine có thể cân nhắc (miễn bệnh nhân đã đạt trạng thái đẳng dịch); chẹn kênh canxi non-dihydropyridine và thuốc chủ vận giao cảm trung ương (moxonidine) <strong>chống chỉ định</strong> vì liên quan kết cục xấu. Một nguyên tắc phản trực giác nhưng quan trọng: ở HFrEF, <strong>hạ huyết áp không triệu chứng nên được chấp nhận</strong> để duy trì được liều đích của FMT — ưu tiên lợi ích tiên lượng dài hạn hơn là "chuẩn hóa" con số huyết áp.</p>
+<p><strong>Đột quỵ</strong> và suy tim chia sẻ nhiều yếu tố nguy cơ chung; khoảng 10-24% bệnh nhân đột quỵ thiếu máu não có suy tim đi kèm, và nguy cơ đột quỵ ở bệnh nhân suy tim tăng lên bất kể có AF hay không (dù nguy cơ ở AF cao hơn chút ít). Điểm cần nhớ, dễ gây nhầm với logic "suy tim = tăng nguy cơ huyết khối nên cần kháng đông": các RCT <strong>không chứng minh được lợi ích của kháng đông đường uống ở bệnh nhân HFrEF nhịp xoang</strong> (không có AF) để dự phòng đột quỵ — vì vậy <strong>không khuyến cáo kháng đông thường quy</strong> chỉ vì chẩn đoán suy tim đơn thuần, trừ khi có AF hoặc chỉ định kháng đông khác.</p>
+
+<h2 id="h-benhngoaitm">10. Bệnh đồng mắc ngoài tim mạch</h2>
+
+<h3 id="h-beophi">10.1. Béo phì — một kiểu hình HFpEF riêng biệt</h3>
+<p>Béo phì không chỉ là yếu tố nguy cơ nền của tăng huyết áp/đái tháo đường/rối loạn lipid dẫn đến suy tim gián tiếp — nó còn có <strong>tác động trực tiếp lên cấu trúc và chức năng tim</strong>. Về mặt xét nghiệm, cần nhớ lại cơ chế đã học ở Phần 1: mô mỡ giàu thụ thể thanh thải NPR-C và tăng thoái giáng peptide → bệnh nhân béo phì có nồng độ peptide lợi niệu <strong>thấp hơn thực tế mức độ sung huyết</strong> — dễ gây đánh giá thấp tình trạng bệnh nếu chỉ dựa vào xét nghiệm. Tương tự, pVO2 tính theo cân nặng toàn phần sẽ đánh giá thấp khả năng gắng sức thực sự — cần điều chỉnh theo khối lượng nạc (lean body mass) khi phân tầng nguy cơ.</p>
+<p>"Kiểu hình béo phì" của HFpEF (chiếm 30-40% ở châu Âu, 60-70% ở Bắc Mỹ trong số bệnh nhân HFpEF) có cơ chế bệnh sinh đặc thù, khác nhóm HFpEF không béo phì: khối mô mỡ tăng lên gây viêm hệ thống và biến đổi tiền viêm của mô mỡ quanh tim (epicardial adipose tissue) → xơ hóa; đồng thời khả năng giãn nở của thất trái để đáp ứng với tăng thể tích máu bị suy giảm → chỉ cần quá tải thể tích ở mức khiêm tốn cũng gây tăng áp lực đổ đầy không tương xứng. Nhóm này thường trẻ hơn nhưng triệu chứng/chất lượng cuộc sống/khả năng chức năng lại kém hơn nhóm HFpEF không béo phì — một nghịch lý đáng chú ý.</p>
+<div class="rec"><span class="num">Class IIa / Level B1</span> — Semaglutide hoặc tirzepatide nên được cân nhắc ở bệnh nhân suy tim có triệu chứng, LVEF ≥45%, BMI ≥30 kg/m², bất kể có đái tháo đường hay không, để giảm cân, cải thiện khả năng gắng sức và chất lượng cuộc sống.</div>
+<p>Phẫu thuật giảm béo (bariatric surgery) có thể cân nhắc (Class IIb) ở bệnh nhân béo phì BMI ≥35 kèm suy tim khi thay đổi lối sống và thuốc giảm cân không duy trì được hiệu quả — dữ liệu từ các nghiên cứu so khớp cho thấy giảm tử vong/nhập viện/AF nhất quán ở cả HFrEF và HFpEF, dù chưa có RCT trực tiếp so sánh với thuốc chống béo phì thế hệ mới.</p>
+
+<h3 id="h-dtd">10.2. Đái tháo đường típ 2</h3>
+<p>Nguyên tắc chẩn đoán/điều trị suy tim không khác biệt dù có hay không có đái tháo đường kèm theo — và hiệu quả FMT không bị thay đổi bởi tình trạng đái tháo đường. Điểm quan trọng nhất cần nhớ: <strong>SGLT2i được khuyến cáo cho MỌI bệnh nhân suy tim kèm đái tháo đường típ 2</strong>, bất kể HbA1c hay đang dùng thuốc hạ đường huyết nào khác — vì đây là chỉ định suy tim, không phải chỉ định đái tháo đường.</p>
+<div class="warn">
+<strong>Bảng phân loại thuốc đái tháo đường theo mức độ an toàn ở suy tim — nội dung cực kỳ hay ra thi:</strong>
+<ul>
+<li><strong>Nên dùng:</strong> SGLT2i (mọi bệnh nhân); GLP-1RA/GIP-GLP-1RA (đặc biệt nếu kèm béo phì/HFpEF)</li>
+<li><strong>Có thể dùng thận trọng:</strong> Metformin (không có RCT tim mạch chuyên biệt, nhưng dữ liệu quan sát thuận lợi hơn insulin/sulfonylurea) — <strong>chống chỉ định nếu eGFR &lt;30</strong> hoặc suy gan (nguy cơ toan lactic); Insulin — trung tính trên biến cố suy tim mới mắc (insulin glargine/degludec) nhưng dữ liệu quan sát gợi ý kết cục kém hơn ở bệnh nhân đã có suy tim — cần theo dõi sát nếu buộc phải dùng</li>
+<li><strong>Chống chỉ định:</strong> Thiazolidinedione (glitazone) và saxagliptin (ức chế DPP-4) — tăng khoảng 30% nguy cơ nhập viện vì suy tim, đây là bẫy thi kinh điển vì DPP-4i thường được nghĩ là "an toàn tim mạch" nói chung nhưng saxagliptin cụ thể có tín hiệu bất lợi rõ ràng trên suy tim</li>
+</ul>
+</div>
+
+<h3 id="h-ckd-p5">10.3. Bệnh thận mạn — mở rộng nguyên lý đã học</h3>
+<p>Bệnh thận mạn (CKD) và suy tim cùng tồn tại cực kỳ phổ biến (30-40% bệnh nhân suy tim, lên đến 50% ở HFpEF) và tạo thành vòng xoắn bệnh sinh hai chiều qua "hội chứng tim-thận". CKD là yếu tố tiên lượng độc lập quan trọng — nhưng đây chính xác là nhóm bệnh nhân hưởng lợi <strong>nhiều nhất về số tuyệt đối</strong> từ FMT (vì nguy cơ nền cao hơn), dù thường bị điều trị dưới mức tối ưu nhất trên thực hành (nguyên lý đã nhấn mạnh ở Phần 2).</p>
+<p>Guideline nhắc lại và củng cố nguyên lý cốt lõi với dữ liệu mới: mức tăng creatinine <strong>dưới 50% so với nền</strong>, miễn eGFR còn trên 15 mL/min/1.73m², được xem là chấp nhận được và không nên là lý do ngừng thuốc. Dữ liệu gộp từ DAPA-HF/DELIVER cho thấy ngay cả khi eGFR giảm xuống dưới 25, việc <strong>tiếp tục</strong> dapagliflozin vẫn liên quan kết cục tốt hơn so với ngừng thuốc. Với finerenone (FINEARTS-HF), dù có giảm eGFR cấp tính trong 3 tháng đầu, thuốc vẫn giảm rõ nguy cơ xuất hiện albumin niệu mới — một lần nữa minh họa hiện tượng "giảm chức năng lọc cấp tính đi kèm bảo vệ thận dài hạn" đặc trưng của các thuốc RAAS/SGLT2i.</p>
+
+<h3 id="h-thieusat">10.4. Thiếu sắt và thiếu máu — một định nghĩa chẩn đoán đang thay đổi</h3>
+<p>Đây là nội dung <strong>rất mới và rất dễ ra thi</strong> vì phản ánh một thay đổi quan điểm chẩn đoán đang diễn ra ngay trong guideline này.</p>
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; background:#FAFAF7; border:1px solid #E4E1D8; border-radius:10px;" font-family="-apple-system,Segoe UI,Arial,sans-serif">
+  <text x="450" y="26" text-anchor="middle" font-size="14" font-weight="600" fill="#3a372f">Định nghĩa thiếu sắt trong suy tim — cũ và mới</text>
+
+  <rect x="30" y="50" width="380" height="170" rx="12" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="220" y="75" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3a372f">ĐỊNH NGHĨA CŨ (dùng trong hầu hết RCT)</text>
+  <text x="220" y="100" text-anchor="middle" font-size="11" fill="#6B6862">Ferritin &lt;100 ng/mL</text>
+  <text x="220" y="118" text-anchor="middle" font-size="11" fill="#6B6862">HOẶC</text>
+  <text x="220" y="136" text-anchor="middle" font-size="11" fill="#6B6862">Ferritin 100–299 ng/mL + TSAT &lt;20%</text>
+  <text x="220" y="165" text-anchor="middle" font-size="10.5" fill="#a83d3d" font-weight="600">Vấn đề:</text>
+  <text x="220" y="182" text-anchor="middle" font-size="10" fill="#6B6862">Ferritin tăng do viêm/stress oxy hóa</text>
+  <text x="220" y="198" text-anchor="middle" font-size="10" fill="#6B6862">→ "bắt nhầm" người không thiếu sắt thật</text>
+
+  <rect x="490" y="50" width="380" height="170" rx="12" fill="#F1EFE6" stroke="#8a5a2b" stroke-width="1.5"/>
+  <text x="680" y="75" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5c3a17">ĐỊNH NGHĨA MỚI (Task Force ủng hộ)</text>
+  <text x="680" y="105" text-anchor="middle" font-size="14" font-weight="700" fill="#5c3a17">Chỉ cần TSAT &lt;20%</text>
+  <text x="680" y="130" text-anchor="middle" font-size="10.5" fill="#6B6862">(không cần xét ferritin)</text>
+  <text x="680" y="160" text-anchor="middle" font-size="10.5" fill="#4a7a4a" font-weight="600">Ưu điểm:</text>
+  <text x="680" y="177" text-anchor="middle" font-size="10" fill="#6B6862">Độ nhạy/đặc hiệu cao hơn với tử vong</text>
+  <text x="680" y="193" text-anchor="middle" font-size="10" fill="#6B6862">Dự đoán tốt hơn ai đáp ứng với sắt TM</text>
+
+  <text x="450" y="245" text-anchor="middle" font-size="12" font-weight="600" fill="#3a372f">→ Ý nghĩa lâm sàng</text>
+  <rect x="150" y="255" width="600" height="35" rx="8" fill="#FBEFE0" stroke="#EBCE9C" stroke-width="1.2"/>
+  <text x="450" y="277" text-anchor="middle" font-size="11" fill="#6B3E06">Bệnh nhân TSAT&lt;20% là nhóm hưởng lợi rõ nhất từ bổ sung sắt tĩnh mạch — ưu tiên xét nghiệm này khi tầm soát</text>
+</svg>
+<figcaption class="fig-caption">Sơ đồ minh họa (tự vẽ) — thay đổi định nghĩa thiếu sắt trong suy tim, không sao chép hình gốc từ guideline.</figcaption>
+</figure>
+
+<div class="box">
+<div class="box-title">ĐỊNH NGHĨA THIẾU SẮT CŨ vs MỚI — VÌ SAO THAY ĐỔI</div>
+<p><strong>Định nghĩa cũ</strong> (dùng trong hầu hết các RCT về bổ sung sắt trước đây, kể cả AFFIRM-AHF): ferritin &lt;100 ng/mL, HOẶC ferritin 100-299 ng/mL kèm TSAT (độ bão hòa transferrin) &lt;20%.</p>
+<p><strong>Vấn đề với định nghĩa cũ:</strong> ferritin là một protein phản ứng viêm cấp (acute-phase reactant) — tăng lên khi có viêm/stress oxy hóa bất kể tình trạng sắt thực sự. Điều này khiến định nghĩa cũ "bắt nhầm" một số bệnh nhân có TSAT bình thường (≥20%) và ferritin trong khoảng 20-100 ng/mL — những người thực ra <strong>không thiếu sắt</strong>, có tiên lượng tốt hơn, và ít khả năng đáp ứng với bổ sung sắt tĩnh mạch.</p>
+<p><strong>Định nghĩa mới được Task Force ủng hộ:</strong> đơn giản hóa chỉ còn <strong>TSAT &lt;20%</strong> — độ nhạy/độ đặc hiệu cao hơn, liên quan chặt hơn với tỷ lệ tử vong (độc lập với kiểu hình suy tim), và các phân tích gộp gợi ý TSAT thấp dự đoán tốt hơn ai sẽ đáp ứng thuận lợi với bổ sung sắt tĩnh mạch.</p>
+</div>
+<p>Bằng chứng hiệu quả: nhiều RCT (AFFIRM-AHF, CONFIRM-HF, FAIR-HF, EFFECT-HF, IRONMAN — đều dùng định nghĩa cũ) chứng minh bổ sung sắt tĩnh mạch (ferric carboxymaltose) an toàn và cải thiện triệu chứng/chất lượng cuộc sống ở HFrEF (LVEF &lt;40-45%) có thiếu sắt. Về lợi ích tiên lượng (giảm nhập viện), bằng chứng còn <strong>chưa thống nhất</strong> giữa các RCT lớn — một phần do sử dụng định nghĩa ferritin cũ làm tiêu chuẩn nhận vào (pha loãng hiệu quả vì lẫn cả người không thực sự thiếu sắt), một phần do tính không đồng nhất giữa các nghiên cứu và ảnh hưởng của đại dịch COVID-19 lên một số thử nghiệm lớn.</p>
+<div class="rec"><span class="num">Class I / Level B1</span> — Bổ sung sắt tĩnh mạch được khuyến cáo ở bệnh nhân HFrEF có triệu chứng kèm thiếu sắt để giảm triệu chứng và cải thiện chất lượng cuộc sống.</div>
+<div class="rec"><span class="num">Class IIa / Level B1</span> — Nên cân nhắc bổ sung sắt tĩnh mạch (ferric carboxymaltose hoặc ferric derisomaltose) để giảm nguy cơ nhập viện — lưu ý nhóm TSAT &lt;20% có khả năng hưởng lợi nhiều nhất.</div>
+<p><strong>Về thiếu máu đơn thuần</strong> (không phải do thiếu sắt): thử nghiệm RED-HF với darbepoetin-alpha ở HFrEF không giảm được tử vong/nhập viện mà còn <strong>tăng nguy cơ thuyên tắc huyết khối</strong> — vì vậy các thuốc kích thích tạo hồng cầu (erythropoietin-stimulating agents) <strong>không nên dùng</strong> để điều trị thiếu máu liên quan suy tim, dù cơ chế trực giác có vẻ hợp lý (thiếu máu → giảm cung cấp oxy → kích thích tủy xương). Đây là bẫy thi phổ biến.</p>
+
+<h3 id="h-khac-p5">10.5–10.9. Ung thư, bệnh phổi/ngưng thở khi ngủ, tâm lý, suy yếu, và các bệnh đồng mắc khác</h3>
+<p><strong>Ung thư:</strong> suy tim liên quan điều trị ung thư có thể do độc tính trực tiếp lên cơ tim của một số thuốc hóa trị, hoặc gián tiếp (quá tải dịch từ truyền tĩnh mạch/corticosteroid, viêm cơ tim, thiếu máu cơ tim, tăng áp phổi/hệ thống, thuyên tắc, loạn nhịp, bệnh van). Khi suy tim có triệu chứng xuất hiện trong lúc điều trị ung thư, FMT được khuyến cáo bất kể LVEF; quyết định tiếp tục hay ngừng thuốc gây độc tim cần hội chẩn đa chuyên khoa dựa trên mức độ nặng của rối loạn chức năng tim liên quan điều trị ung thư.</p>
+<p><strong>Bệnh phổi tắc nghẽn mạn tính (COPD):</strong> triệu chứng chồng lấp với suy tim gây khó chẩn đoán phân biệt. Nên ưu tiên chẹn beta chọn lọc tim (bisoprolol, metoprolol succinate, nebivolol) — thận trọng hơn ở bệnh nhân hen (không phải COPD). Quan trọng: <strong>đợt cấp COPD không nên là lý do ngừng chẹn beta</strong> — một sai lầm thường gặp trên thực hành.</p>
+<p><strong>Rối loạn thở khi ngủ (SDB):</strong> gặp ở hơn một phần ba bệnh nhân suy tim, càng phổ biến hơn trong DHF. Cần phân biệt ngưng thở tắc nghẽn (OSA) và ngưng thở trung ương (CSA) qua đa ký giấc ngủ qua đêm — phân biệt này có ý nghĩa điều trị sống còn:</p>
+<div class="warn"><strong>Thông tin phản trực giác nhưng cực kỳ quan trọng:</strong> thông khí hỗ trợ thích ứng (ASV) — nghe có vẻ là giải pháp hợp lý cho SDB — <strong>chống chỉ định (Class III) ở bệnh nhân HFrEF có ngưng thở trung ương chiếm ưu thế</strong>, vì thử nghiệm SERVE-HF cho thấy ASV làm <strong>tăng</strong> cả tử vong chung lẫn tử vong tim mạch. Cơ chế giả thuyết liên quan đến việc loại bỏ tăng CO2 máu nhẹ về đêm — vốn có thể đóng vai trò bù trừ có lợi ở một số bệnh nhân suy tim nặng. Ngược lại, ở ngưng thở tắc nghẽn chiếm ưu thế, ASV có thể cân nhắc (Class IIb) để cải thiện chất lượng giấc ngủ và triệu chứng (thử nghiệm ADVENT-HF: trung tính trên biến cố cứng nhưng cải thiện chất lượng cuộc sống) — CPAP cũng là lựa chọn hợp lý cho nhóm OSA.</div>
+<p><strong>Lo âu, trầm cảm, suy giảm nhận thức:</strong> trầm cảm ảnh hưởng 20% bệnh nhân suy tim, phổ biến hơn ở nữ, liên quan tuân thủ điều trị kém và tiên lượng xấu hơn — cần sàng lọc chủ động vì triệu chứng chồng lấp (mệt mỏi, khó tập trung) dễ bị bỏ sót hoặc gán nhầm cho suy tim đơn thuần. Liệu pháp nhận thức-hành vi có bằng chứng cải thiện lâu dài; sertraline/escitalopram an toàn nhưng chưa chứng minh giảm rõ trầm cảm so với giả dược. <strong>Thuốc chống trầm cảm ba vòng nên tránh</strong> vì nguy cơ hạ huyết áp, nặng thêm suy tim, và loạn nhịp.</p>
+<p><strong>Suy yếu (frailty):</strong> trạng thái đa chiều, động học, có thể hồi phục một phần, độc lập với tuổi — khi nghi ngờ cần tiếp cận đa chuyên khoa để cá thể hóa quản lý.</p>
+<p><strong>Các bệnh đồng mắc khác đáng nhớ nhanh:</strong> tiêm phòng cúm/phế cầu nên cân nhắc ở mọi bệnh nhân suy tim (giảm viêm phổi/tử vong); rối loạn chức năng tuyến giáp cần đánh giá ở suy tim mới mắc/mất bù và theo dõi định kỳ; tăng acid uric/gout thường do lợi tiểu gây ra — allopurinol là lựa chọn đầu tay hạ acid uric mạn tính, colchicine cho cơn gout cấp; <strong>NSAID và ức chế COX-2 chọn lọc chống chỉ định</strong> ở suy tim vì có thể thúc đẩy mất bù và tổn thương thận (bẫy thi rất phổ biến — nhiều bệnh nhân tự mua NSAID không kê đơn để giảm đau khớp mà không biết nguy cơ này); rối loạn cương ở nam giới suy tim nên ưu tiên chẹn beta chọn lọc tim liều thấp, và ức chế phosphodiesterase-V an toàn ở bệnh nhân đã ổn định nhưng <strong>tuyệt đối không phối hợp với nitrat</strong> (nguy cơ tụt huyết áp nặng do hiệp đồng giãn mạch qua con đường NO-cGMP).</p>
+
+<div class="warn">
+<strong>Bẫy thi thường gặp về bệnh đồng mắc:</strong>
+<ul>
+<li>Dùng erythropoietin-stimulating agent cho thiếu máu do suy tim → sai, không giảm được biến cố mà còn tăng nguy cơ thuyên tắc (RED-HF)</li>
+<li>Cho rằng ASV luôn có lợi cho mọi loại ngưng thở khi ngủ → sai, chống chỉ định tuyệt đối ở ngưng thở trung ương chiếm ưu thế (SERVE-HF: tăng tử vong)</li>
+<li>Coi NSAID/ức chế COX-2 an toàn vì "chỉ giảm đau ngắn ngày" → sai, luôn chống chỉ định ở suy tim vì nguy cơ mất bù cấp</li>
+<li>Nghĩ mọi thuốc nhóm ức chế DPP-4 đều an toàn tim mạch → sai, saxagliptin cụ thể tăng nguy cơ nhập viện vì suy tim, cùng nhóm với glitazone (chống chỉ định)</li>
+<li>Áp dụng định nghĩa thiếu sắt cũ (dựa vào ferritin) mà không biết xu hướng mới ưu tiên TSAT&lt;20% — dễ sai khi đề thi cập nhật theo guideline mới</li>
+<li>Cho kháng đông thường quy ở mọi bệnh nhân HFrEF để "phòng đột quỵ" dù không có AF → sai, RCT không chứng minh lợi ích ở nhịp xoang</li>
+<li>Ngừng chẹn beta khi bệnh nhân suy tim có đợt cấp COPD → sai, đợt cấp COPD không phải lý do ngừng chẹn beta</li>
+</ul>
+</div>
+
+<div class="box">
+<div class="box-title">KẾT THÚC BỘ 5 PHẦN — TÓM LƯỢC HÀNH TRÌNH</div>
+<p>Đến đây, bộ tài liệu đã đi qua toàn bộ khung nội dung cốt lõi của ESC 2026 Guidelines for the management of heart failure — từ định nghĩa/phân loại/chẩn đoán (Phần 1), điều trị dược lý và thiết bị cho suy tim mạn (Phần 2), suy tim mất bù (Phần 3), suy tim nặng (Phần 4), đến bệnh đồng mắc tim mạch và ngoài tim mạch (Phần 5). Các chương còn lại của guideline gốc (quản lý đa chuyên khoa/chương trình phục hồi chức năng, các tình huống đặc biệt như thai kỳ/bệnh cơ tim di truyền/bệnh tim bẩm sinh người lớn, và các bảng tổng hợp bằng chứng) mang tính bổ trợ và ít trọng tâm thi cử hơn so với 5 phần đã trình bày — bạn có thể tham khảo trực tiếp bản gốc tiếng Anh khi cần tra cứu chuyên sâu cho các tình huống đặc biệt này.</p>
+</div>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Đây là phần cuối cùng của bộ 5 phần tóm tắt ESC 2026 HF Guideline. Tài liệu này là bản tổng hợp/viết lại phục vụ học tập, không thay thế guideline gốc hay quyết định lâm sàng thực tế.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'hl_esc2026_hf_part5';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>
