@@ -7,7 +7,7 @@
 // trong chuyên khoa đó (ví dụ bài Viêm phổi đầu tiên trong "hh"), tự đặt tên topic mới
 // hợp lý (ví dụ "Nhiễm trùng hô hấp") — không cần hỏi lại, trang sẽ tự tạo nhóm mới.
 window.LIBRARY = {
-  updated: "2026-09-27",
+  updated: "2026-09-28",
   dashboardUrl: "https://huuhuynh2k2-droid.github.io/on-thi-dashboard/",
   // "topic" mới trong "tm" (Tim mạch): "Kháng kết tập tiểu cầu" — nhóm này chưa từng có bài
   // nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
@@ -23,6 +23,13 @@ window.LIBRARY = {
     { id: "hscc",name: "Hồi sức – Cấp cứu",    en: "Critical Care & Emergency" }
   ],
   items: [
+    // "topic" mới trong "tm": "Suy tim" — nhóm này chưa từng có bài nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
+    { id: "tm-hfpef-chau-a-2026", sp: "tm", topic: "Suy tim", title: "HFpEF tại châu Á — Đặc điểm lâm sàng và Chiến lược điều trị",
+      org: "Tromp J, et al. JACC: Asia 2026 (State-of-the-Art Review)", year: 2026, doi: "https://doi.org/10.1016/j.jacasi.2026.08.009", status: 2,
+      cat: "Suy tim phân suất tống máu bảo tồn · Tổng quan",
+      note: "Bản dịch đầy đủ kèm Central Illustration (hình gốc): chẩn đoán HFpEF tại châu Á (HFA-PEFF/H2FPEF kém nhạy ở người châu Á, Bảng 1 so sánh 7 hướng dẫn quốc tế/khu vực, AI-ECG và siêu âm tim hỗ trợ AI); 3 phân nhóm chính (cao tuổi/rung nhĩ/tăng huyết áp, béo phì, \"gầy-đái tháo đường\" đặc thù châu Á với béo bụng ở BMI thấp); kết cục và tử vong theo vùng (Đông Nam Á vs Đông Bắc Á); điều trị: thất bại của ACEi/ARB/MRA cổ điển, bước đột phá SGLT2i (EMPEROR-Preserved, DELIVER), ns-MRA (FINEARTS-HF), GLP-1RA (STEP-HFpEF, SUMMIT) và giới hạn ngưỡng BMI phương Tây khi áp dụng cho người châu Á, khoảng trống chi phí-hiệu quả.",
+      updated: "2026-09-28", url: "docs/hfpef-chau-a-2026.html" },
+
     { id: "tm-dyslipidemia-2026-p1", sp: "tm", topic: "Rối loạn lipid máu", title: "2026 ACC/AHA Guideline Quản lý Rối loạn lipid máu — Bản dịch đầy đủ",
       org: "ACC/AHA (Circulation 2026;153:e1154–e1276)", year: 2026, doi: "https://doi.org/10.1161/CIR.0000000000001423", status: 2,
       cat: "Đầy đủ · Guideline thay thế 2018",
