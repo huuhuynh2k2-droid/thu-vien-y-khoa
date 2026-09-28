@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ESC 2026 — Suy tim (Phần 1/5): Định nghĩa, Dịch tễ, Phân loại, Dự phòng, Chẩn đoán</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#8a5a2b; --accent-ink:#5c3a17; --accent-bg:#F3ECE0;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">ESC 2026 Suy tim — P1</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">TÓM TẮT & VIẾT LẠI · ESC GUIDELINES 2026 · PHẦN 1/5</div>
+    <div class="doc-title">ESC 2026 — Suy tim (Phần 1/5)</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">ESC GUIDELINES 2026 · PHẦN 1/5</span>
+    <h1>Suy tim theo ESC 2026 — Phần 1: Định nghĩa, Dịch tễ, Phân loại, Dự phòng, Chẩn đoán</h1>
+    <div class="byline">Tổng hợp và viết lại bởi Claude, theo yêu cầu học tập của BS. Huỳnh Hữu Minh &nbsp;·&nbsp; Dựa trên: Køber L, Adamo M, et al. (ESC Task Force)</div>
+    <div class="cite">Nguồn: 2026 ESC Guidelines for the management of heart failure. Eur Heart J 2026. DOI: 10.1093/eurheartj/ehag100 — Bản tóm tắt/viết lại tiếng Việt, không phải bản dịch chính thức.</div>
+
+    <div class="box" style="background:var(--accent-bg);">
+<div class="box-title">VỀ TÀI LIỆU NÀY</div>
+<p style="margin-bottom:0;">Đây là bản <strong>tổng hợp và viết lại</strong> (không phải bản dịch nguyên văn) nội dung khuyến cáo ESC 2026 về suy tim, dựa trên: Køber L, Adamo M, et al. "2026 ESC Guidelines for the management of heart failure." <em>Eur Heart J</em> 2026; DOI: 10.1093/eurheartj/ehag100. Mục tiêu là trình bày lại các khái niệm, số liệu và khuyến cáo (mức độ khuyến cáo — Class; mức bằng chứng — Level) theo văn phong riêng, có bổ sung pearls lâm sàng và bẫy hay gặp trong thi cử, để phục vụ học tập — không thay thế việc đọc bản gốc khi cần trích dẫn chính thức.</p>
+</div>
+
+<h2 id="h-khung-khuyencao">Khung phân loại khuyến cáo và mức bằng chứng (ESC 2026)</h2>
+<p>Trước khi đi vào nội dung, cần nắm được ngôn ngữ mà guideline dùng để "chấm điểm" từng khuyến cáo — đây cũng là phần rất hay bị hỏi dưới dạng nhận diện từ khóa trong đề thi.</p>
+
+<div class="tbl-wrap">
+<table>
+<caption>Mức độ khuyến cáo (Class of Recommendation)</caption>
+<thead><tr><th>Class</th><th>Ý nghĩa</th><th>Cách diễn đạt trong văn bản</th></tr></thead>
+<tbody>
+<tr><td><strong>I</strong></td><td>Bằng chứng/đồng thuận rằng can thiệp có lợi, hiệu quả</td><td>"được khuyến cáo" / "được chỉ định"</td></tr>
+<tr><td><strong>IIa</strong></td><td>Bằng chứng/quan điểm nghiêng về có lợi</td><td>"nên được cân nhắc"</td></tr>
+<tr><td><strong>IIb</strong></td><td>Bằng chứng/quan điểm về lợi ích còn yếu hơn</td><td>"có thể được cân nhắc"</td></tr>
+<tr><td><strong>III</strong></td><td>Bằng chứng/đồng thuận rằng không có lợi, thậm chí có hại</td><td>"không được khuyến cáo"</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="box">
+<div class="box-title">ĐIỂM MỚI QUAN TRỌNG — HỆ THỐNG PHÂN LEVEL BẰNG CHỨNG ĐÃ THAY ĐỔI</div>
+<p style="margin-bottom:0;">Từ 2026, ESC lần đầu áp dụng hệ thống chấm mức bằng chứng mới, chia nhỏ mức B thành <strong>B1</strong> và <strong>B2</strong> thay vì chỉ có B như trước:</p>
+<ul style="margin-top:8px;">
+<li><strong>Level A</strong>: bằng chứng thuyết phục — thường ≥2 RCT đủ mạnh, ít sai lệch, gộp phân tích cho kết quả rất chắc chắn (ví dụ p&lt;0,005 khi gộp).</li>
+<li><strong>Level B1</strong>: bằng chứng gợi ý — từ ít nhất 1 RCT đủ mạnh hoặc phân tích gộp các RCT, có bằng chứng chống lại yếu tố ngẫu nhiên (ví dụ p&lt;0,05).</li>
+<li><strong>Level B2</strong>: bằng chứng hạn chế — từ ít nhất 2 nghiên cứu không ngẫu nhiên nhưng kiểm soát sai lệch tốt, hoặc gộp phân tích các RCT cỡ mẫu nhỏ.</li>
+<li><strong>Level C</strong>: bằng chứng sơ bộ — nghiên cứu không ngẫu nhiên không kiểm soát sai lệch chặt, RCT nhỏ đơn lẻ, hoặc đồng thuận chuyên gia.</li>
+</ul>
+</div>
+
+<div class="warn">
+<strong>Bẫy MCQ:</strong> Đề thi hay đánh tráo giữa "được khuyến cáo" (Class I) và "nên được cân nhắc" (Class IIa) — đọc kỹ động từ trong câu hỏi trước khi chọn class. Ngoài ra, chú ý cách guideline dùng liên từ khi một khuyến cáo có 2 tiêu chí đầu ra: "AND" nghĩa là cả 2 tiêu chí đều có ý nghĩa thống kê riêng lẻ; "OR" nghĩa là đó là tiêu chí gộp (composite).</p>
+</div>
+
+<h2 id="h-diemmoi">Những điểm mới cốt lõi của ESC 2026 so với ESC 2021</h2>
+<p>Đây là phần "xương sống" quyết định toàn bộ cách tiếp cận suy tim thay đổi trong guideline lần này — nên nắm chắc trước khi đọc các phần điều trị chi tiết ở các phần sau.</p>
+
+<div class="rec">
+<span class="num">1.</span> <strong>Bỏ hẳn nhóm HFmrEF (LVEF 41–49%)</strong> — đây là thay đổi lớn nhất. Guideline 2026 quay lại phân loại suy tim <strong>chỉ còn 2 nhóm dựa trên sinh lý bệnh</strong> thay vì 3 nhóm dựa trên ngưỡng LVEF cứng nhắc như trước.
+</div>
+<div class="rec">
+<span class="num">2.</span> <strong>HFrEF được mở rộng ngưỡng lên LVEF &lt;50%</strong> (trước đây là ≤40%). Lý do: về mặt sinh lý bệnh, nhóm LVEF 41–49% (HFmrEF cũ) có cơ chế bệnh sinh (giảm co bóp, rối loạn chức năng tâm thu), đáp ứng điều trị, và diễn tiến LVEF gần giống HFrEF hơn là HFpEF.
+</div>
+<div class="rec">
+<span class="num">3.</span> <strong>HFpEF giữ nguyên ngưỡng LVEF ≥50%</strong>, nhưng định nghĩa được làm rõ hơn: cần có bằng chứng khách quan về rối loạn chức năng tâm trương/tăng áp lực đổ đầy thất trái, được hỗ trợ bởi peptide lợi niệu tăng — không chỉ đơn thuần "có triệu chứng + LVEF ≥50%".
+</div>
+<div class="rec">
+<span class="num">4.</span> <strong>"Suy tim mất bù" (Decompensated HF – DHF) thay thế thuật ngữ "suy tim cấp"</strong> (Acute HF) — phản ánh đúng bản chất lâm sàng hơn vì phần lớn các trường hợp là đợt mất bù của suy tim mạn có sẵn, không phải khởi phát cấp tính thực sự.
+</div>
+<div class="rec">
+<span class="num">5.</span> <strong>Chính thức đưa phân giai đoạn suy tim (Stage A→D)</strong> vào guideline chính (mượn tinh thần từ AHA/ACC/HFSA 2022), nhấn mạnh dự phòng và chẩn đoán sớm.
+</div>
+<div class="rec">
+<span class="num">6.</span> <strong>Khung thuật ngữ điều trị mới</strong>: thay cho "GDMT" chung chung, ESC 2026 chia rõ 3 tầng — <strong>FMT</strong> (Foundational Medical Therapy), <strong>AMT</strong> (Additional Medical Therapy), và <strong>GDIT</strong> (Guideline-Directed Interventional Therapy) cho thiết bị/can thiệp.
+</div>
+
+<h3 id="h-fmt-amt">Phân tầng điều trị: FMT — AMT — GDIT</h3>
+<p>Đây là khung thuật ngữ hoàn toàn mới, sẽ được dùng xuyên suốt các phần điều trị (Phần 2 trở đi), nên cần hiểu rõ ngay từ Phần 1:</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Tầng điều trị</th><th>Định nghĩa</th><th>Thuốc thuộc nhóm này</th></tr></thead>
+<tbody>
+<tr><td><strong>FMT</strong><br>(nền tảng)</td><td>Thuốc có khuyến cáo Class I cho toàn bộ quần thể suy tim (không chọn lọc dưới nhóm), có bằng chứng thuyết phục cải thiện tử vong và/hoặc biến cố bệnh tật.</td><td>HFrEF: chẹn beta, ACEi/ARNI/ARB, MRA, SGLT2i.<br>HFpEF: MRA, SGLT2i.</td></tr>
+<tr><td><strong>AMT</strong><br>(bổ sung)</td><td>Các thuốc khác có Class IIa/IIb, HOẶC Class I nhưng chỉ chứng minh lợi ích trên triệu chứng/chất lượng sống, HOẶC Class I nhưng chỉ trong một dưới nhóm bệnh nhân cụ thể.</td><td>Ivabradine, vericiguat, digoxin/digitoxin, hydralazine-ISDN, GLP-1RA, thuốc ức chế đồng vận myosin tim...</td></tr>
+<tr><td><strong>GDIT</strong><br>(can thiệp)</td><td>Tất cả thiết bị cấy ghép tim mạch (CIED) và các liệu pháp can thiệp có khuyến cáo trong guideline.</td><td>ICD, CRT, tạo nhịp hệ dẫn truyền, TEER van 2 lá, TAVI/SAVR...</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="box">
+<div class="box-title">PEARL LÂM SÀNG</div>
+<p style="margin-bottom:0;">"FMT" không đồng nghĩa "GDMT" như cách dùng cũ — GDMT (guideline-directed medical therapy) giờ đây là khái niệm bao trùm cả FMT + AMT. Khi đề thi hỏi "4 trụ cột điều trị nền tảng của HFrEF", câu trả lời chính xác là 4 nhóm FMT (chẹn beta + ACEi/ARNI/ARB + MRA + SGLT2i) — không kể thêm ivabradine hay vericiguat dù chúng vẫn có khuyến cáo.</p>
+</div>
+
+<h2 id="h-dinhnghia">Định nghĩa, dịch tễ và phân loại suy tim</h2>
+<h3 id="h-dinhnghia-hc">Định nghĩa</h3>
+<p>Suy tim được định nghĩa là một <strong>hội chứng lâm sàng</strong> (không phải một chẩn đoán bệnh học đơn lẻ) gồm triệu chứng cơ năng và/hoặc thực thể, xuất phát từ bất thường cấu trúc và/hoặc chức năng tim, dẫn đến tăng áp lực trong tim và/hoặc cung lượng tim không đủ đáp ứng nhu cầu chuyển hóa lúc nghỉ và/hoặc khi gắng sức. Điểm quan trọng: định nghĩa này đòi hỏi phải có <strong>bằng chứng khách quan về sung huyết</strong> (phổi và/hoặc toàn thân) qua khám lâm sàng và cận lâm sàng hỗ trợ — chỉ có triệu chứng cơ năng đơn thuần chưa đủ để chẩn đoán.</p>
+<p>Người chưa có triệu chứng không được gọi là "suy tim" mà xếp vào "nguy cơ suy tim" (giai đoạn A) hoặc "tiền suy tim" (giai đoạn B) — xem phần phân loại giai đoạn bên dưới. Nguyên nhân nền (ví dụ bệnh mạch vành, bệnh cơ tim) không nằm trong định nghĩa suy tim, nhưng việc xác định nguyên nhân vẫn cực kỳ quan trọng về mặt điều trị và tiên lượng.</p>
+
+<h3 id="h-dichte">Dịch tễ học</h3>
+<ul>
+<li>Tỷ lệ hiện mắc suy tim trong dân số người lớn nói chung: khoảng <strong>1–3%</strong>, dao động nhiều theo vùng địa lý, tuổi, giới; tại châu Âu ước tính <strong>12–58 ca/1000 dân</strong> tùy quốc gia.</li>
+<li>Tỷ lệ mới mắc thô đang tăng (do dân số già hóa) nhưng tỷ lệ mới mắc đã hiệu chỉnh theo tuổi lại đang giảm dần trong 3 thập kỷ qua — nhờ kiểm soát yếu tố nguy cơ và điều trị bệnh tim mạch tốt hơn. Riêng ở người trẻ, tỷ lệ mới mắc có xu hướng tăng hoặc đi ngang, được cho là do gánh nặng yếu tố nguy cơ tim mạch–chuyển hóa tăng ở nhóm tuổi này.</li>
+<li><strong>HFpEF chiếm gần một nửa</strong> tổng số ca suy tim trong các nghiên cứu dân số, và tỷ lệ này có xu hướng tăng thêm nhờ kiểm soát bệnh mạch vành tốt hơn trong khi gánh nặng béo phì/tăng huyết áp tăng lên.</li>
+<li>Đặc điểm nhân khẩu: bệnh nhân HFpEF thường lớn tuổi hơn và nữ giới chiếm ưu thế (tuổi khởi phát trung bình ~77, nữ ~55% theo registry Thụy Điển); HFrEF thường nam giới chiếm ưu thế hơn (~71%) và tuổi khởi phát trẻ hơn (~72 tuổi).</li>
+<li>Có ít nhất 2 kiểu hình phụ (subtype) của HFpEF: một nhóm thiên về chuyển hóa/béo phì (trẻ hơn, BMI cao) và một nhóm thiên về lão hóa mạch máu (lớn tuổi hơn, mạch xơ cứng, tỷ lệ bệnh thận mạn cao) — tỷ trọng mỗi nhóm khác nhau tùy khu vực địa lý.</li>
+<li>Tiên lượng: sống còn 5 năm toàn bộ vẫn <strong>&lt;60%</strong> dù đã cải thiện đáng kể trong 30 năm qua. Bệnh nhân được chẩn đoán trong bối cảnh ngoại trú có tiên lượng tốt hơn so với chẩn đoán lúc nhập viện vì đợt mất bù; nhập viện tái phát nhiều lần là yếu tố tiên lượng tử vong rất xấu.</li>
+</ul>
+
+<h3 id="h-phanloai-lvef">Phân loại theo LVEF — thay đổi cốt lõi của guideline này</h3>
+<p>Bảng dưới đây so sánh trực tiếp cách phân loại cũ (2021) và cách phân loại mới (2026) để thấy rõ sự thay đổi:</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th></th><th>ESC 2021 (3 nhóm)</th><th>ESC 2026 (2 nhóm)</th></tr></thead>
+<tbody>
+<tr><td>HFrEF</td><td>LVEF ≤ 40%</td><td><strong>LVEF &lt; 50%</strong> (gộp cả HFmrEF cũ)</td></tr>
+<tr><td>HFmrEF</td><td>LVEF 41–49%</td><td><em>Đã loại bỏ khỏi phân loại</em></td></tr>
+<tr><td>HFpEF</td><td>LVEF ≥ 50%</td><td>LVEF ≥ 50% (định nghĩa chặt hơn — xem dưới)</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Tiêu chuẩn chẩn đoán mỗi kiểu hình theo ESC 2026:</p>
+<div class="box">
+<div class="box-title">HFrEF (LVEF &lt; 50%)</div>
+<ul style="margin-bottom:0;">
+<li>Có triệu chứng cơ năng và/hoặc thực thể suy tim hiện tại hoặc trước đây, VÀ</li>
+<li>LVEF &lt; 50%.</li>
+</ul>
+</div>
+<div class="box">
+<div class="box-title">HFpEF (LVEF ≥ 50%) — cần đủ CẢ 3 tiêu chuẩn</div>
+<ul style="margin-bottom:0;">
+<li>Có triệu chứng cơ năng và/hoặc thực thể suy tim hiện tại hoặc trước đây;</li>
+<li>LVEF ≥ 50% (và <strong>chưa từng</strong> ghi nhận LVEF &lt; 50% trước đó);</li>
+<li>Bằng chứng khách quan về bất thường cấu trúc/chức năng tim phù hợp rối loạn chức năng tâm trương thất trái hoặc tăng áp lực đổ đầy thất trái, được hỗ trợ bởi peptide lợi niệu tăng.</li>
+</ul>
+</div>
+
+<div class="warn">
+<strong>Bẫy MCQ:</strong> "Suy tim phân suất tống máu cải thiện" (HFrEF improved / recovered EF) có định nghĩa riêng: LVEF tăng thêm ≥10 điểm tuyệt đối SO VỚI ban đầu VÀ giá trị LVEF hiện tại phải &gt;40%. Nhóm bệnh nhân này tiên lượng tốt hơn nhưng KHÔNG được tự ý ngưng thuốc nền tảng (FMT) — vẫn cần duy trì điều trị tối ưu trừ một số trường hợp chọn lọc rất đặc biệt.
+</div>
+
+<h3 id="h-giaidoan">Phân giai đoạn suy tim (Stage A–D)</h3>
+<p>Bên cạnh phân loại theo LVEF (áp dụng cho bệnh nhân đã có suy tim thực sự — tương đương giai đoạn C trở đi), ESC 2026 chính thức đưa khung phân giai đoạn theo diễn tiến bệnh vào guideline:</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Giai đoạn</th><th>Đặc điểm</th></tr></thead>
+<tbody>
+<tr><td><strong>A — Nguy cơ suy tim</strong></td><td>Có yếu tố nguy cơ tim mạch–chuyển hóa (đái tháo đường, tăng huyết áp, béo phì...) hoặc tiếp xúc thuốc độc cho tim, nhưng chưa có bất thường cấu trúc/chức năng tim, chưa có triệu chứng. Không phải ai cũng tiến triển thành suy tim thật sự, nhưng can thiệp yếu tố nguy cơ ở giai đoạn này có giá trị dự phòng.</td></tr>
+<tr><td><strong>B — Tiền suy tim</strong></td><td>Có bất thường cấu trúc tim (phì đại thất trái, giãn buồng tim, bất thường vận động vùng, bất thường mô cơ tim trên CMR...) hoặc bất thường chức năng (giảm phân suất tống máu, tăng áp lực đổ đầy, rối loạn chức năng tâm trương) — nhưng CHƯA có triệu chứng cơ năng/thực thể của suy tim.</td></tr>
+<tr><td><strong>C — Suy tim có triệu chứng</strong></td><td>Đã có hoặc đang có triệu chứng cơ năng/thực thể của suy tim — đây là nhóm được phân tiếp theo LVEF thành HFrEF/HFpEF.</td></tr>
+<tr><td><strong>D — Suy tim giai đoạn nặng (advanced)</strong></td><td>Triệu chứng nặng, kháng trị dù đã điều trị tối ưu, cần các biện pháp chuyên sâu (ghép tim, hỗ trợ tuần hoàn cơ học, chăm sóc giảm nhẹ) — tiêu chuẩn chi tiết ở phần Suy tim nặng (sẽ trình bày ở phần sau của loạt bài).</td></tr>
+</tbody>
+</table>
+</div>
+
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; background:#FAFAF7; border:1px solid #E4E1D8; border-radius:10px;" font-family="-apple-system,Segoe UI,Arial,sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8478"/>
+    </marker>
+  </defs>
+  <!-- Stage A -->
+  <rect x="20" y="70" width="190" height="120" rx="12" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="115" y="100" text-anchor="middle" font-size="15" font-weight="600" fill="#3a372f">Giai đoạn A</text>
+  <text x="115" y="120" text-anchor="middle" font-size="12" fill="#5c584d">Nguy cơ suy tim</text>
+  <text x="115" y="145" text-anchor="middle" font-size="11" fill="#6B6862">Yếu tố nguy cơ</text>
+  <text x="115" y="160" text-anchor="middle" font-size="11" fill="#6B6862">tim mạch–chuyển hóa,</text>
+  <text x="115" y="175" text-anchor="middle" font-size="11" fill="#6B6862">chưa bất thường tim</text>
+
+  <!-- Stage B -->
+  <rect x="245" y="70" width="190" height="120" rx="12" fill="#EFEDE4" stroke="#B9B4A6" stroke-width="1.5"/>
+  <text x="340" y="100" text-anchor="middle" font-size="15" font-weight="600" fill="#3a372f">Giai đoạn B</text>
+  <text x="340" y="120" text-anchor="middle" font-size="12" fill="#5c584d">Tiền suy tim</text>
+  <text x="340" y="145" text-anchor="middle" font-size="11" fill="#6B6862">Bất thường cấu trúc/</text>
+  <text x="340" y="160" text-anchor="middle" font-size="11" fill="#6B6862">chức năng tim,</text>
+  <text x="340" y="175" text-anchor="middle" font-size="11" fill="#6B6862">chưa triệu chứng</text>
+
+  <!-- Stage C -->
+  <rect x="470" y="70" width="190" height="120" rx="12" fill="#F1EFE6" stroke="#C97B3D" stroke-width="1.5"/>
+  <text x="565" y="100" text-anchor="middle" font-size="15" font-weight="600" fill="#3a372f">Giai đoạn C</text>
+  <text x="565" y="120" text-anchor="middle" font-size="12" fill="#5c584d">Suy tim có triệu chứng</text>
+  <text x="565" y="145" text-anchor="middle" font-size="11" fill="#6B6862">Phân theo LVEF:</text>
+  <text x="565" y="160" text-anchor="middle" font-size="11" fill="#a85a1f" font-weight="600">HFrEF (&lt;50%) · HFpEF (≥50%)</text>
+
+  <!-- Stage D -->
+  <rect x="695" y="70" width="185" height="120" rx="12" fill="#F1EFE6" stroke="#a83d3d" stroke-width="1.5"/>
+  <text x="787" y="100" text-anchor="middle" font-size="15" font-weight="600" fill="#3a372f">Giai đoạn D</text>
+  <text x="787" y="120" text-anchor="middle" font-size="12" fill="#5c584d">Suy tim nặng</text>
+  <text x="787" y="145" text-anchor="middle" font-size="11" fill="#6B6862">Kháng trị, cần</text>
+  <text x="787" y="160" text-anchor="middle" font-size="11" fill="#6B6862">ghép tim/hỗ trợ</text>
+  <text x="787" y="175" text-anchor="middle" font-size="11" fill="#6B6862">tuần hoàn cơ học</text>
+
+  <!-- Arrows -->
+  <line x1="210" y1="130" x2="243" y2="130" stroke="#8a8478" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="435" y1="130" x2="468" y2="130" stroke="#8a8478" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="660" y1="130" x2="693" y2="130" stroke="#8a8478" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <text x="450" y="30" text-anchor="middle" font-size="13" font-weight="600" fill="#3a372f">Phân giai đoạn suy tim theo ESC 2026 (A → D)</text>
+  <text x="450" y="235" text-anchor="middle" font-size="10.5" fill="#8a8478" font-style="italic">Không phải mọi bệnh nhân giai đoạn A/B đều tiến triển thành giai đoạn C/D — can thiệp sớm có giá trị dự phòng</text>
+</svg>
+<figcaption class="fig-caption">Sơ đồ minh họa (tự vẽ) — phân giai đoạn suy tim A→D theo ESC 2026, không sao chép hình gốc từ guideline.</figcaption>
+</figure>
+
+<h3 id="h-phanloai-khac">Các cách phân loại khác</h3>
+<ul>
+<li><strong>Theo diễn biến lâm sàng:</strong> mới khởi phát (de novo, chưa từng chẩn đoán suy tim) so với suy tim đã biết từ trước (pre-existing); suy tim mạn ổn định so với suy tim mất bù (DHF) — suy tim mạn có thể diễn tiến thành DHF bất kỳ lúc nào.</li>
+<li><strong>Theo vị trí buồng tim bị ảnh hưởng:</strong> suy tim trái đơn thuần, suy tim phải đơn thuần, hoặc suy tim phối hợp cả hai bên. Nguyên nhân phổ biến nhất của suy tim phải mạn là do tăng áp phổi thứ phát sau rối loạn chức năng thất trái (nhóm 2 theo phân loại WHO), nhưng cũng có nhiều nguyên nhân gây suy tim phải đơn thuần (nhồi máu thất phải, bệnh cơ tim thất phải gây loạn nhịp, tăng áp phổi nhóm 1/3/4/5, hở van 3 lá/van động mạch phổi nặng).</li>
+</ul>
+
+<h2 id="h-duphong">Dự phòng suy tim</h2>
+<h3 id="h-duphong-gdA">Bệnh nhân giai đoạn A — nguy cơ suy tim</h3>
+<p>Bốn yếu tố nguy cơ tim mạch–chuyển hóa kinh điển — đái tháo đường, tăng huyết áp, béo phì, hút thuốc lá — cùng nhau chiếm khoảng <strong>50% tổng số ca suy tim</strong> ở mức quần thể, nhưng tỷ trọng đóng góp thay đổi rất nhiều theo tuổi: chỉ khoảng 30–40% ở người &gt;75 tuổi nhưng lên tới 75–80% ở người &lt;55 tuổi. Điều này có ý nghĩa thực hành quan trọng: người trẻ có gánh nặng yếu tố nguy cơ nên được can thiệp sớm và tích cực hơn vì thời gian phơi nhiễm còn dài.</p>
+
+<div class="tbl-wrap">
+<table>
+<caption>Các can thiệp dự phòng suy tim chính (Bảng khuyến cáo 1, rút gọn)</caption>
+<thead><tr><th>Can thiệp</th><th>Chỉ định</th><th>Class</th><th>Level</th></tr></thead>
+<tbody>
+<tr><td>Kiểm soát huyết áp chặt (HA tâm thu mục tiêu &lt;130 mmHg)</td><td>Tăng huyết áp hoặc suy tim giai đoạn B</td><td>I</td><td>A</td></tr>
+<tr><td>SGLT2i</td><td>Đái tháo đường típ 2 có nguy cơ tim mạch cao hoặc đã có bệnh tim mạch xơ vữa</td><td>I</td><td>A</td></tr>
+<tr><td>SGLT2i</td><td>Đái tháo đường típ 2 kèm bệnh thận mạn</td><td>I</td><td>A</td></tr>
+<tr><td>Finerenone</td><td>Đái tháo đường típ 2 kèm bệnh thận mạn</td><td>I</td><td>A</td></tr>
+<tr><td>Tư vấn lối sống lành mạnh (cân nặng, chế độ ăn, vận động, không hút thuốc/rượu bia/chất kích thích)</td><td>Suy tim giai đoạn A hoặc B</td><td>I</td><td>C</td></tr>
+<tr><td>Statin</td><td>Nguy cơ cao hoặc đã có bệnh tim mạch xơ vữa</td><td>IIa</td><td>A</td></tr>
+<tr><td>GLP-1RA</td><td>Đái tháo đường típ 2 kèm ≥1 yếu tố nguy cơ tim mạch khác</td><td>IIa</td><td>A</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="box">
+<div class="box-title">ĐIỂM MỚI — KHUYẾN CÁO GLP-1RA ĐỂ DỰ PHÒNG SUY TIM</div>
+<p style="margin-bottom:0;">Đây là một trong những khuyến cáo hoàn toàn mới so với 2021: GLP-1RA <strong>nên được cân nhắc (IIa, Level A)</strong> ở bệnh nhân đái tháo đường típ 2 có thêm ít nhất 1 yếu tố nguy cơ tim mạch khác, để giảm nguy cơ suy tim hoặc tử vong tim mạch — phản ánh dữ liệu tích lũy gần đây về lợi ích tim mạch của nhóm thuốc này ngoài kiểm soát đường huyết.</p>
+</div>
+
+<p>Về chế độ ăn và vận động: chế độ ăn nhiều đường, chất béo bão hòa, ngũ cốc tinh chế và thực phẩm chế biến sẵn có liên quan tới tăng nguy cơ suy tim (đặc biệt HFpEF), trong khi chế độ ăn giàu rau củ, hạt, ngũ cốc nguyên hạt, cá và chất béo không bão hòa có liên quan tới giảm nguy cơ. Tuy nhiên, cần lưu ý đây phần lớn là bằng chứng quan sát — một phân tích thứ cấp của thử nghiệm PREDIMED (chế độ ăn Địa Trung Hải) không cho thấy khác biệt có ý nghĩa về tỷ lệ mới mắc suy tim so với chế độ ăn ít béo. Lối sống tĩnh tại là yếu tố nguy cơ mạnh cho HFpEF nhưng hiện chưa có RCT nào chứng minh trực tiếp vai trò dự phòng của vận động thể lực.</p>
+
+<h3 id="h-duphong-nhomdb">Các nhóm nguy cơ đặc biệt cần lưu ý</h3>
+<ul>
+<li><strong>Rối loạn nhịp (rung nhĩ, loạn nhịp thất, rối loạn dẫn truyền):</strong> có thể vừa là nguyên nhân vừa là dấu hiệu chỉ điểm của suy tim tiềm ẩn (đặc biệt HFpEF cận lâm sàng) — cần tầm soát rối loạn chức năng thất trái và nguyên nhân nền khi có rối loạn nhịp.</li>
+<li><strong>Sau nhồi máu cơ tim:</strong> nguy cơ suy tim cao ngay cả khi không có rối loạn vận động vùng hay rối loạn chức năng cấu trúc rõ ràng. Điểm đáng chú ý: thử nghiệm REDUCE-AMI cho thấy chẹn beta thường quy KHÔNG có lợi ích giảm nguy cơ suy tim ở bệnh nhân sau NMCT với LVEF bảo tồn (&gt;50%) — không còn ủng hộ việc dùng chẹn beta thường quy cho mọi bệnh nhân sau NMCT có LVEF bình thường.</li>
+<li><strong>Bệnh thận mạn:</strong> là yếu tố nguy cơ mạnh; SGLT2i và finerenone đều có bằng chứng mạnh (Level A) giảm nguy cơ suy tim ở bệnh nhân đái tháo đường típ 2 kèm bệnh thận mạn.</li>
+<li><strong>Người sống sót sau ung thư</strong> (đặc biệt có tiền sử xạ trị hoặc dùng thuốc độc cho tim như anthracycline, cyclophosphamide, ức chế điểm kiểm soát miễn dịch, trastuzumab): nguy cơ cao rối loạn chức năng thất trái không triệu chứng và suy tim — cần tầm soát theo guideline tim mạch ung thư học chuyên biệt.</li>
+<li><strong>Bệnh tim bẩm sinh:</strong> nguy cơ suy tim tăng gấp 8 lần so với nhóm chứng cùng tuổi/giới, khởi phát sớm hơn 20–25 năm; nguy cơ cao nhất ở các tổn thương phức tạp (tứ chứng Fallot, chuyển vị đại động mạch — tăng tới 42 lần nguy cơ; các dị tật không phải conotruncal nặng như kênh nhĩ thất, tim một thất — tăng tới 21 lần).</li>
+</ul>
+
+<h3 id="h-duphong-gdB">Bệnh nhân giai đoạn B — rối loạn chức năng thất trái chưa triệu chứng</h3>
+<p>Được xác định khi LVEF &lt;50% ở người không triệu chứng (không do nguyên nhân sinh lý khác như "tim vận động viên"), không phân biệt tuổi hay giới. Khuyến cáo điều trị:</p>
+<div class="tbl-wrap">
+<table>
+<caption>Khuyến cáo cho giai đoạn B (Bảng khuyến cáo 2)</caption>
+<thead><tr><th>Can thiệp</th><th>Chỉ định</th><th>Class</th><th>Level</th></tr></thead>
+<tbody>
+<tr><td>ACEi (hoặc ARB nếu không dung nạp)</td><td>Giai đoạn B, LVEF ≤40%</td><td>I</td><td>A</td></tr>
+<tr><td>Chẹn beta</td><td>Giai đoạn B, LVEF &lt;50%</td><td>I</td><td>B1</td></tr>
+<tr><td>Eplerenone</td><td>Sau NMCT, LVEF ≤40%, kèm dấu hiệu suy tim hoặc đái tháo đường</td><td>I</td><td>B1</td></tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13.5px; color:var(--ink-2);">Bằng chứng nền cho các khuyến cáo này chủ yếu đến từ các thử nghiệm kinh điển từ thập niên 1990 (SOLVD-Prevention với enalapril, TRACE với trandolapril, SAVE với captopril, CAPRICORN với carvedilol, EPHESUS với eplerenone) — cần lưu ý bối cảnh điều trị đồng mắc (NMCT, đái tháo đường, bệnh thận mạn) đã thay đổi nhiều so với thời điểm các thử nghiệm này được thực hiện.</p>
+
+<h2 id="h-chandoan">Chẩn đoán suy tim mạn</h2>
+<h3 id="h-chandoan-buoc">Các bước chẩn đoán then chốt</h3>
+<p>Suy tim gây ra một loạt triệu chứng cơ năng và thực thể rất đa dạng nhưng không có triệu chứng nào thực sự đặc hiệu riêng cho bệnh. Cách tiếp cận thực hành: bắt đầu từ đánh giá lâm sàng (bệnh sử, yếu tố nguy cơ, khám thực thể), ECG 12 chuyển đạo và X-quang ngực, sau đó nếu nghi ngờ suy tim thì làm peptide lợi niệu và siêu âm tim. Ở người rất cao tuổi, cần nghi ngờ suy tim ngay cả khi biểu hiện không điển hình.</p>
+
+<div class="tbl-wrap">
+<table>
+<caption>Triệu chứng cơ năng và thực thể của suy tim</caption>
+<thead><tr><th></th><th>Điển hình / đặc hiệu hơn</th><th>Ít điển hình / ít đặc hiệu hơn</th></tr></thead>
+<tbody>
+<tr><td><strong>Triệu chứng cơ năng</strong></td><td>Khó thở, khó thở khi nằm, khó thở kịch phát về đêm, giảm khả năng gắng sức, mệt mỏi/lâu hồi phục sau gắng sức</td><td>Ho về đêm, thở khò khè, cảm giác đầy bụng, chán ăn, lú lẫn (đặc biệt người già), trầm cảm, hồi hộp, chóng mặt, ngất, khó thở khi cúi người (bendopnoea)</td></tr>
+<tr><td><strong>Triệu chứng thực thể</strong></td><td>Tăng áp lực tĩnh mạch cảnh, phản hồi gan-tĩnh mạch cảnh dương tính, tiếng T3 (nhịp ngựa phi), mỏm tim lệch trái, phù mắt cá chân</td><td>Tăng cân (&gt;2kg/tuần), sụt cân (suy tim tiến triển), suy mòn, tiếng thổi tim, phù ngoại biên (mắt cá, cùng cụt, bìu), ran phổi, tràn dịch màng phổi, nhịp nhanh, mạch không đều, thở nhanh, nhịp thở Cheyne-Stokes, gan to, cổ trướng, chi lạnh, thiểu niệu, hiệu áp hẹp</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<caption>Phân độ NYHA theo mức độ triệu chứng</caption>
+<thead><tr><th>Độ</th><th>Mô tả</th></tr></thead>
+<tbody>
+<tr><td><strong>I</strong></td><td>Không giới hạn hoạt động thể lực; hoạt động thông thường không gây khó thở/mệt/hồi hộp quá mức.</td></tr>
+<tr><td><strong>II</strong></td><td>Giới hạn nhẹ hoạt động thể lực; thoải mái lúc nghỉ, nhưng hoạt động thông thường gây khó thở/mệt/hồi hộp.</td></tr>
+<tr><td><strong>III</strong></td><td>Giới hạn rõ hoạt động thể lực; thoải mái lúc nghỉ, nhưng hoạt động nhẹ hơn bình thường đã gây triệu chứng.</td></tr>
+<tr><td><strong>IV</strong></td><td>Không thể thực hiện bất kỳ hoạt động thể lực nào mà không khó chịu; có thể có triệu chứng ngay cả lúc nghỉ.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 id="h-peptide">Peptide lợi niệu — ngưỡng chẩn đoán theo tuổi (điểm mới)</h3>
+<p>NT-proBNP là peptide lợi niệu được dùng phổ biến nhất tại châu Âu nhờ ổn định ở nhiệt độ phòng và không bị ảnh hưởng bởi ARNI (khác với BNP, vốn bị ARNI ức chế thoái giáng nên có thể tăng giả tạo khi đang điều trị ARNI).</p>
+
+<div class="box">
+<div class="box-title">THAY ĐỔI QUAN TRỌNG SO VỚI 2021</div>
+<p>ESC 2021 dùng một ngưỡng loại trừ duy nhất cho NT-proBNP (&lt;125 pg/mL). ESC 2026 chuyển sang <strong>ngưỡng theo tuổi</strong> vì nồng độ peptide lợi niệu tăng tự nhiên theo tuổi và làm giảm độ đặc hiệu ở người già (hơn 75% người khỏe mạnh &gt;80 tuổi có NT-proBNP vượt ngưỡng 125 pg/mL cũ). Ngưỡng mới — NT-proBNP trên các mức sau gợi ý suy tim "có khả năng" ở bệnh nhân ngoại trú:</p>
+<ul style="margin-bottom:0;">
+<li>Tuổi &lt;50: ≥125 pg/mL</li>
+<li>Tuổi 50–75: ≥250 pg/mL</li>
+<li>Tuổi &gt;75: ≥500 pg/mL</li>
+</ul>
+</div>
+
+<div class="warn">
+<strong>Bẫy MCQ:</strong> Ngưỡng NT-proBNP theo tuổi ở trên là ngưỡng "gợi ý suy tim có khả năng" trong bối cảnh NGOẠI TRÚ — không phải ngưỡng loại trừ tuyệt đối. Diễn giải peptide lợi niệu luôn phải đặt trong bối cảnh lâm sàng tổng thể vì có rất nhiều yếu tố gây tăng/giảm giả tạo (xem bảng dưới). Nguyên tắc chung: nồng độ càng cao thì khả năng suy tim càng lớn, không có một ngưỡng "chẩn đoán chắc chắn" hay "loại trừ chắc chắn" tuyệt đối.
+</div>
+
+<div class="tbl-wrap">
+<table>
+<caption>Các yếu tố gây thay đổi peptide lợi niệu (không do suy tim)</caption>
+<thead><tr><th>Gây TĂNG giả tạo</th><th>Gây GIẢM giả tạo</th></tr></thead>
+<tbody>
+<tr><td>Hội chứng vành cấp; tuổi cao; rung nhĩ; chấn thương tim; COPD; bệnh nặng nội khoa; giới nữ; suy thận; phì đại thất trái; viêm cơ tim; ngưng thở khi ngủ; hội chứng cận u; thuyên tắc phổi; tăng áp phổi; tạo nhịp thất phải; thiếu máu nặng; rối loạn nội tiết nặng; nhiễm trùng nặng (viêm phổi, nhiễm khuẩn huyết); bệnh gan nặng; toan chuyển hóa nặng/toan ceton; xuất huyết dưới nhện; tăng huyết áp hệ thống; bệnh van tim</td><td>Chủng tộc gốc Phi; ARNI/ACEi/ARB; chẹn beta; viêm màng ngoài tim co thắt; MRA; béo phì; SGLT2i</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Một điểm thực hành quan trọng khác: bệnh nhân có NT-proBNP &gt;2000 pg/mL có nguy cơ nhập viện vì suy tim tăng gấp đôi trong thời gian ngắn — đây là nhóm cần được chuyển khám chuyên khoa tim mạch sớm, tốt nhất trong vòng 2 tuần.</p>
+
+<h3 id="h-xetnghiem">Xét nghiệm cận lâm sàng nền tảng</h3>
+<p>ESC 2026 bổ sung <strong>tỷ số albumin/creatinine niệu (UACR)</strong> vào bộ xét nghiệm nền tảng ban đầu — theo tinh thần khuyến cáo KDIGO rằng đánh giá chức năng thận cần cả eGFR VÀ UACR (phân độ A1 &lt;30 mg/g, A2 30–300 mg/g, A3 &gt;300 mg/g). UACR có giá trị tiên lượng độc lập ở bệnh nhân suy tim và albumin niệu là một rối loạn có thể điều trị được bằng chính các thuốc nền tảng của suy tim (ACEi/ARNI/ARB, MRA, SGLT2i).</p>
+
+<div class="tbl-wrap">
+<table>
+<caption>Khuyến cáo xét nghiệm chẩn đoán ban đầu (Bảng khuyến cáo 3, rút gọn)</caption>
+<thead><tr><th>Xét nghiệm/thăm dò</th><th>Class</th><th>Level</th></tr></thead>
+<tbody>
+<tr><td>Công thức máu, chức năng thận (eGFR + UACR), điện giải, chức năng gan, chức năng giáp, HbA1c, lipid máu, sắt huyết thanh (độ bão hòa transferrin + ferritin)</td><td>I</td><td>C</td></tr>
+<tr><td>Định lượng peptide lợi niệu (diễn giải theo tuổi, béo phì và các yếu tố ảnh hưởng khác)</td><td>I</td><td>C</td></tr>
+<tr><td>ECG 12 chuyển đạo</td><td>I</td><td>C</td></tr>
+<tr><td>X-quang ngực</td><td>I</td><td>C</td></tr>
+<tr><td>Siêu âm tim qua thành ngực (xác định chẩn đoán, phân biệt kiểu hình, tìm nguyên nhân nền)</td><td>I</td><td>C</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 id="h-hfpef-chandoan">Chẩn đoán HFpEF — cách tiếp cận thực dụng</h3>
+<p>Chẩn đoán HFpEF khó hơn HFrEF vì không có một dấu hiệu đơn lẻ nào đủ để chẩn đoán xác định. ESC 2026 nhấn mạnh cách tiếp cận dựa trên xác suất tiền test: càng nhiều yếu tố lâm sàng gợi ý HFpEF cùng xuất hiện (tuổi cao, béo phì, tăng huyết áp, rung nhĩ, đái tháo đường, bệnh thận mạn...) thì khả năng mắc bệnh càng cao.</p>
+
+<p>Cần đủ CẢ 3 tiêu chuẩn đã nêu ở phần phân loại LVEF bên trên (triệu chứng + LVEF≥50% chưa từng giảm + bằng chứng khách quan rối loạn chức năng tâm trương/tăng áp lực đổ đầy được hỗ trợ bởi peptide lợi niệu tăng).</p>
+
+<div class="box">
+<div class="box-title">TIÊU CHUẨN VÀNG — KHÔNG BẮT BUỘC LÀM THƯỜNG QUY</div>
+<p style="margin-bottom:0;">Đo huyết động xâm lấn khi gắng sức vẫn là tiêu chuẩn vàng để xác định chẩn đoán (PCWP ≥15 mmHg lúc nghỉ, hoặc ≥25 mmHg khi gắng sức, hoặc áp lực cuối tâm trương thất trái ≥16 mmHg lúc nghỉ). Tuy nhiên guideline nhấn mạnh: đây là xét nghiệm đắt tiền, không sẵn có ở nhiều trung tâm, nên <strong>chỉ nên dùng cho nghiên cứu hoặc các ca chẩn đoán không chắc chắn</strong> sau khi đã làm đầy đủ các thăm dò không xâm lấn — guideline hiện tại KHÔNG bắt buộc đo huyết động xâm lấn cho mọi bệnh nhân nghi ngờ HFpEF. Phần lớn bệnh nhân có thể được chẩn đoán dựa trên bệnh sử lâm sàng và dấu hiệu siêu âm tim.</p>
+</div>
+
+<p>Các thăm dò bổ sung khi còn nghi ngờ sau đánh giá không xâm lấn ban đầu: nghiệm pháp gắng sức tim phổi (CPET, đo VO2 đỉnh để xác nhận giảm khả năng gắng sức và tìm nguyên nhân khó thở), siêu âm tim gắng sức, hoặc đo huyết động xâm lấn như đã nêu.</p>
+
+<div class="warn">
+<strong>Bẫy MCQ:</strong> Các hệ thống tính điểm chẩn đoán HFpEF (ví dụ HFA-PEFF, H2FPEF) cho kết quả không đồng nhất trong cộng đồng và ESC 2026 khuyến cáo nếu dùng thì chỉ nên dùng để <strong>gợi ý nghi ngờ lâm sàng</strong>, không dùng để khẳng định chẩn đoán cuối cùng — đây là điểm hay bị hỏi ngược trong đề thi (nhiều thí sinh nhầm tưởng các thang điểm này có giá trị chẩn đoán xác định).
+</div>
+
+<h3 id="h-nguyennhan">Đánh giá nguyên nhân/căn nguyên</h3>
+<p>Xác định căn nguyên là nền tảng cho quản lý suy tim vì điều trị lý tưởng cần nhắm vào nguyên nhân gốc — một số nguyên nhân có thể hồi phục được nếu điều trị sớm và đúng, và ngày càng có nhiều liệu pháp điều trị đặc hiệu theo bệnh nguyên (disease-modifying therapy). Ba nguyên nhân phổ biến nhất: bệnh tim thiếu máu cục bộ, tăng huyết áp, và bệnh van tim — nhưng thường có nhiều nguyên nhân phối hợp trên cùng một bệnh nhân. Đánh giá căn nguyên là một quá trình đa thông số bắt đầu từ bệnh sử, khám lâm sàng, và các thăm dò cận lâm sàng theo bậc thang (phần lớn trường hợp chỉ cần thăm dò không xâm lấn kết hợp bệnh sử là đủ xác định nguyên nhân).</p>
+
+<hr class="sect">
+<p style="font-size:13.5px; color:var(--ink-2);"><strong>Phần tiếp theo (Phần 2):</strong> Quản lý suy tim mạn — điều trị bằng thuốc theo kiểu hình (HFrEF/HFpEF), các liệu pháp can thiệp bằng thiết bị (ICD, CRT, tạo nhịp hệ dẫn truyền).</p>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Tài liệu này là bản TỔNG HỢP VÀ VIẾT LẠI (không phải bản dịch nguyên văn) nội dung khuyến cáo ESC 2026 về suy tim, phục vụ mục đích học tập cá nhân. Các sơ đồ là hình tự vẽ, không sao chép từ bản gốc. Khi cần trích dẫn chính thức hoặc tra cứu chi tiết (bảng bằng chứng, tài liệu tham khảo đầy đủ), vui lòng truy cập bản gốc tại DOI: 10.1093/eurheartj/ehag100. Tài liệu chỉ phục vụ học tập — không thay thế nhận định lâm sàng của bác sĩ điều trị.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'hl_esc2026_hf_part1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>
