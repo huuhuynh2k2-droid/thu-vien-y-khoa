@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KDIGO 2026 AKI/AKD — Chương 1: Định nghĩa, nhận diện, phân loại</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#0E6E6B; --accent-ink:#04302E; --accent-bg:#E3F1EF;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">KDIGO 2026 AKI/AKD — Ch.1</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">KDIGO CLINICAL PRACTICE GUIDELINE · PUBLIC REVIEW DRAFT · 3/2026</div>
+    <div class="doc-title">AKI/AKD: Định nghĩa, nhận diện, phân loại (+ trẻ em, sơ sinh)</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">CHƯƠNG 1</span>
+    <h1>Định nghĩa, Nhận diện và Phân loại Tổn thương thận cấp (AKI) / Bệnh thận cấp (AKD)</h1>
+    <div class="byline">KDIGO (Kidney Disease: Improving Global Outcomes) — Hướng dẫn thực hành lâm sàng AKI/AKD 2026 (bản dự thảo)</div>
+    <div class="cite">Nguồn: KDIGO 2026 AKI/AKD Guideline, Public Review Draft (tháng 3/2026), Chương 1, tr. 1–6 &amp; 35–65. Bản tổng hợp – viết lại tiếng Việt phục vụ học tập lâm sàng, <strong>không dịch nguyên văn</strong> và <strong>không thay thế bản gốc</strong>. Đây là bản dự thảo lấy ý kiến công khai, các ngưỡng/khuyến cáo có thể thay đổi trước khi ban hành chính thức — KDIGO AKI 2012 vẫn là chuẩn hiện hành cho đến khi bản 2026 được thông qua.</div>
+
+    <div class="box">
+<div class="box-title">VỀ BẢN DỊCH NÀY</div>
+<p style="margin:0;">Đây là bản <strong>tổng hợp và viết lại</strong> (không dịch nguyên văn từng câu) Chương 1 của <strong>KDIGO 2026 AKI/AKD Clinical Practice Guideline — bản dự thảo lấy ý kiến công khai (Public Review Draft, tháng 3/2026)</strong>. Đây là lần cập nhật lớn đầu tiên kể từ hướng dẫn KDIGO AKI 2012, mở rộng phạm vi sang cả <strong>AKD (Acute Kidney Disease — bệnh thận cấp)</strong>. Vì còn là <strong>bản draft, chưa chính thức</strong>, các con số/ngưỡng dưới đây có thể còn thay đổi trước khi ban hành bản cuối — khi thực hành/thi, đối chiếu thêm KDIGO 2012 nếu có khác biệt. Các hình minh hoạ trong bài là <strong>sơ đồ tự vẽ lại</strong> theo đúng logic thuật toán được mô tả trong bản gốc, không phải ảnh chụp/cắt từ file PDF gốc.</p>
+</div>
+
+<h2 id="h-11-dinh-nghia">1.1 Định nghĩa AKI</h2>
+<p><span color="red"></span><strong>Tổn thương thận cấp (AKI)</strong> được định nghĩa là sự xuất hiện của một hoặc nhiều rối loạn <strong>chức năng hoặc cấu trúc</strong> thận, được biết hoặc có cơ sở nghi ngờ xảy ra trong vòng <strong>7 ngày</strong>, trong một bối cảnh lâm sàng phù hợp.</p>
+<p>Điểm mấu chốt cần nắm: khung thời gian 7 ngày không phải ngẫu nhiên — nó phản ánh việc guideline coi AKI là một <strong>quá trình cấp tính đang diễn ra</strong> chứ không phải một xét nghiệm bất thường đơn lẻ. Một bệnh nhân có creatinin tăng nhưng khởi phát &gt;7 ngày sẽ được xếp vào AKD (mục 1.3) chứ không còn là AKI.</p>
+
+<table>
+<caption>Bảng 1 — Tiêu chí chẩn đoán AKI (rút gọn, giữ nguyên ngưỡng số liệu)</caption>
+<tr><th>Nhóm tiêu chí</th><th>Ngưỡng chẩn đoán</th></tr>
+<tr><td rowspan="4"><strong>Chức năng</strong></td><td>Creatinin huyết thanh (SCr) tăng ≥<strong>0,3 mg/dL (≥26,5 µmol/L)</strong> trong vòng <strong>48 giờ</strong></td></tr>
+<tr><td>SCr tăng ≥<strong>1,5 lần</strong> so với nền trong vòng <strong>7 ngày</strong> trước đó</td></tr>
+<tr><td>Cystatin C huyết thanh tăng ≥<strong>1,5 lần</strong> so với nền trong vòng <strong>7 ngày</strong></td></tr>
+<tr><td>Thể tích nước tiểu trung bình &lt;<strong>0,5 mL/kg/giờ</strong> (theo cân nặng lý tưởng) trong ≥<strong>6 giờ</strong></td></tr>
+<tr><td><strong>Cấu trúc</strong></td><td>Biomarker tổn thương thận (injury biomarker) tăng — khi dùng đúng chỉ định đã được kiểm chứng lâm sàng — biết/nghi xảy ra trong vòng <strong>7 ngày</strong></td></tr>
+</table>
+
+<div class="warn">
+<strong>Vì sao thêm tiêu chí "cấu trúc"?</strong> Đây là thay đổi khái niệm quan trọng nhất của bản 2026 so với 2012: guideline cũ chỉ dựa vào SCr/thể tích nước tiểu (tiêu chí chức năng), nghĩa là <strong>bỏ sót</strong> giai đoạn tổn thương tế bào ống thận đã xảy ra nhưng chưa kịp biểu hiện qua giảm chức năng lọc. Biomarker tổn thương (ví dụ NGAL, TIMP-2×IGFBP7) cho phép phát hiện sớm hơn, trước khi SCr kịp tăng.
+</div>
+
+<h3 id="h-han-che-scr">Vì sao không thể chỉ dựa vào creatinin và thể tích nước tiểu</h3>
+<p>SCr và thể tích nước tiểu vẫn là 2 trụ cột chẩn đoán, nhưng có nhiều hạn chế mà một bác sĩ lâm sàng cần nhớ để tránh chẩn đoán muộn hoặc chẩn đoán nhầm:</p>
+<table>
+<caption>Bảng 2 — Hạn chế của creatinin huyết thanh và thể tích nước tiểu (rút gọn)</caption>
+<tr><th>Hạn chế</th><th>Hậu quả lâm sàng</th></tr>
+<tr><td>Phải mất <strong>~50% chức năng thận</strong> mới đủ làm tăng SCr có ý nghĩa</td><td>Chẩn đoán muộn</td></tr>
+<tr><td>SCr cần <strong>24–48 giờ</strong> mới tăng sau khi tổn thương xảy ra</td><td>Chẩn đoán muộn (độ trễ sinh học)</td></tr>
+<tr><td>Trong AKI nặng, gan giảm sinh creatinin</td><td>Chẩn đoán muộn/bỏ sót mức độ nặng thực sự</td></tr>
+<tr><td>SCr phụ thuộc khối lượng cơ (người gầy, nữ, cao tuổi có SCr nền thấp)</td><td>Bỏ sót AKI ở nhóm này</td></tr>
+<tr><td>SCr tăng do khẩu phần ăn nhiều đạm, không phải do giảm GFR</td><td>Dương tính giả</td></tr>
+<tr><td>SCr tăng do ức chế bài tiết ống thận (trimethoprim, cimetidine) mà GFR không đổi</td><td>Dương tính giả</td></tr>
+<tr><td>SCr giảm sinh lý trong thai kỳ</td><td>Bỏ sót AKI ở phụ nữ mang thai</td></tr>
+<tr><td>SCr tăng nhẹ do đáp ứng huyết động sinh lý của RAS-i/SGLT2i</td><td>Dễ nhầm là AKI do thuốc</td></tr>
+<tr><td>Thiểu niệu có thể là đáp ứng <strong>sinh lý bình thường</strong> với tình trạng mất dịch</td><td>Chẩn đoán quá mức (overdiagnosis)</td></tr>
+</table>
+
+<div class="box">
+<div class="box-title">🪤 LƯU Ý MCQ</div>
+<p style="margin:0;">Đề hay đưa tình huống bệnh nhân đang dùng lợi tiểu hoặc RAS-i/SGLT2i có SCr tăng nhẹ rồi hỏi "có phải AKI không" — điểm mấu chốt là phải phân biệt <strong>tăng SCr do đáp ứng huyết động sinh lý</strong> (thường nhẹ, ổn định, không tiến triển) với <strong>AKI thực sự</strong> (tiến triển, kèm yếu tố khởi phát rõ). Không được kết luận AKI chỉ dựa vào một trị số SCr đơn lẻ.</p>
+</div>
+
+<h3 id="h-baseline">Xác định creatinin nền (baseline) — cách tiếp cận phân cấp</h3>
+<p>Muốn tính "tăng bao nhiêu lần so với nền", bắt buộc phải có một giá trị SCr/cystatin C nền đáng tin cậy. Guideline đề xuất cách tiếp cận phân cấp theo thứ tự ưu tiên khi có nhiều nguồn dữ liệu:</p>
+
+<figure>
+<svg viewBox="0 0 720 460" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" style="width:100%;height:auto;background:#fff;border:1px solid var(--border);border-radius:10px;">
+<defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a8272"/></marker></defs>
+<rect width="720" height="460" fill="#faf8f3"/>
+<text x="360" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#3d3830">Chọn SCr/cystatin C nền — người lớn</text>
+<rect x="210" y="46" width="300" height="46" rx="12" fill="#e8e2d6" stroke="#8a8272"/>
+<text x="360" y="74" text-anchor="middle" font-size="12.5" fill="#3d3830">Mức 1: SCr ngoại trú 8–365 ngày trước</text>
+<line x1="360" y1="92" x2="360" y2="118" stroke="#8a8272" stroke-width="1.5" marker-end="url(#ar1)"/>
+<rect x="270" y="70" width="70" height="20" rx="7" fill="#f3d9bd" stroke="#d9a46b" transform="translate(0,0)" opacity="0"/>
+<rect x="270" y="96" width="90" height="20" rx="7" fill="#f3d9bd" stroke="#d9a46b"/>
+<text x="315" y="111" text-anchor="middle" font-size="10.5" fill="#b5651d">Không có</text>
+<rect x="210" y="118" width="300" height="46" rx="12" fill="#e8e2d6" stroke="#8a8272"/>
+<text x="360" y="146" text-anchor="middle" font-size="12.5" fill="#3d3830">Mức 2: SCr 1–7 ngày trước nhập viện</text>
+<line x1="360" y1="164" x2="360" y2="190" stroke="#8a8272" stroke-width="1.5" marker-end="url(#ar1)"/>
+<rect x="270" y="168" width="90" height="20" rx="7" fill="#f3d9bd" stroke="#d9a46b"/>
+<text x="315" y="183" text-anchor="middle" font-size="10.5" fill="#b5651d">Không có</text>
+<rect x="210" y="190" width="300" height="56" rx="12" fill="#e8e2d6" stroke="#8a8272"/>
+<text x="360" y="214" text-anchor="middle" font-size="12.5" fill="#3d3830">Mức 3: Ước tính từ eGFR giả định</text>
+<text x="360" y="232" text-anchor="middle" font-size="12" fill="#3d3830">= 75 mL/phút/1,73m² (công thức KDIGO 2021)</text>
+<line x1="360" y1="246" x2="360" y2="272" stroke="#8a8272" stroke-width="1.5" marker-end="url(#ar1)"/>
+<rect x="270" y="250" width="90" height="20" rx="7" fill="#f3d9bd" stroke="#d9a46b"/>
+<text x="315" y="265" text-anchor="middle" font-size="10.5" fill="#b5651d">Không có</text>
+<rect x="210" y="272" width="300" height="46" rx="12" fill="#f0e6d2" stroke="#b08a4e" stroke-width="2"/>
+<text x="360" y="300" text-anchor="middle" font-size="12.5" fill="#3d3830">Mức 4: SCr lúc nhập viện = nền tạm thời</text>
+<rect x="90" y="350" width="540" height="90" rx="12" fill="#ded6c6" stroke="#8a8272"/>
+<text x="360" y="374" text-anchor="middle" font-size="12" fill="#3d3830" font-weight="bold">Luôn cân nhắc thêm bối cảnh cá nhân trước khi chọn:</text>
+<text x="360" y="394" text-anchor="middle" font-size="11.5" fill="#3d3830">Bệnh thận mạn nền · Bệnh gan · Khối lượng cơ bất thường</text>
+<text x="360" y="412" text-anchor="middle" font-size="11.5" fill="#3d3830">Đã từng lọc máu (RRT) trước đó · Đang hồi phục từ đợt AKI trước</text>
+</svg>
+<figcaption class="fig-caption">Hình 1 (vẽ lại) | Sơ đồ phân cấp chọn creatinin/cystatin C nền ở người lớn — đi từ nguồn dữ liệu đáng tin cậy nhất (SCr ngoại trú ổn định) đến giải pháp tạm thời khi không có dữ liệu nào (SCr lúc nhập viện).</figcaption>
+</figure>
+
+<div class="box">
+<div class="box-title">🔑 ĐIỂM MẤU CHỐT</div>
+<p style="margin:0;">SCr lúc nhập viện chỉ là lựa chọn <strong>cuối cùng (Mức 4)</strong> — dùng nó làm nền có thể <strong>đánh giá thấp mức độ AKI thực sự</strong> nếu bệnh nhân đã tổn thương thận từ trước khi nhập viện. Khi có thể, luôn ưu tiên tìm giá trị ngoại trú cũ.</p>
+</div>
+
+<h3 id="h-biomarker">Vai trò của biomarker tổn thương thận mới</h3>
+<p>Ngoài SCr và cystatin C, guideline nhấn mạnh vai trò các biomarker phản ánh tổn thương <strong>tế bào ống thận</strong> trực tiếp, xuất hiện sớm hơn nhiều so với thay đổi chức năng lọc:</p>
+<table>
+<caption>Bảng 3–4 (gộp, rút gọn) — Một số biomarker tổn thương thận đáng chú ý</caption>
+<tr><th>Biomarker</th><th>Ứng dụng lâm sàng chính</th><th>Bằng chứng nổi bật</th></tr>
+<tr><td><strong>[TIMP-2]×[IGFBP7] nước tiểu</strong></td><td>Dự báo AKI giai đoạn 2–3 ở bệnh nhân nặng, đặc biệt sau mổ tim</td><td>Thử nghiệm PrevAKI, BigpAK: hướng dẫn can thiệp sớm giúp giảm AKI giai đoạn 2–3</td></tr>
+<tr><td><strong>NGAL nước tiểu</strong></td><td>Dự báo AKI nói chung, phát hiện sớm hơn SCr</td><td>Gộp phân tích 52 nghiên cứu (n=13.040): AUC = 0,74</td></tr>
+<tr><td>KIM-1, L-FABP</td><td>Đặc hiệu tổn thương ống thận gần</td><td>Đang được nghiên cứu bổ sung vào thực hành</td></tr>
+</table>
+
+<div class="rec">
+<span class="num">Khuyến cáo 1.1.1</span> — Nên sử dụng <strong>cystatin C huyết thanh</strong> để xác định AKI ở trẻ em và người lớn trong các tình huống lâm sàng mà creatinin huyết thanh kém chính xác (ví dụ khối lượng cơ bất thường). <span class="grade">2B</span>
+<p style="margin:8px 0 0;font-size:13.5px;">Lý do: cystatin C không phụ thuộc khối lượng cơ như creatinin, khắc phục một trong những hạn chế lớn nhất của SCr nêu ở Bảng 2.</p>
+</div>
+
+<hr class="sect">
+
+<h2 id="h-12-phan-do">1.2 Phân độ AKI (Staging)</h2>
+<p>Điểm thay đổi quan trọng nhất trong cách phân độ AKI 2026 là <strong>tách rời 3 thành phần độc lập</strong> thay vì gộp chung thành một mức độ duy nhất như trước — cho phép mô tả chi tiết hơn kiểu hình tổn thương của từng bệnh nhân.</p>
+
+<table>
+<caption>Bảng 6 — Ba thành phần phân độ AKI (C = Creatinin, U = Urine output, B = Biomarker)</caption>
+<tr><th>Giai đoạn</th><th>Tiêu chí Creatinin (C)</th><th>Tiêu chí thể tích nước tiểu (U)</th><th>Tiêu chí Biomarker (B)</th></tr>
+<tr><td><strong>0</strong></td><td>Không tăng</td><td>≥0,5 mL/kg/giờ</td><td>Âm tính</td></tr>
+<tr><td><strong>1</strong></td><td>Tăng ≥0,3 mg/dL hoặc 1,5–1,9 lần nền</td><td>&lt;0,5 mL/kg/giờ trong 6–12 giờ</td><td>Dương tính</td></tr>
+<tr><td><strong>2</strong></td><td>2,0–2,9 lần nền</td><td>&lt;0,5 mL/kg/giờ trong &gt;12 giờ</td><td>—</td></tr>
+<tr><td><strong>3</strong></td><td>≥3,0 lần nền, hoặc SCr ≥4,0 mg/dL, hoặc <strong>đã khởi động RRT</strong></td><td>&lt;0,3 mL/kg/giờ &gt;24 giờ, hoặc vô niệu &gt;12 giờ</td><td>—</td></tr>
+</table>
+
+<div class="warn">
+<strong>Cách đọc bảng này khác 2012 ra sao?</strong> Trước đây một bệnh nhân chỉ có "AKI giai đoạn 2". Theo khung mới, bệnh nhân có thể được mô tả đầy đủ hơn, ví dụ <strong>"C1U2B1"</strong> — tăng creatinin nhẹ nhưng thiểu niệu nặng và biomarker tổn thương dương tính — thông tin này có giá trị tiên lượng khác với "C2U0B0" dù nếu chỉ nhìn giai đoạn gộp có thể bị xếp ngang nhau.
+</div>
+
+<h3 id="h-tam-thoi-keo-dai">AKI tạm thời và AKI kéo dài</h3>
+<table>
+<caption>Bảng 7 — Phân biệt AKI tạm thời và kéo dài</caption>
+<tr><th>Thể</th><th>Thời gian bất thường</th><th>Ý nghĩa tiên lượng</th></tr>
+<tr><td><strong>Tạm thời (Transient)</strong></td><td>≤48 giờ</td><td>Tiên lượng thường tốt hơn</td></tr>
+<tr><td><strong>Kéo dài (Persistent)</strong></td><td>&gt;48 giờ đến ≤7 ngày</td><td>Tiên lượng xấu hơn — nguy cơ tiến triển AKD/CKD cao hơn</td></tr>
+</table>
+
+<h3 id="h-nguyen-nhan-can-dieu-tri-dac-hieu">Tìm nguyên nhân gốc — không dừng lại ở chẩn đoán "AKI"</h3>
+<p>"AKI" chỉ là một hội chứng, không phải chẩn đoán cuối cùng. Guideline nhấn mạnh phải chủ động tìm các nguyên nhân có <strong>điều trị đặc hiệu bảo vệ thận</strong>, dựa vào: yếu tố cơ địa (susceptibilities) + yếu tố phơi nhiễm (exposures) + bệnh sử + khám lâm sàng + cận lâm sàng/hình ảnh phù hợp. Một số nhóm nguyên nhân điển hình cần tầm soát chủ động: tiêu cơ vân/tán huyết, hội chứng ly giải khối u, độc chất/thuốc, tắc nghẽn đường niệu — các nhóm này sẽ được xử trí chi tiết ở Chương 3–4.</p>
+
+<hr class="sect">
+
+<h2 id="h-13-dinh-nghia-akd">1.3 Định nghĩa AKD (Acute Kidney Disease)</h2>
+<p><strong>AKD</strong> là khái niệm mới được đưa vào để lấp khoảng trống giữa AKI (≤7 ngày) và CKD (bệnh thận mạn, &gt;3 tháng) — mô tả tình trạng thận vẫn còn bất thường chức năng hoặc cấu trúc trong khoảng thời gian <strong>≤3 tháng</strong> kể từ biến cố khởi phát.</p>
+
+<table>
+<caption>Bảng 9 — Tiêu chí chẩn đoán AKD</caption>
+<tr><th>Nhóm</th><th>Tiêu chí (có ít nhất 1)</th></tr>
+<tr><td rowspan="4"><strong>Chức năng</strong></td><td>Đang có AKI (theo tiêu chí chức năng)</td></tr>
+<tr><td>GFR &lt;60 mL/phút/1,73m² <em>(không áp dụng cho trẻ &lt;2 tuổi)</em></td></tr>
+<tr><td>GFR giảm ≥35 mL/phút/1,73m² so với nền</td></tr>
+<tr><td>SCr tăng &gt;50% so với nền</td></tr>
+<tr><td><strong>Cấu trúc</strong></td><td>Đang có AKI (theo tiêu chí cấu trúc), hoặc biomarker tổn thương thận (albumin niệu, tiểu máu, tiểu bạch cầu — thường gặp nhất)</td></tr>
+</table>
+
+<figure>
+<svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" style="width:100%;height:auto;background:#fff;border:1px solid var(--border);border-radius:10px;">
+<defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a8272"/></marker></defs>
+<rect width="720" height="300" fill="#faf8f3"/>
+<text x="360" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#3d3830">Liên tục AKI → AKD → CKD</text>
+<rect x="30" y="70" width="180" height="70" rx="12" fill="#e8e2d6" stroke="#8a8272"/>
+<text x="120" y="98" text-anchor="middle" font-size="13" font-weight="bold" fill="#3d3830">AKI</text>
+<text x="120" y="118" text-anchor="middle" font-size="11" fill="#3d3830">Khởi phát ≤ 7 ngày</text>
+<line x1="210" y1="105" x2="270" y2="105" stroke="#8a8272" stroke-width="1.5" marker-end="url(#ar2)"/>
+<rect x="270" y="70" width="180" height="70" rx="12" fill="#ded6c6" stroke="#8a8272"/>
+<text x="360" y="98" text-anchor="middle" font-size="13" font-weight="bold" fill="#3d3830">AKD</text>
+<text x="360" y="118" text-anchor="middle" font-size="11" fill="#3d3830">≤ 3 tháng, có/không có AKI trước</text>
+<line x1="450" y1="105" x2="510" y2="105" stroke="#8a8272" stroke-width="1.5" marker-end="url(#ar2)"/>
+<rect x="510" y="70" width="180" height="70" rx="12" fill="#f0e6d2" stroke="#b08a4e" stroke-width="2"/>
+<text x="600" y="98" text-anchor="middle" font-size="13" font-weight="bold" fill="#3d3830">CKD</text>
+<text x="600" y="118" text-anchor="middle" font-size="11" fill="#3d3830">&gt; 3 tháng</text>
+<line x1="120" y1="140" x2="120" y2="200" stroke="#8a8272" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ar2)"/>
+<line x1="360" y1="140" x2="360" y2="200" stroke="#8a8272" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ar2)"/>
+<rect x="20" y="200" width="680" height="60" rx="12" fill="#e3ece9" stroke="#8a8272"/>
+<text x="360" y="224" text-anchor="middle" font-size="12" fill="#3d3830" font-weight="bold">Phục hồi hoàn toàn hoặc một phần có thể xảy ra ở bất kỳ điểm nào</text>
+<text x="360" y="244" text-anchor="middle" font-size="11.5" fill="#3d3830">(xem tiêu chí phục hồi ở mục 1.4)</text>
+</svg>
+<figcaption class="fig-caption">Hình 2 (vẽ lại) | Khái niệm liên tục giữa AKI, AKD và CKD — không còn nhìn nhận AKI là một "sự kiện" rời rạc mà là điểm khởi đầu của một quá trình có thể phục hồi hoặc tiến triển thành bệnh thận mạn.</figcaption>
+</figure>
+
+<p><strong>AKD không kèm AKI</strong> (ví dụ GFR giảm dần âm thầm trong vài tuần mà không qua ngưỡng AKI cấp) cần được phân biệt với <strong>AKD sau AKI</strong>, vì nguyên nhân nền và hướng xử trí có thể khác nhau — nhóm sau cần tập trung vào chăm sóc theo dõi hậu AKI (xem Chương 6).</p>
+
+<hr class="sect">
+
+<h2 id="h-14-phuc-hoi">1.4 Phục hồi AKI và AKD</h2>
+<table>
+<caption>Bảng 10 — Tiêu chí phục hồi</caption>
+<tr><th>Chẩn đoán</th><th>Phục hồi hoàn toàn</th><th>Phục hồi một phần</th></tr>
+<tr><td><strong>AKI</strong></td><td>SCr/cystatin C &lt;1,2 lần nền trong vòng 7 ngày</td><td>SCr/cystatin C 1,2–&lt;1,5 lần nền trong vòng 7 ngày</td></tr>
+<tr><td><strong>AKD</strong></td><td>SCr/cystatin C &lt;1,2 lần nền, hoặc eGFR &gt;80% nền, trong 3 tháng</td><td>SCr/cystatin C 1,2–&lt;1,5 lần nền, hoặc eGFR 66–80% nền, trong 3 tháng</td></tr>
+</table>
+<p>Ý nghĩa thực hành: đây là cơ sở khách quan để ghi nhận "bệnh nhân đã hồi phục sau AKI" trên hồ sơ bệnh án, thay vì chỉ dựa cảm tính vào việc bệnh nhân "tỉnh táo, ra viện".</p>
+
+<h2 id="h-15-tai-phat">1.5 AKI tái phát (Recurrent AKI)</h2>
+<p>Được định nghĩa là một đợt AKI <strong>mới</strong> xuất hiện sau khi bệnh nhân đã <strong>phục hồi một phần hoặc hoàn toàn</strong> từ đợt AKI trước đó. Nhận diện AKI tái phát có ý nghĩa quan trọng vì đây là yếu tố nguy cơ mạnh cho tiến triển CKD — cần được ghi nhận riêng biệt, không gộp chung với "AKI kéo dài" của cùng một đợt bệnh.</p>
+
+<hr class="sect">
+
+<h2 id="h-16-tre-em">1.6 Các khía cạnh đặc biệt ở trẻ em và sơ sinh</h2>
+
+<h3 id="h-161">1.6.1 Định nghĩa AKI ở trẻ em</h3>
+<p>Nguyên tắc chẩn đoán giống người lớn, nhưng khi dùng <strong>cystatin C</strong> bắt buộc phải so với <strong>khoảng tham chiếu theo tuổi</strong>, vì giá trị bình thường ở trẻ em thay đổi theo từng giai đoạn phát triển, khác hẳn người lớn.</p>
+
+<h3 id="h-162">1.6.2 Xác định chức năng thận nền ở trẻ em</h3>
+<p>Cách tiếp cận phân cấp tương tự người lớn nhưng có 2 khác biệt quan trọng:</p>
+<ul>
+<li>Cửa sổ thời gian tìm giá trị ngoại trú ngắn hơn: <strong>3 tháng</strong> trước đó (thay vì 8–365 ngày ở người lớn) — vì chức năng thận trẻ em thay đổi nhanh theo tuổi, giá trị quá cũ không còn phản ánh đúng nền.</li>
+<li>Khi phải ước tính từ eGFR, giả định eGFR nền = <strong>120 mL/phút/1,73m²</strong> (GFR bình thường ở trẻ em cao hơn người lớn), khác với 75 mL/phút/1,73m² dùng cho người lớn.</li>
+</ul>
+
+<figure>
+<svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" style="width:100%;height:auto;background:#fff;border:1px solid var(--border);border-radius:10px;">
+<defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a8272"/></marker></defs>
+<rect width="720" height="300" fill="#faf8f3"/>
+<text x="360" y="26" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#3d3830">Chọn SCr nền ở trẻ em (trừ sơ sinh) — khác người lớn ở đâu?</text>
+<rect x="40" y="50" width="290" height="46" rx="12" fill="#e8e2d6" stroke="#8a8272"/>
+<text x="185" y="78" text-anchor="middle" font-size="12" fill="#3d3830">Mức 1: SCr ngoại trú trong 3 tháng trước</text>
+<line x1="185" y1="96" x2="185" y2="122" stroke="#8a8272" stroke-width="1.5" marker-end="url(#ar3)"/>
+<rect x="40" y="122" width="290" height="46" rx="12" fill="#e8e2d6" stroke="#8a8272"/>
+<text x="185" y="150" text-anchor="middle" font-size="12" fill="#3d3830">Mức 2: SCr 1–7 ngày trước nhập viện</text>
+<line x1="185" y1="168" x2="185" y2="194" stroke="#8a8272" stroke-width="1.5" marker-end="url(#ar3)"/>
+<rect x="40" y="194" width="290" height="56" rx="12" fill="#e8e2d6" stroke="#8a8272"/>
+<text x="185" y="216" text-anchor="middle" font-size="12" fill="#3d3830">Mức 3: Ước tính eGFR giả định</text>
+<text x="185" y="234" text-anchor="middle" font-size="12" fill="#b5651d" font-weight="bold">= 120 mL/phút/1,73m²</text>
+<line x1="185" y1="250" x2="185" y2="0" stroke="none"/>
+<rect x="390" y="80" width="290" height="140" rx="12" fill="#f0e6d2" stroke="#b08a4e" stroke-width="2"/>
+<text x="535" y="108" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#3d3830">2 khác biệt so với người lớn</text>
+<text x="535" y="134" text-anchor="middle" font-size="11.5" fill="#3d3830">Cửa sổ tìm SCr cũ: 3 tháng</text>
+<text x="535" y="152" text-anchor="middle" font-size="11.5" fill="#3d3830">(người lớn: 8–365 ngày)</text>
+<text x="535" y="176" text-anchor="middle" font-size="11.5" fill="#3d3830">eGFR giả định: 120</text>
+<text x="535" y="194" text-anchor="middle" font-size="11.5" fill="#3d3830">(người lớn: 75)</text>
+</svg>
+<figcaption class="fig-caption">Hình 3 (vẽ lại) | Cách tiếp cận phân cấp chọn SCr nền ở trẻ em (không tính sơ sinh) — cùng nguyên lý với người lớn (Hình 1) nhưng cửa sổ thời gian ngắn hơn và ngưỡng eGFR giả định cao hơn.</figcaption>
+</figure>
+
+<table>
+<caption>Bảng 11 — Phương pháp ước tính creatinin nền ở trẻ em</caption>
+<tr><th>Phương pháp</th><th>Ghi chú</th></tr>
+<tr><td>Công thức Schwartz chuẩn</td><td>Dựa vào chiều cao — kinh điển, dùng phổ biến</td></tr>
+<tr><td>Công thức Schwartz cập nhật (CKiD)</td><td>Hiệu chỉnh tốt hơn cho trẻ có CKD</td></tr>
+<tr><td>Công thức khác theo tuổi/chiều cao</td><td>Áp dụng khi không đo được cystatin C</td></tr>
+</table>
+
+<h3 id="h-163">1.6.3 Tiêu chí AKI sơ sinh</h3>
+<p>Sơ sinh bình thường có <strong>hiện tượng SCr giảm dần sinh lý</strong> trong 7 ngày đầu đời (creatinin lúc sinh phản ánh creatinin của mẹ, sau đó giảm khi thận trẻ tự đào thải). Vì vậy, tiêu chí chẩn đoán AKI sơ sinh dựa trên <strong>sự vắng mặt của hiện tượng giảm sinh lý này</strong> — đây là điểm hoàn toàn khác biệt so với người lớn/trẻ lớn.</p>
+<table>
+<caption>Bảng 12 — Tiêu chí AKI sơ sinh</caption>
+<tr><th>Tiêu chí</th><th>Ngưỡng/Thời hạn</th></tr>
+<tr><td><strong>Không có hiện tượng giảm SCr sinh lý</strong></td><td>Từ lúc sinh đến ngày thứ 7</td></tr>
+<tr><td>SCr tăng ≥0,3 mg/dL (≥26,5 µmol/L)</td><td>Trong 48 giờ</td></tr>
+<tr><td>SCr tăng ≥1,5 lần nền</td><td>Trong 7 ngày trước</td></tr>
+<tr><td>Cystatin C tăng ≥1,25 lần nền</td><td>Trong 7 ngày</td></tr>
+<tr><td>Cystatin C huyết thanh &gt;2,2 mg/dL</td><td>Bất kỳ thời điểm nào</td></tr>
+<tr><td>Thể tích nước tiểu &lt;1,0 mL/kg/giờ</td><td>Trong ≥24 giờ</td></tr>
+</table>
+
+<div class="box">
+<div class="box-title">🪤 LƯU Ý MCQ</div>
+<p style="margin:0;">Bẫy kinh điển: đề mô tả sơ sinh có SCr "không đổi" trong tuần đầu rồi hỏi có bình thường không — <strong>SCr không giảm ở sơ sinh là bất thường</strong> (gợi ý AKI), khác hoàn toàn tư duy ở người lớn nơi "SCr ổn định" thường được xem là yên tâm.</p>
+</div>
+
+<h3 id="h-164">1.6.4 Phân độ AKI sơ sinh</h3>
+<p>Phân độ ở sơ sinh chỉ dùng <strong>2 thành phần</strong> (Creatinin và thể tích nước tiểu) — <strong>không có thành phần biomarker (B)</strong> như ở trẻ lớn/người lớn, vì biomarker tổn thương thận ở sơ sinh chưa được kiểm chứng đầy đủ để đưa vào tiêu chuẩn chính thức.</p>
+<table>
+<caption>Bảng 13 — Phân độ AKI sơ sinh</caption>
+<tr><th>Giai đoạn</th><th>Tiêu chí Creatinin</th><th>Tiêu chí thể tích nước tiểu (trong 24 giờ)</th></tr>
+<tr><td><strong>1</strong></td><td>Không giảm SCr sinh lý ngày 1–7, hoặc tăng ≥0,3 mg/dL, hoặc 1,5–1,9 lần nền</td><td>&gt;0,5 và ≤1,0 mL/kg/giờ</td></tr>
+<tr><td><strong>2</strong></td><td>2,0–2,9 lần nền</td><td>&gt;0,3 và ≤0,5 mL/kg/giờ</td></tr>
+<tr><td><strong>3</strong></td><td>≥3,0 lần nền, hoặc SCr ≥2,5 mg/dL (220 µmol/L), hoặc đã khởi động RRT</td><td>≤0,3 mL/kg/giờ</td></tr>
+</table>
+
+<div class="warn">
+<strong>Lưu ý ngưỡng thể tích nước tiểu ở sơ sinh CAO HƠN người lớn</strong> (ví dụ giai đoạn 1 dùng ngưỡng &gt;0,5 mL/kg/giờ, trong khi ở người lớn đây lại là ngưỡng <em>bình thường</em> U0) — do sơ sinh có tốc độ chuyển hoá và nhu cầu bài niệu trên mỗi kg cân nặng cao hơn nhiều so với người lớn. Không áp ngưỡng người lớn cho sơ sinh.
+</div>
+
+<div class="box">
+<div class="box-title">🔑 TÓM TẮT CỐT LÕI CHƯƠNG 1</div>
+<ul style="margin:0;">
+<li>AKI = rối loạn chức năng <strong>hoặc</strong> cấu trúc thận trong ≤7 ngày — biomarker tổn thương là điểm mới quan trọng nhất.</li>
+<li>Phân độ tách 3 trục độc lập (C/U/B) thay vì 1 mức độ gộp — mô tả kiểu hình chi tiết hơn.</li>
+<li>AKD lấp khoảng trống 7 ngày–3 tháng giữa AKI và CKD, hình thành một liên tục bệnh học duy nhất.</li>
+<li>Phục hồi hoàn toàn/một phần được định lượng rõ bằng ngưỡng số — không còn đánh giá cảm tính.</li>
+<li>Trẻ em và đặc biệt sơ sinh có ngưỡng và cách tiếp cận baseline khác hẳn người lớn — không áp dụng máy móc tiêu chuẩn người lớn.</li>
+</ul>
+</div>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Nguồn gốc: KDIGO 2026 AKI/AKD Clinical Practice Guideline, Public Review Draft, tháng 3/2026 (kdigo.org). Danh mục tài liệu tham khảo đầy đủ không được sao chép lại ở đây — tra cứu bản gốc khi cần trích dẫn chính thức. Các hình trong bài là sơ đồ tự vẽ lại theo đúng logic thuật toán mô tả trong bản gốc, không phải ảnh chụp/cắt từ PDF gốc.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'kdigo2026_aki_akd_ch1_hl_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>

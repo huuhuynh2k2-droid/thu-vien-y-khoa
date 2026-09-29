@@ -7,7 +7,7 @@
 // trong chuyên khoa đó (ví dụ bài Viêm phổi đầu tiên trong "hh"), tự đặt tên topic mới
 // hợp lý (ví dụ "Nhiễm trùng hô hấp") — không cần hỏi lại, trang sẽ tự tạo nhóm mới.
 window.LIBRARY = {
-  updated: "2026-09-28",
+  updated: "2026-09-29",
   dashboardUrl: "https://huuhuynh2k2-droid.github.io/on-thi-dashboard/",
   // "topic" mới trong "tm" (Tim mạch): "Kháng kết tập tiểu cầu" — nhóm này chưa từng có bài
   // nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
@@ -23,6 +23,15 @@ window.LIBRARY = {
     { id: "hscc",name: "Hồi sức – Cấp cứu",    en: "Critical Care & Emergency" }
   ],
   items: [
+    // "topic" mới trong "than" (Thận): "Tổn thương thận cấp" — chuyên khoa "than" chưa có bài nào trước đó, tự tạo mới theo hướng dẫn ở trên.
+    { id: "than-kdigo2026-akiakd-ch1", sp: "than", topic: "Tổn thương thận cấp",
+      title: "KDIGO 2026 AKI/AKD — Chương 1: Định nghĩa, Nhận diện, Phân loại (+ trẻ em, sơ sinh)",
+      org: "KDIGO Clinical Practice Guideline (Public Review Draft, 3/2026)", year: 2026,
+      doi: "https://kdigo.org/wp-content/uploads/2026/03/KDIGO-2026-AKI-AKD-Guideline-Public-Review-Draft-March-2026.pdf", status: 1,
+      cat: "Guideline dự thảo (chưa chính thức) · Bản tổng hợp/viết lại (không dịch nguyên văn) · Sơ đồ tự vẽ",
+      note: "Định nghĩa AKI (tiêu chí chức năng + cấu trúc, Bảng 1), hạn chế của creatinin/thể tích nước tiểu (Bảng 2), cách chọn creatinin nền phân cấp (Hình 1 tự vẽ), vai trò biomarker tổn thương (TIMP-2×IGFBP7, NGAL — Bảng 3-4), Khuyến cáo 1.1.1 (cystatin C, Grade 2B), phân độ 3 trục C/U/B (Bảng 6), AKI tạm thời/kéo dài (Bảng 7), định nghĩa AKD lấp khoảng trống AKI-CKD (Bảng 9, Hình 2 tự vẽ), tiêu chí phục hồi (Bảng 10), AKI tái phát, và toàn bộ phần trẻ em/sơ sinh (baseline phân cấp riêng — Hình 3 tự vẽ, tiêu chí AKI sơ sinh do vắng hiện tượng giảm SCr sinh lý — Bảng 12-13). Đây là bản DỰ THẢO lấy ý kiến công khai, ngưỡng có thể thay đổi trước khi ban hành chính thức — KDIGO 2012 vẫn là chuẩn hiện hành cho đến khi có bản cuối.",
+      updated: "2026-09-29", url: "docs/kdigo-2026-aki-akd-chuong1.html" },
+
     // "topic" mới trong "tm": "Suy tim" — nhóm này chưa từng có bài nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
     { id: "tm-hfpef-chau-a-2026", sp: "tm", topic: "Suy tim", title: "HFpEF tại châu Á — Đặc điểm lâm sàng và Chiến lược điều trị",
       org: "Tromp J, et al. JACC: Asia 2026 (State-of-the-Art Review)", year: 2026, doi: "https://doi.org/10.1016/j.jacasi.2026.08.009", status: 2,
