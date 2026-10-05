@@ -7,7 +7,7 @@
 // trong chuyên khoa đó (ví dụ bài Viêm phổi đầu tiên trong "hh"), tự đặt tên topic mới
 // hợp lý (ví dụ "Nhiễm trùng hô hấp") — không cần hỏi lại, trang sẽ tự tạo nhóm mới.
 window.LIBRARY = {
-  updated: "2026-09-29",
+  updated: "2026-10-05",
   dashboardUrl: "https://huuhuynh2k2-droid.github.io/on-thi-dashboard/",
   // "topic" mới trong "tm" (Tim mạch): "Kháng kết tập tiểu cầu" — nhóm này chưa từng có bài
   // nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
@@ -23,6 +23,14 @@ window.LIBRARY = {
     { id: "hscc",name: "Hồi sức – Cấp cứu",    en: "Critical Care & Emergency" }
   ],
   items: [
+    // "topic" mới trong "th" (Tiêu hóa): "Xơ gan" — chuyên khoa "th" chưa có bài nào trước đó, tự tạo mới theo hướng dẫn ở trên.
+    { id: "th-bang-bung-xo-gan-bsg2020", sp: "th", topic: "Xơ gan",
+      title: "Báng bụng ở bệnh nhân xơ gan — Chẩn đoán, kỹ thuật chọc tháo dịch báng và điều trị",
+      org: "BSG 2020 (Gut 2021) · slide BS Trần Tuấn Anh · bổ sung AASLD 2021/EASL 2018/Baveno VII", year: 2021,
+      doi: "https://doi.org/10.1136/gutjnl-2020-321790", status: 2,
+      cat: "Guideline · Thủ thuật · Bản tổng hợp/biên soạn lại · Hình gốc + 2 sơ đồ tự vẽ",
+      note: "Cơ chế giữ muối nước (RAAS/giao cảm/ADH), phân độ báng ICA và tiêu chí báng kháng trị; chọc dò chẩn đoán (ống mẫu, SAAG × protein, ADA/BNP/TG/bilirubin dịch); đọc đại thể dịch báng (trong, vàng rơm, vàng chanh, đục, dưỡng chấp, máu, nâu mật) kèm hình thật; kỹ thuật chọc tháo: không ngưỡng INR/tiểu cầu, vị trí an toàn hố chậu trái cách đường giữa ≥ 8 cm & trên khớp mu ≥ 5 cm, Z-track, biến chứng, albumin 8 g/L khi > 5 L; SBP (PMN > 250, kháng sinh, albumin 1,5 → 1 g/kg, dự phòng); muối – lợi tiểu 100:40 – hạ Na; báng kháng trị (TIPS, NSBB, alfapump, giảm nhẹ); HRS-AKI; thoát vị rốn, tràn dịch màng phổi do gan; bảng so sánh BSG/AASLD/EASL và bẫy MCQ.",
+      updated: "2026-10-05", url: "docs/bang-bung-xo-gan-choc-thao-dich-bang.html" },
     // "topic" mới trong "than" (Thận): "Tổn thương thận cấp" — chuyên khoa "than" chưa có bài nào trước đó, tự tạo mới theo hướng dẫn ở trên.
     { id: "than-kdigo2026-akiakd-ch1", sp: "than", topic: "Tổn thương thận cấp",
       title: "KDIGO 2026 AKI/AKD — Chương 1: Định nghĩa, Nhận diện, Phân loại (+ trẻ em, sơ sinh)",
