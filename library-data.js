@@ -89,6 +89,13 @@ window.LIBRARY = {
       note: "Mục tiêu đường huyết ICU/ngoài ICU, phác đồ insulin theo bối cảnh (hồi sức, nuôi ăn qua sonde, dùng corticoid), xử trí quanh phẫu thuật.",
       updated: "", url: "https://huuhuynh2k2-droid.github.io/ki-m-so-t-ng-huy-t/" },
 
+    { id: "nt-ada2026-ch16-dh-noi-vien-dka", sp: "nt", topic: "Đái tháo đường", title: "Kiểm soát đường huyết nội viện theo ADA 2026: từ insulin nền–bữa ăn đến DKA/HHS",
+      org: "ADA Standards of Care 2026 — Chương 16 (+ Chương 9) · slide BS Trần Tuấn Anh · bổ sung nghiên cứu gốc", year: 2026,
+      doi: "https://doi.org/10.2337/dc26-S016", status: 2,
+      cat: "Nội viện · DKA/HHS · Bản tổng hợp/biên soạn lại · 27 hình gốc + 1 sơ đồ tự vẽ",
+      note: "Khung theo slide BS Trần Tuấn Anh: sinh lý và dược động học insulin (bảng Petznick), HbA1c khi nhập viện (16.1), mục tiêu ICU 140–180/ngoài ICU 100–180 (16.4–16.5) kèm NICE-SUGAR; basal-bolus vs sliding scale (16.8–16.10), tính TDD 0,3–0,6 UI/kg, chuyển TM → dưới da 60–80%, thang hiệu chỉnh và quy tắc 1800; Bellido 2015 (trộn sẵn hạ ĐH 64% vs 24%); nuôi ăn sonde/PN; hạ ĐH và sai sót liều U-500; corticoid; SGLT2i trong suy tim (16.11), DPP-4i, GLP-1RA; chu phẫu (16.15); thuốc tiêm ĐTĐ típ 2 (9.20–9.23), quá liều nền, trộn 2–3 mũi, Mixtard, Dawn/Somogyi, IDegAsp (chuyển 1:1, chỉnh liều hàng tuần), tái sử dụng kim và loạn dưỡng mỡ; DKA/HHS (16.16–16.17): tiêu chuẩn đồng thuận 2024, phân độ, ceton niệu, sơ đồ ADA 2026 Việt hóa, RL vs NaCl (Trifi 2026), insulin nền sớm (Thammakosol 2023, Lim 2022), kali, Na hiệu chỉnh 2,4; theo dõi ĐH/CGM nội viện, phác đồ ra viện theo HbA1c, bảng 25 bẫy MCQ.",
+      updated: "2026-10-05", url: "docs/kiem-soat-duong-huyet-noi-vien-ada-2026.html" },
+
     { id: "nt-tang-duong-huyet-noi-tru", sp: "nt", topic: "Đái tháo đường", title: "Quản lý tăng đường huyết ở bệnh nhân nội trú",
       org: "Annals of Internal Medicine — In the Clinic", year: 2024, doi: "https://doi.org/10.7326/ANNALS-24-02754", status: 2,
       cat: "Nội viện",
