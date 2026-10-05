@@ -89,6 +89,13 @@ window.LIBRARY = {
       note: "Mục tiêu đường huyết ICU/ngoài ICU, phác đồ insulin theo bối cảnh (hồi sức, nuôi ăn qua sonde, dùng corticoid), xử trí quanh phẫu thuật.",
       updated: "", url: "https://huuhuynh2k2-droid.github.io/ki-m-so-t-ng-huy-t/" },
 
+    { id: "nt-ada-easd-2026-dtd-tip2", sp: "nt", topic: "Đái tháo đường", title: "Đồng thuận ADA/EASD 2026 — Quản lý đái tháo đường típ 2 (bản dịch đầy đủ)",
+      org: "ADA/EASD Consensus Report (Davies MJ, …, Buse JB). Diabetologia & Diabetes Care 2026", year: 2026,
+      doi: "https://doi.org/10.1007/s00125-026-06855-7", status: 2,
+      cat: "Đồng thuận mới nhất · Dịch đầy đủ từ PDF gốc (CC BY 4.0) · 6 hình gốc có giải thích · Bảng 1 dựng lại",
+      note: "Dịch toàn văn kèm 6 hình gốc (Hình 1 chăm sóc tích hợp; Hình 2 mô hình ăn uống + bảng tác động; Hình 3a/3b năm chữ S và cách “kê đơn” vận động 24 giờ; Hình 4 sơ đồ chọn thuốc theo glucose/cân nặng/ASCVD/CKD/HF/MASLD; Hình 5 SGLT2i vs GLP-1 theo kiểu hình; Hình 6 hệ thống y tế học hỏi), Bảng 1 (8 nhóm thuốc × 12 thông số) dựng lại HTML, đủ 70 khuyến cáo đồng thuận. Điểm chính: SGLT2i và/hoặc liệu pháp dựa trên GLP-1 sớm có thể từ lúc chẩn đoán; phối hợp sớm khi CVD+CKD+suy tim; finerenone (eGFR >25, UACR >30 mg/g); semaglutide/tirzepatide trong HFpEF béo phì, MASH (ESSENCE, SYNERGY-NASH), OSA (SURMOUNT-OSA), PAD (STRIDE, SOUL); orforglipron, icodec, efsitora; phẫu thuật chuyển hóa BMI ≥27,5/32,5 ở người châu Á; sàng lọc tăng cortisol máu khi kháng trị; insulin nền sau GLP-1, ngừng sulfonylurea; DSMES 4 thời điểm; khoảng trống kiến thức và phụ lục bẫy MCQ.",
+      updated: "2026-10-05", url: "docs/dong-thuan-ada-easd-2026-dtd-tip-2.html" },
+
     { id: "nt-ada2026-ch16-dh-noi-vien-dka", sp: "nt", topic: "Đái tháo đường", title: "Kiểm soát đường huyết nội viện theo ADA 2026: từ insulin nền–bữa ăn đến DKA/HHS",
       org: "ADA Standards of Care 2026 — Chương 16 (+ Chương 9) · slide BS Trần Tuấn Anh · bổ sung nghiên cứu gốc", year: 2026,
       doi: "https://doi.org/10.2337/dc26-S016", status: 2,
