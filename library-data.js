@@ -7,7 +7,7 @@
 // trong chuyên khoa đó (ví dụ bài Viêm phổi đầu tiên trong "hh"), tự đặt tên topic mới
 // hợp lý (ví dụ "Nhiễm trùng hô hấp") — không cần hỏi lại, trang sẽ tự tạo nhóm mới.
 window.LIBRARY = {
-  updated: "2026-10-06",
+  updated: "2026-10-07",
   dashboardUrl: "https://huuhuynh2k2-droid.github.io/on-thi-dashboard/",
   // "topic" mới trong "tm" (Tim mạch): "Kháng kết tập tiểu cầu" — nhóm này chưa từng có bài
   // nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
@@ -104,9 +104,9 @@ window.LIBRARY = {
     { id: "cls-a1", sp: "cls", topic: "A · Gan – Mật – Tụy", title: "A1 · Bộ xét nghiệm gan: AST, ALT, ALP, GGT và tỷ số R",
       org: "Chuyên đề tổng hợp: BSG 2018 (Newsome, Gut) · ACG 2017 (Kwo, Am J Gastroenterol) · AFP 2017 (Oh) · Botros & Sikaris 2013 · Waseem & Chen 2016", year: 2026,
       doi: "https://doi.org/10.1136/gutjnl-2017-314924", status: 2,
-      cat: "Chuyên đề cận lâm sàng · Tổng hợp 5 nguồn · 2 sơ đồ tự vẽ + hình gốc BSG · 18 bẫy MCQ",
-      note: "Men gan là chỉ dấu tổn thương, không phải chức năng; sinh hóa AST (bào tương + ty thể 80%) vs ALT (bào tương), gan AST/ALT 2,5, tim/cơ 17, t½ AST 18 giờ / ALT 36 giờ, vitamin B6; ALT bình thường thật nam 29–33, nữ 19–25 U/L (ACG); phân độ < 2×, 2–5×, 5–15×, > 15×, > 10.000; tỷ số R (> 5 / < 2 / 2–5); bảng nguyên nhân AST>ALT, ALT>AST, ngoài gan; viêm gan thiếu oxy (đỉnh 24 giờ, giảm ½ sau 24–72 giờ, LDH, tử vong 56–59%); tỷ số De Ritis theo bệnh cảnh; AST tăng đơn độc; ALP gan hay xương, GGT (ACG vs BSG); sơ đồ BSG xử trí xét nghiệm gan bất thường, bộ tìm nguyên nhân chuẩn/mở rộng, 84% còn bất thường sau 1 tháng, ACG theo mức tăng, FIB-4/NFS; statin, thai, sắt, Wilson, tự miễn.",
-      updated: "2026-10-06", url: "docs/cls-a1-men-gan-ty-so-r.html" },
+      cat: "Chuyên đề cận lâm sàng · Tổng hợp 11 nguồn · 3 sơ đồ tự vẽ + hình gốc BSG · 27 bẫy MCQ · bổ sung chương ALP–GGT 07/10",
+      note: "Men gan là chỉ dấu tổn thương, không phải chức năng; sinh hóa AST (bào tương + ty thể 80%) vs ALT (bào tương), gan AST/ALT 2,5, tim/cơ 17, t½ AST 18 giờ / ALT 36 giờ, vitamin B6; ALT bình thường thật nam 29–33, nữ 19–25 U/L (ACG); phân độ < 2×, 2–5×, 5–15×, > 15×, > 10.000; tỷ số R (> 5 / < 2 / 2–5); bảng nguyên nhân AST>ALT, ALT>AST, ngoài gan; viêm gan thiếu oxy (đỉnh 24 giờ, giảm ½ sau 24–72 giờ, LDH, tử vong 56–59%); tỷ số De Ritis theo bệnh cảnh; AST tăng đơn độc; chương ALP–GGT viết lại đầy đủ (ALP: metalloenzyme Zn/Mg neo GPI, 4 gen, cơ chế tăng do tổng hợp + muối mật làm bong men, tăng muộn/t½ ~1 tuần, sơ đồ động học tắc mật cấp, nguồn xương/thai/ruột nhóm O–B/macro-ALP, ALP thấp và Wilson tối cấp ALP/bilirubin < 4; GGT: men màng phân cắt glutathione, cảm ứng men, rượu GGT/ALP > 2,5, t½ ~10–28 ngày, chỉ dấu nguy cơ tim mạch–chuyển hóa, ứ mật GGT thấp PFIC1/2–BRIC, bảng đọc phối hợp ALP–GGT); sơ đồ BSG xử trí xét nghiệm gan bất thường, bộ tìm nguyên nhân chuẩn/mở rộng, 84% còn bất thường sau 1 tháng, ACG theo mức tăng, FIB-4/NFS; statin, thai, sắt, Wilson, tự miễn.",
+      updated: "2026-10-07", url: "docs/cls-a1-men-gan-ty-so-r.html" },
     { id: "cls-a2", sp: "cls", topic: "A · Gan – Mật – Tụy", title: "A2 · Bilirubin và tiếp cận vàng da",
       org: "Chuyên đề tổng hợp (chưa soạn)", year: 2026, status: 0,
       cat: "Lộ trình CLS tháng 10 · Lịch: Thứ 5 08/10/2026",
