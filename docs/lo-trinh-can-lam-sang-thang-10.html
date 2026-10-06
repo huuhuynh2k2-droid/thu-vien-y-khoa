@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lộ trình Cận lâm sàng tháng 10</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#2F4B8A; --accent-ink:#172447; --accent-bg:#E8EDF7;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">Lộ trình Cận lâm sàng T10</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">CHUYÊN MỤC CẬN LÂM SÀNG · KẾ HOẠCH HỌC</div>
+    <div class="doc-title">Lộ trình học chuyên sâu cận lâm sàng – tháng 10/2026</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">LỘ TRÌNH 4 TUẦN</span>
+    <h1>Càn quét cận lâm sàng nội khoa trong tháng 10: lịch học và mục lục 58 bài</h1>
+    <div class="byline">BS. Huỳnh Hữu Minh (với hỗ trợ của Claude)</div>
+    <div class="cite">Kế hoạch học tập cá nhân, lập ngày 06/10/2026. Đợt 1: 41 bài (07–31/10). Đợt 2: 17 bài (tháng 11).</div>
+
+    <div class="box"><p><strong>Mục đích.</strong> Học chuyên sâu, có hệ thống các nhóm cận lâm sàng mà bác sĩ nội khoa dùng hằng ngày, theo từng hệ cơ quan. Trang này là <strong>mục lục và lịch học</strong>: mỗi bài có danh sách mục sẽ được soạn thành trang đọc đầy đủ (cùng kiểu với bài Marker viêm), đưa lên thư viện và Notion. Đánh dấu ô ✓ bên cạnh mỗi bài khi đã học xong; trạng thái được lưu trên trình duyệt này.</p></div>
+<h2 id="h-tongquan">1. Tổng quan lộ trình</h2>
+<figure style="margin:22px 0 18px;"><svg viewBox="0 0 900 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:#F7F3EA;border:1px solid var(--border);border-radius:10px" font-family="Inter, Arial, sans-serif"><defs><marker id="arP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6b665c"/></marker></defs><rect x="300" y="14" width="300" height="46" rx="12" fill="#E9E5DC" stroke="#8a8578"/><text x="450" y="36" text-anchor="middle" font-size="14.5" font-weight="700" fill="#2b2925">Cận lâm sàng – tháng 10/2026</text><text x="450" y="53" text-anchor="middle" font-size="12" fill="#4a463e">Đã xong: D1 Marker viêm (06/10)</text><line x1="450" y1="60" x2="122" y2="92" stroke="#6b665c" stroke-width="1.4" marker-end="url(#arP)"/><rect x="22" y="94" width="200" height="150" rx="12" fill="#fff" stroke="#8a8578"/><text x="122" y="118" text-anchor="middle" font-size="14" font-weight="700" fill="#D9731A">TUẦN 1</text><text x="122" y="137" text-anchor="middle" font-size="12" fill="#6b665c">07–11/10</text><text x="122" y="162" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2b2925">Nền tảng +</text><text x="122" y="180" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2b2925">Gan – Mật – Tụy</text><text x="122" y="236" text-anchor="middle" font-size="11.5" fill="#0E4E8A">0.1 · A1–A5 · A7 · 7 bài</text><line x1="450" y1="60" x2="342" y2="92" stroke="#6b665c" stroke-width="1.4" marker-end="url(#arP)"/><rect x="242" y="94" width="200" height="150" rx="12" fill="#fff" stroke="#8a8578"/><text x="342" y="118" text-anchor="middle" font-size="14" font-weight="700" fill="#D9731A">TUẦN 2</text><text x="342" y="137" text-anchor="middle" font-size="12" fill="#6b665c">12–18/10</text><text x="342" y="162" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2b2925">CĐHA bụng +</text><text x="342" y="180" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2b2925">Huyết học +</text><text x="342" y="198" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2b2925">Vi sinh</text><text x="342" y="236" text-anchor="middle" font-size="11.5" fill="#0E4E8A">B2–B3 · C1–C6 · D3–D5 · 11 bài</text><line x1="450" y1="60" x2="562" y2="92" stroke="#6b665c" stroke-width="1.4" marker-end="url(#arP)"/><rect x="462" y="94" width="200" height="150" rx="12" fill="#fff" stroke="#8a8578"/><text x="562" y="118" text-anchor="middle" font-size="14" font-weight="700" fill="#D9731A">TUẦN 3</text><text x="562" y="137" text-anchor="middle" font-size="12" fill="#6b665c">19–25/10</text><text x="562" y="162" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2b2925">Vi sinh + Thận +</text><text x="562" y="180" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2b2925">Điện giải + Tim</text><text x="562" y="236" text-anchor="middle" font-size="11.5" fill="#0E4E8A">D6 · E1–E4 · F1–F4 · G1–G3 · 11 bài</text><line x1="450" y1="60" x2="782" y2="92" stroke="#6b665c" stroke-width="1.4" marker-end="url(#arP)"/><rect x="682" y="94" width="200" height="150" rx="12" fill="#fff" stroke="#8a8578"/><text x="782" y="118" text-anchor="middle" font-size="14" font-weight="700" fill="#D9731A">TUẦN 4</text><text x="782" y="137" text-anchor="middle" font-size="12" fill="#6b665c">26–31/10</text><text x="782" y="162" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2b2925">Tim + Nội tiết +</text><text x="782" y="180" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2b2925">Hô hấp + Thần kinh +</text><text x="782" y="198" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2b2925">Miễn dịch</text><text x="782" y="236" text-anchor="middle" font-size="11.5" fill="#0E4E8A">G4 · H1–H3 · I · J · K · 11 bài</text><rect x="22" y="262" width="640" height="52" rx="12" fill="#E9E5DC" stroke="#8a8578"/><text x="342" y="284" text-anchor="middle" font-size="12.5" fill="#2b2925">Thứ 2–6: 2 bài/ngày · Thứ 7: 1 bài + ôn · Chủ nhật: ôn MCQ cả tuần</text><text x="342" y="302" text-anchor="middle" font-size="12.5" fill="#2b2925">Mỗi bài: đọc cơ chế → bảng diễn giải → bẫy MCQ → áp vào 1 bệnh nhân thật</text><rect x="682" y="262" width="196" height="52" rx="12" fill="#FBEFE3" stroke="#D9731A"/><text x="780" y="284" text-anchor="middle" font-size="12.5" font-weight="700" fill="#8a4410">Đợt 2 – tháng 11</text><text x="780" y="302" text-anchor="middle" font-size="12" fill="#8a4410">17 bài mở rộng</text></svg><figcaption class="fig-caption">Hình 1 | Lộ trình 4 tuần cận lâm sàng tháng 10/2026 (sơ đồ tự vẽ). Tuần 1 ưu tiên gan – mật – tụy và hình ảnh bụng để khớp với luân khoa Ngoại tiêu hóa.</figcaption></figure>
+<h3 id="h-nguyentac">Nguyên tắc chọn và sắp xếp</h3><ul>
+<li><strong>Đợt 1 (tháng 10, 40 bài + 1 bài đã xong):</strong> những xét nghiệm và thăm dò bác sĩ nội khoa chỉ định và đọc <em>mỗi ngày</em>, hay ra đề thi nội trú, đánh giá năng lực.</li>
+<li><strong>Đợt 2 (tháng 11, 17 bài):</strong> thăm dò chuyên sâu hơn hoặc đã có bài liên quan trong thư viện (kali, lipid, báng bụng).</li>
+<li><strong>Thứ tự:</strong> nền tảng diễn giải trước; gan – mật – tụy và hình ảnh bụng tuần đầu vì đang luân khoa Ngoại tiêu hóa; sau đó đi theo dòng chảy lâm sàng: máu → nhiễm khuẩn → thận → điện giải → tim → nội tiết → hô hấp → thần kinh → miễn dịch.</li>
+<li><strong>Nhịp độ:</strong> thứ 2–6 hai bài mỗi ngày, thứ 7 một bài và ôn, chủ nhật ôn bằng bẫy MCQ của cả tuần. Nếu ngày trực hoặc bận, dời bài sang chủ nhật; không dồn quá 3 bài một ngày.</li>
+</ul>
+<h3 id="h-cachhoc">Cấu trúc chung của mỗi bài</h3><ol>
+<li>Bản chất sinh lý – sinh hóa: xét nghiệm đo cái gì, sinh ra ở đâu, động học</li>
+<li>Kỹ thuật và sai số tiền phân tích</li>
+<li>Ngưỡng tham chiếu và ngưỡng quyết định lâm sàng (theo hướng dẫn mới nhất)</li>
+<li>Độ nhạy, độ đặc hiệu theo từng bệnh cảnh</li>
+<li>Dương tính giả, âm tính giả</li>
+<li>Sơ đồ tiếp cận (SVG) và cách theo dõi theo bệnh cảnh</li>
+<li>Bẫy MCQ, clinical pearls, tóm tắt một trang, nguồn</li>
+</ol>
+<h2 id="h-lich">2. Lịch học theo ngày</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Ngày</th><th>Bài học</th><th>Số bài</th></tr></thead><tbody><tr><td style="white-space:nowrap">Thứ 3 06/10</td><td><strong>D1</strong> · <a href="marker-viem-bach-cau-crp-procalcitonin.html">Vai trò các marker phản ứng viêm trong bệnh nội khoa: Bạch cầu, CRP, Procalcitonin</a> <span class="grade">✅ Đã có bài</span></td><td style="text-align:center">1</td></tr><tr><td colspan="3" style="background:var(--accent-bg);font-weight:700">Tuần 1</td></tr><tr><td style="white-space:nowrap">Thứ 4 07/10</td><td><strong>0.1</strong> · Nguyên lý đọc xét nghiệm: độ nhạy, độ đặc hiệu, tỷ số khả dĩ và sai số tiền phân tích<br><strong>A1</strong> · Bộ xét nghiệm gan: AST, ALT, ALP, GGT và tỷ số R</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 5 08/10</td><td><strong>A2</strong> · Bilirubin và tiếp cận vàng da<br><strong>A3</strong> · Chức năng tổng hợp gan và đánh giá xơ hóa: albumin, INR, Child-Pugh, MELD, FIB-4, FibroScan</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 6 09/10</td><td><strong>A4</strong> · Marker viêm gan virus: HBV, HCV, HAV, HEV<br><strong>A5</strong> · Amylase, lipase và viêm tụy cấp</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 7 10/10</td><td><strong>A7</strong> · Marker ung thư: AFP, CEA, CA 19-9, CA-125, PSA – dùng đúng và dùng sai<br><em>+ Ôn nhanh các bài trong tuần</em></td><td style="text-align:center">1</td></tr><tr><td style="white-space:nowrap">Chủ nhật 11/10</td><td><em>Ôn tập: làm lại bẫy MCQ của các bài trong tuần, áp vào bệnh nhân đang theo dõi ở bệnh phòng</em></td><td style="text-align:center"></td></tr><tr><td colspan="3" style="background:var(--accent-bg);font-weight:700">Tuần 2</td></tr><tr><td style="white-space:nowrap">Thứ 2 12/10</td><td><strong>B2</strong> · Siêu âm bụng cho bác sĩ nội khoa<br><strong>B3</strong> · X-quang bụng và CT bụng: chỉ định, đọc cơ bản, thuốc cản quang</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 3 13/10</td><td><strong>C1</strong> · Công thức máu dòng hồng cầu và tiếp cận thiếu máu (MCV, RDW, hồng cầu lưới)<br><strong>C4</strong> · Sắt, ferritin, độ bão hòa transferrin, vitamin B12, folate</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 4 14/10</td><td><strong>C2</strong> · Bạch cầu và phết máu ngoại vi: giảm bạch cầu, tăng ái toan, tế bào bất thường<br><strong>C3</strong> · Tiểu cầu: giảm tiểu cầu, tăng tiểu cầu, HIT và bệnh vi mạch huyết khối</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 5 15/10</td><td><strong>C5</strong> · Xét nghiệm tan máu: LDH, haptoglobin, bilirubin gián tiếp, Coombs<br><strong>C6</strong> · Đông máu: PT/INR, aPTT, fibrinogen, D-dimer, DIC và theo dõi thuốc chống đông</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 6 16/10</td><td><strong>D3</strong> · Cấy máu: chỉ định, kỹ thuật lấy mẫu, nhiễm bẩn và diễn giải<br><strong>D4</strong> · Nhuộm Gram, kháng sinh đồ, MIC và cách đọc phiếu vi sinh</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 7 17/10</td><td><strong>D5</strong> · Xét nghiệm lao: AFB, Xpert MTB/RIF, cấy, IGRA/TST, ADA dịch<br><em>+ Ôn nhanh các bài trong tuần</em></td><td style="text-align:center">1</td></tr><tr><td style="white-space:nowrap">Chủ nhật 18/10</td><td><em>Ôn tập: làm lại bẫy MCQ của các bài trong tuần, áp vào bệnh nhân đang theo dõi ở bệnh phòng</em></td><td style="text-align:center"></td></tr><tr><td colspan="3" style="background:var(--accent-bg);font-weight:700">Tuần 3</td></tr><tr><td style="white-space:nowrap">Thứ 2 19/10</td><td><strong>D6</strong> · Huyết thanh học và PCR: HIV, Dengue, sốt mò, leptospira, giang mai<br><strong>E1</strong> · Creatinin, eGFR, cystatin C, ure và tỷ BUN/creatinin</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 3 20/10</td><td><strong>E2</strong> · Tổng phân tích nước tiểu và cặn lắng<br><strong>E3</strong> · Protein niệu: que thử, ACR, PCR và protein niệu 24 giờ</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 4 21/10</td><td><strong>E4</strong> · Điện giải niệu: FENa, FEUrea, Na niệu, áp lực thẩm thấu niệu<br><strong>F1</strong> · Natri máu và áp lực thẩm thấu</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 5 22/10</td><td><strong>F2</strong> · Khí máu động mạch, anion gap, delta ratio, osmolal gap và lactate<br><strong>F4</strong> · Canxi, phospho, magie, PTH và vitamin D</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 6 23/10</td><td><strong>G1</strong> · Troponin độ nhạy cao: thuật toán 0/1 giờ, 0/2 giờ và tăng troponin không do nhồi máu<br><strong>G2</strong> · BNP và NT-proBNP</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 7 24/10</td><td><strong>G3</strong> · Điện tâm đồ hệ thống cho bác sĩ nội khoa<br><em>+ Ôn nhanh các bài trong tuần</em></td><td style="text-align:center">1</td></tr><tr><td style="white-space:nowrap">Chủ nhật 25/10</td><td><em>Ôn tập: làm lại bẫy MCQ của các bài trong tuần, áp vào bệnh nhân đang theo dõi ở bệnh phòng</em></td><td style="text-align:center"></td></tr><tr><td colspan="3" style="background:var(--accent-bg);font-weight:700">Tuần 4</td></tr><tr><td style="white-space:nowrap">Thứ 2 26/10</td><td><strong>G4</strong> · Siêu âm tim cho bác sĩ nội khoa<br><strong>H1</strong> · Glucose, HbA1c, OGTT, ceton, C-peptide và kháng thể đái tháo đường</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 3 27/10</td><td><strong>H2</strong> · Chức năng tuyến giáp: TSH, FT4, FT3, kháng thể và thyroglobulin<br><strong>H3</strong> · Trục thượng thận: cortisol, ACTH, test Synacthen, test ức chế dexamethasone</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 4 28/10</td><td><strong>I1</strong> · X-quang ngực hệ thống<br><strong>I3</strong> · Chức năng hô hấp: hô hấp ký, test giãn phế quản, DLCO</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 5 29/10</td><td><strong>I4</strong> · Dịch màng phổi: tiêu chuẩn Light, pH, glucose, ADA, tế bào<br><strong>J1</strong> · Dịch não tủy: chỉ định chọc dò, đọc kết quả và các kiểu viêm màng não</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 6 30/10</td><td><strong>J2</strong> · CT và MRI não trong đột quỵ và cấp cứu thần kinh<br><strong>K1</strong> · Kháng thể kháng nhân (ANA), anti-dsDNA, ENA và bổ thể</td><td style="text-align:center">2</td></tr><tr><td style="white-space:nowrap">Thứ 7 31/10</td><td><strong>K2</strong> · Yếu tố dạng thấp, anti-CCP, HLA-B27, acid uric và dịch khớp<br><em>+ Ôn nhanh các bài trong tuần</em></td><td style="text-align:center">1</td></tr></tbody></table></div>
+<h2 id="h-mucluc">3. Mục lục chi tiết theo nhóm cận lâm sàng (đợt 1)</h2>
+<h3 id="h-m0">0 · Nền tảng diễn giải xét nghiệm</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="0.1" style="transform:scale(1.25);margin-right:8px"><strong>0.1 · Nguyên lý đọc xét nghiệm: độ nhạy, độ đặc hiệu, tỷ số khả dĩ và sai số tiền phân tích</strong></label> <span class="grade">Thứ 4 07/10</span></p><ul><li>Độ nhạy, độ đặc hiệu, giá trị tiên đoán; vì sao PPV/NPV đổi theo tỷ lệ hiện mắc</li><li>Tỷ số khả dĩ (LR+, LR−), xác suất tiền nghiệm – hậu nghiệm, toán đồ Fagan</li><li>Khoảng tham chiếu (2,5–97,5 bách phân vị): 5% người khỏe nằm ngoài khoảng</li><li>Sai số tiền phân tích: tán huyết (K, LDH, AST), mẫu để lâu, lấy cùng tay truyền dịch, ống chống đông sai thứ tự</li><li>Biến thiên sinh học, thay đổi có ý nghĩa giữa hai lần đo (reference change value)</li><li>Đơn vị quy ước và đơn vị SI: bảng quy đổi hay dùng (glucose, creatinin, bilirubin, Ca, CRP)</li><li>Chỉ định xét nghiệm hợp lý: “kết quả sẽ thay đổi quyết định gì?”</li></ul></div>
+<h3 id="h-mA">A · Gan – Mật – Tụy</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="A1" style="transform:scale(1.25);margin-right:8px"><strong>A1 · Bộ xét nghiệm gan: AST, ALT, ALP, GGT và tỷ số R</strong></label> <span class="grade">Thứ 4 07/10</span></p><ul><li>Nguồn gốc và thời gian bán thải từng men; men gan không phải “chức năng gan”</li><li>Tỷ số R = (ALT/ULN)/(ALP/ULN): kiểu tế bào gan, ứ mật, hỗn hợp</li><li>Tăng men rất cao (&gt;1000 U/L): thiếu máu gan, độc chất (paracetamol), virus cấp, sỏi kẹt</li><li>AST/ALT &gt;2 (rượu), tăng AST đơn độc (cơ, tán huyết, macro-AST)</li><li>ALP tăng: gan hay xương? GGT, 5′-nucleotidase; ALP tăng sinh lý (thai, tuổi dậy thì)</li><li>Tiếp cận tăng men gan nhẹ mạn tính (MASLD, rượu, thuốc, HBV/HCV, Wilson, ứ sắt, tự miễn)</li><li>Bẫy: statin, tập luyện nặng, tiêu cơ vân</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="A2" style="transform:scale(1.25);margin-right:8px"><strong>A2 · Bilirubin và tiếp cận vàng da</strong></label> <span class="grade">Thứ 5 08/10</span></p><ul><li>Chuyển hóa bilirubin: gián tiếp – trực tiếp – urobilinogen</li><li>Tăng bilirubin gián tiếp: tan máu, Gilbert, thuốc</li><li>Tăng bilirubin trực tiếp: tại gan và sau gan (tắc mật)</li><li>Bilirubin niệu, urobilinogen niệu, màu phân</li><li>Delta-bilirubin: vì sao vàng da giảm chậm sau giải phóng tắc mật</li><li>Sơ đồ tiếp cận vàng da: xét nghiệm → siêu âm → MRCP/ERCP/EUS</li><li>Gắn với luân khoa Ngoại tiêu hóa: tắc mật, u đầu tụy, sỏi ống mật chủ</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="A3" style="transform:scale(1.25);margin-right:8px"><strong>A3 · Chức năng tổng hợp gan và đánh giá xơ hóa: albumin, INR, Child-Pugh, MELD, FIB-4, FibroScan</strong></label> <span class="grade">Thứ 5 08/10</span></p><ul><li>Albumin (t½ ~20 ngày) và INR (yếu tố VII, t½ ~6 giờ): đo gì, nhiễu gì</li><li>INR trong xơ gan không phản ánh nguy cơ chảy máu (cân bằng đông máu mới)</li><li>Child-Pugh, MELD, MELD-Na, MELD 3.0: thành phần và ứng dụng</li><li>Chấm điểm xơ hóa không xâm lấn: FIB-4, APRI, ELF</li><li>Đo độ đàn hồi gan (FibroScan, ngưỡng kPa), CAP đánh giá nhiễm mỡ</li><li>Amoniac máu: khi nào có ích, khi nào không</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="A4" style="transform:scale(1.25);margin-right:8px"><strong>A4 · Marker viêm gan virus: HBV, HCV, HAV, HEV</strong></label> <span class="grade">Thứ 6 09/10</span></p><ul><li>HBV: HBsAg, anti-HBs, anti-HBc IgM/IgG, HBeAg/anti-HBe, HBV DNA, qHBsAg</li><li>Bảng diễn giải các kiểu huyết thanh HBV (cấp, mạn, đã khỏi, đã tiêm vắc-xin, anti-HBc đơn độc)</li><li>Giai đoạn HBV mạn và chỉ định điều trị theo HBV DNA/ALT</li><li>Sàng lọc trước hóa trị/ức chế miễn dịch: nguy cơ tái hoạt</li><li>HCV: anti-HCV, HCV RNA, kiểu gen; anti-HCV dương nhưng RNA âm</li><li>HAV IgM, HEV IgM; viêm gan tự miễn (ANA, ASMA, IgG)</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="A5" style="transform:scale(1.25);margin-right:8px"><strong>A5 · Amylase, lipase và viêm tụy cấp</strong></label> <span class="grade">Thứ 6 09/10</span></p><ul><li>Nguồn gốc, động học amylase và lipase; ngưỡng &gt;3 lần giới hạn trên</li><li>Tiêu chuẩn Atlanta sửa đổi; khi nào cần CT (không phải thường quy lúc đầu)</li><li>Tăng amylase/lipase không do tụy: suy thận, thủng tạng, tắc ruột, macroamylase, DKA</li><li>Xét nghiệm tìm nguyên nhân: triglycerid, canxi, men gan (ALT &gt;150 gợi ý sỏi mật)</li><li>Phân tầng nặng: BISAP, CRP 48 giờ, hematocrit, BUN</li><li>Không theo dõi lipase hằng ngày</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="A7" style="transform:scale(1.25);margin-right:8px"><strong>A7 · Marker ung thư: AFP, CEA, CA 19-9, CA-125, PSA – dùng đúng và dùng sai</strong></label> <span class="grade">Thứ 7 10/10</span></p><ul><li>Marker ung thư dùng để theo dõi, không để sàng lọc (trừ một số ngoại lệ)</li><li>AFP và ung thư biểu mô tế bào gan: giám sát kèm siêu âm mỗi 6 tháng</li><li>CEA (đại trực tràng), CA 19-9 (tụy – mật, tăng giả khi tắc mật, âm tính ở người Lewis âm)</li><li>CA-125 (buồng trứng; tăng do báng bụng, suy tim, viêm thanh mạc)</li><li>PSA: tăng do viêm, sinh thiết, cưỡi xe đạp; vai trò sàng lọc có chọn lọc</li><li>Bẫy: “tầm soát ung thư bằng gói marker” ở người không triệu chứng</li></ul></div>
+<h3 id="h-mB">B · Chẩn đoán hình ảnh bụng &amp; Nội soi</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="B2" style="transform:scale(1.25);margin-right:8px"><strong>B2 · Siêu âm bụng cho bác sĩ nội khoa</strong></label> <span class="grade">Thứ 2 12/10</span></p><ul><li>Nguyên lý cơ bản, cửa sổ và giới hạn (hơi, béo phì)</li><li>Gan: gan nhiễm mỡ, xơ gan, khối u, giãn đường mật trong gan</li><li>Túi mật và ống mật chủ: sỏi, viêm túi mật (Murphy siêu âm), đường kính OMC</li><li>Thận: ứ nước, sỏi, kích thước, phân biệt cấp và mạn</li><li>Dịch ổ bụng, dịch màng phổi, hướng dẫn chọc dò</li><li>POCUS tại giường: FAST, tĩnh mạch chủ dưới</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="B3" style="transform:scale(1.25);margin-right:8px"><strong>B3 · X-quang bụng và CT bụng: chỉ định, đọc cơ bản, thuốc cản quang</strong></label> <span class="grade">Thứ 2 12/10</span></p><ul><li>X-quang bụng không chuẩn bị: liềm hơi dưới hoành, mức nước – hơi, quai ruột giãn</li><li>CT có/không cản quang, thì động mạch – tĩnh mạch cửa; CT mạch máu mạc treo</li><li>Đọc cơ bản: tắc ruột, viêm ruột thừa, viêm túi thừa, thiếu máu mạc treo, thủng tạng, sỏi niệu</li><li>Thuốc cản quang i-ốt và thận (CA-AKI): ngưỡng eGFR, dự phòng bằng dịch</li><li>Metformin và thuốc cản quang; dị ứng thuốc cản quang và tiền mê</li><li>Liều bức xạ và chọn MRI/siêu âm khi nào</li></ul></div>
+<h3 id="h-mC">C · Huyết học – Đông máu</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="C1" style="transform:scale(1.25);margin-right:8px"><strong>C1 · Công thức máu dòng hồng cầu và tiếp cận thiếu máu (MCV, RDW, hồng cầu lưới)</strong></label> <span class="grade">Thứ 3 13/10</span></p><ul><li>Hb, Hct, MCV, MCH, MCHC, RDW: ý nghĩa và cách máy đo</li><li>Thiếu máu hồng cầu nhỏ: thiếu sắt, thalassemia (chỉ số Mentzer), bệnh mạn tính, nguyên bào sắt</li><li>Thiếu máu hồng cầu to: B12/folate, rượu, bệnh gan, suy giáp, thuốc, loạn sinh tủy</li><li>Thiếu máu hồng cầu bình thường: hồng cầu lưới tăng (mất máu, tan máu) hay giảm (suy tủy, thận)</li><li>Chỉ số hồng cầu lưới hiệu chỉnh</li><li>Đa hồng cầu: nguyên phát (JAK2) và thứ phát (EPO)</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="C4" style="transform:scale(1.25);margin-right:8px"><strong>C4 · Sắt, ferritin, độ bão hòa transferrin, vitamin B12, folate</strong></label> <span class="grade">Thứ 3 13/10</span></p><ul><li>Chu trình sắt và hepcidin</li><li>Ferritin: marker dự trữ nhưng cũng là chất phản ứng pha cấp</li><li>Ngưỡng thiếu sắt: ferritin &lt;30; trong viêm/suy tim/CKD: ferritin &lt;100 hoặc 100–300 kèm TSAT &lt;20%</li><li>Thiếu sắt kèm thiếu máu bệnh mạn tính</li><li>B12: ngưỡng xám, methylmalonic acid, homocystein; folate</li><li>Quá tải sắt: TSAT &gt;45%, ferritin cao, gen HFE</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="C2" style="transform:scale(1.25);margin-right:8px"><strong>C2 · Bạch cầu và phết máu ngoại vi: giảm bạch cầu, tăng ái toan, tế bào bất thường</strong></label> <span class="grade">Thứ 4 14/10</span></p><ul><li>Ôn nhanh từ chuyên đề marker viêm: công thức bạch cầu, chuyển trái</li><li>Giảm BCTT: phân độ, nguyên nhân thuốc (methimazole, clozapine, cotrimoxazol), sắc tộc</li><li>Giảm lympho, tăng ái toan (&gt;1,5 G/L), tăng mono</li><li>Đọc phết máu: blast, mảnh vỡ hồng cầu, hồng cầu hình cầu, thể Howell-Jolly, giọt nước</li><li>Giảm ba dòng: tiếp cận và khi nào làm tủy đồ</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="C3" style="transform:scale(1.25);margin-right:8px"><strong>C3 · Tiểu cầu: giảm tiểu cầu, tăng tiểu cầu, HIT và bệnh vi mạch huyết khối</strong></label> <span class="grade">Thứ 4 14/10</span></p><ul><li>Giả giảm tiểu cầu do EDTA (ống citrate)</li><li>Giảm tiểu cầu: giảm sản xuất, tăng phá hủy, ứ ở lách, pha loãng</li><li>Ngưỡng an toàn cho thủ thuật và truyền tiểu cầu</li><li>HIT: thang 4T, kháng thể anti-PF4, xử trí</li><li>TTP/HUS: mảnh vỡ hồng cầu, LDH, PLASMIC score, ADAMTS13</li><li>Tăng tiểu cầu phản ứng hay nguyên phát (JAK2, CALR, MPL)</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="C5" style="transform:scale(1.25);margin-right:8px"><strong>C5 · Xét nghiệm tan máu: LDH, haptoglobin, bilirubin gián tiếp, Coombs</strong></label> <span class="grade">Thứ 5 15/10</span></p><ul><li>Tan máu trong lòng mạch và ngoài lòng mạch</li><li>Bộ ba: LDH ↑, haptoglobin ↓, bilirubin gián tiếp ↑; hồng cầu lưới ↑</li><li>Nghiệm pháp Coombs trực tiếp: tan máu tự miễn ấm/lạnh, do thuốc</li><li>Tan máu Coombs âm: G6PD (rất quan trọng ở Việt Nam), hồng cầu hình cầu, mảnh vỡ hồng cầu</li><li>Hemoglobin niệu, hemosiderin niệu</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="C6" style="transform:scale(1.25);margin-right:8px"><strong>C6 · Đông máu: PT/INR, aPTT, fibrinogen, D-dimer, DIC và theo dõi thuốc chống đông</strong></label> <span class="grade">Thứ 5 15/10</span></p><ul><li>Mô hình đông máu dựa trên tế bào và vì sao PT/aPTT là xét nghiệm trong ống nghiệm</li><li>PT kéo dài đơn độc, aPTT kéo dài đơn độc, cả hai kéo dài: tiếp cận</li><li>Nghiệm pháp trộn (mixing test), kháng đông lupus</li><li>D-dimer: độ nhạy cao, ngưỡng theo tuổi, YEARS, không dùng khi xác suất cao</li><li>DIC: thang điểm ISTH</li><li>Theo dõi heparin (aPTT, anti-Xa), warfarin (INR), DOAC (khi nào cần đo)</li><li>Đông máu toàn phần (TEG/ROTEM) – khái niệm</li></ul></div>
+<h3 id="h-mD">D · Nhiễm khuẩn – Vi sinh</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="D1" style="transform:scale(1.25);margin-right:8px"><strong>D1 · <a href="marker-viem-bach-cau-crp-procalcitonin.html">Vai trò các marker phản ứng viêm trong bệnh nội khoa: Bạch cầu, CRP, Procalcitonin</a> <span class="grade">✅ Đã có bài</span></strong></label> <span class="grade">Thứ 3 06/10</span></p><p>Đã soạn xong: bản chất, ngưỡng, nhạy/đặc hiệu theo 16 bệnh cảnh, dương/âm tính giả, theo dõi theo bệnh cảnh, ADAPT-Sepsis, 18 bẫy MCQ.</p></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="D3" style="transform:scale(1.25);margin-right:8px"><strong>D3 · Cấy máu: chỉ định, kỹ thuật lấy mẫu, nhiễm bẩn và diễn giải</strong></label> <span class="grade">Thứ 6 16/10</span></p><ul><li>Khi nào cấy máu (và khi nào không: sốt đơn độc sau mổ, viêm mô tế bào nhẹ)</li><li>2 bộ × 2 chai, 20 mL mỗi bộ, hai vị trí; lấy trước kháng sinh</li><li>Thời gian mọc và ý nghĩa; cấy máu qua catheter (chênh thời gian mọc ≥2 giờ)</li><li>Vi khuẩn nhiễm bẩn hay thật: tụ cầu coagulase âm, Corynebacterium, Bacillus</li><li>Vi khuẩn luôn coi là thật: S. aureus, Candida, S. pneumoniae, Gram âm</li><li>S. aureus máu: cấy lại, siêu âm tim; cấy máu theo dõi khi nào cần</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="D4" style="transform:scale(1.25);margin-right:8px"><strong>D4 · Nhuộm Gram, kháng sinh đồ, MIC và cách đọc phiếu vi sinh</strong></label> <span class="grade">Thứ 6 16/10</span></p><ul><li>Nhuộm Gram: đọc nhanh định hướng kháng sinh</li><li>Kháng sinh đồ: S – I (tăng liều) – R theo EUCAST/CLSI</li><li>MIC và điểm gãy; không so MIC giữa các kháng sinh khác nhau</li><li>Các kiểu kháng thuốc: MRSA, ESBL, AmpC, CRE (KPC, NDM, OXA-48), VRE</li><li>Xét nghiệm nhanh định danh và gen kháng thuốc (PCR multiplex, MALDI-TOF)</li><li>Mẫu đờm đạt chuẩn (Bartlett), mẫu nước tiểu, mẫu mủ</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="D5" style="transform:scale(1.25);margin-right:8px"><strong>D5 · Xét nghiệm lao: AFB, Xpert MTB/RIF, cấy, IGRA/TST, ADA dịch</strong></label> <span class="grade">Thứ 7 17/10</span></p><ul><li>Soi AFB đờm: độ nhạy, số mẫu</li><li>Xpert MTB/RIF Ultra: phát hiện và kháng rifampicin; trace call</li><li>Cấy MGIT, kháng sinh đồ lao, LPA</li><li>Lao ngoài phổi: ADA dịch màng phổi/màng bụng, dịch não tủy, giải phẫu bệnh</li><li>Lao tiềm ẩn: IGRA và TST; trước sinh học/ức chế miễn dịch</li><li>LAM nước tiểu ở người HIV</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="D6" style="transform:scale(1.25);margin-right:8px"><strong>D6 · Huyết thanh học và PCR: HIV, Dengue, sốt mò, leptospira, giang mai</strong></label> <span class="grade">Thứ 2 19/10</span></p><ul><li>Kháng nguyên – kháng thể – PCR: chọn theo ngày bệnh</li><li>HIV: test kết hợp kháng nguyên/kháng thể, giai đoạn cửa sổ, tải lượng, CD4</li><li>Dengue: NS1 (ngày 1–5), IgM/IgG; dấu hiệu cận lâm sàng cảnh báo (Hct tăng, tiểu cầu giảm)</li><li>Sốt mò (IgM, PCR), leptospira (MAT, IgM), thương hàn (cấy máu &gt; Widal)</li><li>Giang mai: test không đặc hiệu (RPR) và đặc hiệu (TPHA), thuật toán ngược</li><li>PCR đa mầm bệnh hô hấp/tiêu hóa/màng não: khi nào đáng làm</li></ul></div>
+<h3 id="h-mE">E · Thận – Nước tiểu</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="E1" style="transform:scale(1.25);margin-right:8px"><strong>E1 · Creatinin, eGFR, cystatin C, ure và tỷ BUN/creatinin</strong></label> <span class="grade">Thứ 2 19/10</span></p><ul><li>Creatinin: nguồn gốc, vì sao trễ trong AKI, ảnh hưởng của cơ, thuốc (trimethoprim, cimetidine)</li><li>eGFR CKD-EPI 2021 (không dùng hệ số chủng tộc), Cockcroft-Gault để chỉnh liều thuốc</li><li>Cystatin C và eGFR kết hợp: khi nào dùng</li><li>Ure/BUN: xuất huyết tiêu hóa, corticoid, dị hóa; tỷ BUN/creatinin &gt;20</li><li>Tiêu chuẩn KDIGO AKI (liên kết bài KDIGO 2026)</li><li>eGFR không dùng được khi creatinin chưa ổn định</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="E2" style="transform:scale(1.25);margin-right:8px"><strong>E2 · Tổng phân tích nước tiểu và cặn lắng</strong></label> <span class="grade">Thứ 3 20/10</span></p><ul><li>Tỷ trọng, pH, glucose, ceton, bilirubin, urobilinogen</li><li>Bạch cầu esterase, nitrit: giá trị và giới hạn</li><li>Máu niệu que dương nhưng không hồng cầu: myoglobin, hemoglobin</li><li>Cặn lắng: trụ hồng cầu (viêm cầu thận), trụ hạt nâu bùn (hoại tử ống thận), trụ bạch cầu, tinh thể</li><li>Hồng cầu biến dạng: nguồn cầu thận</li><li>Nhiễm khuẩn niệu không triệu chứng: không cấy, không điều trị (trừ thai, trước thủ thuật niệu)</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="E3" style="transform:scale(1.25);margin-right:8px"><strong>E3 · Protein niệu: que thử, ACR, PCR và protein niệu 24 giờ</strong></label> <span class="grade">Thứ 3 20/10</span></p><ul><li>Albumin niệu và protein niệu: que thử chỉ phát hiện albumin</li><li>ACR (mg/g, mg/mmol): A1–A3 theo KDIGO</li><li>PCR mẫu ngẫu nhiên thay cho nước tiểu 24 giờ</li><li>Protein niệu ngưỡng thận hư (&gt;3,5 g/ngày), protein Bence Jones</li><li>Protein niệu thoáng qua, tư thế, sốt, gắng sức</li><li>Khi nào sinh thiết thận</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="E4" style="transform:scale(1.25);margin-right:8px"><strong>E4 · Điện giải niệu: FENa, FEUrea, Na niệu, áp lực thẩm thấu niệu</strong></label> <span class="grade">Thứ 4 21/10</span></p><ul><li>FENa &lt;1%: trước thận; giới hạn khi dùng lợi tiểu</li><li>FEUrea &lt;35% khi đã dùng lợi tiểu</li><li>Na niệu trong hạ natri máu (SIADH vs giảm thể tích)</li><li>Áp lực thẩm thấu niệu, khoảng trống thẩm thấu niệu, khoảng trống anion niệu (toan ống thận)</li><li>Kali niệu, TTKG: tiếp cận hạ kali</li></ul></div>
+<h3 id="h-mF">F · Điện giải – Toan kiềm</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="F1" style="transform:scale(1.25);margin-right:8px"><strong>F1 · Natri máu và áp lực thẩm thấu</strong></label> <span class="grade">Thứ 4 21/10</span></p><ul><li>Áp lực thẩm thấu huyết tương đo và tính; hạ natri giả và hạ natri ưu trương (glucose)</li><li>Tiếp cận hạ natri: áp lực thẩm thấu máu → niệu → Na niệu → thể tích</li><li>SIADH: tiêu chuẩn, loại trừ suy giáp, suy thượng thận</li><li>Tăng natri máu: mất nước tự do, đái tháo nhạt</li><li>Theo dõi Na khi điều chỉnh: tốc độ an toàn</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="F2" style="transform:scale(1.25);margin-right:8px"><strong>F2 · Khí máu động mạch, anion gap, delta ratio, osmolal gap và lactate</strong></label> <span class="grade">Thứ 5 22/10</span></p><ul><li>Đọc khí máu 6 bước; bù trừ dự kiến (công thức Winter)</li><li>Anion gap và hiệu chỉnh theo albumin</li><li>Delta ratio: phát hiện rối loạn phối hợp</li><li>Osmolal gap: ngộ độc methanol, ethylene glycol</li><li>Lactate: type A/B, lactate và metformin, độ thanh thải lactate</li><li>Khí máu tĩnh mạch thay động mạch khi nào; SpO2 và cạm bẫy (CO, methemoglobin)</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="F4" style="transform:scale(1.25);margin-right:8px"><strong>F4 · Canxi, phospho, magie, PTH và vitamin D</strong></label> <span class="grade">Thứ 5 22/10</span></p><ul><li>Canxi toàn phần, canxi hiệu chỉnh và canxi ion hóa</li><li>Tăng canxi máu: PTH phụ thuộc hay không (ung thư, PTHrP, vitamin D, u hạt)</li><li>Hạ canxi máu: PTH, magie, vitamin D, sau phẫu thuật tuyến giáp</li><li>Phospho: hội chứng nuôi ăn lại, ly giải u</li><li>Magie: hạ magie gây hạ kali và hạ canxi khó điều chỉnh</li><li>Rối loạn khoáng – xương trong CKD</li></ul></div>
+<h3 id="h-mG">G · Tim mạch</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="G1" style="transform:scale(1.25);margin-right:8px"><strong>G1 · Troponin độ nhạy cao: thuật toán 0/1 giờ, 0/2 giờ và tăng troponin không do nhồi máu</strong></label> <span class="grade">Thứ 6 23/10</span></p><ul><li>Cấu trúc và động học troponin; bách phân vị 99</li><li>Thuật toán ESC 0/1 giờ, 0/2 giờ: loại trừ, quan sát, xác định</li><li>Định nghĩa toàn cầu lần 4 về nhồi máu cơ tim: type 1, type 2, tổn thương cơ tim</li><li>Tăng troponin không do mạch vành: viêm cơ tim, thuyên tắc phổi, sepsis, suy thận, rung nhĩ nhanh</li><li>Troponin trong CKD: dùng thay đổi động học</li><li>CK-MB còn vai trò gì</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="G2" style="transform:scale(1.25);margin-right:8px"><strong>G2 · BNP và NT-proBNP</strong></label> <span class="grade">Thứ 6 23/10</span></p><ul><li>Sinh lý: sức căng thành tim; BNP và NT-proBNP khác nhau thế nào</li><li>Ngưỡng loại trừ suy tim cấp và mạn; ngưỡng NT-proBNP theo tuổi</li><li>Tăng do suy thận, rung nhĩ, tuổi, thuyên tắc phổi, sepsis</li><li>Thấp giả ở người béo phì; BNP tăng khi dùng sacubitril/valsartan (dùng NT-proBNP)</li><li>Theo dõi điều trị và tiên lượng (liên kết bài ESC 2026 suy tim)</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="G3" style="transform:scale(1.25);margin-right:8px"><strong>G3 · Điện tâm đồ hệ thống cho bác sĩ nội khoa</strong></label> <span class="grade">Thứ 7 24/10</span></p><ul><li>Đọc 9 bước: nhịp, tần số, trục, P, PR, QRS, ST, T, QT</li><li>Thiếu máu cơ tim: STEMI và tương đương STEMI (de Winter, Wellens, Sgarbossa)</li><li>Rối loạn nhịp nhanh, chậm; block nhĩ thất, block nhánh</li><li>Phì đại thất, lớn nhĩ</li><li>Rối loạn điện giải trên ECG (liên kết các bài kali), QTc và thuốc</li><li>Thuyên tắc phổi, viêm màng ngoài tim</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="G4" style="transform:scale(1.25);margin-right:8px"><strong>G4 · Siêu âm tim cho bác sĩ nội khoa</strong></label> <span class="grade">Thứ 2 26/10</span></p><ul><li>Các mặt cắt cơ bản</li><li>Phân suất tống máu và phân loại suy tim (HFrEF, HFmrEF, HFpEF)</li><li>Rối loạn vận động vùng, bệnh van tim mức độ nặng</li><li>Tràn dịch màng ngoài tim, chèn ép tim</li><li>Chức năng thất phải, áp lực động mạch phổi, tĩnh mạch chủ dưới</li><li>Siêu âm tim qua thực quản: khi nào (viêm nội tâm mạc, huyết khối nhĩ)</li></ul></div>
+<h3 id="h-mH">H · Nội tiết</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="H1" style="transform:scale(1.25);margin-right:8px"><strong>H1 · Glucose, HbA1c, OGTT, ceton, C-peptide và kháng thể đái tháo đường</strong></label> <span class="grade">Thứ 2 26/10</span></p><ul><li>Tiêu chuẩn chẩn đoán đái tháo đường và tiền đái tháo đường</li><li>HbA1c sai lệch: thiếu máu, thalassemia, CKD, thai, truyền máu; fructosamine</li><li>Glucose mao mạch và CGM nội viện</li><li>Ceton máu (β-hydroxybutyrate) và ceton niệu</li><li>C-peptide, kháng thể GAD/IA-2: phân biệt típ 1, LADA, típ 2</li><li>Liên kết các bài ADA 2026 trong thư viện</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="H2" style="transform:scale(1.25);margin-right:8px"><strong>H2 · Chức năng tuyến giáp: TSH, FT4, FT3, kháng thể và thyroglobulin</strong></label> <span class="grade">Thứ 3 27/10</span></p><ul><li>Trục hạ đồi – tuyến yên – tuyến giáp; TSH là xét nghiệm đầu tay</li><li>Các kiểu kết quả: cường giáp, suy giáp, cận lâm sàng, TSH thấp kèm FT4 thấp (trung ương)</li><li>Hội chứng bệnh lý không do tuyến giáp (sick euthyroid) ở bệnh nhân nặng</li><li>Nhiễu: biotin, amiodarone, corticoid, heparin, thai kỳ</li><li>TRAb, anti-TPO, thyroglobulin; xạ hình và siêu âm tuyến giáp (TI-RADS)</li><li>Liên kết các bài cường giáp trong thư viện</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="H3" style="transform:scale(1.25);margin-right:8px"><strong>H3 · Trục thượng thận: cortisol, ACTH, test Synacthen, test ức chế dexamethasone</strong></label> <span class="grade">Thứ 3 27/10</span></p><ul><li>Nhịp ngày đêm của cortisol; cortisol buổi sáng: ngưỡng loại trừ, ngưỡng gợi ý</li><li>Suy thượng thận nguyên phát và thứ phát; ACTH; test Synacthen</li><li>Suy thượng thận do glucocorticoid (liên kết bài sẵn có)</li><li>Hội chứng Cushing: dexamethasone 1 mg qua đêm, cortisol nước bọt nửa đêm, cortisol niệu 24 giờ</li><li>Thuốc tránh thai, estrogen làm tăng globulin gắn cortisol</li><li>Cortisol ở bệnh nhân ICU</li></ul></div>
+<h3 id="h-mI">I · Hô hấp</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="I1" style="transform:scale(1.25);margin-right:8px"><strong>I1 · X-quang ngực hệ thống</strong></label> <span class="grade">Thứ 4 28/10</span></p><ul><li>Kỹ thuật phim: tư thế, xuyên thấu, hít vào, xoay</li><li>Đọc hệ thống ABCDE</li><li>Đông đặc, xẹp phổi, tràn dịch, tràn khí màng phổi</li><li>Phù phổi do tim và không do tim</li><li>Nốt và khối phổi; lao (hang, nốt vệ tinh)</li><li>Vị trí ống nội khí quản, catheter tĩnh mạch trung tâm, sonde dạ dày</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="I3" style="transform:scale(1.25);margin-right:8px"><strong>I3 · Chức năng hô hấp: hô hấp ký, test giãn phế quản, DLCO</strong></label> <span class="grade">Thứ 4 28/10</span></p><ul><li>FEV1, FVC, FEV1/FVC; ngưỡng cố định 0,7 và giới hạn dưới bình thường</li><li>Tắc nghẽn, hạn chế, hỗn hợp; khi nào cần thể tích phổi</li><li>Test giãn phế quản: hen và COPD (GOLD, GINA)</li><li>DLCO: giảm trong khí phế thũng, bệnh mô kẽ, tăng áp phổi</li><li>Lưu lượng đỉnh, FeNO, test kích thích phế quản</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="I4" style="transform:scale(1.25);margin-right:8px"><strong>I4 · Dịch màng phổi: tiêu chuẩn Light, pH, glucose, ADA, tế bào</strong></label> <span class="grade">Thứ 5 29/10</span></p><ul><li>Dịch thấm hay dịch tiết: tiêu chuẩn Light; chênh albumin khi đang dùng lợi tiểu</li><li>Tràn dịch cận viêm phổi biến chứng: pH &lt;7,2, glucose &lt;60 mg/dL, LDH cao → dẫn lưu</li><li>ADA và tế bào lympho: lao màng phổi</li><li>Tràn dịch ác tính: tế bào học, độ nhạy lần 1–2</li><li>Tràn máu màng phổi, dưỡng chấp (triglycerid &gt;110 mg/dL)</li><li>NT-proBNP dịch màng phổi trong suy tim</li></ul></div>
+<h3 id="h-mJ">J · Thần kinh</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="J1" style="transform:scale(1.25);margin-right:8px"><strong>J1 · Dịch não tủy: chỉ định chọc dò, đọc kết quả và các kiểu viêm màng não</strong></label> <span class="grade">Thứ 5 29/10</span></p><ul><li>Chỉ định, chống chỉ định; khi nào cần CT trước chọc dò</li><li>Áp lực mở, tế bào, protein, glucose, tỷ glucose DNT/máu</li><li>Kiểu vi khuẩn, virus, lao, nấm (cryptococcus, mực tàu, kháng nguyên)</li><li>Chọc dò chạm mạch: hiệu chỉnh bạch cầu</li><li>Xuất huyết dưới nhện: dịch vàng (xanthochromia)</li><li>PCR đa tác nhân và lactate dịch não tủy</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="J2" style="transform:scale(1.25);margin-right:8px"><strong>J2 · CT và MRI não trong đột quỵ và cấp cứu thần kinh</strong></label> <span class="grade">Thứ 6 30/10</span></p><ul><li>CT không cản quang: xuất huyết, dấu hiệu nhồi máu sớm, ASPECTS</li><li>CT mạch máu và CT tưới máu; cửa sổ thời gian tiêu sợi huyết và lấy huyết khối</li><li>MRI: DWI/FLAIR mismatch, khi nào chọn MRI</li><li>Xuất huyết dưới nhện, máu tụ dưới màng cứng</li><li>Bệnh não do tăng huyết áp (PRES), huyết khối tĩnh mạch não</li></ul></div>
+<h3 id="h-mK">K · Cơ xương khớp – Miễn dịch</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="K1" style="transform:scale(1.25);margin-right:8px"><strong>K1 · Kháng thể kháng nhân (ANA), anti-dsDNA, ENA và bổ thể</strong></label> <span class="grade">Thứ 6 30/10</span></p><ul><li>ANA: hiệu giá, kiểu huỳnh quang; ANA dương ở người khỏe</li><li>Anti-dsDNA, anti-Sm (lupus); anti-Ro/La, anti-Scl-70, anti-centromere, anti-Jo-1</li><li>Bổ thể C3, C4 trong lupus và viêm cầu thận</li><li>Kháng thể kháng phospholipid (aCL, anti-β2GPI, kháng đông lupus)</li><li>Khi nào KHÔNG nên làm ANA</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="K2" style="transform:scale(1.25);margin-right:8px"><strong>K2 · Yếu tố dạng thấp, anti-CCP, HLA-B27, acid uric và dịch khớp</strong></label> <span class="grade">Thứ 7 31/10</span></p><ul><li>RF và anti-CCP: độ nhạy, độ đặc hiệu, RF dương trong viêm gan C, nhiễm khuẩn</li><li>HLA-B27 và viêm cột sống</li><li>Acid uric: có thể bình thường trong cơn gout cấp</li><li>Dịch khớp: bạch cầu, tinh thể (urat âm tính lưỡng chiết mạnh, CPPD dương yếu), Gram, cấy</li><li>Ngưỡng bạch cầu dịch khớp gợi ý nhiễm khuẩn</li></ul></div>
+<h2 id="h-dot2">4. Đợt 2 (tháng 11): mở rộng</h2>
+<h3 id="h-d2A">A · Gan – Mật – Tụy</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="A6" style="transform:scale(1.25);margin-right:8px"><strong>A6 · Dịch màng bụng: SAAG, protein, bạch cầu đa nhân, cấy</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>SAAG ≥1,1 và protein dịch: phân loại nguyên nhân</li><li>Viêm phúc mạc nhiễm khuẩn tự phát (BCĐNTT ≥250/mm³) và thứ phát</li><li>Liên kết bài Báng bụng – chọc tháo dịch báng (BSG 2020)</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="A8" style="transform:scale(1.25);margin-right:8px"><strong>A8 · Xét nghiệm phân và Helicobacter pylori</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>Máu ẩn trong phân, FIT; calprotectin phân</li><li>C. difficile: thuật toán GDH/toxin/PCR</li><li>H. pylori: test hơi thở, kháng nguyên phân, CLO test; ngừng PPI trước test</li></ul></div>
+<h3 id="h-d2B">B · Chẩn đoán hình ảnh bụng &amp; Nội soi</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="B4" style="transform:scale(1.25);margin-right:8px"><strong>B4 · Nội soi tiêu hóa, ERCP, MRCP, EUS: chỉ định và chuẩn bị</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>Nội soi trên khẩn trong xuất huyết tiêu hóa (Glasgow-Blatchford)</li><li>MRCP so với ERCP so với EUS trong bệnh lý đường mật – tụy</li><li>Chuẩn bị: thuốc chống đông, kháng kết tập tiểu cầu</li></ul></div>
+<h3 id="h-d2C">C · Huyết học – Đông máu</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="C8" style="transform:scale(1.25);margin-right:8px"><strong>C8 · Điện di hemoglobin và thalassemia</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>HbA2, HbF, HbE; thalassemia α và β</li><li>Phân biệt với thiếu sắt; tư vấn di truyền</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="C9" style="transform:scale(1.25);margin-right:8px"><strong>C9 · Nhóm máu, phản ứng chéo và truyền máu</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>ABO, Rh, sàng lọc kháng thể</li><li>Ngưỡng truyền hồng cầu hạn chế (Hb 7 g/dL), phản ứng truyền máu</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="C7" style="transform:scale(1.25);margin-right:8px"><strong>C7 · Điện di protein huyết thanh, chuỗi nhẹ tự do và đa u tủy</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>Đỉnh M, immunofixation, tỷ κ/λ</li><li>Tiêu chuẩn CRAB/SLiM; MGUS</li></ul></div>
+<h3 id="h-d2D">D · Nhiễm khuẩn – Vi sinh</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="D8" style="transform:scale(1.25);margin-right:8px"><strong>D8 · Xét nghiệm nấm: galactomannan, β-D-glucan, kháng nguyên Cryptococcus</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>Chỉ định trong bệnh nhân suy giảm miễn dịch</li><li>Dương tính giả và âm tính giả</li></ul></div>
+<h3 id="h-d2E">E · Thận – Nước tiểu</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="E5" style="transform:scale(1.25);margin-right:8px"><strong>E5 · Cấy nước tiểu và nhiễm khuẩn niệu</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>Ngưỡng CFU, mẫu nước tiểu giữa dòng, ống thông</li><li>Nhiễm khuẩn niệu liên quan ống thông</li></ul></div>
+<h3 id="h-d2F">F · Điện giải – Toan kiềm</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="F3" style="transform:scale(1.25);margin-right:8px"><strong>F3 · Kali máu (ôn và liên kết các bài kali sẵn có)</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>Tăng kali giả; tiếp cận tăng và hạ kali</li></ul></div>
+<h3 id="h-d2G">G · Tim mạch</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="G5" style="transform:scale(1.25);margin-right:8px"><strong>G5 · Bộ lipid máu, LDL tính và đo trực tiếp, apoB, Lp(a)</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>Công thức Friedewald, Martin–Hopkins; xét nghiệm không nhịn đói</li><li>Liên kết bài ACC/AHA 2026 rối loạn lipid máu</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="G6" style="transform:scale(1.25);margin-right:8px"><strong>G6 · Holter, nghiệm pháp gắng sức, CT mạch vành, chụp mạch vành</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>Chọn test chẩn đoán bệnh mạch vành mạn theo xác suất tiền nghiệm</li><li>Điểm canxi mạch vành</li></ul></div>
+<h3 id="h-d2H">H · Nội tiết</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="H4" style="transform:scale(1.25);margin-right:8px"><strong>H4 · Aldosterone/renin, metanephrine: tầm soát tăng huyết áp thứ phát</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>Tỷ aldosterone/renin, thuốc gây nhiễu</li><li>Metanephrine huyết tương và niệu</li></ul></div>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="H5" style="transform:scale(1.25);margin-right:8px"><strong>H5 · Tuyến yên: prolactin, IGF-1, LH/FSH, test kích thích</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>Tăng prolactin: thuốc, macroprolactin, hiệu ứng hook</li><li>Suy tuyến yên</li></ul></div>
+<h3 id="h-d2I">I · Hô hấp</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="I2" style="transform:scale(1.25);margin-right:8px"><strong>I2 · CT ngực, CT mạch phổi (CTPA) và CT liều thấp</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>CTPA: chỉ định theo Wells/YEARS</li><li>Bệnh phổi mô kẽ: HRCT; sàng lọc ung thư phổi</li></ul></div>
+<h3 id="h-d2J">J · Thần kinh</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="J3" style="transform:scale(1.25);margin-right:8px"><strong>J3 · Điện não đồ, điện cơ và dẫn truyền thần kinh</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>EEG trong động kinh, trạng thái động kinh không co giật</li><li>EMG/NCS trong Guillain-Barré, bệnh thần kinh ngoại biên</li></ul></div>
+<h3 id="h-d2K">K · Cơ xương khớp – Miễn dịch</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="K3" style="transform:scale(1.25);margin-right:8px"><strong>K3 · ANCA, anti-GBM, cryoglobulin và viêm mạch</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>c-ANCA/PR3, p-ANCA/MPO</li><li>Hội chứng phổi – thận</li></ul></div>
+<h3 id="h-d2L">L · Độc chất – Nồng độ thuốc</h3>
+<div class="rec"><p><label style="cursor:pointer"><input type="checkbox" class="done-cb" data-code="L3" style="transform:scale(1.25);margin-right:8px"><strong>L3 · Độc chất và nồng độ thuốc: paracetamol, digoxin, vancomycin, lithium, aminoglycosid</strong></label> <span class="grade">Đợt 2 – tháng 11</span></p><ul><li>Toán đồ Rumack-Matthew</li><li>Nồng độ đáy, AUC vancomycin; nồng độ digoxin và kali</li></ul></div>
+<h2 id="h-cachdung">5. Cách dùng trang này</h2><ul>
+<li>Mỗi ngày, nhắn “soạn bài A1, A2” (hoặc “soạn bài hôm nay”): bài được soạn theo đúng kiểu skill, đưa lên thư viện y khoa (chuyên mục 🧪 Cận lâm sàng) và Notion, rồi tên bài trong trang này chuyển thành đường link.</li>
+<li>Các mục trong từng bài là khung dự kiến; khi soạn có thể thêm mục nếu nguồn có nội dung quan trọng.</li>
+<li>Ô ✓ “đã học” lưu trên trình duyệt hiện tại, không đồng bộ sang thiết bị khác.</li>
+</ul>
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Trang kế hoạch; nội dung từng bài sẽ được soạn và liên kết dần. Nguồn của từng bài được ghi trong chính bài đó.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'cls_plan_t10_hl_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+<script>
+(function(){var K='cls_plan_t10_done_v1',S={};try{S=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
+document.querySelectorAll('.done-cb').forEach(function(cb){cb.checked=!!S[cb.dataset.code];
+cb.addEventListener('change',function(){S[cb.dataset.code]=cb.checked;try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}})});})();
+</script>
+</body>
+</html>
