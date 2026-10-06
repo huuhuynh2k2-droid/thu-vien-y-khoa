@@ -16,7 +16,7 @@
   --good:#158a4d;--warn:#b8790a;--crit:#c53434;--accent:#12305e;--accent2:#0b1e3d;--gold:#c9962c;--gold2:#e8b64a;
   --header-fg:#ffffff;
   --c-tm:#d94343;--c-hh:#0f9d6e;--c-th:#e0731f;--c-than:#1c62c9;--c-cxk:#b6790a;
-  --c-nt:#c23e7d;--c-tk:#5b3fc2;--c-tq:#0f8f3d;--c-hscc:#0f7ea3;
+  --c-nt:#c23e7d;--c-tk:#5b3fc2;--c-tq:#0f8f3d;--c-hscc:#0f7ea3;--c-cls:#6b4fa0;
 }
 @media (prefers-color-scheme:dark){
   :root:where(:not([data-theme="light"])){
@@ -25,7 +25,7 @@
     --grid:#1c2740;--border:rgba(255,255,255,.10);--wash:rgba(255,255,255,.05);
     --good:#33c27c;--warn:#f0ab3d;--crit:#f07272;--accent:#4d7ec9;--accent2:#7fa6de;--gold:#e8b64a;--gold2:#f4cf7e;
     --c-tm:#ea7373;--c-hh:#33d29c;--c-th:#f2985a;--c-than:#5b93e0;--c-cxk:#e6b13f;
-    --c-nt:#e884b2;--c-tk:#a290ec;--c-tq:#4fce7c;--c-hscc:#3fc4de;
+    --c-nt:#e884b2;--c-tk:#a290ec;--c-tq:#4fce7c;--c-hscc:#3fc4de;--c-cls:#b39ae6;
   }
 }
 :root[data-theme="dark"]{
@@ -34,7 +34,7 @@
   --grid:#1c2740;--border:rgba(255,255,255,.10);--wash:rgba(255,255,255,.05);
   --good:#33c27c;--warn:#f0ab3d;--crit:#f07272;--accent:#4d7ec9;--accent2:#7fa6de;--gold:#e8b64a;--gold2:#f4cf7e;
   --c-tm:#ea7373;--c-hh:#33d29c;--c-th:#f2985a;--c-than:#5b93e0;--c-cxk:#e6b13f;
-  --c-nt:#e884b2;--c-tk:#a290ec;--c-tq:#4fce7c;--c-hscc:#3fc4de;
+  --c-nt:#e884b2;--c-tk:#a290ec;--c-tq:#4fce7c;--c-hscc:#3fc4de;--c-cls:#b39ae6;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -191,7 +191,7 @@ td a.open{color:var(--accent);text-decoration:underline;text-underline-offset:2p
 var L=window.LIBRARY;
 if(!L||!L.items){document.body.innerHTML='<div style="max-width:520px;margin:60px auto;padding:0 16px;font:15px/1.6 system-ui,sans-serif"><h1 style="font-size:20px">Chưa tải được dữ liệu thư viện</h1><p>Không tìm thấy <code>library-data.js</code> cạnh trang này.</p></div>';return}
 var SP={};L.specialties.forEach(function(s){SP[s.id]=s});
-var SPICON={tm:"🫀",hh:"🫁",th:"🍽️",than:"🩸",cxk:"🦴",nt:"🦋",tk:"🧠",tq:"🩺",hscc:"🚑"};
+var SPICON={tm:"🫀",hh:"🫁",th:"🍽️",than:"🩸",cxk:"🦴",nt:"🦋",tk:"🧠",tq:"🩺",hscc:"🚑",cls:"🧪"};
 var STN={0:"Chưa soạn / cần cập nhật",1:"Đang biên soạn",2:"Đã hoàn thành"};
 var STC={0:"todo",1:"wip",2:"done"};
 var STICON={0:"⏳",1:"✍️",2:"✅"};

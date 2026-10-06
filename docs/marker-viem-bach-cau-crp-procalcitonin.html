@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Marker viêm trong nội khoa: Bạch cầu, CRP, Procalcitonin</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#2F4B8A; --accent-ink:#172447; --accent-bg:#E8EDF7;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a.lvl4{padding-left:34px; font-size:12.5px; padding-top:3px; padding-bottom:3px;}
+  h4{scroll-margin-top:20px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">Marker viêm: BC – CRP – PCT</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">CHUYÊN ĐỀ CẬN LÂM SÀNG · TỔNG HỢP 2026</div>
+    <div class="doc-title">Vai trò các marker phản ứng viêm trong bệnh nội khoa</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">CHUYÊN ĐỀ CẬN LÂM SÀNG</span>
+    <h1>Vai trò các marker phản ứng viêm trong bệnh nội khoa: bạch cầu, CRP và procalcitonin</h1>
+    <div class="byline">Biên soạn: BS. Huỳnh Hữu Minh (với hỗ trợ của Claude) · tổng hợp từ ADLM/AACC, SSC 2021, IDSA/ATS 2019, NICE, BMC Med 2017, AFP 2015, CCJM 2019 và các thử nghiệm ProHOSP, PRORATA, SAPS, ProACT, ADAPT-Sepsis</div>
+    <div class="cite">Chuyên đề tổng hợp nhiều nguồn, không phải bản dịch một văn bản. Cập nhật 10/2026. Tài liệu tham khảo phục vụ học tập lâm sàng — không thay thế hướng dẫn gốc và đánh giá lâm sàng.</div>
+
+    <div class="box">
+<p><strong>Bài này là gì.</strong> Đây là <strong>chuyên đề tổng hợp</strong> (không phải bản dịch một văn bản duy nhất), biên soạn từ các hướng dẫn và bài tổng quan chính thống: hướng dẫn PCT của ADLM/AACC, Surviving Sepsis Campaign 2021, IDSA/ATS 2019 về viêm phổi cộng đồng, NICE, tổng quan BMC Medicine 2017 (Sager, Schuetz và cs.), American Family Physician 2015 về tăng bạch cầu, Cleveland Clinic Journal of Medicine 2019, cùng các thử nghiệm then chốt (ProHOSP, PRORATA, SAPS, ProACT, ADAPT-Sepsis…). Mọi con số được giữ đúng nguồn. Những đoạn đánh dấu <em>“Ghi chú biên soạn”</em> là diễn giải thêm của người biên soạn. Danh mục nguồn ở cuối trang.</p>
+</div>
+
+<h2 id="h-tongquan">1. Bức tranh chung: ba marker, ba “tầng” của phản ứng viêm</h2>
+
+<p>Khi vi khuẩn (hoặc tổn thương mô) xuất hiện, đại thực bào và bạch cầu đơn nhân tại chỗ nhận diện các mẫu phân tử (LPS, PAMP, DAMP) và tiết ra các <strong>cytokine tiền viêm</strong>: IL-1β, TNF-α, IL-6. Ba marker trong chuyên đề này đều là <em>hệ quả xuôi dòng</em> của cùng một làn sóng cytokine đó, nhưng được sản xuất ở <strong>ba nơi khác nhau</strong>, dưới <strong>ba tín hiệu khác nhau</strong>, nên có tốc độ, độ nhạy và độ đặc hiệu khác nhau:</p>
+
+<ul>
+<li><strong>Bạch cầu (WBC)</strong>: tầng <em>tủy xương và mạch máu</em>. Phản ứng nhanh nhất (vài phút đến vài giờ) vì phần lớn chỉ là <em>phân bố lại</em> bạch cầu có sẵn (bong khỏi thành mạch, giải phóng từ kho dự trữ tủy). Rất nhạy với <em>bất kỳ</em> stress nào (catecholamine, corticoid, đau, nôn, co giật), nên kém đặc hiệu.</li>
+<li><strong>CRP</strong>: tầng <em>gan</em>. Tế bào gan tăng tổng hợp CRP chủ yếu dưới tác động của IL-6. Tăng sau 4–6 giờ, đỉnh sau khoảng 2 ngày. Tăng trong <em>mọi</em> tình trạng viêm (nhiễm khuẩn, virus mức độ nặng, bệnh tự miễn, hoại tử mô, sau mổ, ung thư), nên nhạy với viêm nhưng không đặc hiệu cho vi khuẩn.</li>
+<li><strong>Procalcitonin (PCT)</strong>: tầng <em>mô ngoại vi toàn thân</em>. Khi có nhiễm khuẩn, gen CALC-1 được “mở” ở hầu hết các mô (mỡ, nguyên bào sợi, gan, phổi…) dưới tác động của IL-1β, TNF-α, IL-6 và LPS. Ngược lại, <strong>IFN-γ</strong> (cytokine đặc trưng của nhiễm virus) <strong>ức chế</strong> quá trình này. Đây là cơ sở để PCT “thiên về vi khuẩn” hơn CRP.</li>
+</ul>
+
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 470" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:#F7F3EA;border:1px solid var(--border);border-radius:10px" font-family="Inter, Arial, sans-serif">
+<defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6b665c"/></marker></defs>
+<rect x="320" y="18" width="260" height="62" rx="12" fill="#E9E5DC" stroke="#8a8578"/>
+<text x="450" y="44" text-anchor="middle" font-size="15" font-weight="700" fill="#2b2925">Vi khuẩn / tổn thương mô</text>
+<text x="450" y="65" text-anchor="middle" font-size="12.5" fill="#4a463e">LPS, PAMP, DAMP → đại thực bào, bạch cầu đơn nhân</text>
+<line x1="450" y1="80" x2="450" y2="112" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar1)"/>
+<rect x="280" y="114" width="340" height="58" rx="12" fill="#E9E5DC" stroke="#8a8578"/>
+<text x="450" y="139" text-anchor="middle" font-size="15" font-weight="700" fill="#2b2925">Cytokine tiền viêm</text>
+<text x="450" y="160" text-anchor="middle" font-size="12.5" fill="#4a463e">IL-1β · TNF-α · IL-6 (± G-CSF, catecholamine, cortisol)</text>
+<line x1="350" y1="172" x2="150" y2="226" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar1)"/>
+<line x1="450" y1="172" x2="450" y2="226" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar1)"/>
+<line x1="550" y1="172" x2="750" y2="226" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar1)"/>
+<text x="215" y="194" font-size="12" font-weight="700" fill="#D9731A">G-CSF, catecholamine</text>
+<text x="458" y="206" font-size="12" font-weight="700" fill="#D9731A">IL-6 (chủ yếu)</text>
+<text x="620" y="194" font-size="12" font-weight="700" fill="#D9731A">IL-1β, TNF-α, LPS</text>
+<rect x="30" y="228" width="250" height="150" rx="12" fill="#fff" stroke="#8a8578"/>
+<text x="155" y="254" text-anchor="middle" font-size="15" font-weight="700" fill="#2b2925">TỦY XƯƠNG – MẠCH MÁU</text>
+<text x="155" y="278" text-anchor="middle" font-size="14" font-weight="700" fill="#0E4E8A">Bạch cầu ↑</text>
+<text x="155" y="300" text-anchor="middle" font-size="12" fill="#4a463e">Bong khỏi thành mạch: phút–giờ</text>
+<text x="155" y="318" text-anchor="middle" font-size="12" fill="#4a463e">Giải phóng kho tủy: giờ</text>
+<text x="155" y="336" text-anchor="middle" font-size="12" fill="#4a463e">Tăng sinh mới: vài ngày</text>
+<text x="155" y="360" text-anchor="middle" font-size="12" font-style="italic" fill="#6b665c">Nhạy với mọi stress, kém đặc hiệu</text>
+<rect x="325" y="228" width="250" height="150" rx="12" fill="#fff" stroke="#8a8578"/>
+<text x="450" y="254" text-anchor="middle" font-size="15" font-weight="700" fill="#2b2925">GAN</text>
+<text x="450" y="278" text-anchor="middle" font-size="14" font-weight="700" fill="#0E4E8A">CRP ↑</text>
+<text x="450" y="300" text-anchor="middle" font-size="12" fill="#4a463e">Bắt đầu tăng: 4–6 giờ</text>
+<text x="450" y="318" text-anchor="middle" font-size="12" fill="#4a463e">Gấp đôi mỗi ~8 giờ</text>
+<text x="450" y="336" text-anchor="middle" font-size="12" fill="#4a463e">Đỉnh 36–50 giờ · t½ ~19 giờ</text>
+<text x="450" y="360" text-anchor="middle" font-size="12" font-style="italic" fill="#6b665c">Nhạy với viêm, không đặc hiệu vi khuẩn</text>
+<rect x="620" y="228" width="250" height="150" rx="12" fill="#fff" stroke="#8a8578"/>
+<text x="745" y="254" text-anchor="middle" font-size="15" font-weight="700" fill="#2b2925">MÔ NGOẠI VI TOÀN THÂN</text>
+<text x="745" y="278" text-anchor="middle" font-size="14" font-weight="700" fill="#0E4E8A">Procalcitonin ↑</text>
+<text x="745" y="300" text-anchor="middle" font-size="12" fill="#4a463e">Gen CALC-1 ngoài tuyến giáp</text>
+<text x="745" y="318" text-anchor="middle" font-size="12" fill="#4a463e">Tăng sau 3–6 giờ, đỉnh ~12–24 giờ</text>
+<text x="745" y="336" text-anchor="middle" font-size="12" fill="#4a463e">t½ ~24 giờ, thải qua thận</text>
+<text x="745" y="360" text-anchor="middle" font-size="12" font-style="italic" fill="#6b665c">Thiên về vi khuẩn, nặng toàn thân</text>
+<rect x="620" y="404" width="250" height="50" rx="12" fill="#FBEFE3" stroke="#D9731A"/>
+<text x="745" y="425" text-anchor="middle" font-size="12.5" font-weight="700" fill="#8a4410">Nhiễm virus → IFN-γ</text>
+<text x="745" y="443" text-anchor="middle" font-size="12" fill="#8a4410">ỨC CHẾ tổng hợp PCT</text>
+<line x1="745" y1="404" x2="745" y2="380" stroke="#D9731A" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ar1)"/>
+<rect x="30" y="404" width="545" height="50" rx="12" fill="#E9E5DC" stroke="#8a8578"/>
+<text x="302" y="425" text-anchor="middle" font-size="12.5" fill="#2b2925">Ba marker cùng nguồn cytokine nhưng khác nơi sản xuất, khác tín hiệu và khác tốc độ</text>
+<text x="302" y="443" text-anchor="middle" font-size="12.5" fill="#2b2925">→ phải đọc <tspan font-weight="700">phối hợp</tspan>, theo <tspan font-weight="700">thời điểm</tspan> và theo <tspan font-weight="700">xu hướng</tspan></text>
+</svg>
+<figcaption class="fig-caption">Hình 1 | Ba marker viêm: nơi sản xuất, tín hiệu kích hoạt và động học (sơ đồ tự vẽ; số liệu động học theo ADLM/AACC, Pepys & Hirschfield 2003, Sager 2017)</figcaption>
+</figure>
+
+<div class="box">
+<p><strong>Cách nghĩ đúng ngay từ đầu.</strong> Không marker nào là “xét nghiệm chẩn đoán nhiễm khuẩn”. Mỗi marker trả lời một câu hỏi hơi khác:</p>
+<ul>
+<li><strong>Bạch cầu</strong>: “Cơ thể có đang bị stress cấp hay có bất thường dòng tủy không?” Công thức bạch cầu (chuyển trái, lympho, ái toan) cho thêm manh mối về <em>loại</em> tác nhân.</li>
+<li><strong>CRP</strong>: “Có viêm hệ thống không, và viêm đang tăng hay giảm?” Rất tốt để <em>theo dõi xu hướng</em>, rẻ, sẵn có.</li>
+<li><strong>PCT</strong>: “Phản ứng viêm này có nhiều khả năng do <em>vi khuẩn mức độ toàn thân</em> không, và có thể <em>ngừng kháng sinh</em> an toàn chưa?” Giá trị lớn nhất nằm ở quyết định <em>ngừng</em> (và ở mức thấp, quyết định <em>không bắt đầu</em> trong nhiễm khuẩn hô hấp mức nhẹ), hơn là chẩn đoán.</li>
+</ul>
+</div>
+
+<h2 id="h-bachcau">2. Bạch cầu: marker cổ điển, nhanh nhưng “ồn”</h2>
+
+<h3 id="h-bc-banchat">2.1. Bản chất và động học</h3>
+
+<p>Bạch cầu trung tính (BCTT) chiếm 50–70% bạch cầu máu ngoại vi ở người lớn. Có ba “khoang” cần hiểu để đọc đúng số bạch cầu:</p>
+
+<ul>
+<li><strong>Khoang dự trữ trong tủy</strong>: lượng BCTT trưởng thành nằm sẵn trong tủy lớn gấp nhiều lần lượng trong máu. Dưới tác động của cytokine, G-CSF và corticoid, kho này được giải phóng trong vài giờ.</li>
+<li><strong>Khoang tuần hoàn</strong>: phần được đếm khi lấy máu.</li>
+<li><strong>Khoang bám thành mạch (marginated pool)</strong>: khoảng một nửa số BCTT nội mạch đang “lăn” dọc thành mạch và <em>không được đếm</em>. Catecholamine, corticoid, gắng sức, đau, stress làm chúng bong ra (demargination). Theo AFP 2015, riêng hiện tượng này có thể làm số bạch cầu <strong>tăng gấp đôi trong vài giờ</strong> mà không có bất kỳ nhiễm khuẩn nào.</li>
+</ul>
+
+<p>Hệ quả lâm sàng: bạch cầu là marker <strong>nhanh nhất</strong> nhưng cũng <strong>dễ bị nhiễu nhất</strong>. Một con số bạch cầu đơn lẻ 13 G/L ở bệnh nhân vừa nôn nhiều, vừa tiêm adrenalin hay vừa dùng methylprednisolone hầu như không mang thông tin về nhiễm khuẩn.</p>
+
+<h3 id="h-bc-nguong">2.2. Ngưỡng tham chiếu và cách đọc công thức bạch cầu</h3>
+
+<div class="tbl-wrap"><table>
+<thead><tr><th>Thành phần</th><th>Ngưỡng “tăng” ở người lớn (AFP 2015)</th><th>Gợi ý nguyên nhân thường gặp</th></tr></thead>
+<tbody>
+<tr><td>Tổng bạch cầu</td><td>&gt; 11.000/mm³ (&gt; 11 G/L)</td><td>Nhiễm khuẩn, stress, thuốc, viêm, bệnh máu</td></tr>
+<tr><td>Bạch cầu trung tính</td><td>&gt; 7.000/mm³</td><td>Nhiễm khuẩn, corticoid, stress, hút thuốc, hoại tử mô</td></tr>
+<tr><td>Lympho</td><td>&gt; 4.500/mm³</td><td>Nhiễm virus (EBV, CMV), ho gà, CLL, sau cắt lách</td></tr>
+<tr><td>Mono</td><td>&gt; 880/mm³</td><td>Lao, viêm nội tâm mạc bán cấp, hồi phục sau giảm bạch cầu, CMML</td></tr>
+<tr><td>Ái toan</td><td>&gt; 500/mm³</td><td>Ký sinh trùng, dị ứng, phản ứng thuốc (DRESS), suy thượng thận, bệnh máu</td></tr>
+<tr><td>Ái kiềm</td><td>&gt; 100/mm³</td><td>Hiếm; nghĩ đến bệnh tăng sinh tủy (CML)</td></tr>
+</tbody>
+</table></div>
+
+<p><em>Ghi chú biên soạn:</em> các phòng xét nghiệm ở Việt Nam thường báo theo đơn vị G/L (= 10⁹/L = nghìn/mm³) với khoảng tham chiếu tổng bạch cầu 4–10 G/L. Ngưỡng 11 G/L của AFP và ngưỡng 12 G/L của tiêu chuẩn SIRS chênh nhau không đáng kể so với độ “ồn” sinh lý của xét nghiệm.</p>
+
+<h4 id="h4-1" style="font-family:var(--serif);font-size:16.5px;margin:22px 0 8px">Những chi tiết trên phết máu đáng giá hơn con số tổng</h4>
+<ul>
+<li><strong>Chuyển trái (left shift)</strong>: tăng BCTT non dạng đũa (band) &gt; 10% (một tiêu chuẩn của SIRS). Phản ánh tủy đang giải phóng cả tế bào chưa trưởng thành, gợi ý nhiễm khuẩn thực sự hơn là demargination đơn thuần (demargination chỉ làm tăng tế bào trưởng thành).</li>
+<li><strong>Hạt độc, thể Döhle, không bào trong bào tương BCTT</strong>: dấu hiệu hình thái của nhiễm khuẩn/nhiễm độc toàn thân.</li>
+<li><strong>Giảm ái toan</strong> (gần bằng 0) và <strong>giảm lympho tương đối</strong>: thường gặp trong nhiễm khuẩn huyết do tác động của cortisol nội sinh.</li>
+<li><strong>Tỷ số BCTT/lympho (NLR)</strong>: tính miễn phí từ công thức máu. NLR tăng cao (thường &gt; 10) gợi ý nhiễm khuẩn huyết ở bệnh nhân cấp cứu, nhưng cũng tăng sau dùng corticoid và trong mọi stress nặng. Không có ngưỡng chuẩn hóa được hướng dẫn nào chấp nhận.</li>
+</ul>
+
+<h3 id="h-bc-khongnk">2.3. Tăng bạch cầu không do nhiễm khuẩn (dương tính giả)</h3>
+
+<div class="tbl-wrap"><table>
+<thead><tr><th>Nhóm</th><th>Ví dụ</th><th>Cơ chế / đặc điểm nhận diện</th></tr></thead>
+<tbody>
+<tr><td>Thuốc</td><td>Corticoid, chủ vận β, adrenalin, lithium, G-CSF</td><td>Corticoid: giải phóng kho tủy, giảm thoát mạch, bong khỏi thành mạch. Thường không kèm chuyển trái rõ, lympho và ái toan giảm. G-CSF: có thể kèm tế bào non.</td></tr>
+<tr><td>Stress sinh lý</td><td>Gắng sức, co giật, nôn nhiều, đau, phẫu thuật, chấn thương, bỏng, nhồi máu cơ tim</td><td>Catecholamine làm bong khỏi thành mạch, tăng trong vài giờ</td></tr>
+<tr><td>Viêm không nhiễm khuẩn</td><td>Viêm tụy, gout cấp, bệnh tự miễn, hoại tử mô (nhồi máu ruột, nhồi máu cơ tim), xuất huyết</td><td>Cytokine tiền viêm tương tự nhiễm khuẩn</td></tr>
+<tr><td>Nền mạn tính</td><td>Hút thuốc, béo phì, sau cắt lách</td><td>Tăng nhẹ kéo dài; sau cắt lách tăng cả lympho và tiểu cầu</td></tr>
+<tr><td>Bệnh máu</td><td>Bệnh bạch cầu cấp/mạn, bệnh tăng sinh tủy</td><td>Xem dấu hiệu cảnh báo bên dưới</td></tr>
+<tr><td>Giả tăng (lỗi đo)</td><td>Tiểu cầu kết cụm, hồng cầu có nhân, cryoglobulin</td><td>Máy đếm nhầm thành bạch cầu; kiểm tra bằng phết máu ngoại vi</td></tr>
+</tbody>
+</table></div>
+
+<div class="warn">
+<p><strong>Dấu hiệu cảnh báo bệnh máu ác tính (AFP 2015):</strong> bạch cầu &gt; 30.000/mm³; có tế bào non (blast) trên phết máu; lympho đơn dạng; giảm đồng thời các dòng khác (thiếu máu, giảm tiểu cầu); lách to, gan to, hạch to; sụt cân, sốt kéo dài, đổ mồ hôi đêm. <strong>Phản ứng giả bệnh bạch cầu</strong> (leukemoid reaction) thường ở mức 50.000–100.000/mm³ (nhiễm khuẩn nặng, <em>C. difficile</em>, ung thư tiết G-CSF). Bạch cầu <strong>&gt; 100.000/mm³ gần như luôn do bệnh bạch cầu hoặc bệnh tăng sinh tủy</strong>, và là cấp cứu (nguy cơ tăng độ nhớt, tắc mạch nhỏ).</p>
+</div>
+
+<h3 id="h-bc-amgia">2.4. Bạch cầu “bình thường” hoặc giảm khi có nhiễm khuẩn (âm tính giả)</h3>
+<ul>
+<li><strong>Người cao tuổi, nghiện rượu, suy dinh dưỡng, xơ gan, dùng thuốc ức chế miễn dịch</strong>: có thể không tăng bạch cầu dù nhiễm khuẩn nặng.</li>
+<li><strong>Nhiễm khuẩn huyết nặng, đặc biệt do vi khuẩn Gram âm</strong>: bạch cầu có thể <em>giảm</em> (&lt; 4 G/L, cũng là một tiêu chuẩn SIRS) do BCTT bị huy động hàng loạt vào mô và tiêu thụ. Giảm bạch cầu trong sepsis là dấu hiệu tiên lượng xấu, không phải trấn an.</li>
+<li><strong>Giai đoạn rất sớm</strong>: trước khi kho tủy kịp phản ứng.</li>
+<li><strong>Một số tác nhân điển hình gây bạch cầu bình thường hoặc giảm</strong>: thương hàn, sốt mò/Rickettsia, sốt xuất huyết Dengue, lao, Brucella, nhiễm virus. <em>(Ghi chú biên soạn: rất quan trọng trong bối cảnh Việt Nam.)</em></li>
+<li><strong>Giả giảm</strong>: kết dính bạch cầu do EDTA, mẫu để lâu.</li>
+</ul>
+
+<h3 id="h-bc-vaitro">2.5. Vai trò thực tế của bạch cầu trong nội khoa</h3>
+<ul>
+<li><strong>Thành phần của các thang điểm</strong>: SIRS (&gt; 12 hoặc &lt; 4 G/L hoặc band &gt; 10%), thang điểm nặng của viêm đại tràng do <em>C. difficile</em> (IDSA/SHEA: bạch cầu ≥ 15 G/L hoặc creatinin &gt; 1,5 mg/dL là thể nặng), Alvarado, CURB-65 <em>không</em> dùng bạch cầu, qSOFA và SOFA <em>không</em> dùng bạch cầu.</li>
+<li><strong>Định hướng loại tác nhân</strong> qua công thức: BCTT và chuyển trái → vi khuẩn; lympho → virus/ho gà; ái toan → ký sinh trùng, thuốc.</li>
+<li><strong>An toàn điều trị</strong>: phát hiện giảm BCTT do thuốc (hóa trị, methimazole/PTU, clozapine, cotrimoxazol…), xác định sốt giảm BCTT (BCTT &lt; 0,5 G/L hoặc dự kiến giảm dưới mức này).</li>
+<li><strong>Không đủ để quyết định kháng sinh</strong>: AFP 2015 nhấn mạnh tăng bạch cầu đơn độc ở bệnh nhân ổn định, không có triệu chứng khu trú <strong>không cần cấy máu</strong> và không phải chỉ định kháng sinh.</li>
+</ul>
+<h2 id="h-crp">3. CRP: thước đo cường độ viêm hệ thống</h2>
+
+<h3 id="h-crp-banchat">3.1. Bản chất sinh học</h3>
+<p>CRP (C-reactive protein) được phát hiện năm 1930 vì khả năng kết tủa polysaccharide C của phế cầu. Đây là một <strong>pentraxin</strong>: 5 tiểu đơn vị giống nhau (mỗi tiểu đơn vị khoảng 23 kDa) xếp thành vòng. CRP gắn vào phosphocholine trên màng vi khuẩn và trên màng tế bào chết, rồi hoạt hóa bổ thể theo đường cổ điển và tăng thực bào. Nói cách khác, CRP là một “opsonin” của miễn dịch bẩm sinh, phản ứng với <em>cả</em> vi khuẩn lẫn mô hoại tử của chính cơ thể. Điều này giải thích vì sao CRP tăng trong nhồi máu cơ tim, viêm tụy, sau mổ.</p>
+
+<p>CRP được tổng hợp gần như hoàn toàn ở <strong>tế bào gan</strong>, dưới tác động chủ yếu của <strong>IL-6</strong> (IL-1β và TNF-α tăng cường). Theo Pepys & Hirschfield (J Clin Invest 2003):</p>
+<ul>
+<li>Bắt đầu tăng sau khoảng <strong>6 giờ</strong> (thường nói 4–6 giờ), nồng độ <strong>tăng gấp đôi mỗi khoảng 8 giờ</strong>, đạt <strong>đỉnh sau 36–50 giờ</strong>.</li>
+<li><strong>Thời gian bán thải huyết tương khoảng 19 giờ, hằng định</strong> trong mọi tình trạng bệnh lý. Vì thanh thải không đổi, <strong>nồng độ CRP chỉ phản ánh tốc độ tổng hợp</strong>, tức là cường độ kích thích viêm đang diễn ra.</li>
+<li>Biên độ tăng rất rộng: từ dưới 1 mg/L lên đến hơn 500 mg/L (tăng hơn 1.000 lần).</li>
+</ul>
+
+<div class="box">
+<p><strong>Hệ quả của thời gian bán thải hằng định 19 giờ.</strong> Khi nguồn viêm bị loại bỏ hoàn toàn (dẫn lưu ổ mủ, kháng sinh hiệu quả), CRP giảm theo đường mũ với tốc độ tối đa khoảng một nửa mỗi ngày. <em>(Ghi chú biên soạn: vì vậy không thể kỳ vọng CRP “về bình thường” trong 24–48 giờ sau khi điều trị đúng, và đo CRP nhiều lần trong cùng một ngày không thêm thông tin. Ngược lại, CRP giảm chậm hơn nhiều so với tốc độ này, hoặc tăng trở lại, gợi ý ổ viêm vẫn đang hoạt động.)</em></p>
+</div>
+
+<h3 id="h-crp-nguong">3.2. Ngưỡng và cách diễn giải mức CRP</h3>
+
+<p><strong>Lưu ý đơn vị trước tiên:</strong> đa số phòng xét nghiệm báo CRP theo <strong>mg/L</strong>, nhưng một số nơi (và nhiều tài liệu Mỹ cũ) dùng <strong>mg/dL</strong>. 1 mg/dL = 10 mg/L. Đọc nhầm đơn vị là bẫy kinh điển.</p>
+
+<div class="tbl-wrap"><table>
+<thead><tr><th>Mức CRP (mg/L)</th><th>Diễn giải thường gặp</th></tr></thead>
+<tbody>
+<tr><td>&lt; 3–5 (tùy phòng xét nghiệm)</td><td>Bình thường; ở người khỏe mạnh trung vị khoảng 0,8 mg/L</td></tr>
+<tr><td>5–10</td><td>Viêm mức thấp: béo phì, hút thuốc, đái tháo đường, mang thai, tuổi cao, nhiễm virus nhẹ, viêm mạn</td></tr>
+<tr><td>10–40</td><td>Viêm nhẹ: đa số nhiễm virus, nhiễm khuẩn khu trú nhẹ, đợt bệnh tự miễn nhẹ</td></tr>
+<tr><td>40–200</td><td>Viêm đang hoạt động: nhiễm khuẩn, đợt cấp viêm khớp dạng thấp, viêm mạch, sau mổ lớn, viêm tụy</td></tr>
+<tr><td>&gt; 200</td><td>Viêm rất mạnh: nhiễm khuẩn nặng, bỏng, chấn thương nặng, viêm mạch hoạt động, bệnh Still</td></tr>
+</tbody>
+</table></div>
+<p><em>Ghi chú biên soạn:</em> các khoảng trên là quy ước thực hành tổng hợp từ nhiều nguồn, không phải ngưỡng chẩn đoán. Nhiễm virus nặng (cúm, adenovirus, COVID-19) vẫn có thể cho CRP &gt; 100 mg/L.</p>
+
+<h4 id="h4-2" style="font-family:var(--serif);font-size:16.5px;margin:22px 0 8px">CRP độ nhạy cao (hs-CRP) không phải là một xét nghiệm khác</h4>
+<p>hs-CRP đo cùng một phân tử, chỉ bằng kỹ thuật đo được nồng độ rất thấp (khoảng 0,1–10 mg/L). Ứng dụng duy nhất được chấp nhận là <strong>phân tầng nguy cơ tim mạch</strong> ở người không có viêm cấp: &lt; 1 mg/L nguy cơ thấp, 1–3 mg/L trung bình, &gt; 3 mg/L cao (AHA/CDC 2003). Nếu hs-CRP &gt; 10 mg/L, kết quả không dùng cho phân tầng tim mạch mà phải tìm nguyên nhân viêm và đo lại sau khoảng 2 tuần. hs-CRP <strong>không có vai trò</strong> trong chẩn đoán nhiễm khuẩn.</p>
+
+<h4 id="h4-3" style="font-family:var(--serif);font-size:16.5px;margin:22px 0 8px">CRP tại chỗ (point-of-care) trong chăm sóc ban đầu: ngưỡng của NICE</h4>
+<p>Với nhiễm khuẩn hô hấp dưới ở người lớn khi chưa rõ có cần kháng sinh hay không, NICE (hướng dẫn viêm phổi CG191, giữ nguyên trong NG138) đề xuất cân nhắc xét nghiệm CRP tại chỗ:</p>
+<div class="tbl-wrap"><table>
+<thead><tr><th>CRP (mg/L)</th><th>Khuyến nghị của NICE</th></tr></thead>
+<tbody>
+<tr><td>&lt; 20</td><td>Không kê kháng sinh thường quy</td></tr>
+<tr><td>20–100</td><td>Cân nhắc kê đơn kháng sinh trì hoãn (chỉ dùng nếu triệu chứng nặng lên)</td></tr>
+<tr><td>&gt; 100</td><td>Kê kháng sinh</td></tr>
+</tbody>
+</table></div>
+<p>Thử nghiệm PACE (Butler, NEJM 2019) ở bệnh nhân đợt cấp COPD tại phòng khám đa khoa: hướng dẫn bằng CRP tại chỗ làm tỷ lệ dùng kháng sinh giảm từ 77,4% xuống 57,0% mà không làm xấu tình trạng sức khỏe liên quan COPD sau 2 tuần.</p>
+
+<h3 id="h-crp-esr">3.3. CRP so với tốc độ lắng máu (ESR)</h3>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Đặc điểm</th><th>CRP</th><th>Tốc độ lắng máu</th></tr></thead>
+<tbody>
+<tr><td>Đo cái gì</td><td>Nồng độ một protein</td><td>Tốc độ hồng cầu lắng (gián tiếp, chủ yếu do fibrinogen và globulin)</td></tr>
+<tr><td>Tăng sau</td><td>4–6 giờ</td><td>24–48 giờ</td></tr>
+<tr><td>Trở về bình thường</td><td>Vài ngày (t½ 19 giờ)</td><td>Vài tuần (t½ fibrinogen khoảng 4 ngày)</td></tr>
+<tr><td>Bị nhiễu bởi</td><td>Ít: chủ yếu suy gan, thuốc ức chế IL-6</td><td>Nhiều: tuổi, giới, thiếu máu, đa hồng cầu, hình dạng hồng cầu, tăng globulin (đa u tủy), suy thận, béo phì</td></tr>
+<tr><td>Ưu thế</td><td>Viêm cấp, theo dõi đáp ứng ngắn hạn</td><td>Viêm mạn: viêm động mạch tế bào khổng lồ, đau đa cơ dạng thấp, viêm xương tủy, lupus</td></tr>
+</tbody>
+</table></div>
+<p><strong>ESR tăng cao mà CRP bình thường</strong> gợi ý: lupus ban đỏ hệ thống, đa u tủy hoặc tăng globulin, thiếu máu, suy thận, hoặc viêm đã qua giai đoạn cấp.</p>
+
+<h3 id="h-crp-nhieu">3.4. Các yếu tố làm sai lệch CRP</h3>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Yếu tố</th><th>Hướng sai lệch</th><th>Cơ chế và ý nghĩa</th></tr></thead>
+<tbody>
+<tr><td><strong>Thuốc kháng IL-6</strong> (tocilizumab, sarilumab)</td><td>CRP gần như bằng 0 dù nhiễm khuẩn nặng</td><td>Chặn tín hiệu chính để gan tổng hợp CRP. Ảnh hưởng kéo dài nhiều tuần sau liều cuối. Bệnh nhân viêm khớp dạng thấp hoặc COVID-19 đã dùng tocilizumab: <strong>CRP mất giá trị hoàn toàn</strong>; dựa vào lâm sàng, PCT (cũng có thể bị giảm), cấy.</td></tr>
+<tr><td>Thuốc ức chế JAK (tofacitinib, baricitinib…)</td><td>CRP giảm</td><td>Ức chế đường tín hiệu JAK–STAT phía sau thụ thể IL-6</td></tr>
+<tr><td><strong>Suy gan nặng</strong> (xơ gan mất bù, suy gan cấp)</td><td>CRP tăng ít hơn mức nhiễm khuẩn thực sự</td><td>Gan giảm khả năng tổng hợp. Ở bệnh nhân xơ gan, CRP “vừa phải” không loại trừ viêm phúc mạc nhiễm khuẩn tự phát; phải chọc dịch báng.</td></tr>
+<tr><td>Lupus ban đỏ hệ thống</td><td>CRP thấp trong đợt hoạt động bệnh</td><td>Interferon type I ức chế tổng hợp CRP. Trong đợt lupus, CRP thường thấp; nếu CRP tăng cao rõ, nghĩ đến nhiễm khuẩn chồng lấp hoặc viêm thanh mạc/viêm khớp.</td></tr>
+<tr><td>Corticoid</td><td>Giảm nhẹ</td><td>Ức chế một phần sản xuất cytokine; CRP vẫn tăng khi có nhiễm khuẩn đáng kể</td></tr>
+<tr><td>Statin</td><td>Giảm nhẹ</td><td>Tác dụng chống viêm (cơ sở của JUPITER); không ảnh hưởng ý nghĩa với viêm cấp</td></tr>
+<tr><td>Béo phì, đái tháo đường, hút thuốc, ít vận động, tuổi cao, nữ, mang thai, estrogen/thuốc tránh thai</td><td>Tăng nền nhẹ</td><td>Mô mỡ tiết IL-6; estrogen tăng tổng hợp ở gan. Quan trọng với hs-CRP, ít ý nghĩa với ngưỡng nhiễm khuẩn.</td></tr>
+<tr><td>Hiệu ứng “hook” liều cao</td><td>Báo thấp giả ở nồng độ cực cao</td><td>Hiếm với các máy hiện đại; nghi ngờ khi lâm sàng rất nặng mà kết quả thấp, yêu cầu pha loãng mẫu</td></tr>
+</tbody>
+</table></div>
+
+<h3 id="h-crp-vaitro">3.5. CRP mạnh ở đâu, yếu ở đâu</h3>
+<ul>
+<li><strong>Mạnh:</strong> theo dõi xu hướng (đáp ứng điều trị, phát hiện biến chứng sau mổ); loại trừ nhiễm khuẩn đáng kể khi rất thấp (CRP bình thường sau &gt; 12–24 giờ có triệu chứng làm viêm phổi do vi khuẩn, viêm màng não do vi khuẩn rất khó xảy ra); dự báo viêm tụy cấp nặng (CRP ≥ 150 mg/L sau 48 giờ); theo dõi bệnh viêm mạn (viêm khớp dạng thấp, đau đa cơ dạng thấp, viêm động mạch tế bào khổng lồ, bệnh Still).</li>
+<li><strong>Yếu:</strong> phân biệt vi khuẩn với virus hoặc viêm vô khuẩn ở vùng giữa (20–100 mg/L); giai đoạn rất sớm (&lt; 6–12 giờ); bệnh nhân dùng thuốc kháng IL-6; bệnh nhân suy gan nặng; quyết định ngừng kháng sinh ở ICU (ADAPT-Sepsis 2025, xem mục 6).</li>
+</ul>
+
+<h4 id="h4-4" style="font-family:var(--serif);font-size:16.5px;margin:22px 0 8px">CRP sau phẫu thuật: “đường cong mong đợi”</h4>
+<p>Sau phẫu thuật lớn, CRP tăng sinh lý, đạt đỉnh vào ngày 2–3 (thường 100–250 mg/L tùy mức độ phẫu thuật), rồi giảm dần. Giá trị không nằm ở mức đỉnh mà ở chỗ <strong>CRP có giảm sau ngày 3 hay không</strong>. Sau phẫu thuật đại trực tràng, phân tích gộp của Singh và cs. (Colorectal Dis 2014) cho thấy CRP ngày 3 hậu phẫu dưới khoảng 172 mg/L có giá trị tiên đoán âm cao đối với rò miệng nối, cho phép xuất viện an toàn hơn. Theo Sager 2017, ở bối cảnh nhiễm khuẩn sau mổ đại trực tràng, PCT không tốt hơn CRP.</p>
+<h2 id="h-pct">4. Procalcitonin: marker “thiên về vi khuẩn” và công cụ quản lý kháng sinh</h2>
+
+<h3 id="h-pct-banchat">4.1. Bản chất sinh học</h3>
+<p>PCT là tiền chất của hormone calcitonin, gồm 116 acid amin, mã hóa bởi gen <strong>CALC-1</strong>. Ở người khỏe, PCT chỉ được tạo trong <strong>tế bào C tuyến giáp</strong> và gần như toàn bộ được cắt thành calcitonin trước khi vào máu, nên PCT huyết thanh rất thấp (&lt; 0,05–0,1 ng/mL).</p>
+<p>Khi có nhiễm khuẩn, gen CALC-1 được biểu hiện ở <strong>các tế bào ngoài tuyến giáp trên khắp cơ thể</strong> (tế bào mỡ, nguyên bào sợi, tế bào nhu mô gan, phổi, thận…). Các tế bào này không có bộ máy cắt PCT thành calcitonin, nên PCT tràn vào máu. Theo hướng dẫn ADLM/AACC:</p>
+<ul>
+<li><strong>Tín hiệu kích hoạt:</strong> IL-1β, TNF-α, IL-6 và trực tiếp LPS (nội độc tố vi khuẩn Gram âm).</li>
+<li><strong>Tín hiệu ức chế:</strong> <strong>IFN-γ</strong>, cytokine chủ đạo trong đáp ứng với virus. Đây là lý do nhiễm virus đơn thuần thường cho PCT thấp.</li>
+<li><strong>Động học:</strong> tăng trong vài giờ (đo được sau khoảng 3–6 giờ), đạt đỉnh khoảng 12–24 giờ, <strong>thời gian bán thải khoảng 24 giờ</strong>, thải chủ yếu qua thận.</li>
+<li><strong>Đơn vị:</strong> ng/mL = µg/L (hai đơn vị bằng nhau về số).</li>
+</ul>
+
+<div class="box">
+<p><strong>Vì sao PCT đặc hiệu cho vi khuẩn hơn CRP?</strong> CRP chỉ cần IL-6 (có trong hầu hết các tình trạng viêm, kể cả virus và tự miễn). PCT cần tín hiệu mạnh của IL-1β/TNF-α/LPS và đồng thời bị IFN-γ “phanh lại”. Vì vậy virus, bệnh tự miễn mức độ thường và viêm khu trú ít làm PCT tăng; nhiễm khuẩn <em>toàn thân</em> làm PCT tăng mạnh. Mặt trái: những tình huống có “cơn bão” IL-1β/TNF-α không do vi khuẩn (sốc tim, đa chấn thương, bỏng, mổ lớn, hội chứng giải phóng cytokine) cũng làm PCT tăng.</p>
+</div>
+
+<h3 id="h-pct-nguong">4.2. Ngưỡng diễn giải</h3>
+
+<h4 id="h4-5" style="font-family:var(--serif);font-size:16.5px;margin:22px 0 8px">Nhiễm khuẩn hô hấp dưới, bệnh nhân ngoài ICU (khoa cấp cứu, khoa nội) – theo ADLM/AACC và ProHOSP</h4>
+<div class="tbl-wrap"><table>
+<thead><tr><th>PCT (ng/mL)</th><th>Khả năng nhiễm khuẩn</th><th>Khuyến nghị kháng sinh</th></tr></thead>
+<tbody>
+<tr><td>&lt; 0,1</td><td>Rất thấp</td><td>Rất không khuyến khích</td></tr>
+<tr><td>0,1–0,25</td><td>Thấp</td><td>Không khuyến khích</td></tr>
+<tr><td>0,26–0,5</td><td>Có thể</td><td>Khuyến khích</td></tr>
+<tr><td>&gt; 0,5</td><td>Cao</td><td>Rất khuyến khích</td></tr>
+</tbody>
+</table></div>
+<p>Nếu không dùng kháng sinh vì PCT thấp nhưng bệnh nhân không cải thiện: đo lại sau 6–24 giờ. Nếu đã dùng kháng sinh: đo lại mỗi 2–3 ngày; <strong>ngừng khi PCT &lt; 0,25 ng/mL hoặc giảm &gt; 80% so với đỉnh</strong>.</p>
+
+<h4 id="h4-6" style="font-family:var(--serif);font-size:16.5px;margin:22px 0 8px">Nghi sepsis / bệnh nhân ICU – theo PRORATA (Bouadma, Lancet 2010)</h4>
+<div class="tbl-wrap"><table>
+<thead><tr><th>PCT (ng/mL)</th><th>Lúc khởi đầu</th><th>Khi theo dõi</th></tr></thead>
+<tbody>
+<tr><td>&lt; 0,25</td><td>Rất không khuyến khích kháng sinh</td><td>Rất khuyến khích ngừng</td></tr>
+<tr><td>0,25–&lt; 0,5</td><td>Không khuyến khích</td><td>Khuyến khích ngừng (cũng ngừng khi giảm ≥ 80% so với đỉnh)</td></tr>
+<tr><td>0,5–&lt; 1</td><td>Khuyến khích</td><td>Giảm &lt; 80% so với đỉnh: khuyến khích tiếp tục</td></tr>
+<tr><td>≥ 1</td><td>Rất khuyến khích</td><td>Tăng so với đỉnh: rất khuyến khích tiếp tục, cân nhắc đổi kháng sinh, tìm ổ</td></tr>
+</tbody>
+</table></div>
+<div class="warn">
+<p><strong>Ở bệnh nhân nặng, PCT không dùng để quyết định CÓ BẮT ĐẦU kháng sinh hay không.</strong> Surviving Sepsis Campaign 2021 <em>khuyến cáo không dùng</em> PCT kết hợp đánh giá lâm sàng để quyết định khởi đầu kháng sinh (khuyến cáo yếu, chất lượng bằng chứng rất thấp); IDSA/ATS 2019 khuyến cáo dùng kháng sinh theo kinh nghiệm cho viêm phổi cộng đồng được xác định trên lâm sàng và X-quang <em>bất kể</em> PCT ban đầu (khuyến cáo mạnh, chất lượng bằng chứng trung bình). Nghi sốc nhiễm khuẩn: kháng sinh trong vòng 1 giờ, không chờ PCT.</p>
+</div>
+
+<h4 id="h4-7" style="font-family:var(--serif);font-size:16.5px;margin:22px 0 8px">Hiệu chỉnh theo chức năng thận</h4>
+<p>PCT được thải một phần qua thận nên bệnh nhân suy thận có nồng độ nền cao hơn và giảm chậm hơn. Cleveland Clinic J Med 2019 dẫn đề xuất ngưỡng cao hơn: eGFR 30–60 mL/phút dùng ngưỡng khoảng 1,06 ng/mL; eGFR &lt; 30 dùng ngưỡng khoảng 2,50 ng/mL. <em>(Ghi chú biên soạn: các ngưỡng này đến từ nghiên cứu đơn lẻ, chưa được hướng dẫn lớn chấp nhận. Thực hành an toàn hơn là theo dõi <strong>xu hướng</strong> so với chính bệnh nhân, thay vì so một giá trị tuyệt đối với ngưỡng chung.)</em></p>
+
+<h3 id="h-pct-bangchung">4.3. Bằng chứng từ các thử nghiệm then chốt</h3>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Thử nghiệm</th><th>Bối cảnh, cỡ mẫu</th><th>Kết quả chính</th></tr></thead>
+<tbody>
+<tr><td>ProHOSP (Schuetz, JAMA 2009)</td><td>Nhiễm khuẩn hô hấp dưới, khoa cấp cứu Thụy Sĩ, n = 1.381</td><td>Thời gian phơi nhiễm kháng sinh 5,7 so với 8,7 ngày (giảm khoảng 35%); biến cố bất lợi gộp không kém hơn (15,4% so với 18,9%)</td></tr>
+<tr><td>PRORATA (Bouadma, Lancet 2010)</td><td>ICU Pháp, n = 630</td><td>Thêm 2,7 ngày không dùng kháng sinh (14,3 so với 11,6 ngày); tử vong ngày 28: 21,2% so với 20,4% (không kém hơn)</td></tr>
+<tr><td>SAPS (de Jong, Lancet Infect Dis 2016)</td><td>ICU Hà Lan, n = 1.575</td><td>Giảm thời gian kháng sinh (trung vị 5 so với 7 ngày); tử vong ngày 28 thấp hơn: 19,6% so với 25,0%</td></tr>
+<tr><td>ProACT (Huang, NEJM 2018)</td><td>Nhiễm khuẩn hô hấp dưới, cấp cứu Mỹ, n = 1.656</td><td><strong>Không</strong> giảm kháng sinh (4,2 so với 4,3 ngày); tỷ lệ kê đơn ở nhóm chứng vốn thấp, bác sĩ tuân thủ thuật toán chưa cao</td></tr>
+<tr><td>Phân tích gộp dữ liệu từng bệnh nhân (Schuetz, Lancet Infect Dis 2018)</td><td>26 thử nghiệm, 6.708 bệnh nhân nhiễm khuẩn hô hấp</td><td>Tử vong ngày 30: 8,6% so với 10,0% (aOR 0,83); thời gian kháng sinh 5,7 so với 8,1 ngày</td></tr>
+<tr><td>ADAPT-Sepsis (JAMA 2025)</td><td>41 ICU Anh, n = 2.761 (phân tích hiệu quả 2.695), 3 nhánh</td><td>Hướng dẫn bằng PCT hằng ngày: 9,8 so với 10,7 ngày kháng sinh (p = 0,01), tử vong ngày 28 không kém hơn. Hướng dẫn bằng CRP: 10,6 so với 10,7 ngày (<strong>không giảm</strong>). Xem mục 6.</td></tr>
+</tbody>
+</table></div>
+<p>Tổng hợp của Sager và cs. (BMC Med 2017): trong nhiễm khuẩn hô hấp mức độ nhẹ, hướng dẫn bằng PCT giảm khởi đầu kháng sinh 60–70%; trong viêm phổi, giảm thời gian kháng sinh khoảng 40%; trong sepsis, giảm khoảng 25%. Năm 2017, FDA Hoa Kỳ chấp thuận PCT để hỗ trợ quyết định kháng sinh trong nhiễm khuẩn hô hấp dưới và sepsis.</p>
+
+<h3 id="h-pct-tienluong">4.4. PCT như marker tiên lượng</h3>
+<p>Theo ADLM/AACC, một giá trị PCT đơn lẻ dự báo tử vong kém (AUC 0,73). Giá trị nằm ở <strong>động học</strong>: PCT không giảm (giảm dưới 25–70% trong khoảng 48 giờ đến 7 ngày, tùy nghiên cứu) liên quan tử vong cao hơn với AUC 0,79 và nguy cơ tương đối 3,05 (KTC 95% 2,35–3,95). Diễn giải thực hành: PCT không giảm sau 48–72 giờ điều trị là tín hiệu để <strong>tìm lại ổ nhiễm khuẩn chưa kiểm soát, tác nhân kháng thuốc, hoặc chẩn đoán khác</strong>.</p>
+
+<h3 id="h-pct-loi">4.5. Dương tính giả và âm tính giả của PCT</h3>
+<div class="tbl-wrap"><table>
+<thead><tr><th>PCT cao mà KHÔNG do nhiễm khuẩn (dương tính giả)</th><th>PCT thấp dù CÓ nhiễm khuẩn (âm tính giả)</th></tr></thead>
+<tbody>
+<tr><td>
+<ul>
+<li>Phẫu thuật lớn (đỉnh vào ngày 1–2 rồi giảm), đa chấn thương, bỏng</li>
+<li>Sốc tim, ngừng tim sau hồi sinh, nhồi máu cơ tim (theo CCJM 2019, đỉnh trung bình 3,57 ng/mL)</li>
+<li>Viêm tụy cấp không nhiễm khuẩn, thiếu máu mạc treo, say nóng</li>
+<li>Suy thận mạn, lọc máu (nền cao, giảm chậm)</li>
+<li>Ung thư: carcinom tủy tuyến giáp, ung thư phổi tế bào nhỏ, u thần kinh nội tiết, ung thư di căn</li>
+<li>Thuốc và liệu pháp kích thích cytokine: globulin kháng tế bào T (ATG), OKT3, IL-2, liệu pháp CAR-T, hội chứng giải phóng cytokine</li>
+<li>Bệnh tự miễn kèm cơn bão cytokine (bệnh Still, hội chứng thực bào máu), bệnh mảnh ghép chống vật chủ</li>
+<li>Sốt rét do <em>P. falciparum</em>, một số nhiễm nấm xâm lấn (thường tăng vừa)</li>
+<li>Sơ sinh 48 giờ đầu (dùng ngưỡng theo giờ tuổi)</li>
+</ul>
+</td><td>
+<ul>
+<li><strong>Giai đoạn rất sớm</strong> (&lt; 6 giờ): đo lại sau 6–24 giờ nếu vẫn nghi ngờ</li>
+<li><strong>Nhiễm khuẩn khu trú, có vỏ bao</strong>: áp xe, mủ màng phổi, viêm xương tủy, viêm khớp nhiễm khuẩn, viêm túi mật/viêm ruột thừa chưa biến chứng, viêm mô tế bào</li>
+<li><strong>Viêm nội tâm mạc nhiễm khuẩn</strong> (đặc biệt bán cấp): PCT có hiệu năng kém</li>
+<li><strong>Vi khuẩn nội bào/không điển hình</strong>: <em>Mycoplasma</em>, <em>Chlamydophila</em>, <em>Legionella</em> (thường tăng thấp hơn phế cầu), lao</li>
+<li>Nhiễm khuẩn tiết niệu dưới không biến chứng</li>
+<li>Bệnh nhân giảm bạch cầu, ức chế miễn dịch nặng (PCT vẫn tăng nhưng có thể chậm, hiệu năng thấp hơn)</li>
+<li>Bệnh nhân đã dùng thuốc ức chế IL-6 (tocilizumab) hoặc corticoid liều cao (giảm biên độ)</li>
+</ul>
+</td></tr>
+</tbody>
+</table></div>
+<p>Lưu ý thêm (Sager 2017): gout và viêm tụy không nhiễm khuẩn có thể làm PCT tăng nhẹ; PCT &lt; 0,37 ng/mL có giá trị tiên đoán âm khoảng 99% cho tình huống cấy máu mọc vi khuẩn là do <strong>nhiễm bẩn</strong> (ví dụ tụ cầu coagulase âm tính) chứ không phải nhiễm khuẩn huyết thật.</p>
+<h2 id="h-sosanh">5. So sánh trực tiếp ba marker</h2>
+
+<h3 id="h-dongHoc">5.1. Động học theo thời gian: đo lúc nào thì “thấy” được gì</h3>
+
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 430" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:#F7F3EA;border:1px solid var(--border);border-radius:10px" font-family="Inter, Arial, sans-serif">
+<rect x="80" y="30" width="780" height="320" fill="#fff" stroke="#c9c3b5"/>
+<g stroke="#ebe6da" stroke-width="1">
+<line x1="80" y1="110" x2="860" y2="110"/><line x1="80" y1="190" x2="860" y2="190"/><line x1="80" y1="270" x2="860" y2="270"/>
+<line x1="242.5" y1="30" x2="242.5" y2="350"/><line x1="405" y1="30" x2="405" y2="350"/><line x1="567.5" y1="30" x2="567.5" y2="350"/><line x1="730" y1="30" x2="730" y2="350"/>
+</g>
+<g font-size="12" fill="#4a463e" text-anchor="middle">
+<text x="80" y="370">0</text><text x="161" y="370">12</text><text x="242.5" y="370">24</text><text x="323" y="370">36</text><text x="405" y="370">48</text><text x="567.5" y="370">72</text><text x="730" y="370">96</text><text x="860" y="370">giờ</text>
+</g>
+<text x="470" y="398" text-anchor="middle" font-size="13" fill="#2b2925">Thời gian từ lúc khởi phát nhiễm khuẩn (giờ)</text>
+<text x="30" y="190" text-anchor="middle" font-size="13" fill="#2b2925" transform="rotate(-90 30 190)">Mức tăng tương đối (% đỉnh)</text>
+<g font-size="11" fill="#6b665c" text-anchor="end"><text x="74" y="34">100%</text><text x="74" y="194">50%</text><text x="74" y="354">0</text></g>
+<!-- WBC: rises fast, peak ~ 8-12h, plateau -->
+<path d="M80,350 C100,300 115,190 140,130 C165,95 200,92 240,110 C300,135 420,160 560,200 C650,225 760,250 860,262" fill="none" stroke="#7a7468" stroke-width="3" stroke-dasharray="7 5"/>
+<!-- PCT: starts ~3-6h, peak ~18h, half-life 24h -->
+<path d="M80,350 C100,349 105,346 115,330 C140,230 160,60 200,40 C230,30 250,50 300,95 C360,150 430,200 520,250 C620,295 740,325 860,338" fill="none" stroke="#D9731A" stroke-width="3.5"/>
+<!-- CRP: starts 6h, doubles q8h, peak ~42h, slow decline -->
+<path d="M80,350 C110,350 120,348 135,340 C180,300 240,170 300,75 C330,40 360,32 380,34 C420,38 470,70 540,130 C620,195 740,265 860,300" fill="none" stroke="#0E4E8A" stroke-width="3.5"/>
+<g font-size="12.5" font-weight="700">
+<text x="140" y="120" fill="#5c574d">Bạch cầu</text>
+<text x="208" y="36" fill="#D9731A">PCT (đỉnh ~12–24 giờ)</text>
+<text x="392" y="28" fill="#0E4E8A">CRP (đỉnh 36–50 giờ)</text>
+</g>
+<rect x="600" y="44" width="250" height="78" rx="10" fill="#F7F3EA" stroke="#c9c3b5"/>
+<line x1="614" y1="62" x2="650" y2="62" stroke="#7a7468" stroke-width="3" stroke-dasharray="7 5"/><text x="658" y="66" font-size="12" fill="#2b2925">Bạch cầu: phút–giờ</text>
+<line x1="614" y1="84" x2="650" y2="84" stroke="#D9731A" stroke-width="3.5"/><text x="658" y="88" font-size="12" fill="#2b2925">PCT: t½ ~24 giờ</text>
+<line x1="614" y1="106" x2="650" y2="106" stroke="#0E4E8A" stroke-width="3.5"/><text x="658" y="110" font-size="12" fill="#2b2925">CRP: t½ ~19 giờ</text>
+</svg>
+<figcaption class="fig-caption">Hình 2 | Động học điển hình của bạch cầu, PCT và CRP sau một kích thích nhiễm khuẩn đơn lẻ được kiểm soát (sơ đồ minh họa tự vẽ, trục tung là % so với đỉnh của từng marker, không phải nồng độ tuyệt đối; thời điểm theo ADLM/AACC, Pepys 2003, Sager 2017)</figcaption>
+</figure>
+
+<p><strong>Cách đọc Hình 2:</strong></p>
+<ul>
+<li>Bệnh nhân đến viện <strong>sau 2–4 giờ</strong> khởi phát: bạch cầu có thể đã tăng, PCT vừa bắt đầu tăng, CRP thường còn bình thường. Một CRP bình thường lúc này <strong>không loại trừ</strong> nhiễm khuẩn.</li>
+<li>Bệnh nhân đến <strong>sau 24–48 giờ</strong>: cả CRP và PCT đều ở vùng cao; đây là thời điểm hai marker có giá trị chẩn đoán tốt nhất.</li>
+<li><strong>Sau khi kiểm soát ổ nhiễm</strong>: PCT giảm sớm hơn và “sạch” hơn; CRP còn tiếp tục tăng thêm 1 ngày (vì đỉnh muộn) rồi mới giảm. Thấy CRP ngày 2 cao hơn ngày 1 <em>chưa chắc</em> là thất bại điều trị.</li>
+</ul>
+
+<h3 id="h-bangsosanh">5.2. Bảng so sánh tổng hợp</h3>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Đặc điểm</th><th>Bạch cầu</th><th>CRP</th><th>Procalcitonin</th></tr></thead>
+<tbody>
+<tr><td>Nơi sản xuất</td><td>Tủy xương (phân bố lại là chính)</td><td>Gan</td><td>Mô ngoại vi toàn thân</td></tr>
+<tr><td>Tín hiệu chính</td><td>G-CSF, catecholamine, cortisol, cytokine</td><td>IL-6</td><td>IL-1β, TNF-α, IL-6, LPS; bị IFN-γ ức chế</td></tr>
+<tr><td>Bắt đầu tăng</td><td>Phút–giờ</td><td>4–6 giờ</td><td>3–6 giờ</td></tr>
+<tr><td>Đỉnh</td><td>Thay đổi</td><td>36–50 giờ</td><td>12–24 giờ</td></tr>
+<tr><td>Thời gian bán thải</td><td>BCTT lưu hành khoảng 6–8 giờ</td><td>~19 giờ (hằng định)</td><td>~24 giờ (dài hơn khi suy thận)</td></tr>
+<tr><td>Nhiễm virus</td><td>Bình thường hoặc giảm, lympho tăng</td><td>Thường tăng nhẹ–vừa; có thể cao ở virus nặng</td><td>Thường thấp (&lt; 0,25)</td></tr>
+<tr><td>Bệnh tự miễn</td><td>Thay đổi</td><td>Tăng (trừ lupus thường thấp)</td><td>Thường thấp</td></tr>
+<tr><td>Sau mổ, chấn thương</td><td>Tăng</td><td>Tăng, đỉnh ngày 2–3</td><td>Tăng, đỉnh ngày 1–2, giảm nhanh nếu không nhiễm khuẩn</td></tr>
+<tr><td>Corticoid</td><td>Tăng (dương tính giả)</td><td>Giảm nhẹ</td><td>Ít ảnh hưởng</td></tr>
+<tr><td>Thuốc kháng IL-6</td><td>Có thể giảm BCTT</td><td>Mất giá trị (gần 0)</td><td>Giảm, kém tin cậy</td></tr>
+<tr><td>Suy gan nặng</td><td>Thường giảm (cường lách)</td><td>Tăng ít hơn thực tế</td><td>Giữ giá trị tương đối</td></tr>
+<tr><td>Suy thận</td><td>Ít ảnh hưởng</td><td>Ít ảnh hưởng</td><td>Nền cao, giảm chậm</td></tr>
+<tr><td>Giá thành, sẵn có</td><td>Rẻ nhất, mọi nơi</td><td>Rẻ, hầu hết bệnh viện</td><td>Đắt hơn, không phải nơi nào cũng có</td></tr>
+<tr><td>Sở trường</td><td>Sàng lọc nhanh, công thức định hướng tác nhân, phát hiện bệnh máu</td><td>Theo dõi xu hướng viêm, biến chứng sau mổ, bệnh viêm mạn</td><td>Hỗ trợ quyết định ngừng kháng sinh (ICU) và không khởi đầu (nhiễm khuẩn hô hấp nhẹ); tiên lượng theo động học</td></tr>
+</tbody>
+</table></div>
+
+<h3 id="h-benhcanh">5.3. Nhạy, đặc hiệu theo từng bệnh cảnh nội khoa</h3>
+<p>Phần lớn số liệu độ nhạy (Se), độ đặc hiệu (Sp), tỷ số khả dĩ (LR) dưới đây lấy từ tổng quan Sager và cs. (BMC Med 2017). Phần “Thực hành” là diễn giải tổng hợp của người biên soạn.</p>
+
+<div class="tbl-wrap"><table>
+<thead><tr><th>Bệnh cảnh</th><th>Hiệu năng</th><th>Thực hành</th></tr></thead>
+<tbody>
+<tr><td><strong>Nhiễm khuẩn huyết (cấy máu dương tính)</strong></td><td>PCT: AUC 0,85, Se 0,77, Sp 0,79</td><td>PCT thấp làm giảm khả năng nhiễm khuẩn huyết thật nhưng không loại trừ; vẫn cấy máu khi có chỉ định lâm sàng.</td></tr>
+<tr><td><strong>Viêm màng não do vi khuẩn so với do virus</strong></td><td>PCT: Se 0,95, Sp 0,97, LR+ 31,7, LR− 0,06</td><td>Một trong những chỉ định mạnh nhất của PCT. Kết hợp với dịch não tủy; không trì hoãn kháng sinh.</td></tr>
+<tr><td><strong>Viêm phổi cộng đồng</strong></td><td>PCT phân biệt vi khuẩn/virus khá nhưng không đủ để loại trừ ở bệnh nhân nặng</td><td>Không dùng PCT để quyết định có khởi đầu kháng sinh khi viêm phổi đã xác định (IDSA/ATS 2019). Dùng PCT để rút ngắn thời gian điều trị. CRP &lt; 20 mg/L (chăm sóc ban đầu) gợi ý không cần kháng sinh.</td></tr>
+<tr><td><strong>Đợt cấp COPD, đợt cấp hen</strong></td><td>PCT &lt; 0,25 và CRP thấp gợi ý không do vi khuẩn</td><td>Hướng dẫn bằng PCT hoặc CRP tại chỗ giảm kê kháng sinh an toàn (PACE: 57,0% so với 77,4%).</td></tr>
+<tr><td><strong>Suy tim cấp kèm khó thở, nghi viêm phổi</strong></td><td>X-quang và lâm sàng khó phân biệt; CRP tăng nhẹ do sung huyết</td><td>PCT giúp phân tách: PCT thấp ủng hộ suy tim đơn thuần, tránh kháng sinh không cần thiết.</td></tr>
+<tr><td><strong>Sốt giảm bạch cầu trung tính</strong></td><td>PCT: Se 0,65, Sp 0,88, LR+ 5,49, LR− 0,4</td><td>LR− 0,4 là quá yếu để không dùng kháng sinh. Kháng sinh theo kinh nghiệm ngay; PCT/CRP chỉ hỗ trợ đánh giá nặng và theo dõi.</td></tr>
+<tr><td><strong>Viêm nội tâm mạc nhiễm khuẩn</strong></td><td>PCT hiệu năng kém</td><td>Dựa vào cấy máu nhiều lần, siêu âm tim, tiêu chuẩn Duke. CRP hữu ích để theo dõi đáp ứng điều trị theo tuần.</td></tr>
+<tr><td><strong>Nhiễm khuẩn tiết niệu</strong></td><td>Sager: một số nghiên cứu dùng ngưỡng PCT khoảng 1,16 ng/mL</td><td>Viêm bàng quang: không cần marker. Viêm thận–bể thận: PCT cao gợi ý tổn thương nhu mô, nguy cơ nhiễm khuẩn huyết.</td></tr>
+<tr><td><strong>Viêm khớp nhiễm khuẩn so với gout cấp</strong></td><td>Cả bạch cầu và CRP đều tăng mạnh trong gout. Sager: ngưỡng PCT khoảng 0,4 ng/mL cho viêm khớp nhiễm khuẩn</td><td>Không marker nào thay được chọc dịch khớp (tế bào, nhuộm Gram, cấy, tinh thể). PCT thấp không loại trừ viêm khớp nhiễm khuẩn vì là nhiễm khuẩn khu trú.</td></tr>
+<tr><td><strong>Viêm mô tế bào, viêm quầng</strong></td><td>Sager: ngưỡng PCT khoảng 0,1 ng/mL</td><td>Đa số chẩn đoán lâm sàng; PCT thường thấp. PCT cao gợi ý lan toàn thân hoặc nhiễm khuẩn mô mềm hoại tử.</td></tr>
+<tr><td><strong>Viêm tụy cấp</strong></td><td>CRP ≥ 150 mg/L ở 48 giờ dự báo thể nặng; PCT tăng gợi ý nhiễm khuẩn hoại tử</td><td>Bạch cầu và CRP tăng do viêm vô khuẩn, không phải chỉ định kháng sinh. Cân nhắc nhiễm khuẩn hoại tử khi lâm sàng xấu đi sau tuần đầu, PCT tăng, có khí trong ổ hoại tử.</td></tr>
+<tr><td><strong>Xơ gan, nghi viêm phúc mạc nhiễm khuẩn tự phát</strong></td><td>Bạch cầu máu thường thấp (cường lách), CRP tăng ít</td><td>Chẩn đoán bằng chọc dịch báng (BCTT ≥ 250/mm³), không bằng marker máu. PCT có thể hỗ trợ khi nghi nhiễm khuẩn nơi khác.</td></tr>
+<tr><td><strong>Lupus: đợt bệnh hay nhiễm khuẩn?</strong></td><td>Lupus hoạt động: CRP thường thấp, PCT thấp</td><td>CRP tăng cao rõ hoặc PCT &gt; 0,5 ng/mL ở bệnh nhân lupus: nghĩ nhiễm khuẩn trước (hoặc viêm thanh mạc).</td></tr>
+<tr><td><strong>Sau phẫu thuật/sau thủ thuật</strong></td><td>Sager: sau phẫu thuật tim, ngưỡng PCT khoảng 0,47 ng/mL; PCT đỉnh ngày 1–2 rồi giảm; CRP đỉnh ngày 2–3</td><td>Theo dõi <em>xu hướng</em>: marker không giảm hoặc tăng lại sau ngày 3 gợi ý biến chứng nhiễm khuẩn.</td></tr>
+<tr><td><strong>COVID-19 và viêm phổi virus nặng</strong></td><td>CRP thường cao; PCT thường thấp nếu không có bội nhiễm</td><td>PCT tăng dần gợi ý bội nhiễm vi khuẩn (nhưng cũng gặp ở bệnh rất nặng). Sau tocilizumab, CRP mất giá trị.</td></tr>
+<tr><td><strong>Cấy máu mọc tụ cầu coagulase âm tính</strong></td><td>PCT &lt; 0,37 ng/mL: NPV khoảng 99% cho nhiễm bẩn</td><td>Hỗ trợ quyết định không điều trị khi lâm sàng ổn và chỉ một chai dương tính.</td></tr>
+</tbody>
+</table></div>
+
+<div class="box">
+<p><strong>Quy tắc “nhạy để loại trừ, đặc hiệu để xác định” áp dụng thế nào?</strong></p>
+<ul>
+<li><strong>Để loại trừ</strong> nhiễm khuẩn <em>toàn thân</em> ở bệnh nhân không nặng: CRP rất thấp (&lt; 10–20 mg/L) đo sau ít nhất 12–24 giờ có triệu chứng <em>kết hợp</em> PCT &lt; 0,1–0,25 ng/mL là bộ đôi mạnh nhất. Bạch cầu bình thường không đủ để loại trừ.</li>
+<li><strong>Để ủng hộ</strong> nguyên nhân vi khuẩn: PCT &gt; 0,5 ng/mL (đặc biệt &gt; 2 ng/mL) đặc hiệu hơn CRP cao, với điều kiện đã gạt bỏ các nguyên nhân dương tính giả ở mục 4.5.</li>
+<li><strong>Không marker nào</strong> loại trừ được nhiễm khuẩn khu trú (áp xe, mủ màng phổi, viêm nội tâm mạc, viêm khớp nhiễm khuẩn, viêm xương tủy). Ở đây, hình ảnh học và lấy mẫu tại ổ là bắt buộc.</li>
+</ul>
+</div>
+
+<h3 id="h-phoihop">5.4. Đọc phối hợp CRP và PCT</h3>
+<div class="tbl-wrap"><table>
+<thead><tr><th></th><th>PCT thấp (&lt; 0,25)</th><th>PCT cao (&gt; 0,5)</th></tr></thead>
+<tbody>
+<tr><td><strong>CRP thấp</strong></td><td>Ít khả năng nhiễm khuẩn toàn thân (nếu đã &gt; 12–24 giờ). Nghĩ: virus nhẹ, nguyên nhân không viêm (suy tim, thuyên tắc phổi, thuốc). Lưu ý: rất sớm, tocilizumab, suy gan nặng.</td><td>Hiếm. Nghĩ: rất sớm (PCT tăng trước CRP), suy gan nặng, đã dùng thuốc kháng IL-6, nguyên nhân tăng PCT không nhiễm khuẩn (ung thư thần kinh nội tiết, suy thận).</td></tr>
+<tr><td><strong>CRP cao</strong></td><td>Viêm không do vi khuẩn toàn thân: virus (cúm, COVID-19, adenovirus), bệnh tự miễn, viêm mạch, gout, sau mổ ngày 2–3, ung thư, nhiễm khuẩn <em>khu trú</em> (áp xe, mủ màng phổi), vi khuẩn không điển hình, lao.</td><td>Nhiễm khuẩn toàn thân nhiều khả năng. Nếu không có ổ rõ: vẫn cân nhắc sốc tim, chấn thương, bỏng, viêm tụy nặng, mổ lớn.</td></tr>
+</tbody>
+</table></div>
+<h2 id="h-theodoi">6. Theo dõi marker viêm theo bệnh cảnh lâm sàng</h2>
+
+<h3 id="h-nguyentac">6.1. Nguyên tắc chung</h3>
+<ol>
+<li><strong>Đặt câu hỏi trước khi chỉ định.</strong> Kết quả nào sẽ làm thay đổi quyết định (bắt đầu, ngừng, đổi kháng sinh, tìm ổ, chọc dò)? Nếu không có câu trả lời, xét nghiệm đó không cần.</li>
+<li><strong>Đo giá trị nền</strong> ngay khi bắt đầu điều trị; mọi diễn giải sau đó dựa trên <strong>xu hướng</strong> so với chính bệnh nhân.</li>
+<li><strong>Tần suất phù hợp với động học.</strong> CRP và PCT có thời gian bán thải khoảng 1 ngày, nên đo lại sớm hơn 24 giờ hiếm khi có ích (ngoại lệ: PCT lần đầu thấp nhưng nghi ngờ cao, đo lại sau 6–24 giờ). Ở ICU: mỗi ngày hoặc cách ngày. Ở khoa nội ổn định: mỗi 48–72 giờ.</li>
+<li><strong>Ngừng đo</strong> khi đã đạt quyết định (đã ngừng kháng sinh, bệnh nhân hồi phục rõ). Đo “cho đến khi bình thường” không có cơ sở; CRP có thể còn tăng nhẹ nhiều ngày sau khi khỏi bệnh.</li>
+<li><strong>Lâm sàng luôn thắng con số.</strong> Marker giảm mà lâm sàng xấu đi → xử trí theo lâm sàng. Marker còn cao mà bệnh nhân hồi phục tốt → nghĩ đến nguyên nhân không nhiễm khuẩn duy trì marker, không tự động kéo dài kháng sinh.</li>
+</ol>
+
+<h3 id="h-thuattoan">6.2. Thuật toán dùng PCT trong quản lý kháng sinh</h3>
+
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 760" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:#F7F3EA;border:1px solid var(--border);border-radius:10px" font-family="Inter, Arial, sans-serif">
+<defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6b665c"/></marker></defs>
+<rect x="270" y="16" width="360" height="54" rx="12" fill="#E9E5DC" stroke="#8a8578"/>
+<text x="450" y="39" text-anchor="middle" font-size="14.5" font-weight="700" fill="#2b2925">Nghi nhiễm khuẩn (hô hấp dưới / sepsis)</text>
+<text x="450" y="58" text-anchor="middle" font-size="12" fill="#4a463e">Đánh giá lâm sàng, mức độ nặng, lấy cấy trước kháng sinh</text>
+<line x1="450" y1="70" x2="450" y2="98" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar3)"/>
+<polygon points="450,100 610,160 450,220 290,160" fill="#fff" stroke="#8a8578"/>
+<text x="450" y="155" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2925">Nặng / sốc / ICU</text>
+<text x="450" y="173" text-anchor="middle" font-size="12" fill="#4a463e">hay giảm BCTT?</text>
+<line x1="610" y1="160" x2="700" y2="160" stroke="#6b665c" stroke-width="1.6"/><line x1="700" y1="160" x2="700" y2="250" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar3)"/>
+<text x="630" y="150" font-size="12.5" font-weight="700" fill="#D9731A">CÓ</text>
+<line x1="290" y1="160" x2="200" y2="160" stroke="#6b665c" stroke-width="1.6"/><line x1="200" y1="160" x2="200" y2="250" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar3)"/>
+<text x="235" y="150" font-size="12.5" font-weight="700" fill="#D9731A">KHÔNG</text>
+<rect x="560" y="252" width="290" height="92" rx="12" fill="#fff" stroke="#8a8578"/>
+<text x="705" y="276" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2b2925">Kháng sinh NGAY (trong 1 giờ)</text>
+<text x="705" y="296" text-anchor="middle" font-size="12" fill="#4a463e">KHÔNG chờ PCT, không dùng PCT</text>
+<text x="705" y="313" text-anchor="middle" font-size="12" fill="#4a463e">để quyết định khởi đầu (SSC 2021)</text>
+<text x="705" y="332" text-anchor="middle" font-size="12" fill="#4a463e">Đo PCT nền để theo dõi</text>
+<rect x="50" y="252" width="300" height="70" rx="12" fill="#fff" stroke="#8a8578"/>
+<text x="200" y="278" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2b2925">Đo PCT nền</text>
+<text x="200" y="298" text-anchor="middle" font-size="12" fill="#4a463e">(khoa cấp cứu, khoa nội; nhiễm khuẩn</text>
+<text x="200" y="314" text-anchor="middle" font-size="12" fill="#4a463e">hô hấp dưới mức nhẹ–vừa)</text>
+<line x1="200" y1="322" x2="200" y2="350" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar3)"/>
+<polygon points="200,352 330,402 200,452 70,402" fill="#fff" stroke="#8a8578"/>
+<text x="200" y="398" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2925">PCT ≤ 0,25</text>
+<text x="200" y="416" text-anchor="middle" font-size="12" fill="#4a463e">ng/mL?</text>
+<line x1="70" y1="402" x2="40" y2="402" stroke="#6b665c" stroke-width="1.6"/><line x1="40" y1="402" x2="40" y2="490" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar3)"/>
+<text x="44" y="392" font-size="12.5" font-weight="700" fill="#D9731A">CÓ</text>
+<line x1="330" y1="402" x2="380" y2="402" stroke="#6b665c" stroke-width="1.6"/><line x1="380" y1="402" x2="380" y2="490" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar3)"/>
+<text x="336" y="392" font-size="12.5" font-weight="700" fill="#D9731A">KHÔNG (&gt; 0,25)</text>
+<rect x="20" y="492" width="250" height="104" rx="12" fill="#fff" stroke="#8a8578"/>
+<text x="145" y="514" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2925">Không khuyến khích kháng sinh</text>
+<text x="145" y="534" text-anchor="middle" font-size="12" fill="#4a463e">(&lt; 0,1: rất không khuyến khích)</text>
+<text x="145" y="553" text-anchor="middle" font-size="12" fill="#4a463e">Không cải thiện → đo lại sau 6–24 giờ</text>
+<text x="145" y="572" text-anchor="middle" font-size="12" fill="#4a463e">Vẫn dùng nếu nặng, ổ khu trú,</text>
+<text x="145" y="588" text-anchor="middle" font-size="12" fill="#4a463e">hoặc viêm phổi rõ trên X-quang</text>
+<rect x="290" y="492" width="200" height="70" rx="12" fill="#fff" stroke="#8a8578"/>
+<text x="390" y="518" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2925">Khuyến khích kháng sinh</text>
+<text x="390" y="538" text-anchor="middle" font-size="12" fill="#4a463e">(&gt; 0,5: rất khuyến khích)</text>
+<line x1="390" y1="562" x2="390" y2="600" stroke="#6b665c" stroke-width="1.6"/>
+<line x1="705" y1="344" x2="705" y2="600" stroke="#6b665c" stroke-width="1.6"/>
+<line x1="390" y1="600" x2="705" y2="600" stroke="#6b665c" stroke-width="1.6"/>
+<line x1="548" y1="600" x2="548" y2="624" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar3)"/>
+<rect x="368" y="626" width="360" height="40" rx="12" fill="#E9E5DC" stroke="#8a8578"/>
+<text x="548" y="651" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2925">Đo lại PCT mỗi 1–3 ngày (ICU: mỗi ngày)</text>
+<line x1="548" y1="666" x2="548" y2="684" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar3)"/>
+<rect x="290" y="686" width="270" height="62" rx="12" fill="#FBEFE3" stroke="#D9731A"/>
+<text x="425" y="710" text-anchor="middle" font-size="13" font-weight="700" fill="#8a4410">Cân nhắc NGỪNG kháng sinh khi</text>
+<text x="425" y="730" text-anchor="middle" font-size="12" fill="#8a4410">PCT &lt; 0,25–0,5 hoặc giảm ≥ 80% so với đỉnh</text>
+<text x="425" y="744" text-anchor="middle" font-size="11" fill="#8a4410">và lâm sàng ổn định, ổ đã kiểm soát</text>
+<rect x="580" y="686" width="290" height="62" rx="12" fill="#fff" stroke="#8a8578"/>
+<text x="725" y="710" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2925">PCT không giảm hoặc tăng lại</text>
+<text x="725" y="730" text-anchor="middle" font-size="12" fill="#4a463e">Tìm ổ chưa dẫn lưu, vi khuẩn kháng thuốc,</text>
+<text x="725" y="744" text-anchor="middle" font-size="12" fill="#4a463e">nhiễm khuẩn mới, chẩn đoán khác</text>
+</svg>
+<figcaption class="fig-caption">Hình 3 | Thuật toán dùng PCT hỗ trợ quyết định kháng sinh, tổng hợp từ ADLM/AACC, ProHOSP, PRORATA và Surviving Sepsis Campaign 2021 (sơ đồ tự vẽ). Ngưỡng ngừng ở ICU: &lt; 0,5 ng/mL theo PRORATA, &lt; 0,25 ng/mL theo ADAPT-Sepsis.</figcaption>
+</figure>
+
+<h3 id="h-adapt">6.3. ADAPT-Sepsis 2025: vì sao PCT, chứ không phải CRP, để quyết định ngừng kháng sinh ở ICU</h3>
+<p>ADAPT-Sepsis là thử nghiệm ngẫu nhiên đa trung tâm lớn nhất so sánh trực tiếp hai marker (41 ICU tại Anh, 1/2018–6/2024; 16.109 bệnh nhân được sàng lọc, 2.761 ngẫu nhiên, 2.695 vào phân tích hiệu quả). Bệnh nhân người lớn nghi sepsis, đã bắt đầu kháng sinh tĩnh mạch trong vòng 24 giờ và dự kiến dùng ≥ 72 giờ, được chia 1:1:1:</p>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Nhánh</th><th>Quy tắc khuyến nghị</th><th>Ngày kháng sinh (đến ngày 28)</th><th>Tử vong ngày 28</th></tr></thead>
+<tbody>
+<tr><td>PCT hằng ngày</td><td>PCT &lt; 0,25 µg/L: <em>rất ủng hộ</em> ngừng. Giảm &gt; 80% so với nền hoặc 0,25–0,50 µg/L: <em>ủng hộ</em> ngừng.</td><td><strong>9,8</strong> so với 10,7 (p = 0,01)</td><td>20,9% so với 19,4% (chênh +1,57%; KTC 95% −2,18% đến +5,32%; đạt không kém hơn với biên 5,4%)</td></tr>
+<tr><td>CRP hằng ngày</td><td>CRP &lt; 25 mg/L: <em>rất ủng hộ</em> ngừng. Giảm 50% so với nền: <em>ủng hộ</em> ngừng.</td><td>10,6 so với 10,7 (<strong>không khác biệt</strong>)</td><td>21,1% so với 19,4% (chênh +1,69%; KTC 95% −2,07% đến +5,45%)</td></tr>
+<tr><td>Chăm sóc tiêu chuẩn</td><td>Không có khuyến nghị dựa trên marker</td><td>10,7</td><td>19,4%</td></tr>
+</tbody>
+</table></div>
+<p><em>Ghi chú biên soạn:</em> mức giảm tuyệt đối khoảng 1 ngày kháng sinh là khiêm tốn, nhưng an toàn và có ý nghĩa ở quy mô ICU. Kết quả âm tính của nhánh CRP phù hợp với sinh lý học: CRP đỉnh muộn, giảm chậm và bị duy trì bởi mọi nguồn viêm không nhiễm khuẩn ở bệnh nhân nặng (phẫu thuật, thở máy, tổn thương mô), nên hiếm khi đạt ngưỡng “ủng hộ ngừng” sớm hơn quyết định lâm sàng thông thường.</p>
+
+<h3 id="h-theobenhcanh">6.4. Kế hoạch theo dõi gợi ý cho các bệnh cảnh thường gặp</h3>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Bệnh cảnh</th><th>Marker nên dùng</th><th>Thời điểm đo</th><th>Diễn giải xu hướng</th></tr></thead>
+<tbody>
+<tr><td>Viêm phổi cộng đồng nhập khoa nội</td><td>PCT (nếu có), CRP, công thức máu</td><td>Nền; ngày 3–4; ngày 5–7</td><td>PCT &lt; 0,25 hoặc giảm ≥ 80% + ổn định lâm sàng → ngừng kháng sinh (thường đủ 5 ngày). CRP không giảm ≥ 50% vào ngày 3–4 → tìm biến chứng (tràn mủ màng phổi, áp xe), tác nhân không phù hợp.</td></tr>
+<tr><td>Sepsis/sốc nhiễm khuẩn ở ICU</td><td>PCT, lactate, công thức máu; CRP phụ</td><td>Nền, sau đó mỗi ngày</td><td>Theo thuật toán Hình 3. PCT không giảm sau 48–72 giờ: tiên lượng xấu, tìm ổ chưa kiểm soát.</td></tr>
+<tr><td>Đợt cấp COPD</td><td>CRP tại chỗ hoặc PCT</td><td>Lúc đến</td><td>Thấp + đờm không mủ → không kháng sinh. Không cần đo lặp nếu cải thiện.</td></tr>
+<tr><td>Viêm thận–bể thận, nhiễm khuẩn tiết niệu có sốt</td><td>CRP, công thức máu ± PCT</td><td>Nền, 48–72 giờ</td><td>Không hết sốt và marker không giảm sau 72 giờ → siêu âm/CT tìm tắc nghẽn, áp xe thận.</td></tr>
+<tr><td>Áp xe gan, mủ màng phổi, viêm xương tủy, viêm nội tâm mạc</td><td>CRP (± tốc độ lắng máu cho xương khớp)</td><td>Mỗi tuần một lần (đôi khi 2 lần/tuần giai đoạn đầu)</td><td>Giảm dần đều là đáp ứng tốt; CRP đứng yên hoặc tăng lại → ổ chưa dẫn lưu, cần hình ảnh học. PCT ít giá trị ở các ổ khu trú.</td></tr>
+<tr><td>Sau phẫu thuật bụng lớn</td><td>CRP (± PCT)</td><td>Ngày 1, 3, 5</td><td>Đỉnh ngày 2–3 là sinh lý. Không giảm sau ngày 3 hoặc tăng lại → nghi rò miệng nối, áp xe tồn dư.</td></tr>
+<tr><td>Viêm tụy cấp</td><td>CRP (phân tầng nặng), PCT nếu nghi nhiễm khuẩn hoại tử</td><td>Lúc vào, 48 giờ; sau đó khi lâm sàng thay đổi</td><td>CRP ≥ 150 mg/L ở 48 giờ: thể nặng. Không dùng kháng sinh dự phòng chỉ vì bạch cầu hoặc CRP cao.</td></tr>
+<tr><td>Sốt giảm bạch cầu trung tính</td><td>Công thức máu mỗi ngày; CRP/PCT hỗ trợ</td><td>Mỗi ngày</td><td>Kháng sinh không phụ thuộc marker. BCTT hồi phục và hết sốt là tiêu chí chính để xuống thang.</td></tr>
+<tr><td>Bệnh nhân dùng tocilizumab/thuốc kháng IL-6</td><td>Lâm sàng, cấy, hình ảnh; PCT dè dặt</td><td>Theo diễn biến</td><td>CRP không dùng được. Sốt có thể bị che lấp. Ngưỡng nghi ngờ nhiễm khuẩn phải thấp.</td></tr>
+<tr><td>Xơ gan mất bù có sốt hoặc xấu đi</td><td>Chọc dịch báng, cấy; CRP/PCT phụ</td><td>Ngay khi nhập viện và khi lâm sàng thay đổi</td><td>Bạch cầu máu và CRP “bình thường” không loại trừ viêm phúc mạc nhiễm khuẩn tự phát.</td></tr>
+<tr><td>Bệnh tự miễn (lupus) có sốt</td><td>CRP + PCT, bổ thể, anti-dsDNA</td><td>Lúc đến, 24–48 giờ</td><td>CRP cao rõ hoặc PCT tăng → ưu tiên tìm nhiễm khuẩn trước khi tăng ức chế miễn dịch.</td></tr>
+</tbody>
+</table></div>
+
+<h3 id="h-tiepcanbc">6.5. Tiếp cận bệnh nhân tăng bạch cầu</h3>
+
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:#F7F3EA;border:1px solid var(--border);border-radius:10px" font-family="Inter, Arial, sans-serif">
+<defs><marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6b665c"/></marker></defs>
+<rect x="290" y="16" width="320" height="50" rx="12" fill="#E9E5DC" stroke="#8a8578"/>
+<text x="450" y="38" text-anchor="middle" font-size="14.5" font-weight="700" fill="#2b2925">Bạch cầu &gt; 11 G/L</text>
+<text x="450" y="56" text-anchor="middle" font-size="12" fill="#4a463e">Xem lại máy đếm, phết máu ngoại vi</text>
+<line x1="450" y1="66" x2="450" y2="92" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar4)"/>
+<polygon points="450,94 640,148 450,202 260,148" fill="#fff" stroke="#8a8578"/>
+<text x="450" y="140" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2925">Dấu hiệu cảnh báo?</text>
+<text x="450" y="158" text-anchor="middle" font-size="11.5" fill="#4a463e">&gt; 30 G/L, blast, giảm dòng khác,</text>
+<text x="450" y="174" text-anchor="middle" font-size="11.5" fill="#4a463e">lách/hạch to, sụt cân, mồ hôi đêm</text>
+<line x1="640" y1="148" x2="740" y2="148" stroke="#6b665c" stroke-width="1.6"/><line x1="740" y1="148" x2="740" y2="228" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar4)"/>
+<text x="660" y="138" font-size="12.5" font-weight="700" fill="#D9731A">CÓ</text>
+<rect x="610" y="230" width="260" height="72" rx="12" fill="#FBEFE3" stroke="#D9731A"/>
+<text x="740" y="254" text-anchor="middle" font-size="13" font-weight="700" fill="#8a4410">Hội chẩn huyết học</text>
+<text x="740" y="273" text-anchor="middle" font-size="12" fill="#8a4410">&gt; 100 G/L: cấp cứu (tăng độ nhớt)</text>
+<text x="740" y="290" text-anchor="middle" font-size="12" fill="#8a4410">Phết máu, flow cytometry, tủy đồ</text>
+<line x1="450" y1="202" x2="450" y2="228" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar4)"/>
+<text x="458" y="220" font-size="12.5" font-weight="700" fill="#D9731A">KHÔNG</text>
+<polygon points="450,230 620,282 450,334 280,282" fill="#fff" stroke="#8a8578"/>
+<text x="450" y="278" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2925">Dòng nào tăng?</text>
+<text x="450" y="296" text-anchor="middle" font-size="11.5" fill="#4a463e">(công thức bạch cầu)</text>
+<line x1="330" y1="316" x2="140" y2="372" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar4)"/>
+<line x1="450" y1="334" x2="450" y2="372" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar4)"/>
+<line x1="570" y1="316" x2="760" y2="372" stroke="#6b665c" stroke-width="1.6" marker-end="url(#ar4)"/>
+<text x="170" y="336" font-size="12.5" font-weight="700" fill="#D9731A">Trung tính</text>
+<text x="458" y="358" font-size="12.5" font-weight="700" fill="#D9731A">Lympho</text>
+<text x="660" y="336" font-size="12.5" font-weight="700" fill="#D9731A">Ái toan / mono</text>
+<rect x="20" y="374" width="280" height="208" rx="12" fill="#fff" stroke="#8a8578"/>
+<text x="160" y="398" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2925">Tăng BCTT</text>
+<text x="34" y="422" font-size="12" fill="#4a463e">• Chuyển trái, hạt độc → nhiễm khuẩn</text>
+<text x="34" y="442" font-size="12" fill="#4a463e">• Thuốc: corticoid, β-agonist, lithium,</text>
+<text x="44" y="460" font-size="12" fill="#4a463e">G-CSF, adrenalin</text>
+<text x="34" y="480" font-size="12" fill="#4a463e">• Stress: nôn, co giật, đau, mổ</text>
+<text x="34" y="500" font-size="12" fill="#4a463e">• Viêm vô khuẩn: tụy, gout, hoại tử</text>
+<text x="34" y="520" font-size="12" fill="#4a463e">• Nền: hút thuốc, béo phì, cắt lách</text>
+<text x="34" y="546" font-size="12" font-weight="700" fill="#0E4E8A">→ Ghép với lâm sàng, CRP, PCT</text>
+<text x="34" y="566" font-size="12" font-weight="700" fill="#0E4E8A">→ Đơn độc, ổn định: không cấy máu</text>
+<rect x="320" y="374" width="260" height="150" rx="12" fill="#fff" stroke="#8a8578"/>
+<text x="450" y="398" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2925">Tăng lympho</text>
+<text x="334" y="422" font-size="12" fill="#4a463e">• Virus: EBV, CMV, viêm gan</text>
+<text x="334" y="442" font-size="12" fill="#4a463e">• Ho gà, lao, toxoplasma</text>
+<text x="334" y="462" font-size="12" fill="#4a463e">• Sau cắt lách, stress cấp (thoáng qua)</text>
+<text x="334" y="482" font-size="12" fill="#4a463e">• Lympho &gt; 5 G/L kéo dài, đơn dạng</text>
+<text x="344" y="502" font-size="12" font-weight="700" fill="#0E4E8A">→ nghĩ CLL, làm flow cytometry</text>
+<rect x="600" y="374" width="280" height="150" rx="12" fill="#fff" stroke="#8a8578"/>
+<text x="740" y="398" text-anchor="middle" font-size="13" font-weight="700" fill="#2b2925">Tăng ái toan / mono</text>
+<text x="614" y="422" font-size="12" fill="#4a463e">• Ái toan: ký sinh trùng, dị ứng,</text>
+<text x="624" y="440" font-size="12" fill="#4a463e">thuốc (DRESS), suy thượng thận</text>
+<text x="614" y="462" font-size="12" fill="#4a463e">• Mono: lao, viêm nội tâm mạc</text>
+<text x="624" y="480" font-size="12" fill="#4a463e">bán cấp, hồi phục tủy, CMML</text>
+<text x="614" y="504" font-size="12" font-weight="700" fill="#0E4E8A">→ Ái kiềm tăng: nghĩ CML</text>
+</svg>
+<figcaption class="fig-caption">Hình 4 | Tiếp cận bệnh nhân tăng bạch cầu ở khoa nội (sơ đồ tự vẽ, dựa trên Riley &amp; Rupert, American Family Physician 2015)</figcaption>
+</figure>
+<h2 id="h-bay">7. Bẫy thường gặp (MCQ và thực hành)</h2>
+<div class="tbl-wrap"><table>
+<thead><tr><th>#</th><th>Mệnh đề dễ chọn nhầm</th><th>Đúng là</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>“CRP bình thường lúc vào viện loại trừ nhiễm khuẩn.”</td><td>Sai nếu bệnh nhân đến trong vòng 6–12 giờ đầu: CRP chưa kịp tăng (bắt đầu tăng sau 4–6 giờ, gấp đôi mỗi 8 giờ).</td></tr>
+<tr><td>2</td><td>“CRP ngày 2 cao hơn ngày 1 nghĩa là kháng sinh thất bại.”</td><td>Chưa chắc: CRP đạt đỉnh sau 36–50 giờ, có thể còn tăng dù điều trị đúng. Đánh giá lại ở ngày 3–4.</td></tr>
+<tr><td>3</td><td>“PCT thấp thì không cần kháng sinh cho viêm phổi đã có trên X-quang.”</td><td>Sai: IDSA/ATS 2019 khuyến cáo kháng sinh theo kinh nghiệm bất kể PCT ban đầu (mạnh, bằng chứng trung bình).</td></tr>
+<tr><td>4</td><td>“Ở bệnh nhân sốc nhiễm khuẩn, chờ PCT rồi mới quyết định kháng sinh.”</td><td>Sai: kháng sinh trong 1 giờ; SSC 2021 khuyến cáo không dùng PCT để quyết định khởi đầu.</td></tr>
+<tr><td>5</td><td>“PCT là xét nghiệm chẩn đoán sepsis.”</td><td>Sai: ADLM/AACC nêu rõ không dùng PCT đơn độc để chẩn đoán sepsis. Sepsis là chẩn đoán lâm sàng (nhiễm khuẩn + rối loạn chức năng cơ quan, SOFA).</td></tr>
+<tr><td>6</td><td>“Bệnh nhân dùng tocilizumab có CRP 3 mg/L nên không có nhiễm khuẩn.”</td><td>Sai: thuốc kháng IL-6 làm CRP gần như bằng 0 dù nhiễm khuẩn nặng.</td></tr>
+<tr><td>7</td><td>“Bạch cầu 14 G/L sau 2 ngày dùng methylprednisolone là bằng chứng nhiễm khuẩn.”</td><td>Không: corticoid gây tăng BCTT (thường không có chuyển trái, lympho và ái toan giảm). Tìm thêm chuyển trái, hạt độc, lâm sàng, PCT.</td></tr>
+<tr><td>8</td><td>“Bạch cầu bình thường nên không thể là nhiễm khuẩn huyết.”</td><td>Sai: người già, xơ gan, nghiện rượu, ức chế miễn dịch, sepsis Gram âm nặng (có thể giảm bạch cầu). Thương hàn, sốt mò, lao điển hình không tăng bạch cầu.</td></tr>
+<tr><td>9</td><td>“Lupus đang sốt, CRP 120 mg/L: đợt hoạt động lupus, tăng corticoid.”</td><td>Nguy hiểm: đợt lupus thường có CRP thấp (interferon ức chế). CRP cao rõ gợi ý nhiễm khuẩn hoặc viêm thanh mạc; tìm nhiễm khuẩn trước.</td></tr>
+<tr><td>10</td><td>“PCT 2 ng/mL ngày 1 sau mổ đại tràng chắc chắn là nhiễm khuẩn.”</td><td>Không: phẫu thuật lớn làm PCT tăng, đỉnh ngày 1–2. Giá trị là PCT/CRP có giảm sau đó hay không.</td></tr>
+<tr><td>11</td><td>“PCT thấp loại trừ viêm nội tâm mạc / áp xe / viêm khớp nhiễm khuẩn.”</td><td>Sai: nhiễm khuẩn khu trú hoặc bán cấp thường có PCT thấp. Cần cấy máu, siêu âm tim, hình ảnh, chọc dò.</td></tr>
+<tr><td>12</td><td>“Bệnh nhân lọc máu có PCT 0,8 ng/mL nên có nhiễm khuẩn.”</td><td>Chưa chắc: suy thận làm PCT nền cao và giảm chậm. So sánh với giá trị nền của chính bệnh nhân, theo xu hướng.</td></tr>
+<tr><td>13</td><td>“CRP 5 trong phiếu kết quả là bình thường.”</td><td>Kiểm tra đơn vị: 5 mg/dL = 50 mg/L.</td></tr>
+<tr><td>14</td><td>“Dùng CRP hằng ngày để quyết định ngừng kháng sinh ở ICU cũng hiệu quả như PCT.”</td><td>Sai theo ADAPT-Sepsis 2025: nhánh CRP không giảm số ngày kháng sinh (10,6 so với 10,7 ngày), nhánh PCT giảm (9,8 so với 10,7).</td></tr>
+<tr><td>15</td><td>“Sốt giảm BCTT có PCT 0,2 nên trì hoãn kháng sinh.”</td><td>Sai: LR− của PCT trong sốt giảm BCTT chỉ khoảng 0,4. Kháng sinh theo kinh nghiệm ngay.</td></tr>
+<tr><td>16</td><td>“Bạch cầu 120 G/L trong viêm phổi nặng là phản ứng giả bệnh bạch cầu.”</td><td>Phản ứng giả bệnh bạch cầu thường 50–100 G/L. Trên 100 G/L gần như luôn là bệnh bạch cầu/tăng sinh tủy.</td></tr>
+<tr><td>17</td><td>“hs-CRP 15 mg/L: nguy cơ tim mạch rất cao.”</td><td>hs-CRP &gt; 10 mg/L không dùng để phân tầng tim mạch; tìm nguyên nhân viêm cấp, đo lại sau khoảng 2 tuần.</td></tr>
+<tr><td>18</td><td>“Bệnh nhân suy tim cấp, CRP 35 mg/L chắc chắn có viêm phổi đi kèm.”</td><td>Không: sung huyết và tổn thương mô trong suy tim cũng làm CRP tăng nhẹ. PCT thấp ủng hộ không do vi khuẩn.</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="h-pearl">8. Clinical pearls</h2>
+<ul>
+<li><strong>Đọc marker như một bộ phim, không phải một bức ảnh.</strong> Một giá trị đơn lẻ ít giá trị; xu hướng sau 48–72 giờ mới trả lời câu hỏi điều trị có hiệu quả không.</li>
+<li><strong>Giới hạn tốc độ giảm.</strong> Với thời gian bán thải khoảng 1 ngày, CRP và PCT không thể giảm nhanh hơn khoảng một nửa mỗi ngày. Đừng thất vọng khi chúng chưa về bình thường ở ngày 2–3.</li>
+<li><strong>PCT: giá trị lớn nhất là ngừng kháng sinh, không phải bắt đầu</strong> (ở bệnh nhân nặng). Ở bệnh nhân nhẹ có nhiễm khuẩn hô hấp, PCT thấp còn giúp <em>không bắt đầu</em>.</li>
+<li><strong>CRP: rẻ, nhạy, xu hướng tốt</strong>, đặc biệt để theo dõi các ổ khu trú (áp xe, viêm xương tủy, viêm nội tâm mạc) và biến chứng sau mổ, những nơi PCT kém.</li>
+<li><strong>Bạch cầu: đừng chỉ nhìn tổng số.</strong> Công thức, chuyển trái, hạt độc, lympho, ái toan và đặc biệt là <em>tế bào non</em> mới mang thông tin.</li>
+<li><strong>Ba “điểm mù” cần thuộc:</strong> thuốc kháng IL-6 (CRP câm), suy gan nặng (CRP cùn, bạch cầu thấp), nhiễm khuẩn khu trú (PCT thấp).</li>
+<li><strong>Marker không bao giờ thay thế việc tìm và kiểm soát ổ nhiễm khuẩn</strong>: chọc dịch báng, chọc dịch màng phổi, chọc khớp, dẫn lưu ổ mủ, cấy trước kháng sinh.</li>
+</ul>
+
+<h2 id="h-tomtat">9. Tóm tắt một trang</h2>
+<div class="rec">
+<p><strong>Bạch cầu</strong>: nhanh (phút–giờ), rẻ, nhiễu nhiều (stress, thuốc, viêm vô khuẩn). Giá trị ở công thức bạch cầu, phát hiện bệnh máu, an toàn thuốc, thang điểm (SIRS, <em>C. difficile</em> nặng ≥ 15 G/L). Không đủ để quyết định kháng sinh.</p>
+</div>
+<div class="rec">
+<p><strong>CRP</strong>: gan, IL-6; tăng sau 4–6 giờ, đỉnh 36–50 giờ, t½ 19 giờ hằng định. Nhạy với mọi viêm, không phân biệt được vi khuẩn với virus ở vùng giữa. Mạnh nhất để theo dõi xu hướng và loại trừ khi rất thấp sau &gt; 12–24 giờ. Chăm sóc ban đầu (NICE): &lt; 20 không kháng sinh, 20–100 kháng sinh trì hoãn, &gt; 100 kháng sinh. Điểm mù: thuốc kháng IL-6, suy gan, lupus.</p>
+</div>
+<div class="rec">
+<p><strong>Procalcitonin</strong>: CALC-1 ngoài tuyến giáp, IL-1β/TNF-α/LPS kích thích, IFN-γ ức chế; tăng sau 3–6 giờ, đỉnh 12–24 giờ, t½ ~24 giờ. Ngưỡng ngoài ICU: &lt; 0,1 / 0,1–0,25 / 0,26–0,5 / &gt; 0,5 ng/mL. Ngừng kháng sinh khi &lt; 0,25 (hoặc &lt; 0,5 ở ICU) hoặc giảm ≥ 80% so với đỉnh. Không dùng để quyết định khởi đầu kháng sinh ở bệnh nhân nặng. Dương tính giả: mổ lớn, chấn thương, bỏng, sốc tim, suy thận, ung thư thần kinh nội tiết, liệu pháp kích thích cytokine. Âm tính giả: rất sớm, nhiễm khuẩn khu trú, viêm nội tâm mạc, vi khuẩn không điển hình.</p>
+</div>
+
+<h2 id="h-nguon">10. Nguồn tài liệu chính đã sử dụng</h2>
+<ol style="font-size:14px">
+<li>ADLM (AACC) Academy. Laboratory Medicine Practice Guidance: Procalcitonin testing (2023–2024).</li>
+<li>Sager R, Kutz A, Mueller B, Schuetz P. Procalcitonin-guided diagnosis and antibiotic stewardship revisited. <em>BMC Med</em> 2017;15:15. doi:10.1186/s12916-017-0795-7</li>
+<li>Riley LK, Rupert J. Evaluation of patients with leukocytosis. <em>Am Fam Physician</em> 2015;92(11):1004–1011.</li>
+<li>Pepys MB, Hirschfield GM. C-reactive protein: a critical update. <em>J Clin Invest</em> 2003;111:1805–1812. doi:10.1172/JCI18921</li>
+<li>Cleveland Clinic Journal of Medicine 2019;86(5):307 – bài tổng quan về procalcitonin và các cạm bẫy diễn giải.</li>
+<li>Evans L, et al. Surviving Sepsis Campaign: International Guidelines 2021. <em>Crit Care Med</em> 2021;49:e1063–e1143.</li>
+<li>Metlay JP, et al. Diagnosis and treatment of adults with community-acquired pneumonia. ATS/IDSA guideline. <em>Am J Respir Crit Care Med</em> 2019;200:e45–e67.</li>
+<li>NICE. Pneumonia in adults: diagnosis and management (CG191) / NG138.</li>
+<li>Schuetz P, et al. ProHOSP. <em>JAMA</em> 2009;302:1059–1066.</li>
+<li>Bouadma L, et al. PRORATA. <em>Lancet</em> 2010;375:463–474. doi:10.1016/S0140-6736(09)61879-1</li>
+<li>de Jong E, et al. SAPS. <em>Lancet Infect Dis</em> 2016;16:819–827.</li>
+<li>Huang DT, et al. ProACT. <em>N Engl J Med</em> 2018;379:236–249.</li>
+<li>Schuetz P, et al. Procalcitonin to initiate or discontinue antibiotics in acute respiratory tract infections: individual patient data meta-analysis. <em>Lancet Infect Dis</em> 2018;18:95–107.</li>
+<li>ADAPT-Sepsis Trial Group. Biomarker-guided antibiotic duration in hospitalized patients with suspected sepsis. <em>JAMA</em> 2025 (tóm tắt theo The Bottom Line).</li>
+<li>Butler CC, et al. C-reactive protein testing to guide antibiotic prescribing for COPD exacerbations (PACE). <em>N Engl J Med</em> 2019;381:111–120.</li>
+<li>Singh PP, et al. Systematic review and meta-analysis of C-reactive protein as a predictor of anastomotic leak after colorectal surgery. <em>Colorectal Dis</em> 2014;16:89–97.</li>
+<li>McDonald LC, et al. Clinical practice guidelines for <em>Clostridium difficile</em> infection (IDSA/SHEA 2017). <em>Clin Infect Dis</em> 2018;66:e1–e48.</li>
+<li>Pearson TA, et al. Markers of inflammation and cardiovascular disease (AHA/CDC). <em>Circulation</em> 2003;107:499–511.</li>
+</ol>
+<p style="font-size:13px;color:var(--ink-2)"><em>Giới hạn:</em> một số bài báo có tường phí hoặc chặn truy cập tự động; với các bài này, nội dung dựa trên tóm tắt, hướng dẫn và tổng quan thứ cấp đáng tin cậy. Các sơ đồ trong trang là tự vẽ, không sao chép hình gốc.</p>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Chuyên đề do BS. Huỳnh Hữu Minh biên soạn (với hỗ trợ của Claude), diễn đạt lại bằng tiếng Việt từ các nguồn liệt kê ở mục 10. Bốn sơ đồ là tự vẽ. Số liệu giữ đúng nguồn; các đoạn “Ghi chú biên soạn” là diễn giải của người biên soạn.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'markerviem_bc_crp_pct_hl_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3, h4'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : (h.tagName === 'H3' ? 'lvl3' : 'lvl4');
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>

@@ -7,7 +7,7 @@
 // trong chuyên khoa đó (ví dụ bài Viêm phổi đầu tiên trong "hh"), tự đặt tên topic mới
 // hợp lý (ví dụ "Nhiễm trùng hô hấp") — không cần hỏi lại, trang sẽ tự tạo nhóm mới.
 window.LIBRARY = {
-  updated: "2026-10-05",
+  updated: "2026-10-06",
   dashboardUrl: "https://huuhuynh2k2-droid.github.io/on-thi-dashboard/",
   // "topic" mới trong "tm" (Tim mạch): "Kháng kết tập tiểu cầu" — nhóm này chưa từng có bài
   // nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
@@ -20,7 +20,8 @@ window.LIBRARY = {
     { id: "nt",  name: "Nội tiết",             en: "Endocrinology" },
     { id: "tk",  name: "Thần kinh",            en: "Neurology" },
     { id: "tq",  name: "Tổng quát",            en: "General Internal Medicine" },
-    { id: "hscc",name: "Hồi sức – Cấp cứu",    en: "Critical Care & Emergency" }
+    { id: "hscc",name: "Hồi sức – Cấp cứu",    en: "Critical Care & Emergency" },
+    { id: "cls", name: "Cận lâm sàng",         en: "Laboratory & Diagnostics" }
   ],
   items: [
     // "topic" mới trong "th" (Tiêu hóa): "Xơ gan" — chuyên khoa "th" chưa có bài nào trước đó, tự tạo mới theo hướng dẫn ở trên.
@@ -88,6 +89,13 @@ window.LIBRARY = {
       cat: "Nội viện",
       note: "Mục tiêu đường huyết ICU/ngoài ICU, phác đồ insulin theo bối cảnh (hồi sức, nuôi ăn qua sonde, dùng corticoid), xử trí quanh phẫu thuật.",
       updated: "", url: "https://huuhuynh2k2-droid.github.io/ki-m-so-t-ng-huy-t/" },
+
+    { id: "cls-marker-viem-bc-crp-pct", sp: "cls", topic: "Marker viêm – nhiễm khuẩn", title: "Vai trò các marker phản ứng viêm trong bệnh nội khoa: Bạch cầu, CRP, Procalcitonin",
+      org: "Chuyên đề tổng hợp: ADLM/AACC PCT guidance · SSC 2021 · IDSA/ATS 2019 · NICE · Sager BMC Med 2017 · AFP 2015 · CCJM 2019 · ProHOSP, PRORATA, SAPS, ProACT, ADAPT-Sepsis 2025", year: 2026,
+      doi: "https://doi.org/10.1186/s12916-017-0795-7", status: 2,
+      cat: "Chuyên đề cận lâm sàng · Tổng hợp nhiều nguồn · 4 sơ đồ tự vẽ · 18 bẫy MCQ",
+      note: "Bản chất từng marker (BC: phân bố lại/demargination; CRP: gan–IL-6, gấp đôi mỗi 8 giờ, đỉnh 36–50 giờ, t½ 19 giờ; PCT: CALC-1 ngoài tuyến giáp, IFN-γ ức chế, t½ ~24 giờ), sơ đồ động học theo giờ; ngưỡng (hs-CRP, NICE CRP tại chỗ <20/20–100/>100; PCT <0,1/0,25/0,5), hiệu chỉnh suy thận; bảng nhạy/đặc hiệu theo bệnh cảnh (nhiễm khuẩn huyết, viêm màng não, CAP, COPD, sốt giảm BCTT, nội tâm mạc, tiết niệu, gout/viêm khớp NK, viêm tụy, xơ gan, lupus, sau mổ, COVID); dương tính/âm tính giả (tocilizumab, suy gan, lupus, corticoid, mổ lớn, sốc tim, suy thận, ổ khu trú); đọc phối hợp CRP–PCT; thuật toán PCT ngừng kháng sinh; ADAPT-Sepsis (PCT giảm, CRP không giảm ngày kháng sinh); kế hoạch theo dõi theo 11 bệnh cảnh; tiếp cận tăng bạch cầu.",
+      updated: "2026-10-06", url: "docs/marker-viem-bach-cau-crp-procalcitonin.html" },
 
     { id: "nt-ada-easd-2026-dtd-tip2", sp: "nt", topic: "Đái tháo đường", title: "Đồng thuận ADA/EASD 2026 — Quản lý đái tháo đường típ 2 (bản dịch đầy đủ)",
       org: "ADA/EASD Consensus Report (Davies MJ, …, Buse JB). Diabetologia & Diabetes Care 2026", year: 2026,
