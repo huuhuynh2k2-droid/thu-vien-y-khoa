@@ -403,6 +403,13 @@ window.LIBRARY = {
       note: "Khung theo slide BS Trần Tuấn Anh: sinh lý và dược động học insulin (bảng Petznick), HbA1c khi nhập viện (16.1), mục tiêu ICU 140–180/ngoài ICU 100–180 (16.4–16.5) kèm NICE-SUGAR; basal-bolus vs sliding scale (16.8–16.10), tính TDD 0,3–0,6 UI/kg, chuyển TM → dưới da 60–80%, thang hiệu chỉnh và quy tắc 1800; Bellido 2015 (trộn sẵn hạ ĐH 64% vs 24%); nuôi ăn sonde/PN; hạ ĐH và sai sót liều U-500; corticoid; SGLT2i trong suy tim (16.11), DPP-4i, GLP-1RA; chu phẫu (16.15); thuốc tiêm ĐTĐ típ 2 (9.20–9.23), quá liều nền, trộn 2–3 mũi, Mixtard, Dawn/Somogyi, IDegAsp (chuyển 1:1, chỉnh liều hàng tuần), tái sử dụng kim và loạn dưỡng mỡ; DKA/HHS (16.16–16.17): tiêu chuẩn đồng thuận 2024, phân độ, ceton niệu, sơ đồ ADA 2026 Việt hóa, RL vs NaCl (Trifi 2026), insulin nền sớm (Thammakosol 2023, Lim 2022), kali, Na hiệu chỉnh 2,4; theo dõi ĐH/CGM nội viện, phác đồ ra viện theo HbA1c, bảng 25 bẫy MCQ.",
       updated: "2026-10-05", url: "docs/kiem-soat-duong-huyet-noi-vien-ada-2026.html" },
 
+    { id: "nt-dh-btm-tien-trien-galindo2020", sp: "nt", topic: "Đái tháo đường", title: "Theo dõi và quản lý đường huyết trong bệnh thận mạn tiến triển",
+      org: "Endocrine Reviews (Galindo, Beck, Scioscia, Umpierrez, Tuttle)", year: 2020,
+      doi: "https://doi.org/10.1210/endrev/bnaa017", status: 2,
+      cat: "Tổng quan · ĐTĐ + BTM/lọc máu · 4 hình gốc + 1 sơ đồ tự vẽ",
+      note: "Dịch toàn văn kèm tóm tắt bằng hình, Hình 1 (chuyển hoá insulin–glucose ở thận bình thường/BTM sớm/BTM tiến triển–HD), Hình 2 (đường cong J HbA1c–tử vong ở HD, phân tích gộp 83 684 BN), Hình 3 (chiều sai lệch HbA1c/fructosamine/albumin glycat hoá) — mỗi hình có giải thích chi tiết; Bảng 1–4 dựng lại HTML (theo dõi & giảm liều insulin: nền −25–30% BTM3, TDD −50% típ 2/−35–40% típ 1 BTM5, nền −25% trước ngày HD; liều 25 thuốc hạ ĐH theo eGFR; 14 nghiên cứu CGM ở HD; nhiễu CGM). Cơ chế hạ ĐH ở HD, dịch lọc glucose 100–200 mg/dL, màng polysulfone, burn-out diabetes, DKA ở HD (quá tải dịch), mục tiêu HbA1c 7–8%, máy đo GDH-PQQ/icodextrin, GMI = 3,31 + 0,02392 × glucose TB; ghi chú cập nhật KDIGO 2022 (SGLT2i eGFR ≥20), bẫy MCQ, pearl lâm sàng.",
+      updated: "2026-10-07", url: "docs/kiem-soat-duong-huyet-btm-tien-trien.html" },
+
     { id: "nt-tang-duong-huyet-noi-tru", sp: "nt", topic: "Đái tháo đường", title: "Quản lý tăng đường huyết ở bệnh nhân nội trú",
       org: "Annals of Internal Medicine — In the Clinic", year: 2024, doi: "https://doi.org/10.7326/ANNALS-24-02754", status: 2,
       cat: "Nội viện",
