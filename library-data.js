@@ -7,7 +7,7 @@
 // trong chuyên khoa đó (ví dụ bài Viêm phổi đầu tiên trong "hh"), tự đặt tên topic mới
 // hợp lý (ví dụ "Nhiễm trùng hô hấp") — không cần hỏi lại, trang sẽ tự tạo nhóm mới.
 window.LIBRARY = {
-  updated: "2026-10-07",
+  updated: "2026-10-08",
   dashboardUrl: "https://huuhuynh2k2-droid.github.io/on-thi-dashboard/",
   // "topic" mới trong "tm" (Tim mạch): "Kháng kết tập tiểu cầu" — nhóm này chưa từng có bài
   // nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
@@ -24,6 +24,14 @@ window.LIBRARY = {
     { id: "cls", name: "Cận lâm sàng",         en: "Laboratory & Diagnostics" }
   ],
   items: [
+    // "topic" mới trong "hh" (Hô hấp): "Nhiễm trùng hô hấp" — chuyên khoa "hh" chưa có bài nào trước đó, tự tạo mới theo hướng dẫn ở trên.
+    { id: "hh-tiep-can-viem-phoi-tta", sp: "hh", topic: "Nhiễm trùng hô hấp",
+      title: "Tiếp cận Viêm phổi — từ sinh lý bệnh, lâm sàng, cận lâm sàng, hình ảnh học đến điều trị",
+      org: "slide BS Trần Tuấn Anh (109 slide) · bổ sung Harrison 22e, UpToDate 2026, IDSA/ATS 2019, ATS 2025, ERS/ESICM/ESCMID/ALAT 2023", year: 2026,
+      doi: "https://doi.org/10.1164/rccm.201908-1581ST", status: 2,
+      cat: "Tiếp cận lâm sàng · Bản tổng hợp/biên soạn lại · 32 hình gốc (X-quang/CT) + 1 sơ đồ tự vẽ · 20 bẫy MCQ",
+      note: "LRTI và chẩn đoán 5 thành phần; CAP/HAP/VAP (bỏ HCAP); sinh lý bệnh vòng phản hồi dương (Harrison), 4 giai đoạn giải phẫu bệnh; dịch tễ EPIC & Louisville, viêm phổi – xơ vữa; 12 hội chứng hô hấp, ho, khó thở, kháng lực 1/r⁴, Laplace–surfactant, âm phổi và tiếng dê kêu/ngực thầm, đau ngực kiểu màng phổi; tác nhân theo nơi điều trị, tương tác virus–vi khuẩn, YTNC MRSA/Pseudomonas, virus vs vi khuẩn; CURB-65, PSI, ATS/IDSA, SMART-COP, CPIS (đã đính chính lỗi slide); CRP vs PCT, BACH, ngưỡng PCT; Gram–Bartlett–cấy đàm, cấy máu; đọc X-quang (đông đặc/xẹp/phù phổi, bulging fissure, Kerley B, hang, phế quản phế viêm) và CT (kính mờ, lát đá); khí máu 6 bước (P/F, ePaO₂, A-aDO₂, 1-2-3-4-5, ScvO₂); điều trị bổ sung theo IDSA/ATS 2019 + ATS 2025 (3–5 ngày, corticoid VPCĐ nặng, CAPE COD); 2 ca lâm sàng.",
+      updated: "2026-10-08", url: "docs/tiep-can-viem-phoi.html" },
     // "topic" mới trong "th" (Tiêu hóa): "Xơ gan" — chuyên khoa "th" chưa có bài nào trước đó, tự tạo mới theo hướng dẫn ở trên.
     { id: "th-bang-bung-xo-gan-bsg2020", sp: "th", topic: "Xơ gan",
       title: "Báng bụng ở bệnh nhân xơ gan — Chẩn đoán, kỹ thuật chọc tháo dịch báng và điều trị",
