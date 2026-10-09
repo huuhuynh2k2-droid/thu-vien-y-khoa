@@ -7,7 +7,7 @@
 // trong chuyên khoa đó (ví dụ bài Viêm phổi đầu tiên trong "hh"), tự đặt tên topic mới
 // hợp lý (ví dụ "Nhiễm trùng hô hấp") — không cần hỏi lại, trang sẽ tự tạo nhóm mới.
 window.LIBRARY = {
-  updated: "2026-10-08",
+  updated: "2026-10-09",
   dashboardUrl: "https://huuhuynh2k2-droid.github.io/on-thi-dashboard/",
   // "topic" mới trong "tm" (Tim mạch): "Kháng kết tập tiểu cầu" — nhóm này chưa từng có bài
   // nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
@@ -25,6 +25,13 @@ window.LIBRARY = {
   ],
   items: [
     // "topic" mới trong "hh" (Hô hấp): "Nhiễm trùng hô hấp" — chuyên khoa "hh" chưa có bài nào trước đó, tự tạo mới theo hướng dẫn ở trên.
+    { id: "hh-dieu-tri-viem-phoi-tta", sp: "hh", topic: "Nhiễm trùng hô hấp",
+      title: "Điều trị Viêm phổi — kháng sinh, PK/PD, steroid, oxy liệu pháp và vi khuẩn đa kháng",
+      org: "slide BS Trần Tuấn Anh (147 slide) · bổ sung IDSA/ATS 2019, ATS 2025, IDSA AMR 2024, UpToDate 2026, Harrison 22e, Khuyến cáo HAP/VAP VN 2023, HD CAP BYT 2025", year: 2026,
+      doi: "https://doi.org/10.1164/rccm.201908-1581ST", status: 2,
+      cat: "Điều trị · Bản tổng hợp/biên soạn lại · 31 hình gốc + 4 sơ đồ tự vẽ · 18 bẫy MCQ",
+      note: "Chẩn đoán 5 thành phần, Bartlett, PCR MRSA mũi, cấy máu; mốc 4 giờ/1 giờ; vị trí tác động KS, BL+macrolide vs BL+FQ, phổ quinolone; nghịch lý phổ rộng (Webb 2019); phác đồ ngoại trú/nội trú IDSA/ATS 2019 (Bảng 4) và UpToDate theo nguy cơ Pseudomonas/MRSA; truyền kéo dài β-lactam (BLING III), độ ổn định imipenem vs meropenem ở 30 °C; PK/PD, vancomycin (thấm mô, bảng chỉnh liều thận UpToDate, AUC 400–600); hydrocortisone CAPE COD, ATS 2025; CAP ICU và dị ứng β-lactam, graded challenge; oxy liệu pháp, bẫy SpO₂, dụng cụ; TCL.COM, ceftriaxone và albumin, tiêu chảy do KS; thất bại điều trị, PCT, PTC 3 vs 8 ngày; bảng liều theo CrCl; HAP/VAP (VN 2023); ESBL (MERINO, inoculum, cefoxitin), AmpC, CRE (KPC/NDM/OXA-48, dữ liệu VN), Pseudomonas, MRSA (linezolid), CRAB (sulbactam-durlobactam), colistin (AIDA, Magic Bullet, AMIKINHAL).",
+      updated: "2026-10-09", url: "docs/dieu-tri-viem-phoi.html" },
     { id: "hh-tiep-can-viem-phoi-tta", sp: "hh", topic: "Nhiễm trùng hô hấp",
       title: "Tiếp cận Viêm phổi — từ sinh lý bệnh, lâm sàng, cận lâm sàng, hình ảnh học đến điều trị",
       org: "slide BS Trần Tuấn Anh (109 slide) · bổ sung Harrison 22e, UpToDate 2026, IDSA/ATS 2019, ATS 2025, ERS/ESICM/ESCMID/ALAT 2023", year: 2026,
