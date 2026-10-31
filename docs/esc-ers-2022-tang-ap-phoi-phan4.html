@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tăng áp phổi ESC/ERS 2022 — Phần 4: Thuốc PAH và chiến lược điều trị</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#1F5F8B; --accent-ink:#0E3550; --accent-bg:#E6EFF6;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">TAP ESC/ERS 2022 · P4</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">ESC/ERS 2022 · TĂNG ÁP ĐỘNG MẠCH PHỔI · PHẦN 4/8</div>
+    <div class="doc-title">Hướng dẫn ESC/ERS 2022 về chẩn đoán và điều trị tăng áp động mạch phổi</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">PHẦN 4/8 · TRANG 46–59</span>
+    <h1>Thuốc đặc hiệu PAH, chiến lược điều trị, suy thất phải và ghép phổi</h1>
+    <div class="byline">Humbert M, Kovacs G, Hoeper MM, et al. — Eur Respir J 2023;61:2200879</div>
+    <div class="cite">Bản dịch và viết lại tiếng Việt phục vụ học tập lâm sàng (trang PDF 46–59) — không thay thế bản gốc. Hình/sơ đồ được giữ nguyên bản gốc tiếng Anh, chú giải dịch kèm bên dưới.</div>
+
+    <div class="box"><div class="box-title">TÓM TẮT PHẦN 4 (TRANG 46–59 CỦA PDF)</div>
+<ul>
+<li>Hoàn tất <strong>Bảng khuyến cáo 6</strong> (phụ nữ có khả năng sinh đẻ) và <strong>Bảng khuyến cáo 7</strong> (PAH đáp ứng giãn mạch – CCB liều cao).</li>
+<li><strong>Thuốc đặc hiệu PAH:</strong> ERA, PDE5i, riociguat, các chất tương tự prostacyclin và selexipag; <strong>Bảng 19</strong> (liều dùng người lớn).</li>
+<li><strong>Chiến lược điều trị</strong> cho IPAH/HPAH/DPAH và PAH-CTD: điều trị khởi đầu (AMBITION, TRITON), điều trị khi theo dõi (SERAPHIN, GRIPHON, REPLACE), PAH có bệnh tim phổi đồng mắc; <strong>Bảng khuyến cáo 8A/8B, 9, 10, 11</strong>.</li>
+<li>Tương tác thuốc; can thiệp (tạo shunt, khử thần kinh ĐMP); <strong>suy thất phải nặng – hồi sức</strong> (Bảng khuyến cáo 12); <strong>ghép phổi</strong> (Bảng 20, Bảng khuyến cáo 13); biến chứng (loạn nhịp, ho ra máu, biến chứng cơ học); chăm sóc cuối đời; thuốc mới (ralinepag, sotatercept).</li>
+</ul></div>
+
+<h3 id="h4-rec6">Bảng khuyến cáo 6 (tiếp). Phụ nữ có khả năng sinh đẻ</h3>
+<div class="rec">Khuyến cáo <strong>tư vấn ngay lúc chẩn đoán</strong> cho phụ nữ PAH trong độ tuổi sinh đẻ về nguy cơ và bất định khi mang thai, gồm lời khuyên không nên mang thai và giới thiệu hỗ trợ tâm lý khi cần. <span class="grade">I · C</span></div>
+<div class="rec">Khuyến cáo <strong>tư vấn tránh thai rõ ràng</strong>, xét nhu cầu từng người nhưng ghi nhận rằng hậu quả của thất bại tránh thai ở PAH là rất đáng kể. <span class="grade">I · C</span></div>
+<div class="rec">Phụ nữ PAH đang cân nhắc hoặc đã mang thai: khuyến cáo <strong>tư vấn kịp thời tại trung tâm PH có kinh nghiệm</strong> để tư vấn di truyền, ra quyết định chung và hỗ trợ tâm lý cho bệnh nhân và gia đình. <span class="grade">I · C</span></div>
+<div class="rec">Phụ nữ PAH cần <strong>chấm dứt thai kỳ</strong>: khuyến cáo thực hiện tại trung tâm PH, kèm hỗ trợ tâm lý cho bệnh nhân và gia đình. <span class="grade">I · C</span></div>
+<div class="rec">Phụ nữ PAH muốn có con: khi có điều kiện, <strong>có thể cân nhắc nhận con nuôi hoặc mang thai hộ</strong> kèm tư vấn di truyền trước thụ thai. <span class="grade">IIb · C</span></div>
+<div class="rec">Do <strong>tiềm năng gây quái thai</strong> đã được báo cáo trên mô hình tiền lâm sàng với ERA và riociguat, <strong>không khuyến cáo</strong> các thuốc này trong thai kỳ. <span class="grade">III · B</span></div>
+
+<h2 id="h4-thuoc">6.3.3. Các liệu pháp đặc hiệu cho tăng áp động mạch phổi</h2>
+
+<h3 id="h4-ccb">6.3.3.1. Thuốc chẹn kênh calci (CCB)</h3>
+<ul>
+<li>Bệnh nhân PAH <strong>đáp ứng dương tính test phản ứng mạch phổi cấp</strong> (Hình 8) có thể đáp ứng tốt với CCB. <strong>&lt;10%</strong> bệnh nhân IPAH/HPAH/DPAH là người đáp ứng; đáp ứng giãn mạch cấp <em>không</em> dự báo đáp ứng CCB dài hạn ở các thể PAH khác.</li>
+<li>CCB chủ yếu dùng: <strong>nifedipine, diltiazem, amlodipine</strong>; amlodipine và felodipine ngày càng được dùng nhiều do thời gian bán thải dài và dung nạp tốt. Liều có hiệu quả ở PAH tương đối <strong>cao</strong> và phải tăng dần (Bảng 19). Tác dụng phụ hay gặp nhất: <strong>hạ huyết áp hệ thống và phù ngoại biên</strong>.</li>
+<li><strong>Theo dõi:</strong> đánh giá lại toàn diện sau <strong>3–6 tháng</strong> điều trị, gồm RHC; làm lại test phản ứng mạch phổi lúc tái đánh giá để phát hiện đáp ứng giãn mạch còn tồn tại, hỗ trợ việc tăng liều CCB. Đáp ứng mạn tính thoả đáng: <strong>WHO-FC I/II</strong> kèm cải thiện huyết động rõ (lý tưởng <strong>mPAP &lt;30 mmHg và PVR &lt;4 WU</strong>) trong khi dùng CCB.</li>
+<li>Nếu đáp ứng không thoả đáng → thêm thuốc PAH. Một số trường hợp cần <strong>phối hợp CCB với thuốc PAH đã được phê duyệt</strong> vì xấu đi lâm sàng khi thử ngừng CCB.</li>
+<li><strong>Không khởi trị CCB</strong> ở bệnh nhân chưa làm test phản ứng mạch phổi hoặc test âm tính, vì nguy cơ tác dụng phụ nặng (hạ huyết áp nặng, ngất, suy thất phải), trừ khi kê liều chuẩn cho chỉ định khác.</li>
+</ul>
+
+<h3 id="h4-rec7">Bảng khuyến cáo 7. Điều trị bệnh nhân IPAH/HPAH/DPAH có đáp ứng giãn mạch</h3>
+<div class="rec">Khuyến cáo <strong>CCB liều cao</strong> ở bệnh nhân IPAH/HPAH/DPAH có đáp ứng test phản ứng mạch phổi cấp. <span class="grade">I · C</span></div>
+<div class="rec">Khuyến cáo theo dõi sát và <strong>đánh giá lại toàn diện sau 3–4 tháng</strong> (gồm RHC) ở bệnh nhân dùng CCB liều cao. <span class="grade">I · C</span></div>
+<div class="rec">Khuyến cáo <strong>tiếp tục CCB liều cao</strong> ở bệnh nhân WHO-FC I hoặc II có cải thiện huyết động rõ (mPAP &lt;30 mmHg và PVR &lt;4 WU). <span class="grade">I · C</span></div>
+<div class="rec">Khuyến cáo <strong>khởi đầu thuốc PAH</strong> ở bệnh nhân vẫn WHO-FC III hoặc IV, hoặc không cải thiện huyết động rõ sau CCB liều cao. <span class="grade">I · C</span></div>
+<div class="rec">Test giãn mạch dương tính nhưng đáp ứng dài hạn với CCB không đủ và cần thêm thuốc PAH: nên cân nhắc <strong>tiếp tục CCB</strong>. <span class="grade">IIa · C</span></div>
+<div class="rec"><strong>Không khuyến cáo CCB</strong> ở bệnh nhân không làm test phản ứng mạch phổi hoặc không đáp ứng, trừ khi có chỉ định khác (vd. hiện tượng Raynaud). <span class="grade">III · C</span></div>
+<div class="warn"><strong>Lưu ý bản gốc:</strong> phần văn bản nói đánh giá lại sau <strong>3–6 tháng</strong>, còn Bảng khuyến cáo 7 ghi <strong>3–4 tháng</strong>; Hình 8 dùng 3–6 tháng. Giữ nguyên theo từng nơi trong bản gốc.</div>
+
+<div class="tbl-wrap"><table><caption>Bảng 19. Liều các thuốc điều trị PAH ở người lớn</caption>
+<thead><tr><th>Thuốc</th><th>Liều khởi đầu</th><th>Liều đích</th></tr></thead><tbody>
+<tr><th colspan="3">Chẹn kênh calci</th></tr>
+<tr><td>Amlodipine</td><td>5 mg × 1 lần/ngày</td><td>15–30 mg × 1 lần/ngày<sup>a</sup></td></tr>
+<tr><td>Diltiazem</td><td>60 mg × 2 lần/ngày</td><td>120–360 mg × 2 lần/ngày<sup>b</sup></td></tr>
+<tr><td>Felodipine</td><td>5 mg × 1 lần/ngày</td><td>15–30 mg × 1 lần/ngày<sup>a</sup></td></tr>
+<tr><td>Nifedipine</td><td>10 mg × 3 lần/ngày</td><td>20–60 mg × 2 hoặc 3 lần/ngày</td></tr>
+<tr><th colspan="3">Đối kháng thụ thể endothelin (ERA) — uống</th></tr>
+<tr><td>Ambrisentan</td><td>5 mg × 1 lần/ngày</td><td>10 mg × 1 lần/ngày</td></tr>
+<tr><td>Bosentan</td><td>62,5 mg × 2 lần/ngày</td><td>125 mg × 2 lần/ngày</td></tr>
+<tr><td>Macitentan</td><td>10 mg × 1 lần/ngày</td><td>10 mg × 1 lần/ngày</td></tr>
+<tr><th colspan="3">Ức chế phosphodiesterase 5 (PDE5i) — uống</th></tr>
+<tr><td>Sildenafil</td><td>20 mg × 3 lần/ngày</td><td>20 mg × 3 lần/ngày<sup>c</sup></td></tr>
+<tr><td>Tadalafil</td><td>20 hoặc 40 mg × 1 lần/ngày</td><td>40 mg × 1 lần/ngày</td></tr>
+<tr><th colspan="3">Chất tương tự prostacyclin — uống</th></tr>
+<tr><td>Beraprost sodium</td><td>20 µg × 3 lần/ngày</td><td>Liều tối đa dung nạp, đến 40 µg × 3 lần/ngày</td></tr>
+<tr><td>Beraprost phóng thích kéo dài</td><td>60 µg × 2 lần/ngày</td><td>Liều tối đa dung nạp, đến 180 µg × 2 lần/ngày</td></tr>
+<tr><td>Treprostinil</td><td>0,25 mg × 2 lần/ngày hoặc 0,125 mg × 3 lần/ngày</td><td>Liều tối đa dung nạp</td></tr>
+<tr><th colspan="3">Chất đồng vận thụ thể prostacyclin — uống</th></tr>
+<tr><td>Selexipag</td><td>200 µg × 2 lần/ngày</td><td>Liều tối đa dung nạp, đến 1600 µg × 2 lần/ngày</td></tr>
+<tr><th colspan="3">Chất kích thích guanylate cyclase hoà tan (sGC) — uống</th></tr>
+<tr><td>Riociguat<sup>d</sup></td><td>1 mg × 3 lần/ngày</td><td>2,5 mg × 3 lần/ngày</td></tr>
+<tr><th colspan="3">Chất tương tự prostacyclin — dạng hít</th></tr>
+<tr><td>Iloprost<sup>e</sup></td><td>2,5 µg × 6–9 lần/ngày</td><td>5,0 µg × 6–9 lần/ngày</td></tr>
+<tr><td>Treprostinil<sup>e</sup></td><td>18 µg × 4 lần/ngày</td><td>54–72 µg × 4 lần/ngày</td></tr>
+<tr><th colspan="3">Chất tương tự prostacyclin — tĩnh mạch hoặc dưới da</th></tr>
+<tr><td>Epoprostenol tĩnh mạch</td><td>2 ng/kg/phút</td><td>Theo dung nạp và hiệu quả; khoảng liều điển hình sau 1 năm 16–30 ng/kg/phút, biến thiên cá thể rất lớn</td></tr>
+<tr><td>Treprostinil dưới da hoặc tĩnh mạch</td><td>1,25 ng/kg/phút</td><td>Theo dung nạp và hiệu quả; khoảng liều điển hình sau 1 năm 25–60 ng/kg/phút, biến thiên cá thể rất lớn</td></tr>
+</tbody></table></div>
+<p style="font-size:12.5px;color:var(--ink-2)">Là liều thường dùng trong thực hành; không loại trừ liều khác. <sup>a</sup> Liều ngày amlodipine, felodipine có thể dùng 1 lần hoặc chia 2 lần. <sup>b</sup> Có nhiều dạng bào chế diltiazem, một số dùng 1 lần/ngày hoặc 3 lần/ngày. <sup>c</sup> Sildenafil được phê duyệt 20 mg × 3 lần/ngày, nhưng liều thực tế rất khác nhau, đôi khi cao hơn. <sup>d</sup> Bệnh nhân có nguy cơ hạ huyết áp hệ thống: có thể bắt đầu riociguat 0,5 mg × 3 lần/ngày. <sup>e</sup> Liều cho máy phun khí dung, có thể khác với các thiết bị hít khác.</p>
+
+<h3 id="h4-era">6.3.3.2. Đối kháng thụ thể endothelin (ERA)</h3>
+<p>Endothelin-1 gắn thụ thể A và B trên cơ trơn ĐMP gây co mạch và tăng sinh (Hình 7). Thụ thể endothelin B chủ yếu ở nội mô phổi, thúc đẩy giãn mạch qua tăng sản xuất prostacyclin và NO và thanh thải endothelin-1. Tuy nhiên, chẹn chọn lọc riêng thụ thể A hay chẹn không chọn lọc cả A và B cho hiệu quả tương tự ở PAH. <strong>ERA có tác dụng gây quái thai, không dùng khi mang thai.</strong></p>
+<ul>
+<li><strong>Ambrisentan:</strong> ERA uống, ưu tiên chẹn thụ thể A. Liều được duyệt ở người lớn 5 mg và 10 mg × 1 lần/ngày. Cải thiện triệu chứng, khả năng gắng sức, huyết động và thời gian đến xấu đi lâm sàng. <strong>Phù ngoại biên</strong> tăng; <em>không</em> tăng bất thường chức năng gan.</li>
+<li><strong>Bosentan:</strong> ERA uống, chẹn kép; cải thiện khả năng gắng sức, WHO-FC, huyết động và thời gian đến xấu đi lâm sàng. Liều đích 125 mg × 2 lần/ngày. <strong>Tăng transaminase phụ thuộc liều ở ~10%</strong> (hồi phục sau giảm liều hoặc ngưng) → <strong>kiểm tra chức năng gan hằng tháng</strong>. Do tương tác dược động học, bosentan có thể làm <strong>thuốc tránh thai nội tiết kém tin cậy</strong> và hạ nồng độ warfarin, sildenafil, tadalafil.</li>
+<li><strong>Macitentan:</strong> ERA uống, chẹn kép; tăng khả năng gắng sức và giảm tiêu chí gộp xấu đi lâm sàng. Chưa thấy độc tính gan; ghi nhận <strong>Hb giảm ≤8 g/dL ở 4,3%</strong> bệnh nhân dùng 10 mg.</li>
+</ul>
+
+<h3 id="h4-pde5">6.3.3.3. Ức chế PDE5 và chất kích thích guanylate cyclase hoà tan</h3>
+<p>NO kích thích sGC sinh cGMP (chất truyền tin thứ hai); con đường này được điều hoà ngược qua phân huỷ cGMP bởi các phosphodiesterase, trong đó PDE5 biểu hiện nhiều ở mạch phổi (Hình 7). <strong>PDE5i và chất kích thích sGC không được phối hợp với nhau và không dùng cùng nitrate</strong> vì gây hạ huyết áp hệ thống.</p>
+<ul>
+<li><strong>Sildenafil:</strong> PDE5i uống mạnh, chọn lọc. Nhiều RCT (có hoặc không nền thuốc khác) cho kết quả tốt về gắng sức, triệu chứng và/hoặc huyết động. Liều duyệt 20 mg × 3 lần/ngày. Tác dụng phụ nhẹ–vừa, chủ yếu do giãn mạch (nhức đầu, đỏ bừng, chảy máu cam).</li>
+<li><strong>Tadalafil:</strong> PDE5i dùng 1 lần/ngày. RCT 406 bệnh nhân PAH (53% đang dùng nền bosentan), liều đến 40 mg/ngày: cải thiện gắng sức, triệu chứng, huyết động và thời gian đến xấu đi lâm sàng. Tác dụng phụ tương tự sildenafil.</li>
+<li><strong>Riociguat:</strong> trong khi PDE5i tăng đường NO–cGMP bằng cách làm chậm phân huỷ cGMP, chất kích thích sGC <em>tăng sản xuất cGMP</em> bằng cách kích thích trực tiếp enzym, cả khi có và không có NO nội sinh. RCT 443 bệnh nhân PAH (44% đang dùng ERA, 6% đang dùng prostacyclin) với riociguat đến 2,5 mg × 3 lần/ngày: cải thiện gắng sức, huyết động, WHO-FC và thời gian đến xấu đi lâm sàng; tác dụng phụ tương tự PDE5i.</li>
+</ul>
+
+<h3 id="h4-pgi2">6.3.3.4. Chất tương tự prostacyclin và chất đồng vận thụ thể prostacyclin</h3>
+<p>Con đường prostacyclin bị rối loạn ở PAH (giảm prostacyclin synthase ở ĐMP, giảm chất chuyển hoá prostacyclin trong nước tiểu). Nhóm thuốc này gây giãn mạch mạnh, ức chế kết tập tiểu cầu, bảo vệ tế bào và chống tăng sinh. Tác dụng phụ thường gặp do giãn mạch hệ thống: <strong>nhức đầu, đỏ bừng, đau hàm, tiêu chảy</strong>.</p>
+<ul>
+<li><strong>Epoprostenol:</strong> thời gian bán thải rất ngắn (<strong>3–5 phút</strong>), cần truyền tĩnh mạch liên tục qua bơm và catheter tĩnh mạch trung tâm có đường hầm vĩnh viễn; có dạng bền nhiệt giữ ổn định đến 48 giờ. Hiệu quả qua 3 RCT không mù ở IPAH (WHO-FC III–IV) và PAH-SSc: cải thiện <strong>triệu chứng, khả năng gắng sức, huyết động và tử vong</strong>; hiệu quả dài hạn bền vững ở IPAH và các PAH kết hợp khác. Biến chứng nặng do hệ thống đưa thuốc: hỏng bơm, nhiễm trùng tại chỗ, tắc catheter, nhiễm khuẩn huyết (đã có khuyến cáo dự phòng nhiễm khuẩn huyết do catheter tĩnh mạch trung tâm).</li>
+<li><strong>Iloprost (dạng hít):</strong> một RCT so sánh 6–9 lần hít iloprost/ngày với giả dược ở bệnh nhân PAH hoặc CTEPH chưa điều trị: tăng gắng sức, cải thiện triệu chứng, PVR và biến cố lâm sàng.</li>
+<li><strong>Treprostinil</strong> (dưới da, tĩnh mạch, hít, uống): dưới da cải thiện gắng sức, huyết động, triệu chứng; <strong>đau tại vị trí truyền</strong> là tác dụng phụ hay gặp nhất (8% phải ngưng). Dạng tĩnh mạch có thể dùng bơm cấy được, tiện hơn và có thể giảm nhiễm trùng đường truyền. <strong>Dạng hít</strong> cải thiện 6MWD, NT-proBNP, chất lượng sống ở bệnh nhân nền bosentan hoặc sildenafil (<em>chưa được phê duyệt ở châu Âu</em>). <strong>Dạng uống:</strong> 2 RCT nền bosentan và/hoặc sildenafil không đạt tiêu chí chính 6MWD; một RCT chưa điều trị cải thiện 6MWD; một RCT theo biến cố 690 bệnh nhân cho thấy giảm nguy cơ xấu đi lâm sàng ở bệnh nhân đang đơn trị ERA hoặc PDE5i (<em>chưa được phê duyệt ở châu Âu</em>).</li>
+<li><strong>Beraprost:</strong> prostacyclin uống bền hoá học. Hai RCT cho cải thiện khiêm tốn, ngắn hạn về gắng sức, không cải thiện huyết động hay kết cục dài hạn (<em>chưa được phê duyệt ở châu Âu</em>).</li>
+<li><strong>Selexipag:</strong> chất đồng vận chọn lọc thụ thể prostacyclin, uống, khác hoá học prostacyclin. Pilot RCT (nền ERA và/hoặc PDE5i): giảm PVR sau 17 tuần. RCT pha 3 theo biến cố (<strong>GRIPHON, 1156 bệnh nhân</strong>): selexipag đơn độc hoặc thêm vào đơn/đôi trị liệu ERA và/hoặc PDE5i làm <strong>giảm 40% nguy cơ tương đối</strong> tiêu chí gộp bệnh suất/tử vong. Tác dụng phụ: nhức đầu, tiêu chảy, buồn nôn, đau hàm.</li>
+</ul>
+
+<h2 id="h4-chienluoc">6.3.4. Chiến lược điều trị IPAH, HPAH, DPAH và PAH kết hợp bệnh mô liên kết</h2>
+<p>PAH hiếm và đe doạ tính mạng, nên được quản lý tại <strong>trung tâm PH</strong> phối hợp chặt với bác sĩ địa phương. Phần này tập trung điều trị thuốc cho bệnh nhân <strong>không đáp ứng giãn mạch</strong> IPAH/HPAH/DPAH và PAH-CTD (liều ở Bảng 19). Với các thể PAH khác, chiến lược cần điều chỉnh (xem mục 7). Ngoài thuốc đặc hiệu, chăm sóc toàn diện gồm oxy bổ sung, lợi tiểu tối ưu thể tích, hỗ trợ tâm lý–xã hội và tập luyện chuẩn hoá (mục 6.3.1). Trước khi quyết định điều trị, bệnh nhân và người thân phải được thông tin kịp thời về nguy cơ–lợi ích để cùng nhóm điều trị đưa ra quyết định chung. Quyết định điều trị phân tầng theo <strong>có hay không có bệnh tim phổi đồng mắc</strong> và theo <strong>mức độ nặng</strong> (phân tầng nguy cơ, mục 6.2.7).</p>
+
+<h3 id="h4-khoidau">6.3.4.1. Quyết định điều trị ban đầu ở bệnh nhân không có bệnh tim phổi đồng mắc</h3>
+<p>Điều trị ban đầu dựa trên đánh giá nguy cơ đa thông số, xét loại bệnh và độ nặng, bệnh đồng mắc, khả năng tiếp cận thuốc, yếu tố kinh tế và ý muốn bệnh nhân. Các nhận định dưới đây áp dụng chủ yếu cho IPAH/HPAH/DPAH hoặc PAH-CTD không có bệnh tim phổi đồng mắc (nhóm có bệnh đồng mắc ít được đại diện trong thử nghiệm).</p>
+<ul>
+<li><strong>Nguy cơ thấp hoặc trung bình → phối hợp khởi đầu ERA + PDE5i.</strong>
+<ul>
+<li><strong>AMBITION:</strong> so phối hợp khởi đầu ambrisentan (đích 10 mg/ngày) + tadalafil (đích 40 mg/ngày) với đơn trị mỗi thuốc; chủ yếu IPAH/HPAH/DPAH hoặc PAH-CTD. Tiêu chí chính: thời gian đến biến cố thất bại lâm sàng đầu tiên (tử vong, nhập viện vì PAH xấu đi, bệnh tiến triển, hoặc đáp ứng lâm sàng dài hạn không thoả đáng). <strong>HR 0,50 (KTC 95% 0,35–0,72; P&lt;0,001)</strong> cho nhóm phối hợp so với nhóm đơn trị gộp; cải thiện có ý nghĩa 6MWD và NT-proBNP. Cuối nghiên cứu: tử vong <strong>10%</strong> (phối hợp) so với <strong>14%</strong> (đơn trị) (HR 0,67; KTC 95% 0,42–1,08).</li>
+<li><strong>TRITON:</strong> bệnh nhân PAH chưa điều trị được gán phối hợp đôi macitentan + tadalafil hoặc phối hợp ba macitentan 10 mg + tadalafil (đích 40 mg) + selexipag (đến 1600 µg). Tuần 26: PVR giảm <strong>52% và 54%</strong>; 6MWD tăng <strong>55 m và 56 m</strong>; tỷ số NT-proBNP (trung bình nhân) so với nền <strong>0,25 và 0,26</strong> cho phối hợp đôi và ba. Vậy <strong>TRITON không cho thấy lợi ích của phối hợp ba uống so với phối hợp đôi uống</strong>, nhưng xác nhận phối hợp ERA/PDE5i khởi đầu cải thiện đáng kể huyết động và gắng sức; cần thêm nghiên cứu về kết cục dài hạn của phối hợp ba uống.</li></ul></li>
+<li>Kết luận: <strong>phối hợp đôi ERA + PDE5i</strong> khởi đầu được khuyến cáo ở bệnh nhân mới chẩn đoán nguy cơ thấp/trung bình; <strong>phối hợp ba uống khởi đầu không được khuyến cáo</strong> vì thiếu bằng chứng.</li>
+<li><strong>Nguy cơ cao:</strong> nên cân nhắc <strong>phối hợp ba khởi đầu gồm prostacyclin tĩnh mạch/dưới da</strong>. Bằng chứng giới hạn ở chuỗi ca nhưng có đồng thuận đây là chiến lược có khả năng thành công cao nhất, nhất là do dữ liệu registry Pháp cho thấy phối hợp ba khởi đầu có prostacyclin tĩnh mạch/dưới da liên quan sống còn dài hạn tốt hơn đơn trị hoặc phối hợp đôi.</li>
+<li>Cũng nên cân nhắc phối hợp ba khởi đầu có prostacyclin tĩnh mạch/dưới da ở bệnh nhân <strong>nguy cơ trung bình nhưng suy giảm huyết động nặng</strong> (vd. <strong>RAP ⩾20 mmHg, CI &lt;2,0 L/phút/m², SVI &lt;31 mL/m² và/hoặc PVR ⩾12 WU</strong>).</li>
+<li>Khuyến cáo phối hợp đôi uống khởi đầu dựa trên câu hỏi PICO I (Dữ liệu bổ sung, mục 6.2). Dù chất lượng bằng chứng thấp, phối hợp ERA + PDE5i khởi đầu đạt các mục tiêu quan trọng: cải thiện triệu chứng (phân độ chức năng), gắng sức, dấu ấn tim và giảm nhập viện.</li>
+</ul>
+
+<h3 id="h4-rec8">Bảng khuyến cáo 8A. PAH không đáp ứng giãn mạch (IPAH/HPAH/DPAH), không có bệnh tim phổi đồng mắc<sup>a</sup></h3>
+<div class="rec"><span class="num">Điều trị ban đầu</span> IPAH/HPAH/DPAH <strong>nguy cơ tử vong cao</strong>: nên cân nhắc phối hợp khởi đầu <strong>PDE5i + ERA + prostacyclin tĩnh mạch/dưới da</strong>.<sup>d</sup> <span class="grade">IIa · C</span></div>
+<div class="rec"><span class="num">Khi theo dõi</span> Nguy cơ <strong>trung bình–thấp</strong> đang dùng ERA/PDE5i: nên cân nhắc <strong>thêm selexipag</strong>. <span class="grade">IIa · B</span></div>
+<div class="rec">Nguy cơ <strong>trung bình–cao hoặc cao</strong> đang dùng ERA/PDE5i: nên cân nhắc <strong>thêm prostacyclin tĩnh mạch/dưới da</strong> và <strong>giới thiệu đánh giá ghép phổi</strong>. <span class="grade">IIa · C</span></div>
+<div class="rec">Nguy cơ <strong>trung bình–thấp</strong> đang dùng ERA/PDE5i: có thể cân nhắc <strong>chuyển PDE5i sang riociguat</strong>. <span class="grade">IIb · B</span></div>
+
+<h3 id="h4-rec8b">Bảng khuyến cáo 8B. Khuyến cáo theo GRADE (cùng đối tượng)</h3>
+<div class="tbl-wrap"><table><thead><tr><th>Khuyến cáo (điều trị ban đầu)</th><th>Chất lượng bằng chứng (GRADE)</th><th>Mức độ khuyến cáo (GRADE)</th><th>Class · Level</th></tr></thead><tbody>
+<tr><td>IPAH/HPAH/DPAH <strong>nguy cơ tử vong thấp hoặc trung bình</strong>: khuyến cáo phối hợp khởi đầu <strong>PDE5i + ERA</strong></td><td>Thấp</td><td>Có điều kiện (conditional)</td><td>I · B</td></tr>
+</tbody></table></div>
+<p style="font-size:12.5px;color:var(--ink-2)"><sup>a</sup> Bệnh tim phổi đồng mắc gặp chủ yếu ở người lớn tuổi, gồm các yếu tố nguy cơ HFpEF: béo phì, đái tháo đường, bệnh mạch vành, tiền sử tăng huyết áp và/hoặc DLCO thấp. <sup>d</sup> Phối hợp ba khởi đầu có prostacyclin tĩnh mạch/dưới da cũng có thể cân nhắc ở bệnh nhân nguy cơ trung bình nhưng suy giảm huyết động nặng (RAP ⩾20 mmHg, CI &lt;2,0 L/phút/m², SVI &lt;31 mL/m² và/hoặc PVR ⩾12 WU).</p>
+
+<h3 id="h4-rec9">Bảng khuyến cáo 9. Phối hợp thuốc uống khởi đầu (IPAH/HPAH/DPAH, không có bệnh tim phổi đồng mắc)</h3>
+<div class="rec">Khuyến cáo phối hợp khởi đầu <strong>ambrisentan + tadalafil</strong>. <span class="grade">I · B</span></div>
+<div class="rec">Khuyến cáo phối hợp khởi đầu <strong>macitentan + tadalafil</strong>. <span class="grade">I · B</span></div>
+<div class="rec">Nên cân nhắc phối hợp khởi đầu <strong>các ERA và PDE5i khác</strong>. <span class="grade">IIa · B</span></div>
+<div class="rec"><strong>Không khuyến cáo</strong> phối hợp khởi đầu <strong>macitentan + tadalafil + selexipag</strong>. <span class="grade">III · B</span></div>
+
+<h3 id="h4-theodoi">6.3.4.2. Quyết định điều trị khi theo dõi ở bệnh nhân không có bệnh tim phổi đồng mắc</h3>
+<p>Bệnh nhân PAH cần theo dõi định kỳ gồm phân tầng nguy cơ và đánh giá sự tuân thủ. Bệnh nhân đạt nguy cơ thấp có sống còn dài hạn <strong>vượt trội</strong> so với nhóm trung bình/cao → <strong>đạt và duy trì hồ sơ nguy cơ thấp là mục tiêu chính</strong>.</p>
+<ul>
+<li><strong>SERAPHIN</strong> (742 bệnh nhân, chủ yếu IPAH/HPAH/DPAH và PAH-CTD; 63,7% đang dùng thuốc PAH khác lúc vào nghiên cứu, chủ yếu sildenafil): ở nhóm có nền thuốc PAH, macitentan 10 mg/ngày giảm nguy cơ biến cố xấu đi lâm sàng so với giả dược (<strong>HR 0,62; KTC 95% 0,43–0,89</strong>).</li>
+<li><strong>GRIPHON</strong> (1156 bệnh nhân, chưa điều trị hoặc đang dùng ERA, PDE5i hoặc cả hai): selexipag đến 1600 µg × 2 lần/ngày giảm nguy cơ xấu đi lâm sàng bất kể thuốc nền. Ở bệnh nhân đang phối hợp ERA/PDE5i (n=376): <strong>HR 0,63 (KTC 95% 0,44–0,90)</strong> so với giả dược.</li>
+<li><strong>Tác động lên sống còn dài hạn còn chưa rõ.</strong> Phân tích gộp 2016: phối hợp (khởi đầu và tuần tự) giảm có ý nghĩa nguy cơ xấu đi lâm sàng (RR 0,65; KTC 95% 0,58–0,72; P&lt;0,0001) nhưng <em>không</em> cải thiện tử vong do mọi nguyên nhân (RR 0,86; KTC 95% 0,72–1,03; P=0,09). Registry cho thấy phối hợp tăng từ 2015 nhưng không cải thiện rõ tỷ lệ sống còn chung. Chưa đến một nửa bệnh nhân phối hợp ERA + PDE5i khởi đầu đạt và duy trì hồ sơ nguy cơ thấp.</li>
+<li><strong>REPLACE</strong> (RCT mở): bệnh nhân đang dùng nền PDE5i, WHO-FC III, 6MWD 165–440 m, chủ yếu IPAH/HPAH/DPAH hoặc PAH-CTD, ngẫu nhiên tiếp tục PDE5i hoặc <strong>chuyển sang riociguat</strong> (đến 2,5 mg × 3 lần/ngày). Đạt tiêu chí chính «cải thiện lâm sàng» (tổ hợp cải thiện 6MWD, WHO-FC, NT-proBNP ở tuần 24): <strong>41% so với 20%</strong> (OR 2,78; KTC 95% 1,53–5,06; P=0,0007); biến cố xấu đi lâm sàng ít hơn (OR 0,10; KTC 95% 0,01–0,73; P=0,0047).</li>
+</ul>
+<div class="box"><div class="box-title">TÓM LẠI: QUYẾT ĐỊNH KHI THEO DÕI</div>
+<ol>
+<li>Đạt <strong>nguy cơ thấp</strong> với điều trị ban đầu → <strong>tiếp tục điều trị</strong>.</li>
+<li>Nguy cơ <strong>trung bình–thấp</strong> dù đang dùng ERA/PDE5i → nên cân nhắc <strong>thêm selexipag</strong> để giảm nguy cơ xấu đi lâm sàng; có thể cân nhắc <strong>chuyển PDE5i → riociguat</strong>.</li>
+<li>Nguy cơ <strong>trung bình–cao hoặc cao</strong> khi đang dùng thuốc uống → nên cân nhắc <strong>thêm epoprostenol tĩnh mạch hoặc treprostinil tĩnh mạch/dưới da</strong> và <strong>giới thiệu đánh giá ghép phổi</strong>. Nếu không thể thêm prostacyclin tĩnh mạch/dưới da: có thể thêm selexipag hoặc chuyển PDE5i → riociguat.</li>
+</ol></div>
+
+<h3 id="h4-rec10">Bảng khuyến cáo 10. Phối hợp thuốc tuần tự (IPAH/HPAH/DPAH)</h3>
+<div class="rec"><span class="num">Nguyên tắc chung</span> Khuyến cáo <strong>nâng bậc điều trị dựa trên đánh giá nguy cơ</strong> và chiến lược chung (Hình 9). <span class="grade">I · C</span></div>
+<div class="rec"><span class="num">Bằng chứng từ nghiên cứu có tiêu chí gộp bệnh suất/tử vong</span> Thêm <strong>macitentan</strong> vào PDE5i hoặc prostacyclin uống/hít: khuyến cáo để giảm biến cố bệnh suất/tử vong. <span class="grade">I · B</span></div>
+<div class="rec">Thêm <strong>selexipag</strong> vào ERA<sup>c</sup> và/hoặc PDE5i: khuyến cáo để giảm biến cố bệnh suất/tử vong. <span class="grade">I · B</span></div>
+<div class="rec">Thêm <strong>treprostinil uống</strong> vào đơn trị ERA hoặc PDE5i/riociguat: khuyến cáo để giảm biến cố bệnh suất/tử vong. <span class="grade">I · B</span></div>
+<div class="rec"><strong>Không khuyến cáo</strong> thêm bosentan vào sildenafil để giảm biến cố bệnh suất/tử vong. <span class="grade">III · B</span></div>
+<div class="rec"><span class="num">Bằng chứng từ nghiên cứu có tiêu chí chính là 6MWD</span> Thêm <strong>sildenafil vào epoprostenol</strong>: khuyến cáo để cải thiện gắng sức. <span class="grade">I · B</span></div>
+<div class="rec">Thêm <strong>treprostinil hít</strong> vào đơn trị sildenafil hoặc bosentan: nên cân nhắc để cải thiện gắng sức. <span class="grade">IIa · B</span></div>
+<div class="rec">Thêm <strong>riociguat vào bosentan</strong>: nên cân nhắc để cải thiện gắng sức. <span class="grade">IIa · B</span></div>
+<div class="rec">Thêm tadalafil vào bosentan: có thể cân nhắc để cải thiện gắng sức. <span class="grade">IIb · C</span></div>
+<div class="rec">Thêm iloprost hít vào bosentan: có thể cân nhắc để cải thiện gắng sức. <span class="grade">IIb · B</span></div>
+<div class="rec">Thêm ambrisentan vào sildenafil: có thể cân nhắc để cải thiện gắng sức. <span class="grade">IIb · C</span></div>
+<div class="rec">Thêm bosentan vào sildenafil: có thể cân nhắc để cải thiện gắng sức. <span class="grade">IIb · C</span></div>
+<div class="rec">Thêm sildenafil vào bosentan: có thể cân nhắc để cải thiện gắng sức. <span class="grade">IIb · C</span></div>
+<div class="rec">Các phối hợp tuần tự đôi hoặc ba khác: có thể cân nhắc để cải thiện gắng sức và/hoặc giảm triệu chứng PH. <span class="grade">IIb · C</span></div>
+<div class="rec"><span class="num">Bằng chứng từ nghiên cứu có tiêu chí chính là an toàn</span> <strong>Không khuyến cáo phối hợp riociguat với PDE5i</strong>.<sup>d</sup> <span class="grade">III · B</span></div>
+<p style="font-size:12.5px;color:var(--ink-2)"><sup>c</sup> ERA dùng trong GRIPHON là bosentan và ambrisentan. <sup>d</sup> Nghiên cứu PATENT plus khảo sát phối hợp sildenafil + riociguat; tuy nhiên, phối hợp riociguat với bất kỳ PDE5i nào đều chống chỉ định.</p>
+
+<h3 id="h4-comorb">6.3.4.3. PAH có bệnh tim phổi đồng mắc</h3>
+<ul>
+<li>Nhân khẩu học bệnh nhân IPAH đã thay đổi, đặc biệt ở nước công nghiệp: tuổi trung bình lúc chẩn đoán trong nhiều registry hiện đại <strong>~60 tuổi hoặc hơn</strong>. Nhiều người cao tuổi có bệnh tim phổi đồng mắc, khiến khó phân biệt với PH nhóm 2 và 3. Hai kiểu hình chính:
+<ul>
+<li><strong>Kiểu hình tim trái (left heart phenotype):</strong> người cao tuổi, chủ yếu nữ, có yếu tố nguy cơ HFpEF (tăng huyết áp, béo phì, đái tháo đường, bệnh mạch vành) nhưng PH <em>tiền mao mạch</em> chứ không hậu mao mạch; ~30% có tiền sử rung nhĩ.</li>
+<li><strong>Kiểu hình tim phổi (cardiopulmonary phenotype):</strong> người cao tuổi, chủ yếu nam, <strong>DLCO thấp (&lt;45% dự đoán)</strong>, thường thiếu oxy máu, hút thuốc nhiều và có yếu tố nguy cơ bệnh tim trái.</li>
+</ul></li>
+<li>Phân tích cụm 841 bệnh nhân IPAH mới chẩn đoán từ COMPERA: <strong>12,6%</strong> kiểu hình cổ điển (trẻ, chủ yếu nữ, không bệnh tim phổi đồng mắc), <strong>35,8%</strong> kiểu hình tim trái, <strong>51,6%</strong> kiểu hình tim phổi.</li>
+<li>Chưa có quy tắc dựa trên bằng chứng để xác định kiểu hình. AMBITION dùng &gt;3 yếu tố nguy cơ bệnh tim trái cùng một số tiêu chí huyết động để loại khỏi phân tích chính; phân tích COMPERA cho thấy chỉ một yếu tố nguy cơ cũng có thể đổi kiểu hình. Trong khi chờ dữ liệu, <strong>dùng hồ sơ tổng thể</strong> để xác định kiểu hình.</li>
+<li>So với bệnh nhân không bệnh đồng mắc: đáp ứng thuốc PAH kém hơn, ngưng thuốc vì thất bại hiệu quả/dung nạp kém nhiều hơn, ít đạt nguy cơ thấp và tử vong cao hơn. Tử vong hiệu chỉnh tuổi của kiểu hình tim trái tương tự PAH cổ điển; kiểu hình tim phổi với DLCO thấp có <strong>nguy cơ tử vong đặc biệt cao</strong>.</li>
+<li>Phân tích nhóm con AMBITION (105 bệnh nhân kiểu hình tim trái bị loại khỏi phân tích chính): cải thiện lâm sàng ít hơn và ngưng thuốc do an toàn/dung nạp nhiều hơn, cả đơn trị lẫn phối hợp khởi đầu. Dữ liệu ASPIRE: IPAH kiểu hình tim phổi cải thiện gắng sức và PROM kém hơn.</li>
+<li>Kiểu hình tim trái: <strong>ERA liên quan nguy cơ giữ dịch</strong> tăng. Kiểu hình tim phổi: thuốc PAH có thể làm <strong>giảm SpO2 ngoại biên</strong>. Kinh nghiệm với prostacyclin hoặc chất đồng vận thụ thể prostacyclin ở nhóm này còn ít.</li>
+<li>Do thiếu bằng chứng, phân tầng nguy cơ ít hữu ích để hướng dẫn quyết định. <strong>Đơn trị khởi đầu</strong> được khuyến cáo cho đa số (Dữ liệu bổ sung, Bảng S3), trong đó <strong>PDE5i</strong> dùng rộng rãi nhất theo registry. Quyết định tiếp theo cá thể hoá cùng trung tâm PH và bác sĩ địa phương; bệnh nhân cần được tư vấn về sự bất định này.</li>
+</ul>
+
+<h3 id="h4-rec11">Bảng khuyến cáo 11. PAH không đáp ứng giãn mạch (IPAH/HPAH/DPAH) có bệnh tim phổi đồng mắc<sup>a</sup></h3>
+<div class="rec"><span class="num">Điều trị ban đầu</span> IPAH/HPAH/DPAH có bệnh tim phổi đồng mắc: nên cân nhắc <strong>đơn trị khởi đầu bằng PDE5i hoặc ERA</strong>. <span class="grade">IIa · C</span></div>
+<div class="rec"><span class="num">Khi theo dõi</span> Nguy cơ <strong>trung bình hoặc cao</strong> khi đang đơn trị PDE5i hoặc ERA: <strong>có thể cân nhắc thêm thuốc PAH</strong> theo từng cá nhân. <span class="grade">IIb · C</span></div>
+
+<h3 id="h4-tuongtac">6.3.5. Tương tác thuốc</h3>
+<p>Trong các thuốc PAH, tương tác dược động học có ý nghĩa lâm sàng gồm: <strong>bosentan – sildenafil</strong> (giảm nồng độ sildenafil huyết tương), <strong>bosentan – thuốc tránh thai nội tiết</strong> (giảm hiệu quả tránh thai), <strong>bosentan – thuốc kháng vitamin K</strong> (có thể cần chỉnh liều VKA). Các tương tác khác có ý nghĩa tiềm tàng liệt kê trong Dữ liệu bổ sung, Bảng S4.</p>
+
+<h3 id="h4-canthiep">6.3.6. Điều trị can thiệp</h3>
+<ul>
+<li><strong>Tạo shunt giữa hai tâm nhĩ bằng bóng (balloon atrial septostomy) và Potts shunt</strong> (nối ĐMP trái với động mạch chủ xuống): giải áp tim phải, tăng lưu lượng hệ thống, cải thiện vận chuyển oxy dù có giảm bão hoà oxy động mạch. Thủ thuật phức tạp, nguy cơ cao (tử vong liên quan thủ thuật đáng kể) → hiếm khi thực hiện, chỉ cân nhắc ở trung tâm có kinh nghiệm.</li>
+<li><strong>Khử thần kinh ĐMP (PADN):</strong> cơ sở là tình trạng tăng hoạt giao cảm ở PAH liên quan tiên lượng xấu; áp sóng radio tại chỗ chia nhánh ĐMP cải thiện cấp và mạn các biến số huyết động. Chưa có RCT đa trung tâm chứng minh lợi ích trên nền điều trị khuyến cáo. Một nghiên cứu đa trung tâm nhỏ dùng catheter siêu âm nội mạch ở bệnh nhân đang phối hợp đôi hoặc ba: an toàn, giảm PVR, tăng 6MWD và hoạt động hằng ngày. <strong>PADN còn mang tính thử nghiệm.</strong></li>
+</ul>
+
+<h3 id="h4-rvfail">6.3.7. Suy thất phải nặng</h3>
+<h3 id="h4-icu">6.3.7.1. Xử trí tại hồi sức tích cực (ICU)</h3>
+<ul>
+<li>Bệnh nhân PH có thể cần ICU vì suy tim phải, bệnh đồng mắc (kể cả phẫu thuật lớn), hoặc cả hai; <strong>nguy cơ tử vong cao</strong> → nên có trung tâm chuyên khoa tham gia. Ngoài chuẩn ICU cơ bản, theo dõi sát chức năng RV.</li>
+<li><strong>Dấu hiệu lâm sàng không đặc hiệu của suy tim phải cung lượng thấp:</strong> da xanh tái với tím ngoại biên, hạ huyết áp, nhịp nhanh, giảm lượng nước tiểu, tăng lactate. Theo dõi không xâm lấn: NT-proBNP, troponin, siêu âm tim. Theo dõi xâm lấn tối thiểu: catheter tĩnh mạch trung tâm ở nửa người trên đo áp lực tĩnh mạch trung tâm và bão hoà oxy tĩnh mạch trung tâm (phản ánh CO). Cân nhắc RHC hoặc đánh giá huyết động nâng cao ở suy tim phải nặng hoặc tình huống phức tạp.</li>
+<li><strong>Điều trị:</strong> tập trung vào <strong>yếu tố khởi phát có thể điều trị được</strong> (nhiễm trùng, rối loạn nhịp, thiếu máu, bệnh đồng mắc). <strong>Quản lý dịch</strong> cực kỳ quan trọng; đa số cần cân bằng dịch âm để giảm tiền tải RV, cải thiện hình học và chức năng RV. CO thấp có thể được lợi từ <strong>thuốc tăng co bóp: dobutamine và milrinone</strong> hay dùng nhất. Duy trì <strong>huyết áp hệ thống trung bình &gt;60 mmHg</strong> là mục tiêu then chốt; hạ huyết áp dai dẳng cần vận mạch như norepinephrine hoặc vasopressin.</li>
+<li><strong>Tránh đặt nội khí quản và thông khí cơ học xâm lấn</strong> bất cứ khi nào có thể ở suy RV nặng vì nguy cơ xấu đi huyết động và tử vong. Cân nhắc thuốc PAH theo từng cá nhân (bệnh nền, bệnh đồng mắc, thuốc đang dùng). PAH mới chẩn đoán có CO thấp: nên cân nhắc phối hợp có prostacyclin tĩnh mạch/dưới da.</li>
+</ul>
+<h3 id="h4-mcs">6.3.7.2. Hỗ trợ tuần hoàn cơ học</h3>
+<p>Ở trung tâm chuyên khoa có nhiều hình thức hỗ trợ tuần hoàn cơ học; <strong>ECMO tĩnh mạch–động mạch (VA-ECMO)</strong> dùng phổ biến nhất. Đã là công cụ cầu nối ghép ở bệnh nhân suy tim phải không hồi phục, đôi khi là cầu nối hồi phục khi nguyên nhân điều trị được và suy RV có khả năng hồi phục. Không có khuyến cáo chung về chỉ định; cần cá thể hoá. <strong>Chưa có hỗ trợ cơ học dài hạn kiểu LVAD</strong> cho PH có suy tim phải giai đoạn cuối.</p>
+
+<h3 id="h4-rec12">Bảng khuyến cáo 12. Xử trí hồi sức tích cực ở PAH</h3>
+<div class="rec">Khi xử trí suy tim phải tại ICU: khuyến cáo <strong>có sự tham gia của thầy thuốc chuyên môn, điều trị yếu tố nguyên nhân, và biện pháp hỗ trợ</strong> gồm thuốc tăng co bóp và vận mạch, quản lý dịch và thuốc PAH khi thích hợp. <span class="grade">I · C</span></div>
+<div class="rec"><strong>Hỗ trợ tuần hoàn cơ học</strong> có thể là lựa chọn ở bệnh nhân chọn lọc làm cầu nối ghép hoặc hồi phục; nên cân nhắc <strong>chuyển viện liên bệnh viện</strong> nếu không có tại chỗ. <span class="grade">IIa · C</span></div>
+
+<h3 id="h4-ghep">6.3.8. Ghép phổi và ghép tim–phổi</h3>
+<p>Ghép phổi (LTx) vẫn là lựa chọn quan trọng cho PAH kháng điều trị nội khoa tối ưu. Nên cân nhắc <strong>chuyển sớm</strong> đến trung tâm ghép (Bảng 20):</p>
+<ol>
+<li>Đáp ứng không đủ dù đã phối hợp thuốc tối ưu;</li>
+<li><strong>Nguy cơ tử vong trung bình–cao hoặc cao</strong> (tử vong 1 năm ước tính &gt;10% bằng công cụ phân tầng đã được xác nhận), vượt tỷ lệ tử vong hiện nay sau LTx;</li>
+<li>Thể bệnh đáp ứng kém với thuốc, như <strong>PVOD hoặc PCH</strong>.</li>
+</ol>
+<div class="tbl-wrap"><table><caption>Bảng 20. Tiêu chuẩn chuyển và đăng ký chờ ghép phổi ở bệnh nhân PAH</caption>
+<thead><tr><th>Chuyển giới thiệu (referral)</th><th>Đăng ký chờ ghép (listing)</th></tr></thead><tbody>
+<tr><td><strong>Bệnh nhân có thể đủ điều kiện</strong> khi điều trị thất bại, LTx có thể là lựa chọn:<ul>
+<li>ESC/ERS <strong>nguy cơ trung bình–cao hoặc cao</strong>, hoặc <strong>điểm nguy cơ REVEAL &gt;7</strong> trên thuốc PAH thích hợp</li>
+<li>Bệnh tiến triển hoặc nhập viện gần đây vì PAH xấu đi</li>
+<li>Cần prostacyclin tĩnh mạch hoặc dưới da</li>
+<li>Biết hoặc nghi thể nguy cơ cao: <strong>PVOD hoặc PCH, xơ cứng bì</strong>, hoặc phình ĐMP lớn và tiến triển</li>
+<li>Dấu hiệu rối loạn chức năng gan hoặc thận thứ phát do PAH, hoặc biến chứng đe doạ tính mạng khác như <strong>ho ra máu tái phát</strong></li></ul></td>
+<td><ul>
+<li>Bệnh nhân đã được <strong>đánh giá và chuẩn bị đầy đủ</strong> cho ghép</li>
+<li>ESC/ERS <strong>nguy cơ cao</strong>, hoặc <strong>điểm REVEAL &gt;10</strong> trên thuốc PAH thích hợp, thường gồm prostacyclin tĩnh mạch hoặc dưới da</li>
+<li><strong>Thiếu oxy máu tiến triển</strong>, nhất là ở PVOD hoặc PCH</li>
+<li>Rối loạn chức năng gan hoặc thận tiến triển nhưng chưa giai đoạn cuối do PAH, hoặc ho ra máu đe doạ tính mạng</li></ul></td></tr>
+</tbody></table></div>
+<ul>
+<li>Cả ghép tim–phổi và ghép phổi hai bên đã được thực hiện cho PAH. Hiện nay đa số nhận <strong>ghép phổi hai bên</strong>; ghép tim–phổi chỉ dành cho bệnh nhân có bệnh tim kèm theo không sửa được.</li>
+<li>Sau khi áp dụng <strong>điểm phân bổ phổi (LAS)</strong>, tử vong trên danh sách chờ giảm và cơ hội nhận tạng tăng. Một số nước có «LAS đặc biệt» cho PH nặng; nước không dùng LAS có chương trình ưu tiên cao.</li>
+<li>Bệnh nhân và người thân tham gia đầy đủ vào quá trình đánh giá ghép, được thông tin về nguy cơ–lợi ích, và quyết định chung với nhóm điều trị (mục 6.3.1.8).</li>
+<li>Bệnh nhân sống sót qua giai đoạn sớm sau ghép có kết cục dài hạn tốt: ở IPAH ghép lần đầu và sống đến 1 năm, <strong>sống còn trung vị có điều kiện 10,0 năm</strong>.</li>
+</ul>
+<h3 id="h4-rec13">Bảng khuyến cáo 13. Ghép phổi</h3>
+<div class="rec">Khuyến cáo <strong>giới thiệu đánh giá ghép phổi</strong> cho ứng viên tiềm năng khi đáp ứng không đủ với phối hợp thuốc uống, thể hiện bằng nguy cơ trung bình–cao hoặc cao, hoặc <strong>điểm REVEAL &gt;7</strong>. <span class="grade">I · C</span></div>
+<div class="rec">Khuyến cáo <strong>đăng ký chờ ghép phổi</strong> bệnh nhân có nguy cơ tử vong cao hoặc <strong>điểm REVEAL ⩾10</strong> dù đã điều trị nội khoa tối ưu gồm prostacyclin dưới da hoặc tĩnh mạch. <span class="grade">I · C</span></div>
+
+<h3 id="h4-thuattoan">6.3.9. Thuật toán điều trị dựa trên bằng chứng</h3>
+<p>Thuật toán cho IPAH/HPAH/DPAH và PAH-CTD ở <strong>Hình 9</strong> (Phần 3). Bằng chứng ủng hộ thuật toán chủ yếu tạo ra ở bệnh nhân <strong>không có bệnh tim phổi đồng mắc</strong>. PAH kết hợp HIV, PoPH và PAH kết hợp bệnh tim bẩm sinh không được đưa vào hoặc ít được đại diện trong hầu hết thử nghiệm; khuyến cáo cho các nhóm này ở mục 7 (Phần 5).</p>
+
+<h3 id="h4-bienchung">6.3.10. Chẩn đoán và điều trị biến chứng của PAH</h3>
+<h3 id="h4-loannhip">6.3.10.1. Rối loạn nhịp</h3>
+<ul>
+<li>Thường gặp nhất là <strong>rối loạn nhịp trên thất</strong>, chủ yếu <strong>rung nhĩ và cuồng nhĩ</strong>; loạn nhịp thất và chậm nhịp ít gặp hơn nhiều. Tuổi là yếu tố nguy cơ độc lập của loạn nhịp nhĩ. Trong các nghiên cứu tiến cứu, tỷ lệ loạn nhịp nhĩ <strong>3–25% trong 5 năm</strong> ở quần thể chủ yếu IPAH.</li>
+<li>Thiếu bằng chứng riêng cho PAH → xử trí kháng đông ở PAH có loạn nhịp nhĩ theo khuyến cáo cho các bệnh tim khác.</li>
+<li>Bệnh nhân PAH <strong>đặc biệt nhạy với stress huyết động</strong> khi loạn nhịp nhĩ (nhịp nhanh, mất đồng bộ nhĩ–thất). <strong>Duy trì nhịp xoang</strong> là mục tiêu điều trị quan trọng; loạn nhịp mới khởi phát thường dẫn tới xấu đi lâm sàng và liên quan tăng tử vong. Các chiến lược kiểm soát nhịp khả thi: chuyển nhịp bằng thuốc chống loạn nhịp, sốc điện, triệt đốt qua catheter. Để đạt hoặc duy trì nhịp xoang ổn định, nên cân nhắc dự phòng bằng thuốc chống loạn nhịp <strong>không có tác dụng co bóp âm</strong> như <strong>amiodarone uống</strong>, dù thiếu dữ liệu hiệu quả đặc hiệu. Có thể dùng chẹn beta liều thấp và/hoặc digoxin cho từng bệnh nhân.</li>
+<li><strong>Triệt đốt qua catheter</strong> là phương pháp ưu tiên cho cuồng nhĩ và một số nhịp nhanh nhĩ khác, dù về kỹ thuật khó hơn ở PAH. An toàn và hiệu quả của triệt đốt <em>rung nhĩ</em> ở PAH chưa chắc chắn; do tái cấu trúc nhĩ phải, các ổ khởi phát ngoài tĩnh mạch phổi có thể quan trọng hơn.</li>
+</ul>
+<h3 id="h4-hemoptysis">6.3.10.2. Ho ra máu</h3>
+<p>Ho ra máu từ nhẹ đến đe doạ tính mạng có thể gặp ở mọi thể PH, đặc biệt <strong>HPAH và PAH kết hợp CHD</strong>. Chảy máu phổi thường từ <strong>động mạch phế quản giãn</strong> → đánh giá chẩn đoán gồm <strong>CT có cản quang thì động mạch</strong>. Dù không xác định được nguồn chảy máu, vẫn khuyến cáo <strong>thuyên tắc động mạch phế quản giãn</strong> khi ho ra máu mức vừa–nặng hoặc ho ra máu nhẹ tái phát. Cân nhắc ghép phổi nếu ho ra máu nặng, tái phát dù điều trị tối ưu.</p>
+<h3 id="h4-codoc">6.3.10.3. Biến chứng cơ học</h3>
+<ul>
+<li>Phát sinh từ giãn dần của ĐMP: <strong>phình, vỡ, bóc tách ĐMP</strong>, và chèn ép cấu trúc kế cận như <strong>thân chung ĐMV trái, tĩnh mạch phổi, phế quản gốc, thần kinh thanh quản quặt ngược</strong>. Phình ĐMP liên quan độc lập tăng nguy cơ đột tử tim ở một nghiên cứu.</li>
+<li>Triệu chứng không đặc hiệu; đa số không triệu chứng và phát hiện tình cờ qua siêu âm tim, hiển thị tốt nhất bằng CT hoặc MRI có cản quang. Điều trị phình hoặc bóc tách ĐMP không triệu chứng chưa được xác định rõ; cân nhắc LTx theo cá thể.</li>
+<li>Hội chứng chèn ép thân chung ĐMV trái: <strong>đặt stent ĐMV qua da</strong> hiệu quả và an toàn. Nếu chèn ép không triệu chứng hoặc giải phẫu chưa tổn thương nặng, đánh giá bằng <strong>siêu âm nội mạch hoặc dây áp lực mạch vành</strong> có thể tránh can thiệp không cần thiết.</li>
+</ul>
+
+<h3 id="h4-cuoidoi">6.3.11. Chăm sóc cuối đời và vấn đề đạo đức</h3>
+<p>Diễn tiến PAH có thể là suy giảm dần dần xen các đợt mất bù cấp. Khó tiên lượng thời gian sống: bệnh nhân có thể chết dần do suy tim phải tiến triển hoặc đột tử. Chăm sóc lấy bệnh nhân làm trung tâm là thiết yếu: thông tin về độ nặng và tiên lượng khi chẩn đoán với giao tiếp <strong>đồng cảm và trao hy vọng</strong>; đúng thời điểm, giao tiếp cởi mở nhạy cảm cho phép lập kế hoạch trước, thảo luận nỗi sợ, mối quan tâm, nguyện vọng và đi đến quyết định chung. Bệnh nhân gần cuối đời cần nhóm đa chuyên khoa đánh giá nhu cầu thường xuyên. Ở giai đoạn muộn, nhận thức rằng <strong>hồi sức tim phổi ở PAH nặng có kết cục xấu</strong> có thể dẫn tới <strong>y lệnh không hồi sức</strong> và giúp bệnh nhân ở nơi chăm sóc mong muốn. Chú ý kiểm soát triệu chứng khó chịu, kê thuốc phù hợp và ngưng thuốc không còn cần thiết (kể cả thuốc PAH); hỗ trợ tâm lý, xã hội, tâm linh; hội chẩn <strong>chăm sóc giảm nhẹ chuyên khoa</strong> khi nhu cầu vượt khả năng của nhóm PH.</p>
+
+<h3 id="h4-thuocmoi">6.3.12. Thuốc mới ở giai đoạn phát triển lâm sàng muộn (pha 3)</h3>
+<p>PAH vẫn là bệnh không chữa khỏi với tử vong cao, dù thuốc hiện nay chủ yếu nhắm vào mất cân bằng yếu tố hoạt mạch. Hai thuốc mới đang ở pha 3:</p>
+<ul>
+<li><strong>Ralinepag:</strong> chất đồng vận thụ thể prostacyclin dạng uống; RCT pha 2 trên 61 bệnh nhân PAH: cải thiện PVR so với giả dược sau 22 tuần.</li>
+<li><strong>Sotatercept:</strong> protein dung hợp giữa vùng ngoại bào của thụ thể activin loại IIA người và vùng Fc của IgG1 người; hoạt động như <strong>«bẫy phối tử»</strong> cho các thành viên siêu họ TGF-β, khôi phục cân bằng giữa đường tăng trưởng và ức chế tăng trưởng. RCT pha 2 (106 bệnh nhân PAH, 24 tuần): sotatercept tiêm dưới da <strong>giảm PVR</strong> ở bệnh nhân có nền thuốc PAH; cải thiện cả 6MWD và NT-proBNP.</li>
+</ul>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Nguồn: 2022 ESC/ERS Guidelines for the diagnosis and treatment of pulmonary hypertension. Eur Respir J 2023;61:2200879. DOI: 10.1183/13993003.00879-2022. Danh mục tài liệu tham khảo đầy đủ xem bản gốc, không chép lại ở đây. <a href="esc-ers-2022-tang-ap-phoi-index.html">← Về trang chỉ mục 8 phần</a></p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'ersph22_p4_hl_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>

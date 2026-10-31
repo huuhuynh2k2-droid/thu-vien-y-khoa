@@ -69,6 +69,12 @@ window.LIBRARY = {
       note: "Bản dịch đầy đủ (CLB Nội khoa – ĐH Y Dược TP.HCM: Minh Khôi Y20, Thiên Nhi Y21, Minh Quang Y22, Hoàng Phúc Y24) kèm 2 hình gốc: Hình 1 — lưu đồ thực hành chẩn đoán HFpEF (loại trừ các bệnh lý giả dạng: bệnh tim thoái hóa dạng bột, sarcoidosis, phì đại, bẩm sinh...; bảng chỉ điểm bất thường tim mạch lúc nghỉ/gắng sức); Hình 2 — forest plot hiệu quả SGLT2i/RAS-i/MRA trên 8 thử nghiệm (DELIVER, EMPEROR-Preserved, SOLOIST-WHF, PARAGON, CHARM, TOPCAT, FINEARTS-HF). Nội dung: dịch tễ và tiên lượng, chẩn đoán (NT-proBNP, loại trừ bệnh giả dạng, CMR/đo huyết động xâm lấn), điều trị bằng thuốc (RAS-i, ARNI — PARAGON-HF/PARAGLIDE-HF/PARALLAX, MRA — TOPCAT/FINEARTS-HF, chẹn beta, lợi tiểu, SGLT2i — EMPEROR-Preserved/DELIVER, GLP-1RA — STEP-HFpEF/SUMMIT), thiết bị (CardioMEMS, shunt liên nhĩ), Bảng 1 so sánh khuyến cáo liều dùng theo 5 guideline quốc tế (ACC/AHA, ESC, CCS-CCFS, JCS/JHFS, NHFA-CSANZ), và hướng dẫn thực hành lâm sàng quay lại ca bệnh mở đầu.",
       updated: "2026-09-28", url: "docs/hfpef-nejm-2025-clb-noikhoa.html" },
 
+    { id: "hh-esc-ers2022-tangapphoi", sp: "hh", topic: "Tăng áp phổi", title: "ESC/ERS 2022 Guideline Tăng áp phổi — Bản dịch đầy đủ (8 phần)",
+      org: "ESC/ERS Guidelines (Humbert M, et al. Eur Respir J 2023;61:2200879)", year: 2022, doi: "https://doi.org/10.1183/13993003.00879-2022", status: 2,
+      cat: "Guideline · Bản dịch/viết lại đầy đủ kèm hình gốc · Trang chỉ mục 8 phần",
+      note: "Trang chỉ mục dẫn vào 8 phần dịch đầy đủ hướng dẫn ESC/ERS 2022 về tăng áp phổi: định nghĩa huyết động mới (mPAP >20 mmHg), phân loại 5 nhóm, chẩn đoán 3 bước, RHC, phân tầng nguy cơ 3–4 mức, điều trị PAH và phối hợp thuốc, các thể PAH đặc biệt, PH nhóm 2, 3, CTEPH (PEA/BPA/riociguat), nhóm 5, trung tâm PH, 13 thông điệp chính, Box 4 Nên/Không nên làm. Toàn bộ 16 hình gốc được nhúng; bảng khuyến cáo có Class/Level.",
+      updated: "2026-10-31", url: "docs/esc-ers-2022-tang-ap-phoi-index.html" },
+
     { id: "tm-esc2026-suytim", sp: "tm", topic: "Suy tim", title: "ESC 2026 Guideline Suy tim — Bản tổng hợp/viết lại đầy đủ (5 phần)",
       org: "ESC Guidelines (Køber L, Adamo M, et al. Eur Heart J 2026)", year: 2026, doi: "https://doi.org/10.1093/eurheartj/ehag100", status: 2,
       cat: "Guideline mới nhất · Bản tổng hợp/viết lại (không dịch nguyên văn) · Trang chỉ mục 5 phần",

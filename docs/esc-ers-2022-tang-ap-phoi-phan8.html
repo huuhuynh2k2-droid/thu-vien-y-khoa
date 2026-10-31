@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tăng áp phổi ESC/ERS 2022 — Phần 8/8</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#1F5F8B; --accent-ink:#0E3550; --accent-bg:#E6EFF6;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">THA phổi ESC/ERS 2022 · P8</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">ESC/ERS 2022 · TĂNG ÁP ĐỘNG MẠCH PHỔI · PHẦN 8/8</div>
+    <div class="doc-title">Hướng dẫn ESC/ERS 2022 về chẩn đoán và điều trị tăng áp động mạch phổi</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">PHẦN 8/8 · TRANG 93–102</span>
+    <h1>Trung tâm PH, thông điệp chính, khoảng trống bằng chứng, Box 4–5</h1>
+    <div class="byline">Humbert M, Kovacs G, Hoeper MM, et al. — Eur Respir J 2023;61:2200879</div>
+    <div class="cite">Bản dịch và viết lại tiếng Việt phục vụ học tập lâm sàng (trang PDF 93–102) — không thay thế bản gốc. Hình/sơ đồ được giữ nguyên bản gốc tiếng Anh, chú giải dịch kèm bên dưới.</div>
+
+    <div class="box"><div class="box-title">TÓM TẮT PHẦN 8 (TRANG 93–102 CỦA PDF) — PHẦN KẾT</div>
+<ul>
+<li>Hoàn tất mục 12 (trung tâm PH, <strong>Bảng khuyến cáo 25</strong>, mạng lưới tham chiếu châu Âu ERN, hội bệnh nhân).</li>
+<li><strong>Mục 13 — 13 thông điệp chính</strong>; <strong>mục 14 — khoảng trống bằng chứng</strong> theo từng nhóm PH.</li>
+<li><strong>Mục 15 — Box 4 «Nên làm / Không nên làm»</strong> (toàn bộ khuyến cáo Class I và III cốt lõi) và <strong>Box 5</strong> (khuyến cáo theo GRADE).</li>
+<li>Mục 16 chỉ số chất lượng, 17–19 dữ liệu bổ sung và thông tin khác.</li>
+</ul></div>
+
+<h3 id="h8-centre-tt">12.1 (tiếp). Quản lý ca, tiếp cận từ xa và ghi nhận dữ liệu</h3>
+<ul>
+<li><strong>Quản lý ca</strong> (điều phối lộ trình từng bệnh nhân) gồm hỗ trợ hành chính, xã hội và chăm sóc. <strong>Khả năng liên lạc từ xa</strong> với trung tâm PH (điện thoại, thư…) là phần thiết yếu của chăm sóc. Cần triển khai chiến lược nâng cao hiểu biết y tế và ra quyết định chung, có công cụ hỗ trợ quyết định cho bệnh nhân.</li>
+<li><strong>Chuyển tiếp từ trung tâm PH nhi sang người lớn</strong> cần lập kế hoạch đầy đủ để tránh gián đoạn chăm sóc. Mời hội bệnh nhân quốc gia/quốc tế tham gia giúp thiết kế chăm sóc lấy bệnh nhân làm trung tâm và lan toả kiến thức cho bệnh nhân và người chăm sóc.</li>
+<li>Trung tâm PH nên ghi dữ liệu bệnh nhân vào registry (địa phương, quốc gia hoặc quốc tế) và báo cáo được <strong>chỉ số quy trình</strong> (tuân thủ hướng dẫn chẩn đoán–điều trị, kể cả ghép phổi) và <strong>chỉ số kết cục</strong> (WHO-FC, khả năng gắng sức, huyết động, chất lượng sống, biến chứng, sống còn); kiểm toán định kỳ chất lượng chăm sóc.</li>
+</ul>
+<h3 id="h8-rec25">Bảng khuyến cáo 25. Trung tâm tăng áp phổi</h3>
+<div class="rec">Khuyến cáo trung tâm PH chăm sóc bằng <strong>đội đa chuyên khoa</strong> (tim mạch, hô hấp, thấp khớp, điều dưỡng chuyên khoa, X-quang, hỗ trợ tâm lý và công tác xã hội, chuyên môn trực phù hợp). <span class="grade">I · C</span></div>
+<div class="rec">Khuyến cáo trung tâm PH có <strong>liên kết trực tiếp và đường giới thiệu nhanh</strong> đến các dịch vụ khác (tư vấn di truyền, PEA/BPA, ghép phổi, CHD người lớn). <span class="grade">I · C</span></div>
+<div class="rec">Khuyến cáo trung tâm PH <strong>duy trì registry bệnh nhân</strong>. <span class="grade">I · C</span></div>
+<div class="rec">Khuyến cáo trung tâm PH <strong>hợp tác với hội bệnh nhân</strong>. <span class="grade">I · C</span></div>
+<div class="rec">Nên cân nhắc <strong>công nhận (accreditation)</strong> trung tâm PH (vd. đánh giá ERN của Ủy ban châu Âu). <span class="grade">IIa · C</span></div>
+<div class="rec">Nên cân nhắc trung tâm PH <strong>tham gia nghiên cứu lâm sàng hợp tác</strong>. <span class="grade">IIa · C</span></div>
+<div class="rec">Trung tâm PH nên theo dõi đủ số bệnh nhân để duy trì chuyên môn (<strong>≥50 bệnh nhân PAH hoặc CTEPH và ≥2 ca giới thiệu mới/tháng</strong> có PAH/CTEPH được ghi nhận) và cân nhắc hợp tác với trung tâm khối lượng lớn. <span class="grade">IIa · C</span></div>
+
+<h3 id="h8-ern">12.2. Mạng lưới tham chiếu châu Âu (ERN)</h3>
+<p>Năm 2017, Ủy ban châu Âu khởi động các <strong>Mạng lưới Tham chiếu Châu Âu (ERN)</strong> cho bệnh hiếm, gồm <strong>ERN-LUNG</strong> với mạng lõi PH. ERN là mạng lưới lấy bệnh nhân làm trung tâm gồm các trung tâm được uỷ nhiệm, cung cấp hướng dẫn và chăm sóc tiêu chuẩn tốt nhất xuyên biên giới trong EU. Mạng PH có <strong>hơn 20 thành viên chính thức</strong>, mỗi năm đóng góp khoảng <strong>1500 bệnh nhân mới</strong> PAH hoặc CTEPH; cũng gồm các trung tâm hỗ trợ của Anh và đối tác liên kết (không nhất thiết đạt tiêu chí tối thiểu). ERN-LUNG yêu cầu và giám sát tiêu chuẩn.</p>
+<h3 id="h8-hoibn">12.3. Hội bệnh nhân và trao quyền cho bệnh nhân</h3>
+<p>Trung tâm PH nên thông tin cho bệnh nhân về hội bệnh nhân và khuyến khích tham gia. Hội bệnh nhân là nguồn lực quý để quản lý bệnh: hỗ trợ giáo dục và cảm xúc, tác động tích cực lên khả năng đối phó, sự tự tin và cái nhìn về bệnh. Khuyến cáo trung tâm PH hợp tác với hội bệnh nhân trong các sáng kiến trao quyền và cải thiện trải nghiệm bệnh nhân: <strong>hiểu biết y tế, kỹ năng số, lối sống lành mạnh, sức khoẻ tâm thần, tự quản lý</strong>. Chăm sóc hiệu quả hơn khi bệnh nhân là đối tác đầy đủ.</p>
+
+<h2 id="h8-keymsg">13. Các thông điệp chính</h2>
+<div class="box"><div class="box-title">13 THÔNG ĐIỆP CHÍNH CỦA HƯỚNG DẪN ESC/ERS 2022</div>
+<ol>
+<li><strong>Định nghĩa huyết động PH cập nhật: mPAP &gt;20 mmHg.</strong> Định nghĩa PAH còn kèm <strong>PVR &gt;2 WU và PAWP ⩽15 mmHg</strong>. Các ngưỡng này phản ánh tốt hơn giới hạn bình thường nhưng <em>chưa</em> chuyển thành khuyến cáo điều trị mới vì hiệu quả thuốc PAH ở bệnh nhân bệnh mạch phổi có mPAP 21–24 mmHg và/hoặc PVR 2–3 WU còn chưa biết.</li>
+<li><strong>Thuật toán chẩn đoán PH chính được đơn giản hoá thành 3 bước:</strong> nghi ngờ bởi bác sĩ tuyến đầu → phát hiện bằng siêu âm tim → xác nhận bằng RHC tại trung tâm PH. Đã xác định các <strong>dấu hiệu báo động liên quan kết cục xấu</strong> cần chuyển và xử trí ngay tại trung tâm PH.</li>
+<li>Đề xuất <strong>chiến lược sàng lọc PAH ở bệnh nhân SSc và người có nguy cơ HPAH</strong> dựa trên các nghiên cứu cohort đã công bố; thực hiện có thể rút ngắn thời gian từ khởi phát triệu chứng đến chẩn đoán PAH.</li>
+<li>Nhận biết tốt hơn <strong>dấu hiệu CT và siêu âm của CTEPH</strong> khi PE cấp, cùng <strong>theo dõi có hệ thống bệnh nhân PE cấp</strong> theo Hướng dẫn ESC/ERS 2019 về PE cấp, sẽ giúp khắc phục tình trạng chẩn đoán thiếu CTEPH.</li>
+<li><strong>Phân tầng nguy cơ 3 mức</strong> trong PAH được tinh chỉnh sau khi xác nhận ở nhiều registry. Tiêu chí <strong>MRI và siêu âm</strong> được thêm vào bảng ESC/ERS, hoàn thiện đánh giá không xâm lấn lúc chẩn đoán.</li>
+<li>Đề xuất <strong>phân tầng nguy cơ 4 mức</strong> khi theo dõi, chia nhóm trung bình lớn thành <strong>trung bình–thấp</strong> và <strong>trung bình–cao</strong>.</li>
+<li><strong>Thuật toán điều trị PAH được đơn giản hoá</strong>, tập trung rõ vào đánh giá nguy cơ, bệnh tim phổi đồng mắc và mục tiêu điều trị. <strong>Phối hợp khởi đầu và nâng bậc khi theo dõi</strong> (khi thích hợp) là chuẩn hiện nay.</li>
+<li>Task Force cố gắng <strong>thu hẹp khoảng cách giữa chăm sóc PAH ở trẻ em và người lớn</strong>, với chiến lược điều trị và theo dõi dựa trên phân tầng nguy cơ và đáp ứng điều trị, ngoại suy từ người lớn và điều chỉnh theo tuổi.</li>
+<li>Cập nhật khuyến cáo về <strong>vấn đề liên quan giới ở bệnh nhân PAH, gồm thai kỳ</strong>, với <em>thông tin và ra quyết định chung</em> là điểm chủ chốt.</li>
+<li>Cập nhật khuyến cáo về <strong>phục hồi chức năng và chương trình tập luyện</strong> ở PH sau khi có thêm bằng chứng hỗ trợ.</li>
+<li>Lần đầu tiên có <strong>khuyến cáo điều trị thuốc cho PH nhóm 3</strong>, dựa trên một RCT dương tính duy nhất ở bệnh nhân ILD (treprostinil hít).</li>
+<li>Giới thiệu khái niệm <strong>CTEPD có hoặc không có PH</strong>, cho phép nghiên cứu thêm về diễn tiến tự nhiên và xử trí khi không có PH.</li>
+<li>Thuật toán điều trị CTEPH được sửa đổi, gồm <strong>điều trị đa mô thức: phẫu thuật, thuốc PH và BPA</strong>.</li>
+</ol></div>
+
+<h2 id="h8-gaps">14. Khoảng trống bằng chứng</h2>
+<h3 id="h8-gap1">14.1. PAH (nhóm 1)</h3>
+<ul>
+<li>Cần xác lập <strong>hiệu quả và an toàn của thuốc PAH ở bệnh nhân nhóm 1 có mPAP 21–24 mmHg, PVR 2–3 WU và PH gắng sức</strong>.</li>
+<li>Cần khảo sát vai trò thuốc PAH ở các nhóm con PAH khác nhau, kể cả PAH do sán máng.</li>
+<li>Phân tầng nguy cơ PAH cần được xác nhận tiến cứu thêm qua các nghiên cứu kết cục định hướng mục tiêu, và tối ưu cho bệnh nhân PAH có bệnh đồng mắc.</li>
+<li>Các <strong>kiểu hình PAH mới</strong> ở bệnh nhân có bệnh tim phổi đồng mắc đáng kể là phổ biến và cần nghiên cứu nhiều hơn; cần đánh giá tầm quan trọng của kiểu hình và bệnh đồng mắc lên mục tiêu điều trị và kết cục.</li>
+<li>Tác động của thuốc PAH và chiến lược điều trị lên <strong>sống còn</strong> cần được đánh giá thêm.</li>
+<li>Thuốc PAH nhắm đường mới đang xuất hiện; tác động của việc thêm vào (add-on) lên kết cục cần đánh giá trong RCT.</li>
+<li>Vai trò hình ảnh RV (siêu âm tim, CMR) trong chẩn đoán và phân tầng nguy cơ PAH cần nghiên cứu thêm; ngưỡng đề xuất cần xác nhận đa trung tâm.</li>
+<li>Vai trò <strong>CPET</strong> trong chẩn đoán sớm PAH ở quần thể nguy cơ và trong đánh giá tiên lượng cần nghiên cứu; vai trò <strong>siêu âm gắng sức và RHC gắng sức</strong> ở người có nguy cơ PAH, CPET bất thường nhưng siêu âm nghỉ bình thường, cũng cần đánh giá.</li>
+<li>Hỗ trợ tuần hoàn cơ học, nhất là ở PH có thể hồi phục hoặc suy tim phải nặng có chiến lược thoát (như ghép phổi), cần nghiên cứu thêm.</li>
+<li>Khác biệt diễn tiến tự nhiên và đáp ứng điều trị giữa người lớn và trẻ em; tác dụng của PADN ở PAH và các nhóm PH khác; tác động của khối lượng, tổ chức và chuyên môn trung tâm lên kết cục điều trị.</li>
+</ul>
+<h3 id="h8-gap2">14.2. PH do bệnh tim trái (nhóm 2)</h3>
+<ul>
+<li>Xử trí PH nhóm 2 cần nghiên cứu thêm bằng RCT; cần nghiên cứu để chẩn đoán không xâm lấn PH liên quan HFpEF và phân biệt với PAH.</li>
+<li>Vai trò thử thách dịch và test gắng sức để phát hiện suy tim trái cần xác nhận thêm.</li>
+<li>Cần (và đang tiến hành) các nghiên cứu về <strong>PDE5i ở HFpEF kiểu hình CpcPH</strong>.</li>
+<li>Ảnh hưởng của thuốc suy tim mới (<strong>ARNI, SGLT-2i</strong>) lên PH qua tái cấu trúc đảo ngược LV cần nghiên cứu thêm.</li>
+</ul>
+<h3 id="h8-gap3">14.3. PH do bệnh phổi và/hoặc thiếu oxy (nhóm 3)</h3>
+<ul>
+<li>Xử trí PH nhóm 3 cần nghiên cứu thêm bằng RCT; tinh chỉnh kiểu hình sẽ then chốt để thiết kế thử nghiệm; cần tìm hiểu ý nghĩa lâm sàng và hậu quả điều trị của PH nặng ở bệnh phổi.</li>
+<li>Cần dữ liệu dài hạn về <strong>treprostinil hít</strong> (và các thuốc PAH khác) ở PH kết hợp bệnh phổi.</li>
+<li>Cần làm rõ tác động của môi trường thiếu oxy áp suất thấp lên <strong>&gt;150 triệu người sống ở độ cao &gt;2500 m</strong> và nghiên cứu chiến lược điều trị PH tiềm năng.</li>
+</ul>
+<h3 id="h8-gap4">14.4. CTEPH (nhóm 4)</h3>
+<ul>
+<li>Cải thiện phân biệt PE cấp và mạn trên hình ảnh (CTPA); xác nhận vai trò chẩn đoán của DECT hoặc bản đồ trừ iod so với V/Q.</li>
+<li>Xác lập tác dụng thuốc lên kết cục CTEPH; làm rõ <strong>mục tiêu điều trị</strong> (chưa rõ bình thường hoá mPAP và PVR có chuyển thành kết cục tốt hơn hay không).</li>
+<li>Làm rõ vai trò <strong>BPA so với PEA</strong>: điều trị nào cho bệnh nhân nào? Có tương đương ở bệnh phân thuỳ/dưới phân thuỳ không? Vai trò phối hợp thuốc ở CTEPH không mổ được hoặc PH dai dẳng/tái phát sau PEA; vai trò thuốc như cầu nối đến can thiệp/phẫu thuật cần được thử nghiệm chính thức.</li>
+<li>Cần RCT phân biệt tác dụng của PEA và phục hồi chức năng sớm; tác dụng của PEA, BPA, thuốc ở <strong>CTEPD không PH</strong> chưa được xác lập.</li>
+</ul>
+<h3 id="h8-gap5">14.5. PH nhóm 5</h3>
+<p>Cần nghiên cứu để định hướng xử trí PH nhóm 5, như PH liên quan SCD và sarcoidosis.</p>
+
+<h2 id="h8-box4">15. Thông điệp «Nên làm» và «Không nên làm» (Box 4)</h2>
+<p>Box 4 tập hợp các khuyến cáo cốt lõi (Class I và III) của hướng dẫn, theo từng chủ đề. Nội dung chi tiết đã trình bày ở các Phần 1–7; dưới đây là bản tổng hợp để tra cứu nhanh.</p>
+
+<h3 id="h8-b4-rhc">Thông tim phải (RHC) và test phản ứng mạch phổi</h3>
+<div class="rec"><span class="num">RHC</span> Khuyến cáo <strong>RHC để xác nhận chẩn đoán PH</strong> (đặc biệt PAH hoặc CTEPH) và hỗ trợ quyết định điều trị. <span class="grade">I · B</span></div>
+<div class="rec">Nghi ngờ hoặc đã biết PH: khuyến cáo RHC làm <strong>ở trung tâm có kinh nghiệm</strong>. <span class="grade">I · C</span></div>
+<div class="rec">Khuyến cáo RHC gồm <strong>bộ huyết động đầy đủ</strong> và theo quy trình chuẩn hoá. <span class="grade">I · C</span></div>
+<div class="rec"><span class="num">Test mạch phổi</span> Khuyến cáo test phản ứng mạch phổi ở bệnh nhân <strong>I/H/DPAH</strong> để tìm người điều trị được bằng CCB liều cao. <span class="grade">I · B</span></div>
+<div class="rec">Khuyến cáo làm test tại <strong>trung tâm PH</strong>. <span class="grade">I · C</span></div>
+<div class="rec">Đáp ứng dương tính: <strong>mPAP giảm ⩾10 mmHg để đạt mPAP ⩽40 mmHg với CO tăng hoặc không đổi</strong>.<sup>c</sup> <span class="grade">I · C</span></div>
+<div class="rec">Khuyến cáo dùng <strong>NO hít, iloprost hít hoặc epoprostenol tĩnh mạch</strong> để làm test. <span class="grade">I · C</span></div>
+<div class="rec"><strong>Không khuyến cáo</strong> test giãn mạch để chọn ứng viên CCB ở PAH ngoài I/H/DPAH và ở PH nhóm 2, 3, 4, 5. <span class="grade">III · C</span></div>
+
+<h3 id="h8-b4-cd">Chiến lược chẩn đoán</h3>
+<div class="rec"><span class="num">Siêu âm tim</span> Siêu âm tim là thăm dò <strong>không xâm lấn đầu tay</strong> khi nghi PH. <span class="grade">I · B</span></div>
+<div class="rec">Gán <strong>xác suất PH trên siêu âm</strong> dựa trên TRV bất thường và dấu hiệu siêu âm khác (Bảng 10). <span class="grade">I · B</span></div>
+<div class="rec">Giữ <strong>ngưỡng TRV &gt;2,8 m/s</strong> theo định nghĩa huyết động đã cập nhật. <span class="grade">I · C</span></div>
+<div class="rec"><span class="num">Hình ảnh</span> <strong>V/Q hoặc xạ hình tưới máu</strong> ở PH không giải thích được để tìm CTEPH. <span class="grade">I · C</span></div>
+<div class="rec"><strong>CT mạch phổi</strong> trong work-up nghi CTEPH. <span class="grade">I · C</span></div>
+<div class="rec">Sinh hoá, huyết học, miễn dịch, <strong>HIV</strong>, chức năng giáp thường quy ở mọi bệnh nhân PAH. <span class="grade">I · C</span></div>
+<div class="rec"><strong>Siêu âm bụng</strong> sàng lọc tăng áp cửa. <span class="grade">I · C</span></div>
+<div class="rec"><span class="num">Khác</span> <strong>PFT kèm DLCO</strong> trong đánh giá ban đầu PH. <span class="grade">I · C</span></div>
+<div class="rec"><strong>Không khuyến cáo</strong> sinh thiết phổi mở hoặc nội soi lồng ngực ở PAH. <span class="grade">III · C</span></div>
+
+<h3 id="h8-b4-sl">Sàng lọc và cải thiện phát hiện PAH và CTEPH</h3>
+<div class="rec"><span class="num">SSc</span> <strong>Đánh giá nguy cơ PAH hằng năm</strong> ở SSc. <span class="grade">I · B</span></div>
+<div class="rec">Người lớn SSc bệnh &gt;3 năm, FVC ⩾40%, DLCO &lt;60%: dùng <strong>thuật toán DETECT</strong> để nhận biết PAH không triệu chứng. <span class="grade">I · B</span></div>
+<div class="rec">SSc còn khó thở không giải thích được sau đánh giá không xâm lấn: <strong>RHC</strong> để loại trừ PAH. <span class="grade">I · C</span></div>
+<div class="rec"><span class="num">CTEPH/CTEPD</span> Khó thở/hạn chế gắng sức dai dẳng hoặc mới sau PE: đánh giá chẩn đoán thêm tìm CTEPH/CTEPD. <span class="grade">I · C</span></div>
+<div class="rec">Khuyết tật tưới máu không tương xứng và triệu chứng sau &gt;3 tháng kháng đông PE cấp: <strong>chuyển trung tâm PH/CTEPH</strong> sau khi xét siêu âm, BNP/NT-proBNP và/hoặc CPET. <span class="grade">I · C</span></div>
+<div class="rec"><span class="num">Khác</span> Tư vấn nguy cơ PAH và <strong>sàng lọc hằng năm</strong> ở người dương tính đột biến gây PAH và người thân bậc 1 của bệnh nhân HPAH. <span class="grade">I · B</span></div>
+<div class="rec">Bệnh nhân được giới thiệu ghép gan: <strong>siêu âm tim</strong> làm sàng lọc PH. <span class="grade">I · C</span></div>
+
+<h3 id="h8-b4-nang">Đánh giá mức độ nặng và nguy cơ tử vong ở PAH</h3>
+<div class="rec">Đánh giá mức độ nặng bằng <strong>bộ dữ liệu</strong> từ lâm sàng, test gắng sức, dấu ấn sinh học, siêu âm tim và huyết động. <span class="grade">I · B</span></div>
+<div class="rec"><strong>Đạt và duy trì hồ sơ nguy cơ thấp</strong> trên điều trị nội khoa tối ưu là mục tiêu điều trị. <span class="grade">I · B</span></div>
+<div class="rec">Khi chẩn đoán: dùng <strong>mô hình 3 mức</strong> (thấp, trung bình, cao), tính đến mọi dữ liệu gồm huyết động. <span class="grade">I · B</span></div>
+<div class="rec">Khi theo dõi: dùng <strong>mô hình 4 mức</strong> (thấp, trung bình–thấp, trung bình–cao, cao) dựa trên WHO-FC, 6MWD, BNP/NT-proBNP, kèm biến số bổ sung khi cần. <span class="grade">I · B</span></div>
+
+<h3 id="h8-b4-chung">Biện pháp chung và hoàn cảnh đặc biệt</h3>
+<div class="rec"><strong>Tập luyện có giám sát</strong> ở PAH đang điều trị nội khoa. <span class="grade">I · A</span></div>
+<div class="rec"><strong>Hỗ trợ tâm lý–xã hội</strong>. <span class="grade">I · C</span></div>
+<div class="rec">Tiêm phòng <strong>SARS-CoV-2, cúm, Streptococcus pneumoniae</strong>. <span class="grade">I · C</span></div>
+<div class="rec"><strong>Lợi tiểu</strong> khi có dấu hiệu suy RV và giữ dịch. <span class="grade">I · C</span></div>
+<div class="rec"><strong>Oxy dài hạn</strong> khi PaO2 &lt;8 kPa (60 mmHg).<sup>d</sup> <span class="grade">I · C</span></div>
+<div class="rec">Thiếu máu thiếu sắt: <strong>chỉnh tình trạng sắt</strong>. <span class="grade">I · C</span></div>
+<div class="rec"><strong>Không khuyến cáo</strong> ACEi, ARB, ARNI, SGLT-2i, chẹn beta, ivabradine ở PAH trừ khi bệnh đồng mắc đòi hỏi (tăng huyết áp, bệnh mạch vành, suy tim trái, loạn nhịp). <span class="grade">III · C</span></div>
+<div class="rec"><span class="num">Hoàn cảnh đặc biệt</span> <strong>Oxy trên máy bay</strong> cho bệnh nhân đang dùng oxy hoặc PaO2 &lt;8 kPa (60 mmHg) ở mực nước biển. <span class="grade">I · C</span></div>
+
+<h3 id="h8-b4-sinhde">Phụ nữ trong độ tuổi sinh đẻ</h3>
+<div class="rec">Tư vấn <strong>ngay lúc chẩn đoán</strong> về nguy cơ và bất định khi mang thai, gồm lời khuyên không mang thai và giới thiệu hỗ trợ tâm lý khi cần. <span class="grade">I · C</span></div>
+<div class="rec">Tư vấn <strong>tránh thai</strong> rõ ràng, thừa nhận hậu quả thất bại tránh thai là đáng kể. <span class="grade">I · C</span></div>
+<div class="rec">Phụ nữ cân nhắc mang thai hoặc đã có thai: <strong>tư vấn kịp thời tại trung tâm PH</strong> (tư vấn di truyền, quyết định chung, hỗ trợ tâm lý). <span class="grade">I · C</span></div>
+<div class="rec">Chấm dứt thai kỳ nên thực hiện <strong>tại trung tâm PH</strong>, kèm hỗ trợ tâm lý. <span class="grade">I · C</span></div>
+<div class="rec"><strong>Không khuyến cáo ERA và riociguat trong thai kỳ</strong> (tiềm năng gây quái thai). <span class="grade">III · B</span></div>
+
+<h3 id="h8-b4-ccb">Điều trị bệnh nhân có đáp ứng giãn mạch (IPAH/HPAH/DPAH)</h3>
+<div class="rec"><strong>CCB liều cao</strong> ở người đáp ứng test mạch phổi cấp. <span class="grade">I · C</span></div>
+<div class="rec">Theo dõi sát, đánh giá lại toàn diện <strong>sau 3–4 tháng</strong> (gồm RHC). <span class="grade">I · C</span></div>
+<div class="rec"><strong>Tiếp tục CCB liều cao</strong> nếu WHO-FC I–II và cải thiện huyết động rõ (mPAP &lt;30 mmHg và PVR &lt;4 WU). <span class="grade">I · C</span></div>
+<div class="rec">Vẫn WHO-FC III–IV hoặc không cải thiện huyết động rõ sau CCB: <strong>khởi đầu thuốc PAH</strong>. <span class="grade">I · C</span></div>
+<div class="rec"><strong>Không khuyến cáo CCB</strong> ở bệnh nhân chưa làm test hoặc không đáp ứng, trừ chỉ định khác (vd. Raynaud). <span class="grade">III · C</span></div>
+
+<h3 id="h8-b4-combo">Phối hợp thuốc ở IPAH/HPAH/DPAH</h3>
+<div class="rec"><span class="num">Phối hợp thuốc uống khởi đầu (không có bệnh tim phổi đồng mắc)<sup>e</sup></span> <strong>Ambrisentan + tadalafil</strong>. <span class="grade">I · B</span></div>
+<div class="rec"><strong>Macitentan + tadalafil</strong>. <span class="grade">I · B</span></div>
+<div class="rec"><strong>Không khuyến cáo</strong> phối hợp khởi đầu macitentan + tadalafil + selexipag. <span class="grade">III · B</span></div>
+<div class="rec"><span class="num">Phối hợp tuần tự</span> <strong>Nâng bậc điều trị dựa trên đánh giá nguy cơ</strong> và chiến lược chung (Hình 9). <span class="grade">I · C</span></div>
+<div class="rec">Thêm <strong>macitentan</strong> vào PDE5i hoặc prostacyclin uống/hít để giảm biến cố bệnh suất/tử vong. <span class="grade">I · B</span></div>
+<div class="rec">Thêm <strong>selexipag</strong> vào ERA<sup>f</sup> và/hoặc PDE5i để giảm biến cố bệnh suất/tử vong. <span class="grade">I · B</span></div>
+<div class="rec">Thêm <strong>treprostinil uống</strong> vào đơn trị ERA hoặc PDE5i/riociguat để giảm biến cố bệnh suất/tử vong. <span class="grade">I · B</span></div>
+<div class="rec"><strong>Không khuyến cáo</strong> thêm bosentan vào sildenafil để giảm biến cố bệnh suất/tử vong. <span class="grade">III · B</span></div>
+<div class="rec">Thêm <strong>sildenafil vào epoprostenol</strong> để cải thiện gắng sức. <span class="grade">I · B</span></div>
+<div class="rec"><strong>Không khuyến cáo phối hợp riociguat với PDE5i</strong>.<sup>g</sup> <span class="grade">III · B</span></div>
+
+<h3 id="h8-b4-icu">Hồi sức và ghép phổi</h3>
+<div class="rec"><span class="num">ICU</span> Suy tim phải ở ICU: <strong>chuyên gia tham gia, điều trị yếu tố nguyên nhân, biện pháp hỗ trợ</strong> (tăng co bóp, vận mạch, quản lý dịch, thuốc PAH khi thích hợp). <span class="grade">I · C</span></div>
+<div class="rec"><span class="num">Ghép phổi</span> <strong>Giới thiệu đánh giá ghép</strong> khi đáp ứng không đủ với phối hợp thuốc uống (nguy cơ trung bình–cao/cao hoặc REVEAL &gt;7). <span class="grade">I · C</span></div>
+<div class="rec"><strong>Đăng ký chờ ghép</strong> khi nguy cơ cao hoặc REVEAL ⩾10 dù tối ưu nội khoa kể cả prostacyclin dưới da/tĩnh mạch. <span class="grade">I · C</span></div>
+
+<h3 id="h8-b4-subset">Các thể PAH đặc biệt</h3>
+<div class="rec"><span class="num">DPAH</span> Chẩn đoán DPAH khi có phơi nhiễm liên quan và đã loại trừ nguyên nhân khác; <strong>ngưng tác nhân gây bệnh</strong> khi có thể. <span class="grade">I · C</span></div>
+<div class="rec"><span class="num">PAH-CTD</span> <strong>Điều trị bệnh nền</strong> theo hướng dẫn hiện hành <span class="grade">I · A</span>; dùng <strong>cùng thuật toán như IPAH</strong>. <span class="grade">I · C</span></div>
+<div class="rec"><span class="num">PAH-HIV</span> <strong>Điều trị kháng retrovirus</strong> theo hướng dẫn hiện hành. <span class="grade">I · A</span></div>
+<div class="rec"><span class="num">PoPH</span> Siêu âm tim ở bệnh gan/tăng áp cửa có triệu chứng gợi ý PH và làm sàng lọc khi đánh giá ghép gan hoặc TIPS <span class="grade">I · C</span>; chuyển bệnh nhân đến <strong>trung tâm có chuyên môn cả hai bệnh</strong> <span class="grade">I · C</span>; <strong>không khuyến cáo</strong> thuốc PAH ở tăng áp cửa kèm PH không phân loại (mPAP tăng, CO cao, PVR bình thường). <span class="grade">III · C</span></div>
+<div class="rec"><span class="num">Đóng shunt (Qp/Qs &gt;1,5:1)</span> ASD, VSD hoặc PDA có <strong>PVR &lt;3 WU</strong>: đóng shunt. <span class="grade">I · C</span> ASD có <strong>PVR &gt;5 WU dù điều trị PAH</strong>: <strong>không khuyến cáo</strong> đóng shunt. <span class="grade">III · C</span></div>
+<div class="rec"><span class="num">PAH-CHD người lớn</span> Đánh giá nguy cơ ở PAH tồn tại sau đóng tổn thương <span class="grade">I · C</span>; <strong>bosentan</strong> ở Eisenmenger có triệu chứng để cải thiện gắng sức <span class="grade">I · B</span>; <strong>không khuyến cáo mang thai</strong> ở Eisenmenger <span class="grade">III · C</span>; <strong>không khuyến cáo trích máu thường quy</strong> để hạ Hct. <span class="grade">III · C</span></div>
+<div class="rec"><span class="num">PVOD/PCH</span> Chẩn đoán bằng lâm sàng + hình ảnh + khí máu + PFT + xét nghiệm gen <span class="grade">I · A</span>; <strong>đột biến hai alen EIF2AK4</strong> xác nhận PVOD/PCH di truyền <span class="grade">I · A</span>; giới thiệu ngay trung tâm ghép <span class="grade">I · C</span>; <strong>không</strong> sinh thiết phổi. <span class="grade">III · C</span></div>
+
+<h3 id="h8-b4-nhi">PH ở trẻ em và nhũ nhi</h3>
+<div class="rec"><span class="num">Trẻ em</span> Work-up (gồm RHC và test giãn mạch cấp) và điều trị <strong>tại trung tâm có chuyên môn PH nhi</strong>. <span class="grade">I · C</span></div>
+<div class="rec">Work-up toàn diện xác nhận chẩn đoán và căn nguyên (như người lớn nhưng điều chỉnh theo tuổi). <span class="grade">I · C</span></div>
+<div class="rec"><strong>RHC</strong> xác nhận chẩn đoán, ưu tiên trước khi khởi trị thuốc PAH. <span class="grade">I · C</span></div>
+<div class="rec">IPAH/HPAH: <strong>test phản ứng mạch phổi cấp</strong> tìm người lợi từ CCB; định nghĩa dương tính như người lớn (mPAP giảm ⩾10 mmHg đạt ⩽40 mmHg, CO tăng hoặc không đổi). <span class="grade">I · C</span></div>
+<div class="rec">Chiến lược <strong>dựa phân tầng nguy cơ và đáp ứng điều trị</strong>; theo dõi bằng bộ dữ liệu (lâm sàng, siêu âm, dấu ấn sinh học, test gắng sức). <span class="grade">I · C</span></div>
+<div class="rec"><span class="num">Nhũ nhi</span> <strong>Sàng lọc PH ở nhũ nhi BPD</strong> <span class="grade">I · B</span>; điều trị bệnh phổi (thiếu oxy, hít sặc, bệnh đường thở cấu trúc) và <strong>tối ưu hỗ trợ hô hấp trước khi khởi trị PAH</strong>. <span class="grade">I · B</span></div>
+
+<h3 id="h8-b4-lhd">PH do bệnh tim trái (nhóm 2)</h3>
+<div class="rec"><strong>Tối ưu điều trị bệnh nền</strong> trước khi cân nhắc đánh giá nghi PH. <span class="grade">I · A</span></div>
+<div class="rec"><strong>RHC</strong> khi nghi PH ở LHD nếu giúp quyết định; RHC ở TR nặng trước khi sửa van. <span class="grade">I · C</span></div>
+<div class="rec">LHD nghi PH có <strong>thành phần tiền mao mạch nặng</strong> và/hoặc dấu ấn rối loạn chức năng RV: chuyển trung tâm PH; CpcPH có thành phần tiền mao mạch nặng (vd. PVR &gt;5 WU): điều trị cá thể hoá. <span class="grade">I · C</span></div>
+<div class="rec">PAWP nghỉ bình thường nhưng đáp ứng bất thường với gắng sức hoặc thử thách dịch, được điều trị thuốc PAH: <strong>theo dõi sát</strong>. <span class="grade">I · C</span></div>
+<div class="rec"><strong>Không khuyến cáo</strong> thuốc PAH ở PH-LHD.<sup>h</sup> <span class="grade">III · A</span></div>
+
+<h3 id="h8-b4-lung">PH do bệnh phổi và/hoặc thiếu oxy (nhóm 3)</h3>
+<div class="rec"><strong>Siêu âm tim</strong><sup>i</sup> diễn giải cùng khí máu, PFT kèm DLCO và CT; <strong>tối ưu điều trị bệnh phổi nền</strong> (thiếu oxy, rối loạn thở khi ngủ, giảm thông khí phế nang). <span class="grade">I · C</span></div>
+<div class="rec">Nghi PH nặng hoặc không chắc cách điều trị: <strong>chuyển trung tâm PH</strong>;<sup>j</sup> PH nặng: điều trị cá thể hoá; giới thiệu đánh giá ghép phổi; RHC nếu giúp quyết định. <span class="grade">I · C</span></div>
+<div class="rec"><strong>Không khuyến cáo ambrisentan</strong> ở PH kết hợp IPF <span class="grade">III · B</span>; <strong>không khuyến cáo riociguat</strong> ở PH kết hợp IIP <span class="grade">III · B</span>; <strong>không khuyến cáo thuốc PAH</strong> ở bệnh phổi kèm PH không nặng.<sup>k</sup> <span class="grade">III · C</span></div>
+
+<h3 id="h8-b4-cteph">CTEPH và CTEPD không PH</h3>
+<div class="rec"><strong>Kháng đông liều điều trị suốt đời</strong>; xét nghiệm hội chứng kháng phospholipid; VKA nếu có hội chứng kháng phospholipid; đội CTEPH xem xét mọi bệnh nhân. <span class="grade">I · C</span></div>
+<div class="rec"><strong>PEA</strong> là điều trị lựa chọn ở tổn thương tiếp cận được; <strong>BPA</strong> ở bệnh nhân không mổ được hoặc còn PH sau PEA có tắc nghẽn xa phù hợp; <strong>riociguat</strong> ở CTEPH không mổ được có triệu chứng hoặc PH dai dẳng/tái phát sau PEA. <span class="grade">I · B</span></div>
+<div class="rec"><strong>Theo dõi dài hạn</strong> sau PEA và BPA, và ở bệnh nhân điều trị nội khoa. <span class="grade">I · C</span></div>
+
+<h3 id="h8-b4-centre">Trung tâm tăng áp phổi</h3>
+<div class="rec">Đội đa chuyên khoa; liên kết trực tiếp và đường giới thiệu nhanh (tư vấn di truyền, PEA/BPA, ghép phổi, CHD người lớn); duy trì registry; hợp tác với hội bệnh nhân. <span class="grade">I · C</span></div>
+<p style="font-size:12.5px;color:var(--ink-2)"><sup>c</sup> Test cũng nên thực hiện ở bệnh nhân có mPAP nền ⩽40 mmHg, áp dụng cùng tiêu chí đáp ứng. <sup>d</sup> Đo ít nhất hai lần. <sup>e</sup> Bệnh tim phổi đồng mắc gặp chủ yếu ở người lớn tuổi, gồm yếu tố nguy cơ HFpEF (béo phì, đái tháo đường, bệnh mạch vành, tiền sử tăng huyết áp) và/hoặc DLCO thấp. <sup>f</sup> ERA dùng trong GRIPHON là bosentan và ambrisentan. <sup>g</sup> PATENT plus khảo sát sildenafil + riociguat; phối hợp riociguat với bất kỳ PDE5i nào đều chống chỉ định. <sup>h</sup> Đã nhận diện vấn đề an toàn khi dùng ERA ở suy tim (HFpEF và HFrEF, có hoặc không PH) và sildenafil ở PH dai dẳng sau sửa van. <sup>i</sup> Nên thực hiện khi ổn định lâm sàng. <sup>j</sup> Không áp dụng cho bệnh phổi giai đoạn cuối không phải ứng viên ghép phổi. <sup>k</sup> Không gồm treprostinil hít, có thể cân nhắc ở PH-ILD bất kể mức độ nặng PH.</p>
+
+<h3 id="h8-box5">Box 5. Thông điệp «Nên làm / Không nên làm» xây dựng bằng khung GRADE (Evidence to Decision)</h3>
+<div class="tbl-wrap"><table><thead><tr><th>Khuyến cáo</th><th>Chất lượng bằng chứng</th><th>Mức độ khuyến cáo</th><th>Class · Level</th></tr></thead><tbody>
+<tr><td>IPAH/HPAH/DPAH <strong>nguy cơ tử vong thấp hoặc trung bình</strong>: khuyến cáo phối hợp khởi đầu <strong>PDE5i + ERA</strong></td><td>Thấp</td><td>Có điều kiện</td><td>I · B</td></tr>
+<tr><td><strong>Không khuyến cáo</strong> PDE5i ở HFpEF kèm PH hậu mao mạch đơn độc</td><td>Thấp</td><td>Có điều kiện</td><td>III · C</td></tr>
+<tr><td><strong>Không khuyến cáo</strong> PDE5i ở ILD kèm PH không nặng</td><td>Rất thấp</td><td>Có điều kiện</td><td>III · C</td></tr>
+</tbody></table></div>
+
+<h2 id="h8-qi">16. Chỉ số chất lượng</h2>
+<p><strong>Chỉ số chất lượng (QI)</strong> là công cụ đánh giá chất lượng chăm sóc, gồm cấu trúc, quy trình và kết cục; có thể thúc đẩy tuân thủ khuyến cáo qua các sáng kiến cải thiện chất lượng và so sánh chuẩn giữa đơn vị cung cấp. ESC đã có phương pháp phát triển QI cho bệnh tim mạch và đã lồng bộ QI vào một số hướng dẫn thực hành lâm sàng; ESC cũng hướng tới tích hợp QI với các registry lâm sàng (EurObservational Research Programme, dự án EuroHeart) để có dữ liệu thực tế về mô hình và kết cục chăm sóc.</p>
+<p>Song song với việc viết hướng dẫn này, đã bắt đầu quy trình xây dựng <strong>QI cho bệnh nhân PH</strong> theo phương pháp ESC, phối hợp chuyên gia lĩnh vực và Hội Suy tim ESC. Các QI này, cùng đặc tả và quá trình phát triển, sẽ được công bố riêng.</p>
+
+<h2 id="h8-other">17–19. Dữ liệu bổ sung và thông tin khác</h2>
+<ul>
+<li><strong>Dữ liệu bổ sung (mục 17):</strong> bài có phần dữ liệu bổ sung với thông tin nền và thảo luận chi tiết về dữ liệu làm cơ sở cho hướng dẫn, gồm <strong>các câu hỏi tường thuật chính (1–8)</strong> và <strong>câu hỏi PICO (I–IV)</strong>. Các bảng/hình S1–S8 được dẫn chiếu trong bài không có trong tệp PDF đã cung cấp.</li>
+<li><strong>Dữ liệu sẵn có (mục 18):</strong> không có dữ liệu mới được tạo ra hoặc phân tích trong nghiên cứu này.</li>
+<li><strong>Thông tin khác (mục 19):</strong> các cộng đồng tiểu chuyên khoa ESC tham gia: Hội Điều dưỡng và Nghề nghiệp liên quan tim mạch (ACNAP), Hội Hình ảnh Tim mạch Châu Âu (EACVI), Hội Suy tim (HFA); Hội đồng Di truyền tim mạch; các Nhóm làm việc về CHD người lớn, Tuần hoàn phổi và chức năng thất phải, Huyết khối; Diễn đàn bệnh nhân. Bài hướng dẫn được đồng xuất bản trong <em>European Heart Journal</em> và <em>European Respiratory Journal</em>; bản quyền thuộc ESC và ERS 2023. Hướng dẫn được công bố cho mục đích cá nhân và giáo dục, không cho phép sử dụng thương mại; không được dịch hoặc sao chép toàn bộ khi chưa có sự cho phép bằng văn bản của ESC/ERS.</li>
+</ul>
+<div class="warn"><strong>Lưu ý quan trọng khi dùng bản này:</strong> đây là bản <strong>biên soạn lại bằng tiếng Việt phục vụ học tập lâm sàng cá nhân</strong>, không thay thế văn bản gốc. Các bảng/hình S1–S8 và danh mục tài liệu tham khảo không được đưa vào. Một số bảng trong tệp PDF cung cấp bị cắt phần cột bên phải (Bảng 13, Bảng 14) nên phần bị mất không thể dịch — xem ghi chú tại Phần 2. Khi áp dụng trên bệnh nhân, đối chiếu bản gốc và hướng dẫn tại cơ sở.</div>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Nguồn: 2022 ESC/ERS Guidelines for the diagnosis and treatment of pulmonary hypertension. Eur Respir J 2023;61:2200879. DOI: 10.1183/13993003.00879-2022. Danh mục tài liệu tham khảo đầy đủ xem bản gốc, không chép lại ở đây. <a href="esc-ers-2022-tang-ap-phoi-index.html">← Về trang chỉ mục 8 phần</a></p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'ersph22_p8_hl_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>
