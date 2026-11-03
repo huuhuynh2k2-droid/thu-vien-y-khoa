@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thuyên tắc phổi ESC/ERS 2019 — Phần 3/6</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#B3202F; --accent-ink:#6E0F1D; --accent-bg:#FBEAEC;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">PE ESC 2019 · P3</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">ESC/ERS 2019 · THUYÊN TẮC PHỔI CẤP · PHẦN 3/6</div>
+    <div class="doc-title">Hướng dẫn ESC/ERS 2019 về chẩn đoán và xử trí thuyên tắc phổi cấp</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">PHẦN 3/6 · TRANG 22–27</span>
+    <h1>Điều trị giai đoạn cấp: hỗ trợ huyết động, kháng đông, tái tưới máu, PERT, lọc IVC</h1>
+    <div class="byline">Konstantinides SV, Meyer G, et al. — Eur Heart J 2020;41:543–603</div>
+    <div class="cite">Bản dịch và viết lại tiếng Việt phục vụ học tập lâm sàng (trang PDF 22–27) — không thay thế bản gốc. Hình/sơ đồ giữ nguyên bản gốc tiếng Anh, chú giải dịch kèm bên dưới.</div>
+
+    <div class="box"><div class="box-title">TÓM TẮT PHẦN 3 (TRANG 22–27 CỦA PDF)</div>
+<ul>
+<li>Mục 5.7: khuyến cáo đánh giá tiên lượng.</li>
+<li>Mục 6 — <strong>điều trị giai đoạn cấp</strong>: hỗ trợ oxy/thông khí, <strong>xử trí suy RV cấp (Bảng 9)</strong>, hỗ trợ tuần hoàn cơ học/ECMO, ngừng tim; kháng đông đường tiêm, <strong>NOAC</strong>, VKA; <strong>tái tưới máu</strong> (tiêu sợi huyết toàn thân – Bảng 10, can thiệp catheter, phẫu thuật lấy huyết khối); <strong>PERT</strong> đa chuyên khoa; <strong>lọc tĩnh mạch chủ</strong>; xuất viện sớm. Gồm các bảng khuyến cáo 6.6–6.10.</li>
+</ul></div>
+
+<h2 id="h3-rec57">5.7. Khuyến cáo về đánh giá tiên lượng</h2>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Khuyến cáo</th><th>Class</th><th>Level</th></tr></thead>
+<tbody>
+<tr><td>Khuyến cáo phân tầng nguy cơ ban đầu ở PE nghi ngờ hoặc xác nhận, dựa trên sự hiện diện của <strong>bất ổn huyết động</strong>, để nhận diện bệnh nhân nguy cơ tử vong sớm cao</td><td>I</td><td>B</td></tr>
+<tr><td>Ở bệnh nhân không bất ổn huyết động, khuyến cáo <strong>phân tầng thêm</strong> thành nhóm nguy cơ trung bình và thấp</td><td>I</td><td>B</td></tr>
+<tr><td>Ở bệnh nhân không bất ổn huyết động, nên cân nhắc dùng <strong>thang dự đoán lâm sàng tích hợp mức độ nặng PE và bệnh đồng mắc</strong>, ưu tiên PESI hoặc sPESI, để đánh giá nguy cơ ở giai đoạn cấp</td><td>IIa</td><td>B</td></tr>
+<tr><td>Nên cân nhắc đánh giá <strong>RV bằng hình ảnh<sup>c</sup> hoặc dấu ấn sinh học<sup>d</sup></strong>, kể cả khi PESI thấp hoặc sPESI âm tính</td><td>IIa</td><td>B</td></tr>
+<tr><td>Ở bệnh nhân không bất ổn huyết động, có thể cân nhắc <strong>thang điểm đã xác nhận</strong> kết hợp yếu tố tiên lượng lâm sàng, hình ảnh và xét nghiệm liên quan PE để phân tầng thêm mức độ nặng</td><td>IIb</td><td>C</td></tr>
+</tbody></table></div>
+<p style="font-size:12.5px;color:var(--ink-2)"><sup>c</sup> Siêu âm tim qua thành ngực hoặc CTPA. <sup>d</sup> Troponin tim hoặc peptide lợi niệu.</p>
+
+<h2 id="h3-acute">6. Điều trị giai đoạn cấp</h2>
+<h3 id="h3-support">6.1. Hỗ trợ huyết động và hô hấp</h3>
+<h3 id="h3-o2">6.1.1. Liệu pháp oxy và thông khí</h3>
+<ul>
+<li>Giảm oxy máu là đặc điểm của PE nặng, chủ yếu do bất tương xứng thông khí–tưới máu. <strong>Chỉ định thở oxy bổ sung khi SaO2 &lt;90%.</strong></li>
+<li>Giảm oxy nặng/suy hô hấp <strong>kháng oxy liệu pháp quy ước</strong> có thể do <strong>shunt phải→trái qua PFO hoặc thông liên nhĩ (ASD)</strong>.</li>
+<li>Cân nhắc kỹ thuật oxy khác: <strong>oxy dòng cao (canula mũi lưu lượng cao)</strong> và <strong>thông khí cơ học</strong> (không xâm lấn hoặc xâm lấn) khi cực kỳ bất ổn (vd. ngừng tim) — lưu ý rằng không thể chỉnh được giảm oxy nếu không đồng thời tái tưới máu phổi.</li>
+<li>Bệnh nhân suy RV thường hạ huyết áp hoặc rất dễ tụt huyết áp nặng khi <strong>khởi mê, đặt nội khí quản và thông khí áp lực dương</strong>. Vì vậy <strong>chỉ đặt nội khí quản khi bệnh nhân không chịu được hoặc không đáp ứng thông khí không xâm lấn</strong>; khi có thể, ưu tiên thông khí không xâm lấn hoặc oxy canula mũi lưu lượng cao.</li>
+<li>Nếu thông khí cơ học: hạn chế tác dụng bất lợi huyết động. Áp lực dương trong lồng ngực làm giảm hồi lưu tĩnh mạch và làm nặng thêm CO thấp do suy RV ⇒ <strong>dùng PEEP thận trọng</strong>; <strong>thể tích khí lưu thông ~6 mL/kg thể trọng lý tưởng</strong> để giữ áp lực bình nguyên cuối hít vào <strong>&lt;30 cmH2O</strong>. Khi đặt nội khí quản, tránh thuốc mê dễ gây hạ huyết áp.</li></ul>
+
+<h3 id="h3-rvfail">6.1.2. Điều trị thuốc cho suy thất phải cấp</h3>
+<p>Suy RV cấp kèm cung lượng hệ thống thấp là <strong>nguyên nhân tử vong hàng đầu</strong> ở PE nguy cơ cao (nguyên tắc xử trí suy tim phải cấp xem tuyên bố của HFA và nhóm công tác Tuần hoàn phổi/chức năng thất phải ESC). Tổng quan các lựa chọn ở Bảng 9.</p>
+<ul>
+<li><strong>Dịch:</strong> nếu áp lực tĩnh mạch trung tâm (CVP) thấp, có thể truyền dịch thử thận trọng (<strong>≤500 mL</strong>), có thể tăng chỉ số tim ở bệnh nhân PE cấp. Tuy nhiên, bù dịch có thể làm <strong>căng quá mức RV</strong> và cuối cùng giảm CO hệ thống; dữ liệu thực nghiệm cho thấy bù dịch tích cực không lợi và có thể làm RV xấu hơn. Bù dịch thận trọng phù hợp khi huyết áp thấp kèm không có áp lực đổ đầy tăng. Đánh giá CVP bằng siêu âm IVC (IVC nhỏ và/hoặc xẹp ở PE nguy cơ cao gợi ý thể tích thấp) hoặc theo dõi CVP có thể giúp định hướng. <strong>Nếu CVP tăng, ngưng bù dịch.</strong></li>
+<li><strong>Thuốc vận mạch:</strong> thường cần, song song (hoặc trong khi chờ) tái tưới máu bằng thuốc, phẫu thuật hoặc can thiệp. <strong>Norepinephrine</strong> cải thiện huyết động hệ thống nhờ cải thiện tương tác tâm thu hai thất và tưới máu vành, không làm đổi PVR; chỉ nên dùng ở bệnh nhân sốc.</li>
+<li><strong>Dobutamine</strong>: có thể cân nhắc ở bệnh nhân PE, chỉ số tim thấp, huyết áp bình thường (dựa trên loạt ca nhỏ); tuy nhiên tăng chỉ số tim có thể làm nặng thêm bất tương xứng V/Q do tái phân bố dòng máu từ mạch bị tắc (một phần) sang mạch không tắc.</li>
+<li><strong>Levosimendan</strong>: dữ liệu thực nghiệm cho thấy có thể phục hồi cặp RV–động mạch phổi (kết hợp giãn mạch phổi với tăng co bóp RV) nhưng chưa có bằng chứng lợi ích lâm sàng.</li>
+<li><strong>Thuốc giãn mạch</strong> giảm PAP và PVR nhưng có thể làm nặng hạ huyết áp và giảm tưới máu hệ thống vì thiếu tính chọn lọc mạch phổi khi dùng đường tĩnh mạch. <strong>NO hít</strong> có thể cải thiện huyết động và trao đổi khí trong các nghiên cứu nhỏ, nhưng chưa có bằng chứng hiệu quả/an toàn lâm sàng.</li></ul>
+<h3 id="h3-tbl9">Bảng 9. Điều trị suy thất phải trong PE cấp nguy cơ cao</h3>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Chiến lược</th><th>Đặc điểm và cách dùng</th><th>Lưu ý (caveats)</th></tr></thead>
+<tbody>
+<tr><td colspan="3" style="background:var(--accent-bg);font-weight:600;color:var(--accent-ink)">Tối ưu thể tích</td></tr>
+<tr><td>Bù dịch thận trọng: NaCl 0,9% hoặc Ringer lactate, <strong>≤500 mL trong 15–30 phút</strong></td><td>Cân nhắc ở bệnh nhân CVP <strong>bình thường–thấp</strong> (vd. do giảm thể tích đồng thời)</td><td>Bù dịch có thể làm căng quá mức RV, làm nặng phụ thuộc tâm thất và giảm CO</td></tr>
+<tr><td colspan="3" style="background:var(--accent-bg);font-weight:600;color:var(--accent-ink)">Thuốc vận mạch và tăng co bóp</td></tr>
+<tr><td><strong>Norepinephrine</strong> 0,2–1,0 µg/kg/phút<sup>a</sup></td><td>Tăng co bóp RV và HA hệ thống, thúc đẩy tương tác thất dương tính, khôi phục chênh áp tưới vành</td><td>Co mạch quá mức có thể làm xấu tưới máu mô</td></tr>
+<tr><td><strong>Dobutamine</strong> 2–20 µg/kg/phút</td><td>Tăng co bóp RV, giảm áp lực đổ đầy</td><td>Có thể làm nặng hạ huyết áp nếu dùng đơn độc, không kèm thuốc vận mạch; có thể gây/làm nặng loạn nhịp</td></tr>
+<tr><td colspan="3" style="background:var(--accent-bg);font-weight:600;color:var(--accent-ink)">Hỗ trợ tuần hoàn cơ học</td></tr>
+<tr><td><strong>ECMO tĩnh mạch–động mạch (VA-ECMO)</strong>/hỗ trợ sự sống ngoài cơ thể</td><td>Hỗ trợ ngắn hạn nhanh chóng, kết hợp bộ oxy hoá</td><td>Biến chứng khi dùng kéo dài (&gt;5–10 ngày): chảy máu, nhiễm trùng; <strong>không có lợi ích lâm sàng trừ khi phối hợp phẫu thuật lấy huyết khối</strong>; cần đội có kinh nghiệm</td></tr>
+</tbody></table></div>
+<p style="font-size:12.5px;color:var(--ink-2)"><sup>a</sup> Epinephrine được dùng trong ngừng tim.</p>
+
+<h3 id="h3-mcs">6.1.3. Hỗ trợ tuần hoàn cơ học và oxy hoá</h3>
+<p>Hỗ trợ tim–phổi cơ học tạm thời, chủ yếu <strong>VA-ECMO</strong>, có thể hữu ích ở PE nguy cơ cao kèm trụy tuần hoàn hoặc ngừng tim. Một số loạt ca mô tả sống sót ở bệnh nhân nguy kịch, nhưng <strong>chưa có RCT</strong> đánh giá hiệu quả/an toàn trong PE nguy cơ cao. ECMO có tỷ lệ biến chứng cao dù dùng ngắn, kết quả phụ thuộc kinh nghiệm trung tâm và chọn lọc bệnh nhân; cần cân nhắc <strong>nguy cơ chảy máu do đường vào mạch máu</strong>, đặc biệt ở bệnh nhân tiêu sợi huyết. Hiện nay dùng ECMO <strong>đơn độc kèm kháng đông còn gây tranh cãi</strong> và cần cân nhắc điều trị bổ sung như phẫu thuật lấy huyết khối. Một vài ca cho thấy kết quả tốt với catheter Impella ở bệnh nhân sốc do PE cấp.</p>
+<h3 id="h3-als">6.1.4. Hồi sức nâng cao khi ngừng tim</h3>
+<p>PE cấp thuộc chẩn đoán phân biệt của <strong>ngừng tim với nhịp không shock được trên nền hoạt động điện vô mạch (PEA)</strong>. Khi nghi ngừng tim do PE cấp, tuân theo hướng dẫn hồi sức nâng cao hiện hành. Quyết định điều trị PE cấp phải đưa ra <strong>sớm</strong>, khi còn có thể có kết cục tốt. Nên cân nhắc <strong>tiêu sợi huyết</strong>; sau khi đã dùng thuốc tiêu sợi huyết, tiếp tục hồi sức tim phổi <strong>ít nhất 60–90 phút</strong> trước khi ngừng nỗ lực hồi sức.</p>
+
+<h3 id="h3-anticoag">6.2. Kháng đông khởi đầu</h3>
+<h3 id="h3-parenteral">6.2.1. Kháng đông đường tiêm</h3>
+<p>Ở bệnh nhân xác suất lâm sàng <strong>cao hoặc trung bình</strong>, bắt đầu kháng đông trong lúc chờ kết quả chẩn đoán. Thường dùng <strong>LMWH tiêm dưới da theo cân nặng</strong> hoặc <strong>fondaparinux</strong>, hoặc <strong>UFH tĩnh mạch</strong>. Dựa trên dược động học, NOAC cũng đạt tác dụng kháng đông nhanh tương đương; các thử nghiệm pha III cho thấy chiến lược dùng <strong>một thuốc uống</strong> với liều cao hơn <strong>apixaban 7 ngày</strong> hoặc <strong>rivaroxaban 3 tuần</strong> không kém hơn.</p>
+<ul>
+<li><strong>LMWH và fondaparinux được ưu tiên hơn UFH</strong> cho kháng đông khởi đầu trong PE vì nguy cơ <strong>chảy máu nặng và giảm tiểu cầu do heparin (HIT)</strong> thấp hơn. Không cần theo dõi thường quy mức anti-Xa.</li>
+<li><strong>UFH</strong> ngày nay chủ yếu giới hạn ở bệnh nhân <strong>bất ổn huyết động rõ hoặc sắp mất bù</strong> cần tái tưới máu thì đầu; cũng khuyến cáo ở bệnh nhân <strong>suy thận nặng (CrCl ≤30 mL/phút)</strong> hoặc <strong>béo phì nặng</strong>. Nếu kê LMWH ở bệnh nhân CrCl 15–30 mL/phút cần dùng phác đồ điều chỉnh liều. Liều UFH chỉnh theo aPTT (Bảng bổ sung 7).</li></ul>
+<h3 id="h3-noac">6.2.2. Thuốc kháng đông đường uống không phải kháng vitamin K (NOAC)</h3>
+<p>NOAC là phân tử nhỏ ức chế trực tiếp một yếu tố đông máu hoạt hoá: <strong>thrombin</strong> (dabigatran) hoặc <strong>yếu tố Xa</strong> (apixaban, edoxaban, rivaroxaban). Nhờ sinh khả dụng và dược động học dự đoán được, NOAC dùng <strong>liều cố định, không cần theo dõi xét nghiệm thường quy</strong>; ít tương tác thuốc hơn VKA. Trong các thử nghiệm pha III về VTE, liều dabigatran, rivaroxaban, apixaban <strong>không giảm</strong> ở bệnh nhân suy thận nhẹ–vừa (CrCl 30–60 mL/phút), trong khi <strong>edoxaban dùng liều 30 mg</strong> ở nhóm này. Bệnh nhân <strong>CrCl &lt;25 mL/phút</strong> bị loại khỏi thử nghiệm apixaban; <strong>CrCl &lt;30 mL/phút</strong> bị loại khỏi thử nghiệm rivaroxaban, edoxaban, dabigatran.</p>
+<p>Các thử nghiệm pha III điều trị VTE cấp và điều trị kéo dài sau 6 tháng cho thấy NOAC <strong>không kém</strong> so với LMWH + VKA trong dự phòng VTE tái phát có triệu chứng hoặc gây tử vong, đồng thời <strong>giảm đáng kể chảy máu nặng</strong>. Phân tích gộp:</p>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Kết cục</th><th>NOAC</th><th>VKA</th><th>RR (KTC 95%)</th></tr></thead>
+<tbody>
+<tr><td>Kết cục hiệu quả chính (VTE tái phát)</td><td>2,0%</td><td>2,2%</td><td>0,88 (0,74–1,05)</td></tr>
+<tr><td>Chảy máu nặng</td><td>1,1%</td><td>1,7%</td><td>0,60 (0,41–0,88)</td></tr>
+<tr><td>Chảy máu nặng ở vị trí quan trọng</td><td colspan="2" style="text-align:center">ít hơn với NOAC</td><td>0,38 (0,23–0,62)</td></tr>
+<tr><td>Chảy máu nội sọ</td><td colspan="2" style="text-align:center">giảm có ý nghĩa</td><td>0,37 (0,21–0,68)</td></tr>
+<tr><td>Chảy máu tử vong</td><td colspan="2" style="text-align:center">giảm có ý nghĩa</td><td>0,36 (0,15–0,87)</td></tr>
+</tbody></table></div>
+<p>Gợi ý xử trí kháng đông trong các tình huống lâm sàng đặc biệt (chưa có bằng chứng kết luận) ở Bảng bổ sung 9. Hướng dẫn thực hành về NOAC và xử trí cấp cứu do EHRA cập nhật thường xuyên.</p>
+<h3 id="h3-vka">6.2.3. Thuốc kháng vitamin K (VKA)</h3>
+<ul>
+<li>VKA là «tiêu chuẩn vàng» kháng đông đường uống hơn 50 năm. Khi dùng VKA, <strong>tiếp tục UFH, LMWH hoặc fondaparinux song song với thuốc uống ≥5 ngày và đến khi INR đạt 2,0–3,0 trong 2 ngày liên tiếp</strong>.</li>
+<li><strong>Warfarin</strong> có thể khởi đầu <strong>10 mg</strong> ở người trẻ (vd. &lt;60 tuổi) khoẻ mạnh, và <strong>≤5 mg</strong> ở người lớn tuổi. Điều chỉnh liều hằng ngày theo INR trong 5–7 ngày tiếp theo, <strong>mục tiêu INR 2,0–3,0</strong>.</li>
+<li>Xét nghiệm dược di truyền có thể tăng độ chính xác liều warfarin; khi dùng thêm vào thông số lâm sàng, cải thiện kiểm soát kháng đông và có thể giảm nguy cơ chảy máu, nhưng <strong>không giảm</strong> biến cố huyết khối hay tử vong.</li>
+<li>Dịch vụ kháng đông có cấu trúc (phòng khám kháng đông) liên quan tăng thời gian trong khoảng điều trị (TTR) và cải thiện kết cục so với bác sĩ đa khoa tự theo dõi; bệnh nhân được chọn và huấn luyện phù hợp có thể <strong>tự theo dõi INR</strong>, liên quan ít biến cố huyết khối hơn và TTR cao hơn.</li></ul>
+
+<h3 id="h3-reperf">6.3. Điều trị tái tưới máu</h3>
+<h3 id="h3-lysis">6.3.1. Tiêu sợi huyết toàn thân</h3>
+<p>So với UFH đơn thuần, tiêu sợi huyết cải thiện nhanh hơn tắc nghẽn phổi, PAP và PVR, kèm giảm giãn RV trên siêu âm. <strong>Lợi ích lớn nhất khi điều trị trong vòng 48 giờ từ khi khởi phát triệu chứng</strong>, nhưng vẫn có thể hữu ích ở bệnh nhân có triệu chứng 6–14 ngày. <strong>Tiêu sợi huyết thất bại</strong> (còn bất ổn lâm sàng và rối loạn chức năng RV không đổi sau 36 giờ) được báo cáo ở <strong>8%</strong> bệnh nhân PE nguy cơ cao.</p>
+<ul>
+<li>Phân tích gộp thử nghiệm tiêu sợi huyết (gồm nhưng không giới hạn PE nguy cơ cao, chủ yếu là sốc tim) cho thấy giảm có ý nghĩa kết cục phối hợp tử vong + PE tái phát; với <strong>tỷ lệ chảy máu nặng 9,9%</strong> và <strong>xuất huyết nội sọ 1,7%</strong>.</li>
+<li>Ở bệnh nhân <strong>huyết áp bình thường, nguy cơ trung bình</strong> (rối loạn chức năng RV + troponin tăng), thử nghiệm <strong>PEITHO</strong> cho thấy tiêu sợi huyết giảm đáng kể nguy cơ <strong>mất bù/trụy huyết động</strong> nhưng đi kèm tăng nguy cơ <strong>chảy máu ngoài sọ và nội sọ nặng</strong>. Trong PEITHO, tỷ lệ tử vong 30 ngày thấp ở cả hai nhóm, dù phân tích gộp gợi ý giảm tử vong liên quan PE và tử vong chung tới <strong>50–60%</strong> khi tiêu sợi huyết ở nhóm trung bình.</li>
+<li>Phác đồ được chấp thuận ở Bảng 10. <strong>rtPA tăng tốc đường tĩnh mạch (100 mg trong 2 giờ)</strong> được ưu tiên hơn truyền kéo dài các thuốc thế hệ đầu (streptokinase, urokinase). Báo cáo sơ bộ về rtPA liều giảm cần bằng chứng vững trước khi khuyến cáo. <strong>UFH có thể dùng trong lúc truyền alteplase</strong>, nhưng <strong>phải ngưng khi truyền streptokinase hoặc urokinase</strong>. Reteplase, desmoteplase, tenecteplase đã được nghiên cứu nhưng hiện không được chấp thuận cho PE cấp.</li>
+<li>Tác động của tiêu sợi huyết sớm lên triệu chứng lâm sàng, hạn chế chức năng hoặc CTEPH lâu dài còn chưa rõ. RCT nhỏ 83 bệnh nhân gợi ý tiêu sợi huyết có thể cải thiện khả năng gắng sức ở 3 tháng so với kháng đông đơn thuần. Trong PEITHO, <strong>33%</strong> bệnh nhân còn triệu chứng nhẹ dai dẳng (chủ yếu khó thở) ở theo dõi dài hạn (41,6 ± 15,7 tháng); tuy nhiên đa số (<strong>85%</strong> nhóm tenecteplase và <strong>96%</strong> nhóm giả dược) có xác suất PH thấp hoặc trung bình theo siêu âm. Do đó kết quả <strong>không ủng hộ vai trò của tiêu sợi huyết nhằm ngăn di chứng dài hạn</strong> sau PE nguy cơ trung bình (giới hạn: chỉ 62% quần thể có theo dõi lâm sàng).</li></ul>
+<h3 id="h3-tbl10">Bảng 10. Phác đồ tiêu sợi huyết, liều dùng và chống chỉ định</h3>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Thuốc</th><th>Phác đồ</th></tr></thead>
+<tbody>
+<tr><td><strong>rtPA</strong></td><td>100 mg trong 2 giờ<br>hoặc 0,6 mg/kg trong 15 phút (tối đa 50 mg)<sup>a</sup></td></tr>
+<tr><td><strong>Streptokinase</strong></td><td>Liều nạp 250 000 IU trong 30 phút, sau đó 100 000 IU/giờ trong 12–24 giờ<br>Phác đồ tăng tốc: 1,5 triệu IU trong 2 giờ</td></tr>
+<tr><td><strong>Urokinase</strong></td><td>Liều nạp 4400 IU/kg trong 10 phút, sau đó 4400 IU/kg/giờ trong 12–24 giờ<br>Phác đồ tăng tốc: 3 triệu IU trong 2 giờ</td></tr>
+</tbody></table></div>
+<p style="font-size:12.5px;color:var(--ink-2)"><sup>a</sup> Đây là phác đồ tăng tốc của rtPA trong PE; chưa được chấp thuận chính thức nhưng đôi khi dùng ở bất ổn huyết động cực độ như ngừng tim.</p>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Chống chỉ định tuyệt đối với tiêu sợi huyết</th><th>Chống chỉ định tương đối</th></tr></thead>
+<tbody><tr>
+<td style="vertical-align:top"><ul>
+<li>Tiền sử đột quỵ xuất huyết hoặc đột quỵ không rõ nguồn gốc</li>
+<li>Đột quỵ thiếu máu não trong 6 tháng qua</li>
+<li>U hệ thần kinh trung ương</li>
+<li>Chấn thương nặng, phẫu thuật hoặc chấn thương đầu trong 3 tuần qua</li>
+<li>Rối loạn chảy máu (bleeding diathesis)</li>
+<li>Đang chảy máu</li></ul></td>
+<td style="vertical-align:top"><ul>
+<li>Cơn thiếu máu não thoáng qua trong 6 tháng qua</li>
+<li>Đang dùng kháng đông đường uống</li>
+<li>Thai kỳ hoặc tuần đầu sau sinh</li>
+<li>Vị trí chọc mạch không ép được</li>
+<li>Hồi sức chấn thương (traumatic resuscitation)</li>
+<li>Tăng huyết áp kháng trị (HA tâm thu &gt;180 mmHg)</li>
+<li>Bệnh gan tiến triển</li>
+<li>Viêm nội tâm mạc nhiễm khuẩn</li>
+<li>Loét dạ dày tá tràng đang hoạt động</li></ul></td></tr></tbody></table></div>
+
+<h3 id="h3-cath">6.3.2. Điều trị qua catheter qua da</h3>
+<p>Tái tưới máu cơ học dựa trên luồn catheter vào động mạch phổi qua đường đùi. Các loại catheter (Bảng bổ sung 11) dùng để <strong>phân mảnh cơ học, hút huyết khối</strong>, hoặc thường gặp hơn là <strong>phương pháp dược–cơ học</strong> kết hợp phân mảnh cơ học/siêu âm huyết khối với tiêu sợi huyết tại chỗ liều giảm. Phần lớn hiểu biết đến từ registry và loạt ca gộp. <strong>Tỷ lệ thành công thủ thuật</strong> (ổn định huyết động, chỉnh thiếu oxy, sống đến xuất viện) đạt <strong>87%</strong> nhưng có thể chịu sai lệch công bố.</p>
+<p>Một RCT so sánh điều trị heparin quy ước với catheter kết hợp phân mảnh bằng siêu âm + tiêu sợi huyết liều thấp tại chỗ ở <strong>59</strong> bệnh nhân PE nguy cơ trung bình: <strong>tiêu sợi huyết tăng cường siêu âm</strong> làm giảm tỷ lệ đường kính RV/LV sau 24 giờ nhiều hơn mà không tăng nguy cơ chảy máu. Dữ liệu từ hai nghiên cứu đoàn hệ tiến cứu và một registry (tổng <strong>352</strong> bệnh nhân) ủng hộ cải thiện chức năng RV, tưới máu phổi và PAP ở PE nguy cơ trung bình/cao. Xuất huyết nội sọ hiếm, nhưng biến chứng chảy máu nặng và vừa theo GUSTO là <strong>10%</strong> ở một đoàn hệ. Cần diễn giải thận trọng vì số bệnh nhân điều trị còn ít, thiếu nghiên cứu so sánh trực tiếp với tiêu sợi huyết toàn thân và thiếu dữ liệu RCT về kết cục hiệu quả lâm sàng.</p>
+<h3 id="h3-surg">6.3.3. Phẫu thuật lấy huyết khối</h3>
+<p>Thường thực hiện với <strong>tuần hoàn ngoài cơ thể, không kẹp động mạch chủ và không ngừng tim bằng cardioplegia</strong>, rạch hai động mạch phổi chính rồi lấy/hút huyết khối tươi. Báo cáo gần đây cho thấy kết quả phẫu thuật thuận lợi ở PE nguy cơ cao (có hoặc không ngừng tim) và một số ca nguy cơ trung bình chọn lọc.</p>
+<ul>
+<li>New York 1999–2013, 174 322 bệnh nhân nhập viện vì PE: so sánh tiêu sợi huyết (n=1854) và phẫu thuật lấy huyết khối (n=257) làm điều trị đầu: <strong>tử vong 30 ngày không khác</strong> (15% và 13%); tiêu sợi huyết liên quan <strong>nguy cơ đột quỵ và tái can thiệp</strong> ở 30 ngày cao hơn; sống còn 5 năm không khác, nhưng tiêu sợi huyết có <strong>PE tái phát cần nhập viện</strong> cao hơn (<strong>7,9% so với 2,8%</strong>). Đây là nghiên cứu hồi cứu quan sát, không ngẫu nhiên.</li>
+<li>CSDL Society of Thoracic Surgery: 214 bệnh nhân (38 nguy cơ cao, 176 nguy cơ trung bình): <strong>tử vong nội viện 12%</strong>, kết cục kém nhất (<strong>32%</strong>) ở nhóm ngừng tim trước mổ.</li>
+<li>Kinh nghiệm gần đây ủng hộ phối hợp <strong>ECMO với phẫu thuật lấy huyết khối</strong>, nhất là PE nguy cơ cao có hoặc không cần hồi sức tim phổi: trong nhóm 28 bệnh nhân nguy cơ trung bình, 18 nguy cơ cao không ngừng tim và 9 ngừng tim, sống còn nội viện và 1 năm lần lượt <strong>93%</strong> và <strong>91%</strong>.</li></ul>
+
+<h3 id="h3-pert">6.4. Đội đa chuyên khoa xử trí PE (PERT)</h3>
+<p>Khái niệm <strong>đội phản ứng nhanh đa chuyên khoa</strong> cho PE «nặng» (nguy cơ cao và một số ca nguy cơ trung bình) xuất hiện ở Mỹ, được chấp nhận ngày càng nhiều và triển khai ở châu Âu và toàn cầu. PERT tập hợp chuyên gia của nhiều chuyên khoa, vd. <strong>tim mạch, hô hấp, huyết học, mạch máu, gây mê/hồi sức, phẫu thuật tim–lồng ngực và X-quang (can thiệp)</strong>, họp trực tiếp hoặc qua web để tăng cường ra quyết định, lập kế hoạch điều trị và triển khai ngay. Thành phần và cách vận hành chính xác không cố định, tuỳ nguồn lực và chuyên môn của từng bệnh viện.</p>
+
+<h3 id="h3-ivc">6.5. Lọc tĩnh mạch chủ</h3>
+<p>Mục đích: ngăn cơ học cục máu đông từ tĩnh mạch đi vào tuần hoàn phổi. Hầu hết dụng cụ hiện nay đặt qua da và có thể <strong>lấy ra</strong> sau vài tuần–vài tháng, hoặc để lâu dài nếu cần. <strong>Chỉ định tiềm năng</strong>: <strong>VTE kèm chống chỉ định tuyệt đối với kháng đông</strong>; <strong>PE tái phát dù kháng đông đầy đủ</strong>; dự phòng nguyên phát ở bệnh nhân nguy cơ VTE rất cao. Các chỉ định khác (kể cả huyết khối nổi tự do) chưa được xác nhận ở bệnh nhân không có chống chỉ định kháng đông điều trị.</p>
+<ul>
+<li>Chỉ có hai thử nghiệm ngẫu nhiên pha III so sánh kháng đông có/không lọc ở bệnh nhân DVT đoạn gần ± PE. <strong>PREPIC</strong>: lọc vĩnh viễn giảm đáng kể PE tái phát nhưng <strong>tăng đáng kể DVT</strong>, không khác biệt VTE tái phát hoặc tử vong. <strong>PREPIC-2</strong> (399 bệnh nhân): tỷ lệ VTE tái phát thấp ở cả hai nhóm và không khác biệt.</li>
+<li>Phân tích gộp 11 nghiên cứu (2055 bệnh nhân đặt lọc so với 2149 chứng): lọc giảm <strong>~50%</strong> tỷ lệ PE và tăng <strong>~70%</strong> nguy cơ DVT theo thời gian; không khác biệt tử vong mọi nguyên nhân hay liên quan PE.</li>
+<li>Chỉ định rộng đặt lọc ở bệnh nhân DVT đoạn gần gần đây (&lt;1 tháng) có chống chỉ định tuyệt đối với kháng đông dựa chủ yếu vào nguy cơ PE tái phát được cho là cao và thiếu lựa chọn điều trị khác.</li>
+<li><strong>Biến chứng lọc thường gặp và có thể nặng:</strong> tổng quan hệ thống thấy xuyên thành tĩnh mạch ở <strong>1699 (19%)</strong> trong 9002 thủ thuật; trong đó 19% có tổn thương cơ quan lân cận và ≥8% có triệu chứng. Biến chứng tử vong hiếm (2 ca) nhưng <strong>5%</strong> cần can thiệp lớn (phẫu thuật lấy lọc, đặt stent nội mạch, thuyên tắc, lấy lọc qua mạch máu hoặc đặt dẫn lưu thận qua da/stent niệu quản). Còn gồm gãy lọc/thuyên tắc lọc, và DVT đôi khi lan lên tĩnh mạch chủ.</li></ul>
+
+<h3 id="h3-rec66">6.6. Khuyến cáo điều trị giai đoạn cấp PE nguy cơ cao<sup>a</sup></h3>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Khuyến cáo</th><th>Class</th><th>Level</th></tr></thead>
+<tbody>
+<tr><td>Khuyến cáo khởi đầu <strong>kháng đông bằng UFH, gồm bolus theo cân nặng</strong>, không chậm trễ ở bệnh nhân PE nguy cơ cao</td><td>I</td><td>C</td></tr>
+<tr><td>Khuyến cáo <strong>tiêu sợi huyết toàn thân</strong> cho PE nguy cơ cao</td><td>I</td><td>B</td></tr>
+<tr><td>Khuyến cáo <strong>phẫu thuật lấy huyết khối phổi</strong> ở bệnh nhân PE nguy cơ cao có chống chỉ định hoặc thất bại với tiêu sợi huyết<sup>d</sup></td><td>I</td><td>C</td></tr>
+<tr><td>Nên cân nhắc <strong>điều trị qua catheter qua da</strong> ở bệnh nhân PE nguy cơ cao có chống chỉ định hoặc thất bại với tiêu sợi huyết<sup>d</sup></td><td>IIa</td><td>C</td></tr>
+<tr><td>Nên cân nhắc <strong>norepinephrine và/hoặc dobutamine</strong> ở bệnh nhân PE nguy cơ cao</td><td>IIa</td><td>C</td></tr>
+<tr><td>ECMO có thể được cân nhắc, phối hợp phẫu thuật lấy huyết khối hoặc điều trị qua catheter, ở bệnh nhân PE kèm trụy tuần hoàn kháng trị hoặc ngừng tim<sup>d</sup></td><td>IIb</td><td>C</td></tr>
+</tbody></table></div>
+<p style="font-size:12.5px;color:var(--ink-2)"><sup>a</sup> Định nghĩa PE nguy cơ cao ở Bảng 4. Sau khi ổn định huyết động, tiếp tục kháng đông như PE nguy cơ trung bình/thấp (mục 6.7). <sup>d</sup> Nếu có chuyên môn và nguồn lực phù hợp tại chỗ.</p>
+
+<h3 id="h3-rec67">6.7. Khuyến cáo điều trị giai đoạn cấp PE nguy cơ trung bình hoặc thấp</h3>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Khuyến cáo</th><th>Class</th><th>Level</th></tr></thead>
+<tbody>
+<tr><td colspan="3" style="background:var(--accent-bg);font-weight:600;color:var(--accent-ink)">Khởi đầu kháng đông</td></tr>
+<tr><td>Khuyến cáo khởi đầu kháng đông không chậm trễ ở bệnh nhân xác suất lâm sàng cao hoặc trung bình<sup>c</sup> trong khi work-up chẩn đoán đang tiến hành</td><td>I</td><td>C</td></tr>
+<tr><td>Nếu khởi đầu đường tiêm: <strong>LMWH hoặc fondaparinux</strong> được khuyến cáo (hơn UFH) cho đa số bệnh nhân</td><td>I</td><td>A</td></tr>
+<tr><td>Khi bắt đầu kháng đông đường uống ở bệnh nhân PE đủ điều kiện dùng NOAC (apixaban, dabigatran, edoxaban hoặc rivaroxaban), <strong>NOAC được khuyến cáo ưu tiên hơn VKA</strong></td><td>I</td><td>A</td></tr>
+<tr><td>Khi điều trị bằng VKA, khuyến cáo <strong>gối đầu với kháng đông đường tiêm cho đến khi INR đạt 2,5 (khoảng 2,0–3,0)</strong></td><td>I</td><td>A</td></tr>
+<tr><td><strong>Không khuyến cáo NOAC</strong> ở bệnh nhân <strong>suy thận nặng</strong><sup>d</sup>, <strong>thai kỳ và cho con bú</strong>, và <strong>hội chứng kháng phospholipid</strong></td><td>III</td><td>C</td></tr>
+<tr><td colspan="3" style="background:var(--accent-bg);font-weight:600;color:var(--accent-ink)">Tái tưới máu</td></tr>
+<tr><td>Khuyến cáo <strong>tiêu sợi huyết cứu vãn (rescue)</strong> ở bệnh nhân xấu đi về huyết động trên điều trị kháng đông</td><td>I</td><td>B</td></tr>
+<tr><td>Thay cho tiêu sợi huyết cứu vãn: nên cân nhắc <strong>phẫu thuật lấy huyết khối</strong><sup>e</sup> hoặc <strong>điều trị qua catheter</strong><sup>e</sup> ở bệnh nhân xấu đi về huyết động trên kháng đông</td><td>IIa</td><td>C</td></tr>
+<tr><td><strong>Không khuyến cáo</strong> dùng thường quy tiêu sợi huyết toàn thân nguyên phát ở bệnh nhân PE nguy cơ trung bình hoặc thấp<sup>c,f</sup></td><td>III</td><td>B</td></tr>
+</tbody></table></div>
+<p style="font-size:12.5px;color:var(--ink-2)"><sup>c</sup> Mức độ nặng và nguy cơ liên quan PE: xem Bảng 8. <sup>d</sup> <strong>Dabigatran</strong> không khuyến cáo khi CrCl &lt;30 mL/phút. <strong>Edoxaban</strong> dùng 30 mg ×1 lần/ngày khi CrCl 15–50 mL/phút và không khuyến cáo khi CrCl &lt;15 mL/phút. <strong>Rivaroxaban và apixaban</strong> dùng thận trọng khi CrCl 15–29 mL/phút và không khuyến cáo khi CrCl &lt;15 mL/phút. <sup>e</sup> Nếu có chuyên môn và nguồn lực tại chỗ. <sup>f</sup> Tỷ lệ lợi/hại của phẫu thuật lấy huyết khối hoặc can thiệp qua catheter ở PE nguy cơ trung bình/thấp chưa được xác lập.</p>
+
+<h3 id="h3-rec68">6.8. Khuyến cáo về đội đa chuyên khoa xử trí PE</h3>
+<div class="rec">Nên cân nhắc thành lập <strong>đội đa chuyên khoa và chương trình xử trí PE nguy cơ cao và (ở ca chọn lọc) nguy cơ trung bình</strong>, tuỳ nguồn lực và chuyên môn của từng bệnh viện. <span class="grade">IIa · C</span></div>
+<h3 id="h3-rec69">6.9. Khuyến cáo về lọc tĩnh mạch chủ dưới (IVC)</h3>
+<div class="rec">Nên cân nhắc lọc IVC ở bệnh nhân PE cấp có <strong>chống chỉ định tuyệt đối với kháng đông</strong>. <span class="grade">IIa · C</span></div>
+<div class="rec">Nên cân nhắc lọc IVC trong trường hợp <strong>PE tái phát dù đã kháng đông điều trị</strong>. <span class="grade">IIa · C</span></div>
+<div class="rec"><strong>Không khuyến cáo</strong> dùng lọc IVC thường quy. <span class="grade">III · A</span></div>
+<h3 id="h3-rec610">6.10. Khuyến cáo về xuất viện sớm và điều trị tại nhà</h3>
+<div class="rec">Bệnh nhân <strong>PE nguy cơ thấp được chọn lọc kỹ</strong> nên được cân nhắc <strong>xuất viện sớm và tiếp tục điều trị tại nhà</strong>, nếu bảo đảm được chăm sóc ngoại trú và kháng đông phù hợp.<sup>c</sup> <span class="grade">IIa · A</span></div>
+<p style="font-size:12.5px;color:var(--ink-2)"><sup>c</sup> Xem mục 7 và Hình 6 để biết thêm hướng dẫn xác định PE nguy cơ thấp và ra quyết định.</p>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Nguồn: 2019 ESC Guidelines for the diagnosis and management of acute pulmonary embolism, developed in collaboration with the ERS. Eur Heart J 2020;41:543–603. DOI: 10.1093/eurheartj/ehz405. Danh mục tài liệu tham khảo đầy đủ xem bản gốc, không chép lại ở đây. <a href="esc-ers-2019-thuyen-tac-phoi-index.html">← Về trang chỉ mục</a></p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'espe19_p3_hl_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>
