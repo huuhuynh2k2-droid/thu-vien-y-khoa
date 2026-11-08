@@ -7,7 +7,7 @@
 // trong chuyên khoa đó (ví dụ bài Viêm phổi đầu tiên trong "hh"), tự đặt tên topic mới
 // hợp lý (ví dụ "Nhiễm trùng hô hấp") — không cần hỏi lại, trang sẽ tự tạo nhóm mới.
 window.LIBRARY = {
-  updated: "2026-10-09",
+  updated: "2026-11-08",
   dashboardUrl: "https://huuhuynh2k2-droid.github.io/on-thi-dashboard/",
   // "topic" mới trong "tm" (Tim mạch): "Kháng kết tập tiểu cầu" — nhóm này chưa từng có bài
   // nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
@@ -460,6 +460,13 @@ window.LIBRARY = {
       cat: "",
       note: "Hướng dẫn phối hợp ESE/Endocrine Society 2024: tư vấn khi dùng glucocorticoid kéo dài, giảm liều và chẩn đoán suy thượng thận do GC, xử trí cơn suy thượng thận cấp.",
       updated: "", url: "https://huuhuynh2k2-droid.github.io/chot-suy/" },
+
+    { id: "tq-bu-dien-giai-k-mg-ca-p", sp: "tq", topic: "Rối loạn điện giải", title: "Bù điện giải (K, Mg, Ca, phosphat) — tiếp cận xét nghiệm và liều bù thực hành (mmol/L)",
+      org: "Harrison Pocket, Chương 56 (viết lại, bổ sung) · ASPEN 2020, hướng dẫn NHS, Frenkel 2021, Kwon 2023, Flowers 2024", year: 2026,
+      doi: "", status: 2,
+      cat: "Điều trị · Bản tổng hợp/biên soạn lại · bảng quy đổi mmol/L và ống/viên",
+      note: "Bộ xét nghiệm 2 tầng và suy luận nguyên nhân hạ K, Mg, Ca, phosphat; liều bù quy ra ống/viên kèm mức tăng điện giải dự kiến; hội chứng nuôi ăn lại (ASPEN 2020); giải đáp ca chán ăn tâm thần. Quy tắc: sửa Mg trước khi bù K.",
+      updated: "2026-11-08", url: "docs/bu-dien-giai-k-mg-ca-phosphat.html" },
 
     { id: "tq-tang-kali-mau-cap", sp: "tq", topic: "Rối loạn điện giải", title: "Chẩn đoán và xử trí tăng kali máu cấp",
       org: "BMJ / KDIGO / ERC", year: 2026, doi: "https://doi.org/10.1136/bmj-2026-100287", status: 2,

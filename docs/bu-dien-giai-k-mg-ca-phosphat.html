@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bù điện giải (K, Mg, Ca, phosphat) – tiếp cận xét nghiệm và liều bù thực hành (mmol/L)</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#0E6E6B; --accent-ink:#04302E; --accent-bg:#E3F1EF;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">Bù điện giải · K Mg Ca P</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">NỘI KHOA · CHƯƠNG 56 HARRISON POCKET (VIẾT LẠI, BỔ SUNG)</div>
+    <div class="doc-title">Bù điện giải: hạ K, Mg, Ca, phosphat</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">BÙ ĐIỆN GIẢI</span>
+    <h1>Bù điện giải: tiếp cận xét nghiệm, suy luận nguyên nhân và liều bù quy ra ống/viên (mmol/L)</h1>
+    <div class="byline">Dựa trên Chương 56 – Bù điện giải (Harrison Pocket, bản dịch tiếng Việt); bổ sung từ guideline và nghiên cứu có trích dẫn</div>
+    <div class="cite">Bản viết lại phục vụ học tập lâm sàng, không thay thế guideline gốc, thông tin thuốc và phác đồ của bệnh viện. Mọi số quy đổi do tôi tính từ khối lượng phân tử đều được đánh dấu “(tính)”; nguồn trích dẫn ở cuối trang.</div>
+
+    <div class="box"><div class="box-title">TÓM TẮT</div>
+<ul>
+<li>Trang này viết lại Chương 56 của Harrison Pocket, <strong>giữ nguyên các mục tiêu và phác đồ của bản gốc</strong>, rồi bổ sung hai phần mà bản gốc còn thiếu: (1) <strong>bộ xét nghiệm nên chỉ định</strong> và cách suy luận ra nguyên nhân; (2) <strong>liều bù tính theo mmol/L và quy ra ống/viên</strong> kèm mức tăng điện giải dự kiến.</li>
+<li>Mọi nồng độ đều ghi theo <strong>mmol/L</strong> (kèm đơn vị cũ trong ngoặc khi cần). Với K⁺ thì 1 mEq = 1 mmol; với Mg²⁺ và Ca²⁺ thì 1 mmol = 2 mEq.</li>
+<li>Quy tắc vàng: <strong>sửa Mg trước khi bù K</strong>; với hạ Ca luôn xem Mg và PTH; với hạ phosphat luôn nghĩ tới hội chứng nuôi ăn lại.</li>
+<li>Mức tăng K⁺ sau bù chỉ là <strong>ước lượng</strong>: dữ liệu ICU cho thấy biến thiên lớn giữa các bệnh nhân. Luôn đo lại sau mỗi lần bù.</li>
+</ul></div>
+
+<div class="warn"><strong>Lưu ý về mức độ chắc chắn của nguồn.</strong> Mục tiêu và liều gốc lấy từ Harrison Pocket. Phần bổ sung được đối chiếu với guideline/khuyến cáo (ASPEN 2020, hướng dẫn NHS về hạ Mg và hạ Ca cấp) và nghiên cứu (J Clin Med 2021, Clin Chim Acta 2020, Crit Care Med 1995, J Hosp Med 2023, J Lab Precis Med 2024). Một số ngưỡng chẩn đoán phổ biến trong y văn (ví dụ K niệu 24 giờ) <em>tôi không kiểm tra lại được với bản gốc</em> và đã ghi rõ ở từng chỗ. Hàm lượng ống/viên là <strong>tính</strong> từ khối lượng phân tử, cần đối chiếu nhãn thuốc tại nơi bạn làm việc.</div>
+
+<h2 id="h-donvi">Quy đổi đơn vị dùng trong trang</h2>
+<div class="tbl-wrap"><table>
+<caption>Bảng quy đổi (tính theo hệ số chuẩn)</caption>
+<thead><tr><th>Chất</th><th>Đơn vị cũ → mmol/L</th><th>Ví dụ</th></tr></thead>
+<tbody>
+<tr><td>Kali (K⁺)</td><td>mEq/L = mmol/L (hóa trị 1)</td><td>K 2,4 mEq/L = <strong>2,4 mmol/L</strong></td></tr>
+<tr><td>Magnesi (Mg²⁺)</td><td>mEq/L ÷ 2 = mmol/L; mg/dL × 0,411 = mmol/L</td><td>1,4 mEq/L = <strong>0,7 mmol/L</strong>; 2,0 mEq/L = <strong>1,0 mmol/L</strong>; 1,0 mEq/L = <strong>0,5 mmol/L</strong></td></tr>
+<tr><td>Canxi toàn phần</td><td>mg/dL × 0,2495 = mmol/L</td><td>7,5–8,5 mg/dL = <strong>1,9–2,1 mmol/L</strong></td></tr>
+<tr><td>Phosphat (tính theo P)</td><td>mg/dL × 0,3229 = mmol/L</td><td>1,0 mg/dL = <strong>0,32 mmol/L</strong>; 1,5 mg/dL = <strong>0,48 mmol/L</strong>; 2,0 mg/dL = <strong>0,65 mmol/L</strong>; 3,4 mg/dL = <strong>1,1 mmol/L</strong></td></tr>
+<tr><td>Creatinin</td><td>mg/dL × 88,4 = µmol/L</td><td>1,4 mg/dL = <strong>124 µmol/L</strong></td></tr>
+<tr><td>BUN → ure</td><td>BUN (mg/dL) × 0,357 = ure (mmol/L)</td><td>BUN 28 mg/dL = <strong>10,0 mmol/L</strong></td></tr>
+<tr><td>Albumin</td><td>g/dL × 10 = g/L</td><td>4,0 g/dL = 40 g/L</td></tr>
+</tbody></table></div>
+<p><strong>Canxi hiệu chỉnh theo albumin.</strong> Công thức Harrison: Ca hiệu chỉnh (mg/dL) = Ca toàn phần + 0,8 × (4,0 − albumin g/dL). Dạng SI tương đương: <strong>Ca hiệu chỉnh (mmol/L) = Ca toàn phần + 0,02 × (40 − albumin g/L)</strong>. Cách này kém tin cậy khi bệnh nặng; ở bệnh nhân hồi sức hoặc rối loạn toan kiềm nên đo <strong>canxi ion hóa</strong>.</p>
+
+<h2 id="h-tinhhuong">Tình huống lâm sàng của bản gốc</h2>
+<p>Phụ nữ 23 tuổi có tiền sử chán ăn tâm thần, BMI 12 kg/m², đến cấp cứu vì khó thở, phù hai chi dưới và khó thở khi nằm sau 2 tuần ăn nhiều hơn, tăng 7 kg. Khám: mạch 108 lần/phút, nhịp thở 20 lần/phút, huyết áp 98/64 mmHg, SpO₂ 92%, tĩnh mạch cổ nổi, phù ấn lõm 2+. Xét nghiệm (đổi sang mmol/L): Na <strong>132 mmol/L</strong>, K <strong>2,4 mmol/L</strong>, creatinin <strong>124 µmol/L</strong>, ure <strong>10,0 mmol/L</strong>, Mg <strong>0,7 mmol/L</strong> (1,4 mEq/L), phosphat 0,7 theo bản gốc ghi “mEq/L” (nhiều khả năng là 0,7 mg/dL ≈ <strong>0,23 mmol/L</strong>, cần xem lại số liệu gốc), BNP tăng. X-quang: tràn dịch màng phổi hai bên và phù phổi. Chẩn đoán gốc: <strong>hội chứng nuôi ăn lại</strong> kèm suy tim ứ huyết cấp. Đáp án của chúng ta nằm ở cuối trang, sau khi đã có thuật toán và bảng liều.</p>
+
+<h2 id="h-xetnghiem">Bộ xét nghiệm tiếp cận chung</h2>
+<p>Bản gốc chỉ nói “luôn xác định căn nguyên nền”. Dưới đây là cách tổ chức xét nghiệm để suy luận được nguyên nhân. Nên làm theo hai tầng: tầng 1 làm ngay cho mọi bệnh nhân, tầng 2 làm theo hướng gợi ý của tầng 1.</p>
+
+<h3 id="h-tang1">Tầng 1: làm ngay (máu, ECG, nước tiểu)</h3>
+<div class="tbl-wrap"><table>
+<caption>Bộ xét nghiệm tầng 1</caption>
+<thead><tr><th style="width:26%">Xét nghiệm</th><th>Để làm gì</th></tr></thead>
+<tbody>
+<tr><td><strong>Ion đồ máu đầy đủ</strong> (Na, K, Cl, HCO₃⁻), <strong>khí máu</strong> (pH, HCO₃⁻, PaCO₂)</td><td>Xác định toan hay kiềm chuyển hóa, tính khoảng trống anion. Đây là điểm rẽ nhánh quan trọng nhất của hạ K⁺.</td></tr>
+<tr><td><strong>Mg toàn phần</strong>, <strong>Ca toàn phần + albumin</strong> (hoặc Ca ion), <strong>phosphat</strong></td><td>Bốn chất này thường hạ cùng nhau; hạ Mg làm K⁺ và Ca²⁺ khó sửa. Hạ phosphat kèm hạ K và Mg gợi ý nuôi ăn lại.</td></tr>
+<tr><td><strong>Creatinin, eGFR</strong>, ure</td><td>Quyết định liều bù và nguy cơ quá tải khi bù đường uống/tĩnh mạch (đặc biệt K⁺ và Mg²⁺).</td></tr>
+<tr><td><strong>Glucose máu</strong> (± ketone)</td><td>Đái tháo đường nhiễm toan ceton và điều trị insulin làm K, Mg, phosphat tụt nhanh.</td></tr>
+<tr><td><strong>ECG</strong></td><td>Hạ K/Mg/Ca đều gây rối loạn: sóng U, ST chênh xuống, QT dài, xoắn đỉnh. Có ECG bất thường thì ưu tiên bù đường tĩnh mạch có theo dõi.</td></tr>
+<tr><td><strong>Tiền sử + thuốc</strong> (lợi tiểu, nhuận tràng, PPI, insulin, β-agonist, cisplatin, amphotericin, aminoglycoside…), tiêu chảy/nôn, nuôi ăn, rượu, huyết áp</td><td>Phần lớn nguyên nhân tìm ra được ngay từ đây (Harrison cũng nhấn mạnh).</td></tr>
+<tr><td><strong>Nước tiểu một mẫu (spot):</strong> K, creatinin, Na, Cl, ± Mg, phosphat; ± thẩm thấu</td><td>Phân biệt mất qua thận và ngoài thận. Lấy <strong>trước khi bù</strong> nếu có thể, vì bù sẽ làm nồng độ niệu tăng giả.</td></tr>
+</tbody></table></div>
+
+<h3 id="h-tang2">Tầng 2: làm theo hướng gợi ý</h3>
+<div class="tbl-wrap"><table>
+<caption>Xét nghiệm tầng 2</caption>
+<thead><tr><th style="width:26%">Khi nghi…</th><th>Chỉ định thêm</th></tr></thead>
+<tbody>
+<tr><td>Hạ K, tăng huyết áp, kiềm chuyển hóa</td><td>Renin hoạt tính (hoặc hoạt tính renin huyết tương) và aldosterone (tốt nhất khi chưa dùng thuốc ảnh hưởng, K đã được bù); cortisol; cân nhắc hình ảnh tuyến thượng thận, siêu âm động mạch thận.</td></tr>
+<tr><td>Hạ K kèm liệt cơ cấp, ở người trẻ</td><td>TSH, FT4 (liệt chu kỳ do cường giáp), CK; theo dõi K sát vì bù quá tay gây tăng K phản ứng.</td></tr>
+<tr><td>Hạ K kèm kiềm chuyển hóa, huyết áp bình thường/thấp, Cl niệu cao</td><td>Mg, Ca niệu (Gitelman thường Ca niệu thấp, Bartter thường Ca niệu cao), hỏi tiền sử dùng lợi tiểu bí mật, nôn tự gây ra.</td></tr>
+<tr><td>Hạ Mg dai dẳng không rõ nguyên nhân</td><td>Mg niệu 24 giờ hoặc FEMg (xem phần hạ Mg).</td></tr>
+<tr><td>Hạ Ca</td><td>PTH, Mg, 25(OH) vitamin D, phosphat, creatinin; ALP; ± lipase (viêm tụy), ± CK (tiêu cơ vân).</td></tr>
+<tr><td>Hạ phosphat không rõ nguyên nhân</td><td>Phosphat và creatinin trong nước tiểu (mẫu sáng, đồng thời với máu) để tính TmP/GFR; PTH, 25(OH)D, ± điện di protein (loại giả hạ phosphat do paraprotein); FGF23 ở trung tâm chuyên sâu.</td></tr>
+</tbody></table></div>
+
+<h2 id="h-hakali">Hạ kali máu</h2>
+<h3 id="h-hakali-tiepcan">Tiếp cận chẩn đoán</h3>
+<p><strong>Bước 1: loại trừ giả hạ K và xác định mức độ nặng.</strong> Giả hạ K gặp khi bạch cầu tăng rất cao (hấp thu K trong ống nghiệm để lâu). Xét nghiệm lại bằng mẫu khí máu nếu nghi ngờ. Hạ K có triệu chứng hoặc có thay đổi ECG là chỉ định bù tĩnh mạch có theo dõi tim.</p>
+<p><strong>Bước 2: hỏi và loại trừ dịch chuyển vào tế bào.</strong> Các nguyên nhân dịch chuyển (Bảng 56-1 bản gốc): nhiễm kiềm, đồng vận β-adrenergic, tăng insulin (sau ăn, tiêm insulin, u tiết insulin), liệt chu kỳ do hạ K. Thường nước tiểu K thấp và K giảm đột ngột; bù K ở nhóm này cần thận trọng vì K sẽ tăng vọt khi hết nguyên nhân (tăng K phản ứng).</p>
+<p><strong>Bước 3: xác định mất qua thận hay ngoài thận bằng nước tiểu.</strong></p>
+<ul>
+<li><strong>K niệu 24 giờ</strong> hoặc <strong>tỷ số K/creatinin niệu một mẫu</strong>: nếu hạ K mà thận vẫn đào thải K nhiều thì là mất qua thận. Ngưỡng hay dùng trong sách giáo khoa là K niệu 24 giờ trên khoảng 15–25 mmol/ngày hoặc K/creatinin niệu trên khoảng 1,5 mmol/mmol; <em>tôi không kiểm tra lại được các ngưỡng này với bản gốc nên bạn nên dùng như gợi ý, không phải tiêu chuẩn cứng</em>.</li>
+<li>Một nghiên cứu trên 130 bệnh nhân hạ K (Trung Quốc, Clin Chim Acta 2020) cho thấy <strong>phân suất bài tiết K (FEK) từ mẫu nước tiểu một lần</strong> với ngưỡng <strong>9,29%</strong> có độ nhạy 80,6% và độ đặc hiệu 85,7% trong phát hiện mất K qua thận. Đây là dữ liệu của một quần thể cụ thể, chưa phải ngưỡng chuẩn toàn cầu.</li>
+<li>Mẫu nước tiểu phải lấy trước khi bù K, vì bù làm nước tiểu tăng K, dễ nhầm với mất qua thận.</li>
+</ul>
+<p><strong>Bước 4: nếu mất qua thận, rẽ theo toan kiềm và huyết áp</strong> (đây chính là cấu trúc của Bảng 56-1 bản gốc):</p>
+<div class="tbl-wrap"><table>
+<caption>Suy luận nguyên nhân hạ K theo khí máu, huyết áp và nước tiểu</caption>
+<thead><tr><th style="width:26%">Dữ kiện</th><th>Nghĩ tới</th><th>Xét nghiệm giúp chốt</th></tr></thead>
+<tbody>
+<tr><td><strong>Toan chuyển hóa</strong>, mất K qua thận</td><td>Toan hóa ống thận (RTA) type gần/xa; hít keo (toluene); nhiễm toan ceton trong lúc điều trị.</td><td>Khoảng trống anion máu và nước tiểu, pH nước tiểu, glucose/ketone, tiền sử hít keo.</td></tr>
+<tr><td><strong>Toan chuyển hóa</strong>, K niệu thấp (mất ngoài thận)</td><td>Tiêu chảy, lạm dụng thuốc nhuận tràng.</td><td>Tiền sử, khoảng trống anion máu bình thường.</td></tr>
+<tr><td><strong>Kiềm chuyển hóa, huyết áp bình thường/thấp</strong>, mất K qua thận</td><td>Nôn, thiếu Mg, lợi tiểu quai/thiazide, hội chứng Bartter, hội chứng Gitelman.</td><td>Cl niệu (thấp trong nôn và lợi tiểu giai đoạn muộn; cao khi đang dùng lợi tiểu hoặc bệnh ống thận), Mg máu/niệu, Ca niệu.</td></tr>
+<tr><td><strong>Kiềm chuyển hóa, tăng huyết áp, renin cao, aldosterone cao</strong></td><td>Tăng huyết áp ác tính, u tiết renin, hẹp động mạch thận.</td><td>Renin, aldosterone, hình ảnh học động mạch thận.</td></tr>
+<tr><td><strong>Kiềm chuyển hóa, tăng huyết áp, renin thấp, aldosterone cao</strong></td><td>U tuyến thượng thận, cường aldosterone điều trị được bằng glucocorticoid, tăng sản vỏ thượng thận.</td><td>Tỷ số aldosterone/renin, test xác định, CT/MRI thượng thận, lấy máu tĩnh mạch thượng thận khi cần.</td></tr>
+<tr><td><strong>Kiềm chuyển hóa, tăng huyết áp, renin thấp, aldosterone thấp</strong></td><td>Hội chứng Cushing, dùng cam thảo đen, hội chứng thừa mineralocorticoid biểu hiện, hội chứng Liddle.</td><td>Cortisol, hỏi cam thảo/ chế phẩm chứa glycyrrhizin, test di truyền khi nghi.</td></tr>
+</tbody></table></div>
+<p><em>Cách dùng:</em> hạ K + kiềm chuyển hóa + huyết áp bình thường + <strong>Mg thấp</strong> là bộ ba rất thường gặp ở bệnh nhân dùng lợi tiểu hoặc rối loạn ăn uống; ở bệnh nhân này, bù Mg trước thì K mới giữ được.</p>
+
+<h3 id="h-hakali-dieutri">Điều trị hạ K theo bản gốc (đã đổi đơn vị)</h3>
+<ul>
+<li><strong>Ưu tiên bù Mg trước:</strong> nồng độ K huyết thanh phụ thuộc vào việc Mg có được duy trì ở mức đủ hay không.</li>
+<li><strong>Mục tiêu:</strong> K ≥ <strong>4,0 mmol/L</strong>.</li>
+<li><strong>Đường uống</strong> là nền tảng: khởi phát nhanh hơn nhưng thời gian duy trì ngắn hơn tĩnh mạch. <strong>Đường tĩnh mạch</strong> chậm, tốn kém hơn, nên giới hạn cho bệnh nhân không dùng được đường tiêu hóa hoặc có biến chứng nặng (liệt cơ, loạn nhịp).</li>
+<li><strong>Quy tắc “mức tăng”</strong> của Harrison (KCl uống hoặc tĩnh mạch): K 3,0–4,0 mmol/L: <strong>10 mmol KCl → tăng khoảng 0,1 mmol/L</strong>. K 2,5–3,0: cần <strong>15 mmol</strong> cho mỗi 0,1 mmol/L. K 2,0–2,5: cần <strong>20 mmol</strong> cho mỗi 0,1 mmol/L. Nghĩa là càng hạ sâu thì kho K càng thiếu hụt nặng.</li>
+<li><strong>Tốc độ truyền tĩnh mạch:</strong> đường tĩnh mạch ngoại vi tối đa <strong>10 mmol/giờ</strong>; qua catheter tĩnh mạch trung tâm có thể lên <strong>20 mmol/giờ</strong>. Dung dịch KCl gây rát dọc tĩnh mạch.</li>
+<li>Bột pha uống có vị khó chịu, có thể pha với nước cam; viên nén KCl to, khó nuốt. Có thể phối hợp uống và truyền dưới theo dõi sát.</li>
+<li>Nếu đang dùng thuốc gây đào thải K (lợi tiểu) và có bệnh nền như suy tim, lượng K cần bù có thể cao hơn nhiều.</li>
+</ul>
+
+<h3 id="h-hakali-quydoi">Quy ra ống và viên: bù bao nhiêu thì K tăng bao nhiêu?</h3>
+<p><strong>Quy đổi (tính):</strong> KCl có khối lượng phân tử 74,55. Vì vậy <strong>1 g KCl = 13,4 mmol K⁺</strong>. Ống KCl 10% 10 mL chứa 1 g KCl (13,4 mmol K⁺); viên KCl 0,5 g chứa 6,7 mmol K⁺. Một số chế phẩm viên giải phóng chậm ghi theo hàm lượng khác (ví dụ viên 600 mg KCl chứa khoảng 8 mmol K⁺), nên <strong>luôn đọc nhãn</strong>.</p>
+<p><strong>Mức tăng dự kiến.</strong> Hai nguồn dùng để ước lượng:</p>
+<ul>
+<li>Quy tắc Harrison ở trên (bệnh nhân điển hình, K 3,0–4,0: 10 mmol → +0,1).</li>
+<li>Nghiên cứu hồi cứu trên 683 bệnh nhân ICU hạ K (Frenkel và cs., J Clin Med 2021) truyền KCl tĩnh mạch: <strong>20 mmol</strong> làm tăng K trung bình <strong>0,2 mmol/L</strong> ở hạ K nhẹ (3,0–3,5) và <strong>0,4 mmol/L</strong> ở hạ K vừa (2,5–2,99); <strong>40 mmol</strong> tăng trung bình <strong>0,3</strong> (nhẹ) và <strong>0,5 mmol/L</strong> (vừa). Biến thiên giữa bệnh nhân rất lớn (độ lệch chuẩn cỡ 0,4–0,5 mmol/L). Tác giả cũng trích các nghiên cứu trước: Kruse 1990 (khoảng +0,25 mmol/L cho mỗi 20 mmol truyền) và Hamill 1991 (+0,5, +0,9 và +1,1 mmol/L với 20, 30 và 40 mmol ở hạ K nhẹ, vừa, nặng).</li>
+</ul>
+<div class="tbl-wrap"><table>
+<caption>Bảng thực hành: lượng K⁺ bù → K⁺ máu tăng dự kiến (ước lượng, bệnh nhân không suy thận, không đang mất K nhiều)</caption>
+<thead><tr><th>Cách bù</th><th>K⁺ nạp (tính)</th><th>K máu tăng dự kiến*</th></tr></thead>
+<tbody>
+<tr><td>Uống KCl 0,5 g × 1 viên</td><td>6,7 mmol</td><td>≈ +0,05–0,1 mmol/L</td></tr>
+<tr><td>Uống KCl 0,5 g × 2 viên</td><td>13,4 mmol</td><td>≈ +0,1–0,15 mmol/L</td></tr>
+<tr><td>Uống KCl 0,5 g × 4 viên (1 ngày chia 2–3 lần)</td><td>26,8 mmol</td><td>≈ +0,25–0,4 mmol/L</td></tr>
+<tr><td>Uống KCl 0,5 g × 6 viên/ngày chia lần</td><td>40,2 mmol</td><td>≈ +0,3–0,5 mmol/L</td></tr>
+<tr><td>Truyền <strong>1 ống</strong> KCl 10% 10 mL (1 g)</td><td>13,4 mmol</td><td>≈ +0,1–0,15 mmol/L</td></tr>
+<tr><td>Truyền <strong>2 ống</strong> (2 g)</td><td>26,8 mmol</td><td>≈ +0,2–0,4 mmol/L</td></tr>
+<tr><td>Truyền <strong>3 ống</strong> (3 g)</td><td>40,2 mmol</td><td>≈ +0,3–0,5 mmol/L</td></tr>
+<tr><td>Truyền <strong>4 ống</strong> (4 g)</td><td>53,6 mmol</td><td>≈ +0,4–0,6 mmol/L (dữ liệu ICU cho thấy mức tăng không tuyến tính; bù từng đợt rồi đo lại)</td></tr>
+</tbody></table></div>
+<p style="font-size:12.5px;color:var(--ink-2)">*Cách tính: dùng khoảng giữa quy tắc Harrison (≈ +0,1 mmol/L cho mỗi 10 mmol khi K 3,0–4,0) và dữ liệu ICU của Frenkel 2021 (+0,2 đến +0,5 mmol/L với 20–40 mmol). Đây là <strong>ước lượng của tôi</strong> từ hai nguồn đó, không phải số trong một guideline. Mức tăng thực tế thấp hơn khi còn đang mất K (lợi tiểu, tiêu chảy), kiềm máu, thiếu Mg, hoặc dùng insulin; cao hơn khi suy thận.</p>
+<div class="warn"><strong>An toàn khi bù K tĩnh mạch.</strong> Không tiêm nhanh KCl; tuân thủ tốc độ tối đa (ngoại vi ≤10 mmol/giờ, trung tâm ≤20 mmol/giờ theo Harrison; truyền nhanh hơn chỉ ở cơ sở có theo dõi tim liên tục). Pha loãng theo quy định của bệnh viện. Bù từng đợt (ví dụ 2–3 ống) rồi <strong>đo lại K sau mỗi đợt</strong>, đặc biệt khi eGFR giảm, đang dùng ức chế men chuyển/ức chế thụ thể angiotensin/kháng aldosterone, hoặc nguyên nhân hạ K là dịch chuyển vào tế bào.</div>
+
+<h2 id="h-hamg">Hạ magnesi máu</h2>
+<h3 id="h-hamg-tiepcan">Tiếp cận chẩn đoán</h3>
+<ul>
+<li>Phân độ theo Mg huyết thanh (theo hướng dẫn của NHS): nhẹ <strong>0,5–0,7 mmol/L</strong>, vừa <strong>0,4–0,5 mmol/L</strong>, nặng <strong>&lt;0,4 mmol/L</strong>. Sau khi phát hiện hạ Mg, kiểm tra lại K và Ca vì dễ kèm theo hạ K và hạ Ca.</li>
+<li>Phần lớn nguyên nhân rõ qua bệnh sử: mất qua tiêu hóa (tiêu chảy kéo dài, nôn, hội chứng kém hấp thu, PPI kéo dài, nhuận tràng, dẫn lưu/rò đường tiêu hóa, cắt ruột), mất qua thận (lợi tiểu, rượu, cisplatin, amphotericin B, aminoglycoside, ức chế calcineurin, tăng Ca máu, cường aldosterone, bệnh ống thận), hoặc dịch chuyển vào tế bào (hội chứng nuôi ăn lại, hồi phục sau nhiễm toan ceton).</li>
+<li><strong>Nếu kéo dài, không rõ nguyên nhân:</strong> đo Mg niệu 24 giờ. Mất Mg qua thận khi <strong>&gt;0,5 mmol/24 giờ (&gt;12 mg)</strong>, hoặc <strong>FEMg &gt;2%</strong> khi chức năng thận bình thường (theo hướng dẫn NHS). Công thức FEMg = (Mg niệu × creatinin máu) / (0,7 × Mg máu × creatinin niệu) × 100, trong đó hệ số 0,7 là phần Mg máu được lọc tự do.</li>
+<li>Bảng 56-2 bản gốc phân chia nguyên nhân thành: giảm hấp thu tại ruột; tăng mất qua tiêu hóa; suy giảm tái hấp thu tại ống thận (di truyền như Gitelman, Bartter, đột biến claudin 16/19, bệnh thận mắc phải, thuốc/độc chất như ethanol, lợi tiểu, cisplatin, pentamidine, cyclosporine, aminoglycoside, cetuximab, các nguyên nhân khác như tăng thể tích ngoại bào, cường aldosterone, SIADH, đái tháo đường, tăng Ca máu, cạn phosphat, cường giáp); và dịch chuyển nhanh ra khỏi ngoại bào (hồi phục sau DKA, nuôi ăn lại, hồi phục sau toan hô hấp, tăng catecholamine, “xương đói” sau cắt cận giáp, viêm tụy cấp, bỏng rộng, vã mồ hôi nhiều, thai kỳ (tam cá nguyệt thứ ba) và cho con bú).</li>
+</ul>
+
+<h3 id="h-hamg-dieutri">Điều trị hạ Mg theo bản gốc (đã đổi đơn vị)</h3>
+<ul>
+<li><strong>Mục tiêu:</strong> Mg huyết thanh ≥ <strong>1,0 mmol/L</strong> (2,0 mEq/L); duy trì cao hơn có thể giảm nguy cơ loạn nhịp và cải thiện sống còn sau thiếu máu cơ tim.</li>
+<li><strong>Magnesi sulfat 4 g tĩnh mạch</strong>, 1 liều duy nhất, khi Mg &lt;<strong>0,7 mmol/L</strong> (1,4 mEq/L).</li>
+<li><strong>Magnesi sulfat 6–8 g tĩnh mạch</strong>, 1 liều duy nhất, khi Mg &lt;<strong>0,5 mmol/L</strong> (1,0 mEq/L).</li>
+<li><strong>Magnesi oxid 400 mg uống 2 lần/ngày</strong> cho hạ Mg mạn tính; tác dụng phụ thường gặp nhất là tiêu chảy.</li>
+</ul>
+
+<h3 id="h-hamg-quydoi">Quy ra ống và viên</h3>
+<p><strong>Quy đổi (tính):</strong> MgSO₄·7H₂O có khối lượng phân tử 246,5, nên <strong>1 g MgSO₄ = 4,06 mmol Mg²⁺</strong>. Magnesi oxid (MgO, khối lượng phân tử 40,3): <strong>400 mg = 9,9 mmol Mg²⁺</strong> (khoảng 241 mg Mg nguyên tố). Nếu dùng ống MgSO₄ 15% 10 mL (1,5 g/ống), một ống chứa <strong>6,1 mmol</strong> Mg; hàm lượng ống thực tế cần đối chiếu nhãn.</p>
+<div class="tbl-wrap"><table>
+<caption>Quy đổi liều Mg theo Harrison (tính)</caption>
+<thead><tr><th>Liều Harrison</th><th>mmol Mg²⁺ (tính)</th><th>Quy ra ống 15% 10 mL (1,5 g)</th></tr></thead>
+<tbody>
+<tr><td>MgSO₄ 4 g</td><td>16,2 mmol</td><td>≈ 2,7 ống</td></tr>
+<tr><td>MgSO₄ 6 g</td><td>24,4 mmol</td><td>4 ống</td></tr>
+<tr><td>MgSO₄ 8 g</td><td>32,5 mmol</td><td>≈ 5,3 ống</td></tr>
+<tr><td>MgO 400 mg × 2 lần/ngày</td><td>19,8 mmol/ngày</td><td>(đường uống)</td></tr>
+</tbody></table></div>
+<p><strong>Mg máu tăng bao nhiêu? Câu trả lời trung thực là: tăng ít và giữ không lâu.</strong> Nghiên cứu trên 12 618 bệnh nhân suy tim cấp (Kwon và cs., J Hosp Med 2023) cho thấy trung bình Mg máu <strong>tụt xuống dưới 2,0 mg/dL (≈0,82 mmol/L) trong vòng 24 giờ</strong> sau một liều MgSO₄ tĩnh mạch, với liều phổ biến nhất 2 g, dưới nửa số bệnh nhân giữ được Mg trên ngưỡng đó sau 12 giờ; tác giả gợi ý thường cần khoảng <strong>2 g × 2 lần/ngày</strong> để giữ Mg trên ngưỡng này, vì đào thải qua thận rất nhanh, nhất là khi đang dùng lợi tiểu quai. Vì vậy một liều 4–6 g nên được xem là liều “nạp”, rồi kiểm tra lại Mg và bù tiếp theo mức đáp ứng; hướng dẫn NHS khuyến nghị đo lại Mg sau 5–7 ngày bù.</p>
+<p><strong>Quy định thêm (hướng dẫn NHS):</strong> bù uống cho hạ Mg nhẹ có triệu chứng hoặc hạ Mg vừa không triệu chứng: magnesi aspartat 10 mmol × 2 lần/ngày, hoặc magnesi glycerophosphat viên 4 mmol, 1–2 viên × 3 lần/ngày; tối đa khoảng <strong>24 mmol Mg/ngày</strong> chia nhiều lần, uống cùng hoặc sau ăn vì tiêu chảy hạn chế dung nạp. Hạ Mg vừa có triệu chứng hoặc hạ Mg nặng (&lt;0,4 mmol/L): bù tĩnh mạch. <strong>Giảm 50% liều hoặc tránh muối Mg khi eGFR &lt;30 mL/phút</strong> và theo dõi sát. Hạ Mg do lợi tiểu dai dẳng có thể cân nhắc lợi tiểu giữ K/Mg (ví dụ amiloride).</p>
+
+<h2 id="h-haca">Hạ canxi máu</h2>
+<h3 id="h-haca-tiepcan">Tiếp cận chẩn đoán</h3>
+<ol>
+<li><strong>Xác nhận hạ Ca thật:</strong> tính Ca hiệu chỉnh theo albumin hoặc đo Ca ion. Hạ Ca “giả” gặp ở albumin thấp (bệnh dinh dưỡng, hội chứng thận hư, xơ gan mất bù) và khi dùng thuốc cản quang chứa gadoversetamide trong MRI (bản gốc có nêu).</li>
+<li><strong>Đánh giá mức độ khẩn:</strong> hướng dẫn của NHS định nghĩa hạ Ca nặng là <strong>Ca hiệu chỉnh &lt;1,9 mmol/L và/hoặc có triệu chứng</strong> ở bất kỳ mức nào dưới giới hạn bình thường, đây là cấp cứu. Làm <strong>ECG</strong> tìm QT dài.</li>
+<li><strong>Xét nghiệm cần gửi:</strong> Ca hiệu chỉnh, phosphat, <strong>PTH</strong>, ure/creatinin/điện giải, <strong>Mg</strong>, vitamin D (25-OH).</li>
+<li><strong>Đọc kết quả PTH làm điểm rẽ nhánh</strong> (đây là cấu trúc của Bảng 56-3 bản gốc):</li>
+</ol>
+<div class="tbl-wrap"><table>
+<caption>Suy luận nguyên nhân hạ Ca theo PTH và phosphat</caption>
+<thead><tr><th style="width:24%">PTH / phosphat</th><th>Nhóm nguyên nhân</th><th>Ví dụ (Bảng 56-3)</th></tr></thead>
+<tbody>
+<tr><td><strong>PTH thấp</strong> (thường kèm phosphat cao): suy cận giáp</td><td>Cận giáp không có hoặc kém phát triển; cấu trúc bị phá hủy; giảm tiết PTH có hoạt tính.</td><td>Hội chứng DiGeorge, HDR, Kearns-Sayre; phẫu thuật cắt tuyến giáp/cận giáp; xạ trị vùng cổ; tự miễn (APS-1); ứ sắt (hemochromatosis, thalassemia, bệnh Wilson); thâm nhiễm (sarcoidosis, bệnh liên quan IgG4); <strong>hạ Mg</strong> (giảm tiết và đề kháng PTH), tăng Mg nặng; đột biến kích hoạt thụ thể cảm nhận Ca (CaSR).</td></tr>
+<tr><td><strong>PTH cao</strong>, phosphat thấp/bình thường</td><td>Thiếu vitamin D hoặc giảm sản xuất/tác dụng của 1,25(OH)₂D; bệnh ruột gây giảm hấp thu Ca.</td><td>Dinh dưỡng kém, kém hấp thu; phẫu thuật nối tắt dạ dày (Roux-en-Y), hội chứng ruột ngắn, Celiac, Crohn; hội chứng kháng vitamin D.</td></tr>
+<tr><td><strong>PTH cao, phosphat cao</strong></td><td>Bệnh thận mạn (ứ phosphat, giảm sản xuất 1,25(OH)₂D); kháng PTH; phosphat nhiều quá mức.</td><td>CKD; truyền phosphat quá mức; giả suy cận giáp (đột biến <em>GNAS</em>, kháng PTH); thuốc nhuận tràng/thụt tháo chứa phosphat trên nền bệnh thận.</td></tr>
+<tr><td>Nguyên nhân hỗn hợp/cấp</td><td>Cấp tính, thường có yếu tố khởi phát rõ.</td><td>Viêm tụy cấp, tiêu cơ vân cấp, “xương đói” sau cắt cận giáp, di căn tạo xương (ung thư tuyến tiền liệt), nhiễm kiềm hô hấp hoặc chuyển hóa (tăng gắn Ca với albumin), hội chứng nuôi ăn lại, thuốc: rượu, citrate (truyền máu khối lượng lớn, huyết tương tươi đông lạnh), bisphosphonat, denosumab, plicamycin, phenytoin/phenobarbital, thuốc nhuận tràng chứa phosphat.</td></tr>
+</tbody></table></div>
+<p>Mnemonic dùng ở giường bệnh: <strong>Mg thấp → sửa Mg trước</strong>; PTH thấp + phosphat cao → cận giáp; PTH cao + phosphat thấp → vitamin D; PTH cao + phosphat cao + creatinin cao → CKD.</p>
+
+<h3 id="h-haca-dieutri">Điều trị hạ Ca theo bản gốc và hướng dẫn NHS</h3>
+<ul>
+<li><strong>Mục tiêu (bản gốc):</strong> Ca toàn phần 7,5–8,5 mg/dL = <strong>1,9–2,1 mmol/L</strong>. Bản gốc ghi “Ca ion hóa &gt;3,0 mg/dL”, tương đương khoảng 0,75 mmol/L, thấp hơn khoảng tham chiếu thông thường của Ca ion (khoảng 1,1–1,3 mmol/L), <em>nên bạn xem lại số này theo phòng xét nghiệm của mình</em>.</li>
+<li>Chỉ bù Ca khi hạ Ca nặng hoặc có triệu chứng (Harrison).</li>
+<li><strong>Có triệu chứng (Harrison):</strong> canxi gluconat <strong>10–15 mg/kg</strong> pha trong 1 L glucose 5%, truyền liên tục trong 4–6 giờ; đo Ca mỗi 4–6 giờ.</li>
+<li><strong>Cách khác theo hướng dẫn NHS (Gloucestershire):</strong> canxi gluconat 10% <strong>10–20 mL</strong> pha trong 50–100 mL glucose 5%, truyền trong <strong>10 phút</strong> có theo dõi ECG, lặp lại đến khi hết triệu chứng; sau đó duy trì <strong>100 mL canxi gluconat 10% (10 ống) trong 1 L NaCl 0,9% hoặc glucose 5%, tốc độ 50–100 mL/giờ</strong> điều chỉnh theo Ca máu.</li>
+<li><strong>Không triệu chứng:</strong> Ca uống <strong>1–2 g canxi nguyên tố</strong> kèm vitamin D (Harrison). Hướng dẫn NHS: alfacalcidol 0,25–0,5 µg/ngày, hoặc calcitriol; bệnh nhân sau cắt tuyến giáp có Ca thấp kéo dài trên 72 giờ có thể khởi đầu alfacalcidol 0,25 µg/ngày.</li>
+<li>Nếu có hạ Mg phối hợp, hướng dẫn NHS có phác đồ Mg: <strong>24 mmol trong 24 giờ</strong> (tương đương <strong>6 g MgSO₄</strong>).</li>
+</ul>
+<div class="tbl-wrap"><table>
+<caption>Quy đổi canxi (tính)</caption>
+<thead><tr><th>Chế phẩm</th><th>Canxi nguyên tố (tính)</th></tr></thead>
+<tbody>
+<tr><td>Canxi gluconat 10%, 10 mL (1 g muối)</td><td>≈ 93 mg = <strong>≈2,3 mmol</strong></td></tr>
+<tr><td>Canxi clorid 10%, 10 mL (1 g CaCl₂·2H₂O)</td><td>≈ 270 mg = <strong>≈6,8 mmol</strong> (độc tính mô nếu thoát mạch, ưu tiên đường trung tâm)</td></tr>
+<tr><td>Canxi carbonat 500 mg (viên)</td><td>≈ 200 mg = <strong>5 mmol</strong> nguyên tố (40%); 1–2 g nguyên tố/ngày tương đương 5–10 viên carbonat 500 mg, chia lần, uống cùng bữa ăn</td></tr>
+</tbody></table></div>
+<p style="font-size:12.5px;color:var(--ink-2)">Mức Ca máu tăng sau một liều là thoáng qua (canxi gluconat tĩnh mạch tác dụng chỉ trong vài giờ), vì vậy cần truyền duy trì và đo lại Ca (mỗi 4–6 giờ theo Harrison). Không có số “tăng bao nhiêu mmol/L cho mỗi ống” đáng tin để quy ước, nên không đưa vào bảng.</p>
+<div class="warn"><strong>Thận trọng khi bù Ca tĩnh mạch:</strong> theo dõi ECG, tránh thoát mạch, thận trọng với digoxin, không pha chung với dung dịch chứa phosphat/bicarbonate (kết tủa) và không dùng chung đường truyền với ceftriaxone. Sửa Mg song song vì hạ Mg làm Ca khó lên.</div>
+
+<h2 id="h-haphosphat">Hạ phosphat máu</h2>
+<h3 id="h-haphosphat-tiepcan">Tiếp cận chẩn đoán</h3>
+<p>Theo tổng quan năm 2024 (Flowers và cs., J Lab Precis Med): hạ phosphat khi &lt;<strong>0,80 mmol/L</strong>, mức vừa <strong>0,31–0,50</strong>, nặng <strong>≤0,30 mmol/L</strong>. Quy trình gợi ý:</p>
+<ol>
+<li><strong>Loại trừ giả hạ phosphat:</strong> paraprotein (đa u tủy, Waldenström, lymphoma: điện di protein huyết thanh, chuỗi nhẹ tự do), bạch cầu tăng rất cao (xét nghiệm lại mẫu để lạnh), bilirubin cao, mannitol, amphotericin B liposome. Tăng thông khí tâm lý gây hạ phosphat có thật nhưng thường nhẹ.</li>
+<li><strong>Xem lại thuốc:</strong> sắt tĩnh mạch (đặc biệt ferric carboxymaltose), thuốc kháng acid/PPI/chất gắn phosphat/canxi (giảm hấp thu), insulin/glucose/catecholamine (dịch chuyển vào tế bào), lợi tiểu, corticoid, bisphosphonat (tăng mất qua thận), acetazolamide, tenofovir.</li>
+<li><strong>Nước tiểu:</strong> lấy nước tiểu sáng (lần bài tiết thứ hai) và máu cùng lúc; đo phosphat và creatinin cả hai mẫu để tính <strong>TmP/GFR</strong>. Phosphat niệu 24 giờ &lt;1 mmol/L gợi ý mất qua thận không phải nguyên nhân. TmP/GFR thấp so với giá trị theo tuổi: mất phosphat qua thận (ví dụ ở người 25–35 tuổi, nam 1,00–1,35 và nữ 0,96–1,44 mmol/L; ở người 65–75 tuổi 0,80–1,35). TmP/GFR bình thường hoặc cao: nguyên nhân ngoài thận.</li>
+<li><strong>Nếu mất qua thận (TmP/GFR thấp):</strong> loại trừ nhiễm toan ceton (đường niệu thẩm thấu); PTH và Ca (cường cận giáp nguyên phát hoặc thứ phát); hội chứng Fanconi (amino acid niệu, hạ K, glucose niệu, toan chuyển hóa tăng Cl); u gây nhuyễn xương (TmP/GFR thấp, FGF23 cao, ALP cao, Ca bình thường, PTH bình thường, 1,25(OH)₂D thấp); sau ghép thận, còi xương phụ thuộc vitamin D, cắt gan, bỏng nặng kèm lọc máu thể tích cao.</li>
+<li><strong>Nếu ngoài thận (TmP/GFR bình thường hoặc cao):</strong> thiếu vitamin D (đặc biệt khi Ca cũng thấp); ăn kém hoặc kém hấp thu (chán ăn tâm thần, nghiện rượu, bệnh viêm ruột, thiểu năng tụy, hội chứng ruột ngắn, nuôi ăn tĩnh mạch không cân đối); <strong>dịch chuyển vào tế bào</strong>: hội chứng nuôi ăn lại (BMI &lt;16 kg/m² hoặc ăn rất ít trên 10 ngày), nhiễm kiềm hô hấp/chuyển hóa, “xương đói” sau cắt cận giáp.</li>
+</ol>
+<p>Bảng 56-4 bản gốc phân loại theo bốn nhóm: <em>giảm hấp thu tại ruột</em> (đói, thuốc kháng acid/chất gắn phosphat, nuôi ăn tĩnh mạch thiếu phosphat, kém hấp thu, thiếu vitamin D), <em>tăng đào thải qua nước tiểu</em> (cường cận giáp, đái tháo đường kiểm soát kém, hội chứng Fanconi, nghiện rượu, sắt tĩnh mạch, acetazolamide, tenofovir, FGF23 do u), <em>dịch chuyển vào nội bào</em> (nhiễm kiềm hô hấp cấp, insulin, steroid đồng hóa, β-agonist, “xương đói”, ngộ độc salicylate), và <em>các nguyên nhân khác</em> (tăng Ca, hạ Mg, kiềm chuyển hóa; mất dịch và điện giải bù không đủ sau toan ceton, hồi phục sau đói, nghiện rượu, bỏng).</p>
+
+<h3 id="h-haphosphat-dieutri">Điều trị hạ phosphat theo bản gốc (đã đổi đơn vị)</h3>
+<ul>
+<li><strong>Mục tiêu:</strong> phosphat ≥ <strong>1,1 mmol/L</strong> (3,4 mg/dL theo Harrison).</li>
+<li>Bù phosphat tích cực cho bệnh nhân có biểu hiện hoặc nguy cơ cao hội chứng nuôi ăn lại.</li>
+<li><strong>Có triệu chứng hoặc phosphat &lt;0,32 mmol/L</strong> (&lt;1,0 mg/dL): truyền tĩnh mạch phosphat <strong>0,4 mmol/kg (tối đa 50 mmol) trong 6 giờ</strong>, sau đó chuyển bù đường uống.</li>
+<li>Không triệu chứng, <strong>0,32–0,48 mmol/L</strong> (1,0–1,5 mg/dL): phosphat uống <strong>1,3 mmol/kg</strong> chia 3–4 lần/24 giờ.</li>
+<li>Không triệu chứng, <strong>&gt;0,48–0,65 mmol/L</strong> (&gt;1,5–2,0 mg/dL): phosphat uống <strong>1 mmol/kg</strong> chia 3–4 lần/24 giờ.</li>
+</ul>
+<p><strong>Dữ liệu bổ sung về liều và mức tăng.</strong> Một thử nghiệm tiền cứu (Crit Care Med 1995, 78 bệnh nhân nuôi dưỡng hỗ trợ) bù một liều phosphat tĩnh mạch theo bậc: <strong>0,16 mmol/kg</strong> cho phosphat 0,74–0,97 mmol/L (2,3–3,0 mg/dL), <strong>0,32 mmol/kg</strong> cho 0,52–0,71 mmol/L (1,6–2,2 mg/dL), <strong>0,64 mmol/kg</strong> cho &lt;0,48 mmol/L (&lt;1,5 mg/dL). Sau một liều bolus, phosphat tăng trung bình: mức nhẹ 2,6 → 3,3 mg/dL (0,84 → 1,07 mmol/L); mức vừa 1,9 → 2,7 mg/dL (0,61 → 0,87 mmol/L); mức nặng 1,3 → 2,3 mg/dL (0,42 → 0,74 mmol/L). Không ghi nhận biến cố bất lợi đáng kể về Ca, albumin, creatinin trong 3 ngày theo dõi (tài liệu tôi đọc được không nêu thời gian truyền và không nêu tên tác giả).</p>
+<div class="tbl-wrap"><table>
+<caption>Ví dụ liều cho người 50 kg (tính từ mmol/kg)</caption>
+<thead><tr><th>Tình huống</th><th>Liều theo mmol/kg</th><th>Tổng liều (50 kg)</th></tr></thead>
+<tbody>
+<tr><td>Phosphat &lt;0,32 mmol/L hoặc có triệu chứng (Harrison): tĩnh mạch</td><td>0,4 mmol/kg trong 6 giờ</td><td>20 mmol (tối đa 50 mmol)</td></tr>
+<tr><td>0,32–0,48 mmol/L: uống</td><td>1,3 mmol/kg/24 giờ</td><td>65 mmol/ngày, chia 3–4 lần</td></tr>
+<tr><td>&gt;0,48–0,65 mmol/L: uống</td><td>1 mmol/kg/24 giờ</td><td>50 mmol/ngày, chia 3–4 lần</td></tr>
+</tbody></table></div>
+<p style="font-size:12.5px;color:var(--ink-2)">Quy ra ống/viên phụ thuộc chế phẩm sẵn có tại cơ sở (natri glycerophosphat tiêm, muối phosphat K/Na…); mỗi chế phẩm ghi hàm lượng mmol P khác nhau trên nhãn, vì vậy tôi không đưa một con số “ống” cố định. Hãy <strong>chia tổng mmol cần bù cho số mmol P ghi trên nhãn</strong>. Lưu ý: phosphat kali làm tăng K nạp, phosphat natri làm tăng Na nạp; thận trọng khi suy thận, tăng K, tăng Ca.</p>
+<div class="warn"><strong>Thận trọng khi bù phosphat:</strong> bù quá mức gây hạ Ca, kết tủa Ca-phosphat, tăng phosphat, tăng K (nếu dùng muối K), suy thận. Theo dõi Ca, K, creatinin trong lúc bù. Giảm liều khi suy thận.</div>
+
+<h2 id="h-nuoiannlai">Hội chứng nuôi ăn lại: chẩn đoán và xử trí</h2>
+<p>Đây là bối cảnh điển hình hạ K, Mg và phosphat đồng thời. Theo đồng thuận ASPEN 2020 (da Silva và cs., Nutr Clin Pract):</p>
+<ul>
+<li><strong>Nguy cơ ở người lớn:</strong> nguy cơ vừa khi có 2 tiêu chí; nguy cơ cao khi có 1 tiêu chí: BMI 16–18,5 kg/m² (vừa) hoặc &lt;16 kg/m² (cao); sụt cân 5% trong 1 tháng (vừa), hoặc 7,5% trong 3 tháng/&gt;10% trong 6 tháng (cao); ăn không đáng kể 5–6 ngày (vừa) hoặc &gt;7 ngày (cao); K, phosphat, Mg đã thấp trước nuôi; mất mỡ dưới da/cơ.</li>
+<li><strong>Chẩn đoán:</strong> trong vòng 5 ngày sau khi bắt đầu hoặc tăng đáng kể năng lượng nạp, giảm 1, 2 hoặc 3 chất trong số phosphat, K, Mg: nhẹ 10–20%, vừa 20–30%, nặng &gt;30% và/hoặc có rối loạn chức năng cơ quan hoặc thiếu thiamin.</li>
+<li><strong>Thiamin 100 mg</strong> trước khi bắt đầu nuôi ăn hoặc truyền dịch có glucose ở người có nguy cơ; tiếp tục <strong>100 mg/ngày</strong> trong 5–7 ngày hoặc lâu hơn nếu đói nặng, nghiện rượu mạn.</li>
+<li><strong>Năng lượng khởi đầu:</strong> 100–150 g dextrose hoặc <strong>10–20 kcal/kg trong 24 giờ đầu</strong>, tăng thêm 33% mục tiêu mỗi 1–2 ngày. Nên giữ hoặc trì hoãn tăng năng lượng đến khi điện giải thấp được sửa, nhất là khi nguy cơ cao hoặc điện giải thấp nặng; nếu điện giải khó sửa hoặc tụt nhanh, giảm 50% năng lượng/dextrose rồi tăng lại từ từ.</li>
+<li><strong>Theo dõi:</strong> K, Mg, phosphat trước khi nuôi; ở người nguy cơ cao theo dõi <strong>mỗi 12 giờ trong 3 ngày đầu</strong> hoặc thường xuyên hơn theo tình trạng.</li>
+<li>Đồng thuận ASPEN <strong>không nêu liều bù cụ thể</strong>; ghi “bù điện giải thấp theo tiêu chuẩn chăm sóc đã được thiết lập”. Vì thế liều bù dùng bảng ở các mục K, Mg, phosphat bên trên. (Tài liệu ASPEN cũng ghi một số nơi khuyến nghị thêm phosphat 10–15 mmol cho mỗi 1000 kcal, nhưng đó không phải khuyến nghị của đồng thuận.)</li>
+</ul>
+
+<h2 id="h-giaidap">Giải đáp tình huống lâm sàng</h2>
+<p><strong>1. Hội chứng nền:</strong> hội chứng nuôi ăn lại (BMI 12 kg/m², đột ngột ăn nhiều và tăng cân trong 2 tuần), biểu hiện bằng hạ K, Mg, phosphat; suy tim ứ huyết cấp (phù phổi, tĩnh mạch cổ nổi, BNP cao) do tăng nạp natri và dịch trên nền cơ tim teo; hạ Na nhẹ (132 mmol/L) do pha loãng.</p>
+<p><strong>2. Xét nghiệm nên làm thêm ngay:</strong> khí máu (kiềm hô hấp/chuyển hóa làm hạ K, phosphat nặng thêm), Ca hiệu chỉnh/Ca ion, ECG liên tục (QT, loạn nhịp), glucose; nước tiểu K/creatinin <strong>trước khi bù</strong> (K niệu thấp ủng hộ dịch chuyển/mất ngoài thận và nuôi ăn lại; K niệu cao gợi ý nôn tự gây hoặc lợi tiểu bí mật), TSH nếu có liệt cơ hoặc nhịp nhanh không giải thích được, siêu âm tim, điện giải đồ lặp lại mỗi 12 giờ.</p>
+<p><strong>3. Bù điện giải (số đã đổi sang mmol/L, quy ra ống):</strong></p>
+<ul>
+<li><strong>Bù Mg trước:</strong> Mg 0,7 mmol/L (ở ranh giới giữa mức nhẹ và vừa) → MgSO₄ 4 g tĩnh mạch (16,2 mmol, ≈2,7 ống 15% 10 mL), thận trọng vì creatinin 124 µmol/L (eGFR giảm: cân nhắc giảm liều ban đầu 50% theo hướng dẫn NHS và theo dõi Mg).</li>
+<li><strong>Bù K:</strong> K 2,4 mmol/L. Theo quy tắc Harrison, thiếu hụt tới 4,0 mmol/L ước lượng khoảng <strong>195 mmol</strong> (20 mmol cho 2,4 → 2,5; 15 mmol/0,1 trong khoảng 2,5 → 3,0 = 75 mmol; 10 mmol/0,1 trong khoảng 3,0 → 4,0 = 100 mmol), tức khoảng <strong>14–15 ống KCl 10% 10 mL (1 g/ống)</strong> nếu bù hết. <strong>Đây không phải lượng cho một lần</strong>: bù từng đợt 2–3 ống (27–40 mmol) với tốc độ ≤10 mmol/giờ qua đường ngoại vi (≤20 mmol/giờ qua catheter trung tâm, có monitor), đo lại K sau mỗi đợt; phối hợp đường uống khi dung nạp. Trên bệnh nhân suy tim ứ huyết và suy thận nhẹ, lượng dịch pha KCl phải tính vào cân bằng dịch.</li>
+<li><strong>Bù phosphat:</strong> phosphat 0,7 (nếu đúng là mg/dL, tức 0,23 mmol/L, nằm dưới 0,32 mmol/L): truyền 0,4 mmol/kg (tối đa 50 mmol) trong 6 giờ, theo dõi Ca, K, creatinin; sau đó chuyển bù uống theo mức phosphat. Ví dụ bệnh nhân khoảng 30 kg (BMI 12 và chiều cao giả định 1,6 m cho khoảng 31 kg): 0,4 × 31 ≈ 12 mmol.</li>
+<li><strong>Thiamin 100 mg</strong> trước khi truyền glucose; năng lượng khởi đầu 10–20 kcal/kg/ngày; hạn chế natri và dịch; điều trị suy tim cẩn trọng; theo dõi điện giải mỗi 12 giờ.</li>
+</ul>
+
+<h2 id="h-nguon">Nguồn trích dẫn</h2>
+<p style="font-size:13.5px">Thứ tự ưu tiên: hướng dẫn/đồng thuận → nghiên cứu trên tạp chí. Phần nào chỉ lấy từ Harrison Pocket được ghi rõ ở trên.</p>
+<ol style="font-size:13.5px">
+<li><strong>Harrison Pocket, Chương 56 – Bù điện giải</strong> (bản tiếng Việt người dùng cung cấp). Mục tiêu, phác đồ, bảng 56-1 đến 56-4, trích từ Current Medical Diagnosis &amp; Treatment 2026 (Arora, Jefferson) và Harrison’s Principles of Internal Medicine, ấn bản 22 (Bringhurst, Kronenberg, Liu, Wein).</li>
+<li>da Silva JSV, Seres DS, Sabino K, et al. <strong>ASPEN Consensus Recommendations for Refeeding Syndrome.</strong> Nutr Clin Pract 2020. (Đồng thuận; nguy cơ, chẩn đoán, thiamin, năng lượng, theo dõi.)</li>
+<li><strong>Hướng dẫn NHS: Emergency Guidance – Acute Hypocalcaemia in Adults</strong> (Gloucestershire Hospitals NHS Foundation Trust; dựa trên hướng dẫn cấp cứu của Society for Endocrinology). Ngưỡng Ca &lt;1,9 mmol/L, liều canxi gluconat, duy trì, alfacalcidol, xét nghiệm.</li>
+<li><strong>Hướng dẫn NHS: PATH 021 Hypomagnesaemia Guideline</strong> (Royal United Hospitals Bath NHS Foundation Trust). Phân độ Mg (mmol/L), Mg niệu 24 giờ, FEMg, liều bù uống, giảm liều khi eGFR &lt;30.</li>
+<li>Frenkel A, Hassan L, Segal A, et al. <strong>Estimation of Potassium Changes Following Potassium Supplements in Hypokalemic Critically Ill Adult Patients: A Patient Personalized Practical Treatment Formula.</strong> J Clin Med 2021;10(9):1986. (Mức tăng K sau bù; trích dẫn Kruse 1990 và Hamill 1991.)</li>
+<li>Li J, Ma H, Lei Y, Wan Q. <strong>Diagnostic value of parameters from a spot urine sample for renal potassium loss in hypokalemia.</strong> Clin Chim Acta 2020 (FEK 9,29%). </li>
+<li>Kardalas E, Paschou SA, Anagnostis P, et al. <strong>Hypokalemia: a clinical update.</strong> Endocr Connect 2018;7(4):R135–R146. DOI 10.1530/EC-18-0109. (Tổng quan được dùng làm tham khảo chung cho tiếp cận hạ K; tôi chỉ đọc được phần tóm tắt, nên các ngưỡng K niệu trong trang này là ngưỡng thông dụng, không lấy từ toàn văn bài này.)</li>
+<li>Kwon J, Lucas BP, Evans A. <strong>How much magnesium sulfate is needed to “keep total serum magnesium above 2.0 mg/dL”?</strong> J Hosp Med 2023;19(2). DOI 10.1002/jhm.13251.</li>
+<li>Flowers KC, Shipman KE, Shipman AR, Gittoes NJL. <strong>Investigative algorithms for disorders causing hypophosphataemia and hyperphosphataemia: a narrative review.</strong> J Lab Precis Med 2024;9.</li>
+<li><strong>Treatment of hypophosphatemia in patients receiving specialized nutrition support using a graduated dosing scheme: results from a prospective clinical trial.</strong> Crit Care Med 1995 (PubMed 7664552).</li>
+</ol>
+<p style="font-size:12.5px;color:var(--ink-2)"><strong>Hạn chế cần biết:</strong> (1) không đọc được toàn văn của một số bài (Kardalas, Society for Endocrinology) do truy cập bị chặn, nên các ngưỡng nêu là thông dụng chứ chưa đối chiếu từng con số; (2) các “mức tăng dự kiến” và quy đổi ống/viên là ước lượng/tính toán của tôi từ các nguồn trên; (3) hàm lượng ống/viên tại Việt Nam khác nhau giữa các nhà sản xuất, hãy đọc nhãn.</p>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Nội dung nền theo Chương 56 Bù điện giải (Harrison’s Principles of Internal Medicine, Pocket, bản tiếng Việt do người dùng cung cấp). Phần bổ sung và nguồn xem mục “Nguồn trích dẫn”. Các phép quy đổi từ ống/viên sang mmol là tính toán theo khối lượng phân tử; hàm lượng thực tế phụ thuộc chế phẩm, hãy đọc nhãn thuốc đang dùng.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'bu_dien_giai_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>
