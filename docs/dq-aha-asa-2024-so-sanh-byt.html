@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>So sánh Hướng dẫn BYT 2024 (QĐ 3312) và AHA/ASA 2024 — Đột quỵ</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#8a5a2b; --accent-ink:#5c3a17; --accent-bg:#F3ECE0;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">BYT 2024 vs AHA/ASA 2024</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">CHƯƠNG SO SÁNH · BYT 2024 vs AHA/ASA 2024</div>
+    <div class="doc-title">So sánh hướng dẫn điều trị đột quỵ BYT 2024 và AHA/ASA 2024</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">CHƯƠNG SO SÁNH</span>
+    <h1>Điểm khác nhau giữa Hướng dẫn chẩn đoán và điều trị đột quỵ của Bộ Y tế 2024 và Hướng dẫn dự phòng nguyên phát đột quỵ AHA/ASA 2024</h1>
+    <div class="byline">Đối chiếu QĐ 3312/QĐ-BYT (2024) với Bushnell C và cs., AHA/ASA 2024</div>
+    <div class="cite">Nguồn: (1) Bộ Y tế. Hướng dẫn chẩn đoán và điều trị đột quỵ não (kèm Quyết định 3312/QĐ-BYT), Hà Nội 2024. (2) Bushnell C và cs. Stroke 2024;55:e344–e424, DOI 10.1161/STR.0000000000000475. Phân tích so sánh do người biên soạn thực hiện — phục vụ học tập, không thay thế bản gốc.</div>
+
+    <div class="warn"><strong>Lưu ý quan trọng về hai tài liệu được so sánh.</strong>
+<ul style="margin:8px 0 0;padding-left:20px">
+<li><strong>«ACC/AHA 2026»</strong> mà bạn nêu chính là tài liệu đã tải lên: <em>2024 Guideline for the Primary Prevention of Stroke</em> (AHA/ASA, Stroke 2024;55:e344–e424) — <strong>không phải</strong> hướng dẫn năm 2026. Trang này so sánh với đúng văn bản đó.</li>
+<li><strong>Hướng dẫn Bộ Y tế 2024</strong> (Quyết định 3312/QĐ-BYT, bản dự thảo ban hành kèm theo, Hà Nội 2024) gồm 13 hướng dẫn, chủ yếu về <strong>chẩn đoán–điều trị cấp và dự phòng thứ phát</strong> (NMN, chảy máu não, phình mạch, HKTMN, AVM, sa sút trí tuệ mạch máu, tiêu sợi huyết, can thiệp nội mạch, dự phòng tái phát theo căn nguyên, phục hồi chức năng). Phần <strong>dự phòng nguyên phát</strong> chỉ có vài dòng.</li>
+<li>Vì vậy sự khác biệt lớn nhất là <strong>phạm vi (đối tượng)</strong>: AHA 2024 dành cho người <em>chưa từng đột quỵ</em>; BYT chủ yếu cho người <em>đã đột quỵ/TIA</em>. Khi hai bên cùng nói về một chủ đề, tôi đặt cạnh nhau để so; nhưng khi quần thể khác nhau, mục tiêu điều trị khác nhau <em>không nhất thiết là mâu thuẫn</em>. Cột cuối ghi rõ nhận xét.</li>
+<li>Mọi số liệu cột «BYT» trích từ văn bản QĐ 3312 đã tải lên (dịch/diễn đạt lại); cột «AHA» trích từ bản dịch ở các phần 1–4. Cột «Nhận xét» là phân tích của người biên soạn, không phải kết luận của hai hội đồng.</li></ul></div>
+
+<h2 id="h2-so1">1. Bức tranh tổng quan</h2>
+<div class="tbl-wrap"><table><caption>Bảng A. Khác biệt cấp độ guideline</caption>
+<tr><th>Tiêu chí</th><th>BYT 2024 (QĐ 3312)</th><th>AHA/ASA 2024 (Bushnell)</th></tr>
+<tr><td>Chủ đề chính</td><td>Chẩn đoán–điều trị đột quỵ não nói chung; trọng tâm cấp cứu (tiêu sợi huyết, lấy huyết khối cơ học) và dự phòng tái phát theo căn nguyên</td><td>Chỉ dự phòng <strong>nguyên phát</strong> (người chưa từng đột quỵ)</td></tr>
+<tr><td>Đối tượng</td><td>Người bệnh đột quỵ nhẹ/TIA, NMN cấp, chảy máu não, phình mạch vỡ/chưa vỡ, HKTMN, AVM, sa sút trí tuệ mạch máu</td><td>Người trưởng thành chưa từng đột quỵ; có các mục riêng cho trẻ SCD, thai kỳ, người chuyển giới…</td></tr>
+<tr><td>Hệ thống xếp mức khuyến cáo</td><td>Không đồng nhất: phần lớn ghi theo văn xuôi (nguồn «theo Hội Đột quỵ Hoa Kỳ»), một số bảng dùng «Mức độ I/II B/GPP»; không gắn COR/LOE cho từng khuyến cáo ở các chương dự phòng</td><td>Hệ thống COR (1, 2a, 2b, 3) và LOE (A, B-R, B-NR, C-LD, C-EO) cho từng khuyến cáo, kèm giải thích bằng chứng</td></tr>
+<tr><td>Dự phòng nguyên phát</td><td>6.1 (chương NMN cấp): «thay đổi lối sống, điều trị tăng huyết áp và đái tháo đường, statin, bỏ thuốc lá, thuốc lào, tập thể dục» — một đoạn ngắn không có số liệu</td><td>17 nhóm chủ đề với 80+ khuyến cáo có COR/LOE</td></tr>
+<tr><td>Dự phòng thứ phát / theo căn nguyên</td><td>Rất chi tiết (xơ vữa động mạch lớn, huyết khối tim, mạch máu nhỏ, PFO, lóc tách, moyamoya)</td><td>Không thuộc phạm vi (tham chiếu hướng dẫn dự phòng thứ phát AHA 2021)</td></tr>
+<tr><td>Bối cảnh dân số</td><td>Việt Nam/châu Á (vd. mục tiêu BMI &lt;23, «thuốc lào», xơ vữa nội sọ thường gặp ở người Á)</td><td>Chủ yếu Mỹ (SDOH, chênh lệch chủng tộc, hệ thống bảo hiểm Mỹ)</td></tr>
+<tr><td>Tài liệu tham khảo</td><td>Mỗi chương liệt kê TLTK; chương 12 dựa AHA/ASA 2021 (Kleindorfer), ESO 2021–2022, ESVS 2023, EHRA 2021</td><td>Danh mục tham khảo đầy đủ (không chép lại ở bản dịch)</td></tr>
+</table></div>
+
+<h2 id="h2-so2">2. So sánh chi tiết theo chủ đề</h2>
+<p style="font-size:13.5px;color:var(--ink-2)">Ký hiệu cột «Mức độ khác biệt»: <b>Tương đồng</b> = cùng hướng; <b>Khác số liệu/mục tiêu</b> = cùng chủ đề nhưng ngưỡng/liều khác; <b>Chỉ AHA</b> / <b>Chỉ BYT</b> = chủ đề chỉ có ở một bên.</p>
+
+<h3 id="h3-so21">2.1. Các yếu tố nguy cơ chuyển hóa và lối sống</h3>
+<div class="tbl-wrap"><table><caption>Bảng B1. Huyết áp, lipid, đường huyết, cân nặng, OSA</caption>
+<tr><th>Chủ đề</th><th>BYT 2024</th><th>AHA/ASA 2024</th><th>Mức độ khác biệt</th><th>Nhận xét lâm sàng</th></tr>
+<tr><td><strong>Huyết áp</strong></td><td>Mục tiêu &lt;130/80 mmHg ở người đột quỵ/TIA có tăng huyết áp (dự phòng thứ phát). Thuốc: lợi tiểu thiazide/giống thiazide, chẹn kênh calci, ACEi/ARB; ưu tiên phối hợp 2–3 thuốc (ARB/ACEi + thiazide-like). Hẹp 30–99% động mạch lớn nội sọ: duy trì HATT &lt;140 mmHg</td><td>Tăng HA giai đoạn 2, hoặc giai đoạn 1 nguy cơ ASCVD cao hơn: lối sống + thuốc, mục tiêu &lt;130/80 (4.6.2 · COR 1 · A). Thuốc khởi đầu: thiazide/giống thiazide, CCB, ACEi, ARB (4.6.3). Đa số cần ≥2 thuốc (4.6.4)</td><td><b>Tương đồng</b> (nhóm thuốc, mục tiêu). <b>Khác số liệu</b> ở nội sọ</td><td>Hai bên thống nhất mục tiêu &lt;130/80 và 4 nhóm thuốc đầu tay. BYT riêng có ngưỡng HATT &lt;140 mmHg cho hẹp nội sọ (đề phòng giảm tưới máu) — AHA không nêu mục tiêu theo vị trí hẹp. AHA nhấn mạnh sàng lọc HA mọi người ≥18 tuổi (4.6.1)</td></tr>
+<tr><td><strong>Huyết áp trong thai kỳ</strong></td><td>Không có khuyến cáo về tăng huyết áp thai kỳ trong dự phòng đột quỵ (chỉ ghi thai kỳ/hậu sản/thuốc tránh thai là yếu tố nguy cơ HKTMN)</td><td>Tăng HA nặng (≥160/110, 2 lần cách 15 phút) trong thai/≤6 tuần sau sinh: hạ áp càng sớm đến &lt;160/110 (COR 1 · B-NR); HDP: mục tiêu &lt;140/90 (2a · C-LD)</td><td><b>Chỉ AHA</b></td><td>Khoảng trống rõ trong văn bản BYT; sản khoa Việt Nam nên theo hướng dẫn chuyên ngành sản/ACOG song song</td></tr>
+<tr><td><strong>Lipid máu</strong></td><td>Dự phòng thứ phát: mục tiêu LDL-C &lt;70 mg/dL (1,8 mmol/L); giảm ≥50% so với nền; atorvastatin 20–80 mg/ngày (hoặc statin khác), thêm ezetimibe; không đạt dù statin tối đa + ezetimibe: thuốc PCSK9. NMN không bệnh mạch vành, không do tim, LDL-C &gt;100: atorvastatin đến 80 mg. Hẹp nội sọ có triệu chứng: LDL-C &lt;55 mg/dL (1,4 mmol/L)</td><td>Dự phòng nguyên phát: statin khi đủ tiêu chuẩn ACC/AHA 2019 (LDL-C &gt;190 mg/dL, hoặc nguy cơ ASCVD 10 năm ≥20%, hoặc 7,5–&lt;20% kèm yếu tố tăng nguy cơ) (4.7.1 · COR 1 · A). <strong>Không đặt mục tiêu LDL-C</strong>. Alirocumab/evolocumab: lợi ích giảm đột quỵ lần đầu chưa chắc chắn (2b · A); acid bempedoic chưa xác lập (2b)</td><td><b>Khác số liệu/cách tiếp cận</b></td><td>BYT dùng chiến lược theo <em>mục tiêu LDL</em> (target-based) ở người đã đột quỵ; AHA dùng chiến lược theo <em>nguy cơ/ngưỡng chỉ định</em> (risk-based) ở người chưa đột quỵ. Với bệnh nhân đã đột quỵ thì áp dụng BYT/AHA 2021; với người chưa đột quỵ thì tiêu chí chỉ định statin của AHA 2024 hữu ích hơn vì BYT không nêu</td></tr>
+<tr><td><strong>Omega-3 / triglyceride</strong></td><td>Triglyceride cao: tìm nguyên nhân, giảm glucid và rượu, «sử dụng thêm Omega-3» (NMN cấp, dự phòng thứ phát)</td><td>Ở người chưa có CVD, acid béo omega-3 chuỗi dài <strong>không hiệu quả</strong> để giảm nguy cơ đột quỵ (4.1.4 · COR 3); không khuyến cáo bổ sung omega-3 ở người dùng omega-3 mức vừa–thấp (4.7.4 · COR 3 · A). Văn bản nêu icosapent ethyl (EPA tinh khiết liều cao) ở TG 135–499 mg/dL là bối cảnh riêng</td><td><b>Khác nhau về khuyến cáo</b></td><td>Điểm bất đồng thực hành rõ nhất. BYT khuyến khích omega-3 khi TG cao; AHA khuyên không dùng thực phẩm bổ sung omega-3 để phòng đột quỵ nguyên phát. Nên tách: TG cao nặng (điều trị TG) và dự phòng đột quỵ</td></tr>
+<tr><td><strong>Đái tháo đường</strong></td><td>HbA1c &lt;7% (hoặc ≤7%); chọn phối hợp nhóm thuốc phù hợp nguy cơ tim mạch; không nêu cụ thể GLP-1 RA</td><td>Sàng lọc tiền ĐTĐ/ĐTĐ nếu thừa cân/béo phì hoặc ASCVD (COR 1). ĐTĐ nguy cơ tim mạch cao/đã CVD và HbA1c ≥7%: <strong>GLP-1 RA</strong> giảm nguy cơ đột quỵ (4.5.2 · COR 1 · A). Kiểm soát đường huyết tích cực (HbA1c ≤6,5%) không có lợi phòng đột quỵ (4.5.3 · COR 3)</td><td><b>Khác số liệu</b> + <b>Chỉ AHA</b> (GLP-1 RA)</td><td>Mục tiêu HbA1c &lt;7% của BYT không mâu thuẫn AHA (AHA phản đối mục tiêu chặt hơn ≤6,5%). Điểm bổ sung: chọn GLP-1 RA (semaglutide, dulaglutide…) khi nguy cơ tim mạch cao</td></tr>
+<tr><td><strong>Béo phì</strong></td><td>Giảm cân và duy trì cân nặng mục tiêu BMI &lt;23 (ngưỡng châu Á)</td><td>Sàng lọc thừa cân/béo phì ở người &gt;18 tuổi (COR 1); phẫu thuật giảm cân có thể cân nhắc ở BMI ≥35 (2b). Không nêu BMI mục tiêu</td><td><b>Khác số liệu</b></td><td>BMI &lt;23 là mục tiêu theo dân số châu Á; AHA không đưa mục tiêu BMI. Bariatric surgery chỉ có ở AHA</td></tr>
+<tr><td><strong>Ngưng thở khi ngủ</strong></td><td>«Đeo máy CPAP hỗ trợ» (không nêu mức bằng chứng)</td><td>Sàng lọc OSA: hiệu quả chưa rõ (2b · B-R); CPAP có thể hợp lý (2b · C-LD)</td><td><b>Tương đồng</b></td><td>AHA thận trọng hơn về mức bằng chứng (2b)</td></tr>
+<tr><td><strong>Thuốc lá</strong></td><td>Ngừng hút thuốc lá, <strong>thuốc lào</strong>; tránh thuốc lá điện tử; (chương chảy máu não/phình mạch: ngừng hút thuốc). Không nêu thuốc hỗ trợ cai</td><td>Sàng lọc mọi bệnh nhân (kể cả vape, khói thụ động) (COR 1). Thuốc cai + tư vấn hành vi (COR 1 · A); varenicline hơn bupropion và NRT đơn trị; NRT phối hợp ≈ varenicline; opt-out tại bệnh viện (2a); thuốc lá điện tử thay NRT chưa xác lập (2b)</td><td><b>Chỉ AHA</b> (chi tiết thuốc) · <b>Chỉ BYT</b> (thuốc lào)</td><td>BYT thiếu hướng dẫn dược lý cai thuốc; AHA không nhắc thuốc lào (đặc thù Việt Nam). Cần phối hợp</td></tr>
+<tr><td><strong>Ăn uống</strong></td><td>«Chế độ ăn lành mạnh», nhiều hoa quả, rau, cá, hạn chế chất béo và muối (chương sa sút trí tuệ mạch máu); giảm cafein (chương chảy máu não)</td><td>Chế độ ăn Địa Trung Hải (COR 1 · B-R); thay muối 75% NaCl + 25% KCl ở ≥60 tuổi HA không kiểm soát (2a); không bổ sung vi chất/chất chống oxy hóa/đa vitamin (COR 3); folic/B: chưa xác lập (2b)</td><td><b>Chỉ AHA</b> (cụ thể); BYT chung chung</td><td>BYT không nêu khuyến cáo về vi chất; «giảm cafein» chỉ ở BYT và áp dụng cho bối cảnh chảy máu não</td></tr>
+<tr><td><strong>Vận động</strong></td><td>«Tập thể dục thường xuyên» (không nêu liều)</td><td>≥150 phút/tuần vừa hoặc ≥75 phút/tuần mạnh (COR 1 · C-LD); tránh ngồi tĩnh tại kéo dài (COR 1)</td><td><b>Chỉ AHA</b> (liều cụ thể)</td><td>BYT có thể bổ sung ngưỡng 150/75 phút</td></tr>
+<tr><td><strong>Sàng lọc SDOH</strong></td><td>Không có</td><td>Sàng lọc định kỳ SDOH (mất an ninh lương thực, thiếu phương tiện…) (3.4 · COR 1 · C-EO)</td><td><b>Chỉ AHA</b></td><td>Cần diễn giải theo bối cảnh Việt Nam (tiếp cận y tế, chi phí thuốc)</td></tr>
+</table></div>
+
+<h3 id="h3-so22">2.2. Động mạch cảnh, mạch máu nhỏ, kháng kết tập tiểu cầu, tim</h3>
+<div class="tbl-wrap"><table><caption>Bảng B2. Bệnh mạch, kháng huyết khối và tim</caption>
+<tr><th>Chủ đề</th><th>BYT 2024</th><th>AHA/ASA 2024</th><th>Mức độ khác biệt</th><th>Nhận xét lâm sàng</th></tr>
+<tr><td><strong>Hẹp động mạch cảnh ngoài sọ</strong></td><td>Chỉ <strong>có triệu chứng</strong> (TIA/đột quỵ trong 6 tháng): hẹp 70–99% cân nhắc CEA; 50–69% tùy yếu tố nguy cơ; CAS thay thế ở nguy cơ can thiệp trung bình/thấp (≥70% không xâm lấn hoặc &gt;50% DSA); ≥70 tuổi ưu tiên CEA; CEA trong 1 tuần ưu tiên hơn CAS; tái thông trong 2 tuần. Điều trị nội khoa: KKTTC, statin, kiểm soát yếu tố nguy cơ</td><td>Chỉ <strong>không triệu chứng</strong>: không sàng lọc thường quy (COR 3); statin (2a); hẹp &gt;70%: quyết định chung giữa tái thông và nội khoa (COR 1 · C-EO); tái thông + nội khoa có thể hợp lý nếu nguy cơ chu phẫu thấp (2b · B-R); duplex mỗi 6–12 tháng nếu hẹp &gt;50% (2b)</td><td><b>Hai bên bổ sung nhau</b>, gần như không chồng lấn</td><td>BYT không có hướng dẫn cho hẹp không triệu chứng; AHA không bàn hẹp có triệu chứng. Thực hành: xếp bệnh nhân theo có/không triệu chứng rồi chọn nguồn</td></tr>
+<tr><td><strong>Kháng kết tập tiểu cầu (đơn trị)</strong></td><td>Dự phòng thứ phát: aspirin 50–325 mg/ngày (chương NMN cấp: 81–325 mg khởi đầu, duy trì 81–100 mg), clopidogrel 75 mg, cilostazol 100 mg (×2/ngày ở chương NMN cấp), hoặc aspirin 25 mg + dipyridamole 200 mg phóng thích kéo dài (×2/ngày); hẹp nội sọ nặng: aspirin 325 mg/ngày, không dùng kháng đông</td><td>Dự phòng nguyên phát: aspirin chưa xác lập ở người có ĐTĐ hoặc yếu tố nguy cơ (2b · A); <strong>không có lợi</strong> ở ≥70 tuổi có ≥1 yếu tố nguy cơ (COR 3 · A) và ở bệnh thận mạn (COR 3 · B-NR)</td><td><b>Khác quần thể</b> (không mâu thuẫn)</td><td>Sau đột quỵ: kháng kết tập là nền tảng (BYT). Chưa đột quỵ: không dùng aspirin thường quy (AHA). Cần tránh «ngoại suy» chỉ định thứ phát sang người chưa từng đột quỵ</td></tr>
+<tr><td><strong>Kháng kết tập kép / ticagrelor</strong></td><td>DAPT aspirin + clopidogrel cho đột quỵ nhẹ (NIHSS ≤5) hoặc TIA nguy cơ cao (ABCD2 ≥4), khởi đầu sớm (tốt nhất 24 giờ, tối đa 7 ngày), 21 ngày (hoặc đến 90 ngày) rồi đơn trị; clopidogrel nạp 300–600 mg; <strong>ticagrelor</strong> nạp 180 mg, rồi 90 mg ×2/ngày tối đa 30 ngày (NIHSS ≤5 hoặc ABCD2 ≥5 theo chương 1; ≥6 theo chương 12)</td><td>BĐMV ổn định đã xác lập, nguy cơ chảy máu thấp: thêm <strong>ticagrelor 60 mg</strong> vào aspirin sau 12 tháng, tối đa 3 năm để giảm đột quỵ thiếu máu (8.2 · 2b · B-R; PEGASUS)</td><td><b>Khác liều/chỉ định</b></td><td>Cùng thuốc nhưng khác hoàn toàn bối cảnh: BYT (cấp, 30 ngày, 90 mg ×2) vs AHA (mạn, đến 3 năm, 60 mg ×2). Không được nhầm lẫn liều. Ngoài ra BYT có chương 1 và 12 không thống nhất ngưỡng ABCD2 cho ticagrelor (≥5 và ≥6) — nên kiểm tra bản chính thức</td></tr>
+<tr><td><strong>Rung nhĩ</strong></td><td>Đột quỵ/TIA kèm rung nhĩ không hẹp hai lá vừa–nặng/không van cơ học: kháng đông đường uống; DOAC ưu tiên hơn VKA; thời điểm: TIA ngay, đột quỵ nguy cơ chuyển dạng chảy máu thấp ngày 2–14, nguy cơ cao sau 14 ngày; bít tiểu nhĩ trái nếu chống chỉ định kháng đông lâu dài (dùng được ≥45 ngày); có van hai lá cơ học/hẹp hai lá vừa–nặng: VKA INR 2,5–3,5; liệt kê thang CHADS₂, CHA₂DS₂-VASc</td><td>Rung nhĩ chưa đột quỵ: dùng điểm CHA₂DS₂-VASc để hướng dẫn kháng đông (3.2 · COR 1 · B-NR); chi tiết thuốc kháng đông không thuộc phạm vi</td><td><b>Tương đồng</b> (công cụ); BYT chi tiết thứ phát</td><td>Dùng CHA₂DS₂-VASc ở cả hai; BYT là nguồn cho thuốc, thời điểm và liều ở người đã đột quỵ</td></tr>
+<tr><td><strong>Bệnh cơ tim EF giảm không có AF</strong></td><td>Bảng 2 liệt kê suy tim sung huyết EF &lt;30% và bệnh cơ tim giãn là nguồn huyết khối tim nguy cơ cao; <strong>không có khuyến cáo kháng đông riêng</strong> cho nhóm này</td><td>EF ≤35–40%, không AF hoặc huyết khối thất trái: kháng đông <strong>không được chỉ định</strong> (7.1.1 · COR 3 · B-R) do chảy máu tăng, không có lợi ròng</td><td><b>Chỉ AHA</b> (khuyến cáo rõ)</td><td>Cần lưu ý: «nguồn thuyên tắc nguy cơ cao» trong BYT không có nghĩa là có chỉ định kháng đông khi không có AF/huyết khối</td></tr>
+<tr><td><strong>Mạch máu nhỏ / nhồi máu thầm lặng</strong></td><td>Lỗ khuyết triệu chứng: kiểm soát tăng huyết áp, đái tháo đường; KKTTC như NMN không do tim; tái phát 4–11%/năm. Sa sút trí tuệ mạch máu: can thiệp đa yếu tố (mức độ II B)</td><td>CSVD/SCI không triệu chứng: đánh giá và quản lý yếu tố nguy cơ (COR 1 · C-LD); statin liều thấp có thể cân nhắc nếu không có chỉ định statin (2b); lợi ích KKTTC chưa chắc chắn (2b · C-LD)</td><td><b>Tương đồng</b> về yếu tố nguy cơ; <b>khác</b> ở KKTTC</td><td>Khác quần thể: BYT cho đột quỵ lỗ khuyết có triệu chứng, AHA cho tổn thương thầm lặng. AHA không khuyến cáo KKTTC thường quy cho SCI</td></tr>
+</table></div>
+
+<h3 id="h3-so23">2.3. Bệnh đặc thù (huyết học, tự miễn, di truyền, nhiễm trùng, chất)</h3>
+<div class="tbl-wrap"><table><caption>Bảng B3. Các tình trạng đặc thù</caption>
+<tr><th>Chủ đề</th><th>BYT 2024</th><th>AHA/ASA 2024</th><th>Mức độ khác biệt</th><th>Nhận xét</th></tr>
+<tr><td><strong>Hồng cầu liềm</strong></td><td>Chỉ nêu là yếu tố nguy cơ hiếm của HKTMN; không có TCD, truyền máu hay hydroxyurea</td><td>Trẻ 2–16 tuổi: sàng lọc TCD (COR 1), truyền máu định kỳ mục tiêu Hb S &lt;30% (COR 1), MRI não (2a), chuyển hydroxyurea (2a/2b)</td><td><b>Chỉ AHA</b></td><td>Tương đối ít gặp ở Việt Nam nhưng thalassemia/hemoglobin bất thường phổ biến; chương AHA có giá trị tham khảo cho trung tâm huyết học nhi</td></tr>
+<tr><td><strong>aPL/APS/SLE</strong></td><td>aPL là một nguyên nhân tăng đông trong HKTMN; xét nghiệm lại sau 12 tuần để xác nhận APS; kháng vitamin K INR 2–3 sau giai đoạn cấp; khi có thai: LMWH suốt thai kỳ và ≥6 tháng sau sinh. Không có khuyến cáo aspirin dự phòng nguyên phát</td><td>aPL nguy cơ cao, chưa từng đột quỵ, không có chỉ định kháng đông: aspirin 75–100 mg/ngày (COR 1 · B-NR); SLE aPL nguy cơ cao: aspirin 75–100 mg (COR 1); APS + VTE không rõ yếu tố khởi phát: VKA INR 2–3 ưu tiên hơn aspirin/DOAC (2a); aPL thấp, SLE: aspirin có thể cân nhắc (2b)</td><td><b>Tương đồng</b> (12 tuần, INR 2–3); <b>Chỉ AHA</b> (aspirin dự phòng)</td><td>Cả hai thống nhất mốc 12 tuần và VKA INR 2–3. Khuyến cáo aspirin dự phòng chỉ có ở AHA</td></tr>
+<tr><td><strong>Viêm khớp dạng thấp / colchicine</strong></td><td>Không đề cập (chỉ ANA, RF trong xét nghiệm)</td><td>RA: statin có thể hợp lý (2b); sau NMCT: colchicine 0,5 mg/ngày có thể hợp lý (2b)</td><td><b>Chỉ AHA</b></td><td>—</td></tr>
+<tr><td><strong>Bệnh di truyền (CADASIL, HHT, Fabry)</strong></td><td>CADASIL chỉ được nhắc là nguyên nhân sa sút trí tuệ mạch máu; AVM nhiều ổ ở hội chứng Rendu–Osler–Weber; bệnh thận đa nang là bệnh kèm phình mạch</td><td>CADASIL: cai thuốc lá, điều trị tăng huyết áp (COR 1); HHT: sàng lọc PAVM (2a); Fabry: ERT chưa xác lập (2b)</td><td><b>Chỉ AHA</b> (khuyến cáo)</td><td>BYT có thông tin dịch tễ AVM/phình mạch, không có khuyến cáo sàng lọc PAVM</td></tr>
+<tr><td><strong>Nhiễm trùng: nha chu, COVID-19, ung thư</strong></td><td>Nhiễm trùng gần mặt/não là nguyên nhân HKTMN; COVID-19/vắc-xin COVID là yếu tố nguy cơ HKTMN; ung thư là yếu tố nguy cơ HKTMN và cần tầm soát nếu &gt;40 tuổi không rõ nguyên nhân</td><td>Nha chu: vệ sinh răng miệng, chăm sóc nha khoa (2a); COVID-19 nhập viện: kháng đông liều đầy đủ không phòng đột quỵ (COR 3 · B-R)</td><td><b>Khác khía cạnh</b></td><td>BYT bàn nguyên nhân HKTMN; AHA bàn dự phòng đột quỵ thiếu máu/mọi loại</td></tr>
+<tr><td><strong>Chất gây nghiện</strong></td><td>Rượu, amphetamine, cocaine là nguyên nhân chảy máu não; cocaine/rượu/hút thuốc làm tăng nguy cơ vỡ phình mạch; xét nghiệm độc chất khi nghi ngờ; tránh rượu bia và thuốc lá, kể cả thuốc lá điện tử (lối sống)</td><td>Sàng lọc lạm dụng/rối loạn sử dụng chất (COR 1 · B-NR); tư vấn/điều trị ngừng sử dụng (2a); thuốc: acamprosate, disulfiram, baclofen, naltrexone; buprenorphine/methadone</td><td><b>Tương đồng</b> về nguy cơ; <b>Chỉ AHA</b> (điều trị)</td><td>—</td></tr>
+</table></div>
+
+<h3 id="h3-so24">2.4. Giới tính, thai kỳ, tránh thai, mãn kinh</h3>
+<div class="tbl-wrap"><table><caption>Bảng B4. Yếu tố đặc thù giới</caption>
+<tr><th>Chủ đề</th><th>BYT 2024</th><th>AHA/ASA 2024</th><th>Mức độ khác biệt</th><th>Nhận xét</th></tr>
+<tr><td><strong>Thuốc tránh thai</strong></td><td>Thuốc tránh thai đường uống kéo dài là nguyên nhân thường gặp của HKTMN (54,3% ca HKTMN trong số liệu nêu); chẩn đoán HKTMN ở người dùng thuốc tránh thai. Không có tư vấn chọn biện pháp</td><td>CHC: dùng ethinyl estradiol liều thấp (COR 1 · B-NR); có yếu tố nguy cơ (&gt;35 tuổi, hút thuốc, tăng HA, migraine có aura): quyết định chung (COR 1), ưu tiên chỉ progestin/không hormon (2a); Bảng 14 xếp hạng nguy cơ từng loại</td><td><b>Chỉ AHA</b> (tư vấn)</td><td>BYT chỉ ghi nhận nguy cơ HKTMN, chưa có hướng dẫn tư vấn tránh thai</td></tr>
+<tr><td><strong>Thai kỳ/hậu sản</strong></td><td>HKTMN: thai kỳ (6,3%), hậu sản (13,8%); LMWH trong suốt thai kỳ và ≥6 tháng sau sinh. AVM/phình mạch: chưa có hướng dẫn thai kỳ trong văn bản</td><td>Tăng HA nặng và HDP như trên; sàng lọc tiền sử APO và quản lý yếu tố nguy cơ (COR 1); không có bằng chứng mổ lấy thai thường quy cho AVM/tổn thương nội sọ chưa vỡ</td><td><b>Khác khía cạnh</b></td><td>BYT thiên về điều trị HKTMN; AHA thiên về dự phòng nguyên phát</td></tr>
+<tr><td><strong>Mãn kinh / MHT</strong></td><td>Liệu pháp hormon thay thế là yếu tố nguy cơ HKTMN (4,3%)</td><td>Sàng lọc mãn kinh &lt;40/&lt;45 tuổi (COR 1); estrogen uống ở ≥60 tuổi hoặc &gt;10 năm sau mãn kinh, nguy cơ CVD cao: có hại (COR 3); thuốc qua da liều thấp không tăng nguy cơ</td><td><b>Chỉ AHA</b></td><td>—</td></tr>
+<tr><td><strong>Migraine</strong></td><td>Migraine biến chứng là chẩn đoán phân biệt đột quỵ; «migraine cũng là yếu tố nguy cơ NMN»; không có hướng dẫn dự phòng</td><td>Migraine 18–64 tuổi: đánh giá và điều chỉnh yếu tố nguy cơ mạch máu (COR 1); migraine có aura muốn tránh thai: chỉ progestin/không hormon (COR 1)</td><td><b>Chỉ AHA</b></td><td>—</td></tr>
+<tr><td><strong>Lạc nội mạc tử cung, chuyển giới, testosterone</strong></td><td>Không đề cập</td><td>Lạc nội mạc: sàng lọc và đánh giá nguy cơ (2a); chuyển giới: đánh giá yếu tố nguy cơ (2a); testosterone 45–80 tuổi suy sinh dục: hợp lý, không tăng nguy cơ đột quỵ (2a)</td><td><b>Chỉ AHA</b></td><td>—</td></tr>
+</table></div>
+
+<h3 id="h3-so25">2.5. Chủ đề chỉ có trong hướng dẫn BYT</h3>
+<div class="tbl-wrap"><table><caption>Bảng B5. Nội dung BYT bao phủ mà AHA 2024 (nguyên phát) không bàn</caption>
+<tr><th>Chủ đề BYT</th><th>Điểm chính</th><th>AHA 2024</th></tr>
+<tr><td>Nhồi máu não cấp: tiêu sợi huyết, lấy huyết khối cơ học, hình ảnh học</td><td>Chương 2, 9, 10, 11</td><td>Ngoài phạm vi</td></tr>
+<tr><td>Chảy máu não và phình mạch vỡ</td><td>Chương 3, 4; thang ICH score</td><td>Ngoài phạm vi</td></tr>
+<tr><td>Phình động mạch não chưa vỡ</td><td>Thang PHASES; chụp CTA/MRA cho người có tiền sử gia đình; kiểm soát tăng huyết áp, tránh gắng sức, rượu bia</td><td>Chỉ nhắc «tổn thương mạch nội sọ chưa vỡ» trong thai kỳ như khoảng trống</td></tr>
+<tr><td>Dị dạng động–tĩnh mạch não</td><td>Chương 8</td><td>Chỉ nhắc: không mổ lấy thai thường quy</td></tr>
+<tr><td>Huyết khối tĩnh mạch não</td><td>Chương 6: dabigatran 150 mg ×2/ngày hoặc rivaroxaban 20 mg/ngày tối thiểu 6 tháng; LMWH trong thai kỳ</td><td>Ngoài phạm vi</td></tr>
+<tr><td>Còn lỗ bầu dục (PFO)</td><td>Sơ đồ đóng PFO (18–60 tuổi, nhồi máu không lỗ khuyết, RoPE)</td><td>Không bàn</td></tr>
+<tr><td>Lóc tách động mạch, moyamoya</td><td>Aspirin hoặc warfarin ≥3 tháng; bắc cầu mạch máu</td><td>Không bàn</td></tr>
+<tr><td>Bệnh van tim (cơ học/sinh học), viêm nội tâm mạc</td><td>VKA INR 2,5–3,5 ± aspirin 75–100 mg; mổ sớm khi có mảng sùi &gt;10 mm</td><td>Không bàn</td></tr>
+<tr><td>Phục hồi chức năng sau đột quỵ, nuốt, dinh dưỡng</td><td>Chương 13</td><td>Ngoài phạm vi</td></tr>
+</table></div>
+
+<h2 id="h2-so3">3. Tổng hợp: điểm khác biệt cần nhớ khi thực hành</h2>
+<div class="box"><div class="box-title">A. Khác biệt về số liệu/khuyến cáo (cùng chủ đề)</div><ul>
+<li><strong>Chiến lược lipid</strong>: BYT dùng <em>mục tiêu LDL-C</em> (&lt;70 mg/dL; &lt;55 mg/dL ở hẹp nội sọ có triệu chứng) ở người đã đột quỵ; AHA dùng <em>ngưỡng nguy cơ</em> để chỉ định statin ở người chưa đột quỵ và không đặt mục tiêu LDL.</li>
+<li><strong>Omega-3</strong>: BYT dùng thêm khi triglyceride cao; AHA khuyên không dùng để phòng đột quỵ nguyên phát (COR 3).</li>
+<li><strong>HbA1c</strong>: BYT &lt;7%; AHA phản đối mục tiêu chặt ≤6,5% vì không giảm đột quỵ; AHA thêm GLP-1 RA (COR 1).</li>
+<li><strong>Ticagrelor</strong>: BYT 90 mg ×2/ngày ≤30 ngày (cấp); AHA 60 mg ×2/ngày sau 12 tháng, đến 3 năm (BĐMV mạn).</li>
+<li><strong>BMI</strong>: BYT mục tiêu &lt;23; AHA không đặt mục tiêu, chỉ nêu bariatric ở BMI ≥35.</li>
+<li><strong>Huyết áp</strong>: cùng &lt;130/80; BYT thêm &lt;140 ở hẹp nội sọ.</li>
+<li><strong>Aspirin</strong>: BYT dùng thường quy sau đột quỵ; AHA không có lợi ở ≥70 tuổi/bệnh thận mạn khi dự phòng nguyên phát.</li>
+</ul></div>
+<div class="box"><div class="box-title">B. Chủ đề có ở AHA 2024 nhưng BYT không có (khoảng trống của BYT)</div><ul>
+<li>Phân tầng nguy cơ ASCVD 10 năm, sàng lọc SDOH, Life's Essential 8.</li>
+<li>Chế độ ăn Địa Trung Hải, thay muối, liều vận động cụ thể, vi chất/thực phẩm bổ sung.</li>
+<li>Thuốc cai thuốc lá (varenicline, NRT phối hợp), cai tại bệnh viện kiểu opt-out.</li>
+<li>GLP-1 RA, bariatric surgery, sàng lọc OSA.</li>
+<li>Hẹp động mạch cảnh không triệu chứng; nhồi máu não thầm lặng.</li>
+<li>Hồng cầu liềm (TCD, truyền máu, hydroxyurea); hội chứng di truyền (CADASIL, HHT, Fabry).</li>
+<li>aPL/SLE/APS (aspirin 75–100 mg), viêm khớp dạng thấp, colchicine; nha chu; COVID-19.</li>
+<li>Tăng huyết áp thai kỳ, APO, lạc nội mạc tử cung, tránh thai, mãn kinh, chuyển giới, testosterone, migraine.</li>
+<li>Bệnh cơ tim EF thấp không AF: không kháng đông.</li>
+<li>Sàng lọc và điều trị rối loạn sử dụng chất.</li>
+</ul></div>
+<div class="box"><div class="box-title">C. Chủ đề có ở BYT 2024 nhưng AHA 2024 không có (khoảng trống của AHA)</div><ul>
+<li>Toàn bộ điều trị cấp và dự phòng thứ phát; HKTMN; PFO; lóc tách, moyamoya; van tim; phình mạch/AVM chưa vỡ (PHASES); phục hồi chức năng.</li>
+<li>Đặc thù dân số châu Á/Việt Nam: BMI &lt;23, thuốc lào, xơ vữa nội sọ.</li>
+</ul></div>
+<div class="warn"><strong>Hạn chế của phép so sánh này.</strong> (1) Văn bản BYT trong file tải lên ghi «Quyết định số /QĐ-BYT ngày tháng năm 2024» (bản trình/ban hành kèm theo), có thể khác bản chính thức. (2) Văn bản BYT có vài chỗ không thống nhất giữa các chương (vd. ngưỡng ABCD2 và NIHSS cho DAPT/ticagrelor; mục tiêu HbA1c «&lt;7%» và «≤7%») — tôi ghi nhận cả hai. (3) Tôi không có bản AHA 2021 về dự phòng thứ phát nên không đối chiếu từng dòng chương 12 của BYT với nguồn gốc của nó. (4) Cột «Nhận xét» là diễn giải của người biên soạn; các quyết định lâm sàng cần dựa trên bản gốc và bối cảnh từng bệnh nhân.</div>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Không sao chép toàn văn hai tài liệu; số liệu được diễn đạt lại. Đối chiếu bản gốc trước khi áp dụng lâm sàng.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'dq2024_sosanh_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>

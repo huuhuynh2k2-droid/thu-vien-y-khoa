@@ -495,6 +495,11 @@ window.LIBRARY = {
       org: "Brant WE (Diagnostic Imaging Methods, Ch.1 – chỉ phần MRI) · Mukundan S, Seidenwurm D (Introduction to Brain Imaging, Ch.2)", year: 2026, doi: "", status: 1,
       cat: "Dự án đang mở rộng · Bản dịch tiếng Việt · Trang chỉ mục 2 phần",
       note: "Phần 1: nguyên lý tạo ảnh MRI, T1/T2/PD, FLAIR, STIR, GRE/T2*, SWI, DWI/DTI, MRS, MRA/TOF, nghệ phẩm, tuổi máu, gadolinium. Phần 2: khung đọc phim sọ não logic (đường giữa, bể não, não thất, checklist, CT vs MR, DWI/ADC, SWI, fMRI), chiến lược theo hội chứng lâm sàng, phân tích tổn thương; 25 hình đã dịch chữ trong ảnh. Các chương sau sẽ được bổ sung.",
-      updated: "2026-11-17", url: "docs/doc-phim-so-nao-index.html" }
+      updated: "2026-11-17", url: "docs/doc-phim-so-nao-index.html" },
+    { id: "tk-dq-aha-asa-2024", sp: "tk", topic: "Đột quỵ", title: "Hướng dẫn dự phòng nguyên phát đột quỵ AHA/ASA 2024 (dịch đầy đủ + sơ đồ + so sánh BYT 2024)",
+      org: "AHA/ASA", year: 2024, doi: "https://doi.org/10.1161/STR.0000000000000475", status: 2,
+      cat: "Dự phòng nguyên phát · Bản dịch đầy đủ · Sơ đồ tóm tắt · So sánh BYT 2024",
+      note: "Dịch đầy đủ 83 khuyến cáo (COR/LOE) trong 4 phần; chương sơ đồ 17 flowchart kèm liều thuốc; chương so sánh với Hướng dẫn đột quỵ BYT 2024 (QĐ 3312).",
+      updated: "2026-11-16", url: "docs/dq-aha-asa-2024-index.html" }
   ]
 };

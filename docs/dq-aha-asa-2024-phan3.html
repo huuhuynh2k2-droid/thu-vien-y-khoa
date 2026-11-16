@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AHA/ASA 2024 — Dự phòng nguyên phát đột quỵ — Phần 3</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#3B4A8C; --accent-ink:#1E2A5E; --accent-bg:#E8EBF6;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">Đột quỵ 2024 · Phần 3</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">AHA/ASA 2024 · DỰ PHÒNG NGUYÊN PHÁT ĐỘT QUỴ</div>
+    <div class="doc-title">Hướng dẫn Dự phòng nguyên phát đột quỵ 2024 — Phần 3</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">PHẦN 3</span>
+    <h1>Rung nhĩ, bệnh mạch, bệnh hệ thống (§5–6.4)</h1>
+    <div class="byline">Bushnell C, McCullough LD, Awad IA, và cs. — American Heart Association / American Stroke Association</div>
+    <div class="cite">Bushnell C, McCullough LD, Awad IA, et al. 2024 Guideline for the Primary Prevention of Stroke: A Guideline From the American Heart Association/American Stroke Association. <em>Stroke</em>. 2024;55:e344–e424. DOI: 10.1161/STR.0000000000000475. · Bản dịch tham khảo phục vụ học tập lâm sàng — không thay thế bản gốc.</div>
+
+    <h2 id="h3-s5">5. Các yếu tố nguy cơ xơ vữa và không xơ vữa</h2>
+<h3 id="h3-s51">5.1. Hẹp động mạch cảnh không triệu chứng (ACS)</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — HẸP ĐỘNG MẠCH CẢNH KHÔNG TRIỆU CHỨNG</div>
+<p style="margin:0 0 6px"><em>Can thiệp sàng lọc</em></p>
+<div class="rec"><span class="num">5.1.1</span> Ở quần thể không triệu chứng, <strong>sàng lọc thường quy hẹp động mạch cảnh không được khuyến cáo</strong> để giảm nguy cơ đột quỵ. <span class="grade">COR 3: Không lợi ích · LOE B-NR</span></div>
+<p style="margin:10px 0 6px"><em>Các can thiệp khác</em></p>
+<div class="rec"><span class="num">5.1.2</span> Ở bệnh nhân hẹp động mạch cảnh không triệu chứng <strong>&gt;70%</strong>, <strong>ra quyết định chung</strong> giữa bệnh nhân và nhóm chăm sóc để chọn giữa hai hướng (tái thông động mạch cảnh hoặc điều trị nội khoa) được khuyến cáo nhằm xác định cách giảm nguy cơ đột quỵ tốt nhất. <span class="grade">COR 1 · LOE C-EO</span></div>
+<div class="rec"><span class="num">5.1.3</span> Ở bệnh nhân hẹp động mạch cảnh xơ vữa không triệu chứng, điều trị nội khoa bằng <strong>statin</strong> có thể có lợi để giảm nguy cơ đột quỵ. <span class="grade">COR 2a · LOE B-NR</span></div>
+<div class="rec"><span class="num">5.1.4</span> Ở bệnh nhân hẹp động mạch cảnh xơ vữa không triệu chứng <strong>&gt;70%</strong> và <strong>nguy cơ chu phẫu thấp</strong>, <strong>tái thông động mạch cảnh</strong> thêm vào điều trị nội khoa tích cực có thể hợp lý để giảm nguy cơ đột quỵ. <span class="grade">COR 2b · LOE B-R</span></div>
+<div class="rec"><span class="num">5.1.5</span> Ở bệnh nhân ACS <strong>&gt;50%</strong>, <strong>siêu âm duplex động mạch cảnh mỗi 6–12 tháng</strong> có thể hợp lý để đánh giá tiến triển bệnh và nguy cơ đột quỵ tiếp theo. <span class="grade">COR 2b · LOE B-NR</span></div>
+<div class="rec"><span class="num">5.1.6</span> Ở bệnh nhân hẹp động mạch cảnh xơ vữa không triệu chứng và <strong>nguy cơ chu phẫu cao</strong>, hiệu quả của tái thông trong giảm nguy cơ đột quỵ <strong>chưa được xác lập</strong>. <span class="grade">COR 2b · LOE B-NR</span></div>
+</div>
+<h3 id="h3-s51syn">Tóm lược</h3>
+<p>Hẹp động mạch cảnh ngoài sọ do xơ vữa và mối liên quan với nguy cơ đột quỵ đã được mô tả rộng rãi. Do dữ liệu quy mô lớn về hẹp động mạch đốt sống không triệu chứng còn hạn chế, không thể xây dựng khuyến cáo toàn diện dựa trên bằng chứng; vì vậy trọng tâm là quản lý ACS. Nhiều thử nghiệm lớn đã ủng hộ rằng tái thông động mạch cảnh ở bệnh nhân hẹp cảnh không triệu chứng được chọn phù hợp làm giảm nguy cơ tương đối của đột quỵ so với điều trị nội khoa. Tuy nhiên điều trị nội khoa hiện đại đã cải thiện, và các thử nghiệm sau đó cố trả lời liệu điều trị nội khoa tối ưu và can thiệp ngoại khoa cho hẹp động mạch xơ vữa không triệu chứng có thể tương đương hay không. Câu hỏi cấp thiết vẫn là: <em>tái thông động mạch cảnh có hiệu quả như điều trị nội khoa hiện đại trong giảm nguy cơ đột quỵ ở ACS hay không?</em> Cần cải thiện việc chọn bệnh nhân không triệu chứng sẽ được lợi từ tái thông trong thời đại điều trị nội khoa hiện đại. Thử nghiệm <strong>CREST 2</strong> đang tiến hành, hy vọng sẽ làm sáng tỏ.</p>
+<h3 id="h3-s51text">Giải thích hỗ trợ từng khuyến cáo</h3>
+<p><strong>(1) Không sàng lọc thường quy.</strong> Dữ liệu hiện nay mạnh mẽ khuyến cáo chống sàng lọc ACS ở dân số chung, vì: hậu quả của kết quả dương tính giả, thiếu bằng chứng trực tiếp rằng sàng lọc ACS làm giảm đột quỵ hoặc tử vong, và khả năng có tác hại nhỏ đến vừa của sàng lọc để điều trị ACS. Tiếng thổi động mạch cảnh có thể phản ánh hẹp nhưng độ nhạy phát hiện thấp: trong NOMAS, nghe tim có độ nhạy 56% và giá trị tiên đoán dương 25%. Cần cân nhắc một số quần thể không triệu chứng nguy cơ cao (vd. có yếu tố nguy cơ xơ vữa); các hướng dẫn trước đề xuất sàng lọc quần thể chọn lọc cao có thể có lợi. Các báo cáo khác xác định người có nguy cơ cao hẹp động mạch cảnh &gt;50%: tăng huyết áp, đang dùng thuốc lá, bệnh mạch vành, hoặc người thân bậc 1 có tiền sử đột quỵ.</p>
+<p><strong>(2) Ra quyết định chung.</strong> Quyết định đa chuyên ngành có vai trò then chốt trong chọn hướng xử trí tốt nhất cho hẹp cảnh không triệu chứng. Với điều trị nội khoa đang tiến bộ và lựa chọn ngoại khoa ngày càng nhiều, nhóm chăm sóc phải cân nhắc kỹ lợi–hại của từng cách tiếp cận. Dù mọi bệnh nhân cần điều trị nội khoa tối ưu, điều thiết yếu là xác định nhóm vẫn có nguy cơ đột quỵ cao dù đã điều trị nội khoa tối ưu. Dù có thử nghiệm ủng hộ cả tái thông và bằng chứng mới nổi cho điều trị nội khoa tốt nhất, vẫn thiếu đồng thuận; chính vì vậy ra quyết định chung đặc biệt quan trọng, cho phép bệnh nhân tham gia, có quyền chủ động và lựa chọn phù hợp hoàn cảnh riêng, với chuyên môn của các chuyên gia dự phòng đột quỵ.</p>
+<p><strong>(3) Statin.</strong> Đa số bệnh nhân trong nhóm này đã dùng statin vì chẩn đoán khác; ở người chưa dùng, khởi đầu statin giúp giảm nguy cơ đột quỵ. Trong phân tích gộp 14 RCT statin, tỷ lệ đột quỵ giảm &gt;15% cho mỗi 10% giảm LDL-C huyết thanh. Trong MESA, lõi lipid mảng xơ vữa động mạch cảnh phát hiện trên MRI liên quan mạnh với cholesterol toàn phần. Trong Framingham, nguy cơ tương đối hẹp cảnh tăng 10% cho mỗi 10 mg/dL tăng cholesterol toàn phần. Trong ACST, giảm nguy cơ tuyệt đối đột quỵ được quy cho liệu pháp hạ lipid ở bệnh nhân phẫu thuật bóc nội mạc động mạch cảnh (CEA) với hẹp &gt;70%. Các báo cáo khác cho thấy nguy cơ hằng năm của ACS thấp hơn trong thử nghiệm CEA, có lẽ nhờ điều trị nội khoa cải thiện. <strong>Statin cường độ cao</strong> phù hợp với bệnh nhân ACS dù có tái thông hay không. Mọi bệnh nhân xơ vữa động mạch cảnh phải được điều trị nội khoa tối ưu và điều chỉnh yếu tố nguy cơ. Chưa có RCT lớn trực tiếp phân tích tác động statin ở bệnh nhân không triệu chứng; nhưng bằng chứng gián tiếp ủng hộ statin để giảm nguy cơ đột quỵ (xem mục 4.7).</p>
+<p><strong>(4) Tái thông + điều trị nội khoa tích cực.</strong> Đây là chủ đề tranh luận nhiều. Trong 2 thập kỷ qua, điều trị nội khoa đã tiến hóa kể từ khi <strong>ACAS</strong> chứng minh lợi ích CEA. <strong>ACST-1</strong> nhấn mạnh giá trị tái thông (CEA hoặc đặt stent qua đùi) trong giảm nguy cơ đột quỵ ròng 5 năm khi phẫu thuật ngay so với hoãn; tuy nhiên &lt;40% bệnh nhân được dùng statin, không phù hợp thực hành hiện nay. Phân tích 10 năm cho thấy giảm nguy cơ tuyệt đối 4,5% với CEA so với chỉ điều trị nội khoa. <strong>SPACE-2</strong> (dừng sớm) không cho thấy ưu thế rõ của tái thông so với chỉ điều trị nội khoa ở hẹp không triệu chứng 70–99%. Với nhiều lựa chọn can thiệp hơn, các nghiên cứu so sánh trở nên thiết yếu. <strong>CREST-1</strong> là thử nghiệm ngẫu nhiên tiến cứu lớn đầu tiên so sánh đặt stent và bóc nội mạc: CEA và đặt stent động mạch cảnh có tỷ lệ đột quỵ, MI, tử vong chu phẫu và đột quỵ cùng bên sau đó tương tự. Lưu ý có tương tác giữa tuổi và can thiệp: kết cục tốt hơn với đặt stent ở người &lt;70 tuổi và tốt hơn với CEA ở người &gt;70 tuổi. Tái thông động mạch cảnh qua cổ (transcarotid, TCAR) là kỹ thuật mới hơn, có thể cân nhắc theo từng cá nhân. Các thử nghiệm này cho thấy tác động lớn hơn ở nam so với nữ. Thiếu thử nghiệm lớn so sánh trực tiếp tái thông với điều trị nội khoa hiện đại nên kết luận dứt khoát về lợi ích tái thông ở bệnh nhân không triệu chứng vẫn chưa có; kết quả <strong>CREST 2</strong> sẽ rất đáng mong đợi.</p>
+<p><strong>(5) Theo dõi bằng duplex.</strong> Siêu âm duplex — phương pháp được chọn để theo dõi bệnh nhân đã biết hẹp động mạch cảnh xơ vữa — có chi phí/nguy cơ thấp nhất. Cả mức độ hẹp và tiến triển bệnh liên quan nguy cơ đột quỵ tăng. Tổng quan hệ thống–phân tích gộp phân tầng theo mức hẹp cho thấy nguy cơ đột quỵ tăng theo tiến triển hẹp; nguy cơ đột quỵ cùng bên phụ thuộc mạnh vào mức hẹp: &lt;5% sau 5 năm với hẹp vừa và 15% với hẹp nặng. Nghiên cứu khác ủng hộ mối liên quan của mức nặng và tiến triển với nguy cơ đột quỵ độc lập ở bệnh nhân tim mạch nguy cơ cao. Tiến triển &gt;2 mức trong 1 năm liên quan biến cố thần kinh cùng bên có ý nghĩa thống kê (P≤0,001). Các yếu tố tiên đoán độc lập tiến triển: nam, creatinin cao, không dùng liệu pháp hạ lipid, mức hẹp nhẹ hơn, và diện tích mảng xơ vữa lớn. Một khi chẩn đoán hẹp &gt;50%, duplex hằng năm có thể hợp lý để phát hiện tiến triển.</p>
+<p><strong>(6) Nguy cơ chu phẫu cao.</strong> Nhiều báo cáo về lợi ích can thiệp cảnh ở bệnh nhân không triệu chứng, nhất là nhóm nguy cơ cao. Bệnh nhân nguy cơ cao gồm: tuổi thọ dự kiến giảm còn 3–5 năm, bệnh tim mạch đồng mắc (bệnh tim có ý nghĩa lâm sàng, MI gần đây, suy tim sung huyết, EF &lt;30%, nghiệm pháp gắng sức bất thường, hoặc cần CABG), bệnh phổi nặng, và tỷ lệ đột quỵ/tử vong chu phẫu &gt;3%. Trong nhóm nguy cơ cao này, kết cục 3 năm của <strong>SAPPHIRE</strong> cho thấy bệnh nhân đặt stent động mạch cảnh có tỷ lệ tử vong (20,0%) cao hơn rõ so với đột quỵ (10,1%), đặt ra câu hỏi về hiệu quả giảm nguy cơ đột quỵ; hơn nữa không có nhóm chứng điều trị nội khoa, và tỷ lệ biến chứng ở cả hai nhánh đủ cao để đặt nghi vấn lợi ích so với chỉ điều trị nội khoa. Ở nhóm dễ tổn thương này cần thảo luận đa chuyên ngành và khuyến cáo ra quyết định chung.</p>
+<h3 id="h3-s51gap">Khoảng trống kiến thức và nghiên cứu tương lai</h3>
+<p>Điều trị nội khoa và can thiệp ACS đã phát triển đáng kể trong 2 thập kỷ; bệnh nhân hẹp cảnh không triệu chứng vẫn là điểm tranh luận. Nhóm nhận thấy với tiến bộ điều trị nội khoa, tái thông có thể không còn cần thiết trong tương lai để phòng đột quỵ. Các câu hỏi chưa có lời đáp:</p>
+<ul>
+<li>Cần đánh giá hiệu quả của <em>điều trị nội khoa tốt nhất đơn thuần</em> so với tái thông trong giảm nguy cơ đột quỵ ở hẹp động mạch cảnh xơ vữa không triệu chứng &gt;70%.</li>
+<li>Cần xác định vai trò của tái thông ở bệnh nhân được coi là ứng viên phẫu thuật nguy cơ cao; xây dựng hướng dẫn nhận diện nhóm dễ tổn thương này, kèm ra quyết định chung.</li>
+<li>Các kỹ thuật hình ảnh nâng cao có thể cho thông tin chi tiết về hình thái, độ ổn định và nguy cơ vỡ mảng xơ vữa, tham gia phân tầng nguy cơ; nhận diện bệnh nhân hẹp không triệu chứng có nguy cơ đột quỵ cao là ưu tiên.</li>
+<li>Cần nghiên cứu theo giới đánh giá hiệu quả/kết cục tái thông ở nữ.</li>
+<li>Bằng chứng sớm gợi ý TCAR có thể có vai trò ở bệnh nhân ACS đáp ứng tiêu chí đặc biệt, nhưng chưa có dữ liệu RCT so sánh với đặt stent qua đùi hoặc CEA; cần thử nghiệm dài hạn.</li>
+<li>Ra quyết định chung là tối quan trọng để xác định cách điều trị tốt nhất cho ACS: CEA, đặt stent (qua đùi/TCAR) hay điều trị nội khoa hiện đại.</li>
+<li>Hiện chưa có công cụ được kiểm định để xác định tần suất duplex theo dõi tối ưu cho bệnh nhân hẹp nặng hơn, tiến triển nhanh hoặc có đặc điểm mảng nguy cơ cao; cần nghiên cứu xác định nhóm nào cần theo dõi dày hơn khi hằng năm.</li>
+<li>Cần hiểu rõ sự mâu thuẫn bề ngoài giữa việc tái thông có thể hợp lý ở một số bệnh nhân ACS với việc không khuyến cáo sàng lọc dân số chung — đòi hỏi hiểu tinh tế về quần thể nguy cơ cao, tỷ số lợi–hại, đặc điểm từng bệnh nhân và bằng chứng đang tiến triển.</li>
+</ul>
+
+<h3 id="h3-s52">5.2. Bệnh mạch máu nhỏ não không triệu chứng, gồm nhồi máu não thầm lặng</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — CSVD KHÔNG TRIỆU CHỨNG / NHỒI MÁU NÃO THẦM LẶNG</div>
+<div class="rec"><span class="num">5.2.1</span> Ở người trưởng thành có <strong>bệnh mạch máu nhỏ não (CSVD) không triệu chứng</strong>, gồm nhồi máu thầm lặng, <strong>đánh giá và quản lý yếu tố nguy cơ</strong> (tăng huyết áp, rối loạn lipid, thuốc lá, đái tháo đường) được khuyến cáo để giảm nguy cơ đột quỵ. <span class="grade">COR 1 · LOE C-LD</span></div>
+<div class="rec"><span class="num">5.2.2</span> Ở người trưởng thành có <strong>nhồi máu não thầm lặng (SCI)</strong> nhưng không có chỉ định statin theo hướng dẫn ACC/AHA 2019 (vd. 20–75 tuổi với LDL-C &gt;190 mg/dL, nguy cơ ASCVD 10 năm ≥20%, hoặc ≥7,5% đến &lt;20% kèm ≥1 yếu tố tăng nguy cơ), <strong>statin liều thấp</strong> có thể được cân nhắc để giảm nguy cơ đột quỵ thiếu máu. <span class="grade">COR 2b · LOE B-NR</span></div>
+<div class="rec"><span class="num">5.2.3</span> Ở người trưởng thành có SCI, lợi ích của <strong>kháng kết tập tiểu cầu</strong> để giảm nguy cơ đột quỵ thiếu máu <strong>chưa chắc chắn</strong>. <span class="grade">COR 2b · LOE C-LD</span></div>
+</div>
+<h3 id="h3-s52syn">Tóm lược</h3>
+<p>CSVD là một trong những tình trạng thường gặp nhất trong thần kinh học. CSVD được định nghĩa trên hình ảnh bởi sự hiện diện của: tăng tín hiệu chất trắng, nhồi máu dưới vỏ nhỏ gần đây, lỗ khuyết (lacune) nghĩ nguồn gốc mạch máu, vi xuất huyết não, khoảng quanh mạch giãn rộng và teo não. Có nhiều phân nhóm, thường gặp nhất liên quan xơ cứng động mạch hoặc bệnh động mạch do tăng huyết áp; các dạng khác gồm bệnh mạch máu não dạng amyloid, hội chứng di truyền như CADASIL, và thể qua trung gian miễn dịch hoặc nhiễm trùng. CSVD có thể không triệu chứng nhiều năm trước khi biểu hiện lâm sàng (đột quỵ thiếu máu/xuất huyết, suy giảm nhận thức, rối loạn dáng đi hoặc tâm thần). MRI chụp vì lý do khác có thể tình cờ phát hiện CSVD; thầy thuốc có thể phải quyết định xử trí khi chưa có biểu hiện lâm sàng. Mục này xem xét tài liệu và thử nghiệm về dự phòng nguyên phát đột quỵ ở người có CSVD không triệu chứng gồm SCI. &gt;90% nhồi máu thầm lặng nằm dưới vỏ; do đó các khuyến cáo này <strong>không áp dụng</strong> cho nhồi máu thầm lặng ở vỏ não (ít liên quan CSVD). Nhóm tập trung vào phân nhóm thường gặp nhất; các phân nhóm CSVD đặc hiệu khác được đề cập ở phần khác.</p>
+<h3 id="h3-s52text">Giải thích hỗ trợ từng khuyến cáo</h3>
+<p><strong>(1) Yếu tố nguy cơ.</strong> Nghiên cứu quan sát và phân tích gộp cho thấy nhiều yếu tố nguy cơ của CSVD, tiến triển CSVD và nguy cơ đột quỵ về sau. Yếu tố nguy cơ có thể điều chỉnh gồm tăng huyết áp, đái tháo đường, hút thuốc lá, rối loạn lipid, OSA và các yếu tố khác (như ăn quá nhiều muối, dữ liệu không nhất quán). Do mối liên quan giữa các yếu tố này với nguy cơ đột quỵ ở dân số chung và nguy cơ đột quỵ tăng ở người có CSVD không triệu chứng, việc tình cờ nhận thấy hình ảnh CSVD cần thúc đẩy thầy thuốc nhận diện và quản lý yếu tố nguy cơ mạch máu thường gặp.</p>
+<p><strong>(2) Statin.</strong> SCI (chủ yếu dưới vỏ) phổ biến hơn đột quỵ thiếu máu cấp, ước tính tỷ lệ hiện mắc ở người lớn 10–20%. Có ít nghiên cứu về vai trò statin trong giảm nguy cơ đột quỵ ở CSVD, gồm nhồi máu dưới vỏ thầm lặng. Một số thử nghiệm ủng hộ vai trò statin làm giảm tiến triển CSVD so với giả dược, nhưng không đánh giá tác động lên nguy cơ đột quỵ. Một nghiên cứu dùng dữ liệu từ đoàn hệ dựa trên dân số tiến cứu và một RCT mù đôi có đối chứng giả dược để xác định tác động của statin liều thấp lên tiến triển CSVD ở người ≥75 tuổi: ở cả hai nhóm, nguy cơ tiến triển CSVD (tiêu chí chính) giảm có ý nghĩa với statin mà không tăng vi xuất huyết não; và nguy cơ đột quỵ mới xảy ra cũng thấp hơn có ý nghĩa ở nhóm statin so với không statin (HR 0,60; KTC 0,37–0,97; và HR 0,56; KTC 0,37–0,84). Dù nghiên cứu cho thấy tiềm năng lợi ích, thiết kế (quần thể đặc thù, đột quỵ là tiêu chí thứ phát) có thể ảnh hưởng khả năng tái lập và khái quát hóa.</p>
+<p><strong>(3) Kháng kết tập tiểu cầu.</strong> Do lợi ích kháng kết tập tiểu cầu trong đột quỵ thiếu máu lâm sàng, thầy thuốc có thể có xu hướng dùng aspirin hoặc thuốc kháng kết tập khác cho nhồi máu dưới vỏ phát hiện tình cờ; nghiên cứu hỗ trợ thực hành này còn hạn chế và các hướng dẫn hiện hành chưa dứt khoát. Trong <strong>SILENCE</strong>, 83 người ≥45 tuổi có nhồi máu thầm lặng được ngẫu nhiên dùng aspirin liều thấp so với giả dược, theo dõi 4 năm; tiêu chí chính là gộp nhồi máu não thầm lặng, đột quỵ thiếu máu lâm sàng và TIA. Nhóm aspirin có 2 biến cố, nhóm giả dược 9 biến cố (P=0,10). Cỡ mẫu nhỏ là hạn chế chính. Nghiên cứu không đủ để ủng hộ hay bác bỏ việc dùng kháng kết tập cho nhồi máu não thầm lặng; nhưng tỷ lệ CSVD cao ở người già và bằng chứng gây hại tăng khi dùng aspirin dự phòng nguyên phát ở quần thể có nguy cơ CSVD gợi ý cần thận trọng hơn và cân nhắc lợi–hại theo từng bệnh nhân. Cần thêm dữ liệu để xác định nhóm nào (nếu có) được lợi.</p>
+<h3 id="h3-s52gap">Khoảng trống kiến thức và nghiên cứu tương lai</h3>
+<ul>
+<li>Cần công cụ lâm sàng tính nguy cơ đột quỵ thiếu máu/xuất huyết riêng cho từng bệnh nhân khi có CSVD không triệu chứng, gồm nhồi máu dưới vỏ thầm lặng.</li>
+<li>Dù dữ liệu hạn chế gợi ý lợi ích hạ HA với tiến triển CSVD trên hình ảnh, cần thêm dữ liệu để xác định đóng góp của hạ HA vào giảm nguy cơ đột quỵ.</li>
+<li>Lợi ích của statin (kể cả ở các quần thể đặc thù) trong giảm đột quỵ khi có CSVD không triệu chứng vẫn chưa rõ.</li>
+<li>Lợi ích của kháng kết tập tiểu cầu (kể cả quần thể đặc thù) giảm đột quỵ khi có CSVD không triệu chứng và SCI vẫn chưa rõ.</li>
+<li>Chưa rõ sự hiện diện của vi xuất huyết não có nên thay đổi xử trí các yếu tố nguy cơ khác (vd. rung nhĩ) để cân bằng lợi ích giảm nguy cơ thiếu máu với nguy cơ xuất huyết hay không; cần nghiên cứu thêm.</li>
+</ul>
+
+<h3 id="h3-s53">5.3. Đau nửa đầu (Migraine)</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — MIGRAINE</div>
+<div class="rec"><span class="num">5.3.1</span> Ở người trưởng thành <strong>18–64 tuổi bị migraine có hoặc không có aura</strong>, <strong>đánh giá và điều chỉnh các yếu tố nguy cơ mạch máu</strong> được khuyến cáo để giải quyết nguy cơ đột quỵ tăng ở nhóm bệnh nhân này. <span class="grade">COR 1 · LOE C-LD</span></div>
+<div class="rec"><span class="num">5.3.2</span> Ở người trưởng thành bị <strong>migraine có aura</strong> muốn tránh thai, nên dùng <strong>dạng chỉ có progestin hoặc không dùng hormon</strong> để tránh nguy cơ đột quỵ thiếu máu tăng liên quan thuốc tránh thai nội tiết kết hợp (CHC). <span class="grade">COR 1 · LOE C-LD</span></div>
+</div>
+<h3 id="h3-s53syn">Tóm lược</h3>
+<p>Migraine là rối loạn đau đầu tái diễn đặc trưng bởi đau đầu mức vừa–nặng kéo dài hàng giờ đến hàng ngày, kèm các đặc điểm điển hình như đau một bên, nặng thêm khi hoạt động, sợ ánh sáng, sợ tiếng động và buồn nôn. Migraine ảnh hưởng 14,4% dân số và là nguyên nhân hàng đầu gây tàn tật trên toàn cầu; ảnh hưởng không cân xứng ở nữ 15–49 tuổi với tỷ lệ 20–30%. Quan sát nhất quán cho thấy mối liên quan giữa migraine — đặc biệt migraine có aura — với nguy cơ đột quỵ; mối liên quan mạnh hơn với đột quỵ thiếu máu so với xuất huyết và rõ hơn ở phụ nữ trẻ. Yếu tố nguy cơ mạch máu thường gặp ở bệnh nhân migraine và góp phần vào nguy cơ đột quỵ vượt mức. Cơ chế liên kết migraine–đột quỵ chưa được hiểu rõ. Migraine hiếm khi trực tiếp gây đột quỵ (nhồi máu do migraine) và liên quan tỷ lệ cao hơn tăng tín hiệu chất trắng và tổn thương giống nhồi máu tiểu não, đặc biệt ở tuần hoàn sau. Dùng CHC ở người migraine có aura liên quan tăng nguy cơ đột quỵ thiếu máu. Migraine có aura liên quan <strong>còn lỗ bầu dục (PFO)</strong>, nhưng chưa chứng minh được lợi ích đóng PFO để dự phòng nguyên phát đột quỵ ở bệnh nhân migraine, dù PFO liên quan nguy cơ cả migraine và đột quỵ. Thiếu bằng chứng chất lượng cao hướng dẫn dự phòng đột quỵ ở bệnh nhân migraine và còn nhiều điểm chưa chắc chắn.</p>
+<h3 id="h3-s53text">Giải thích hỗ trợ từng khuyến cáo</h3>
+<p><strong>(1) Yếu tố nguy cơ mạch máu.</strong> Bốn tổng quan hệ thống/phân tích gộp gần đây (tổng cộng 49 nghiên cứu quan sát: 28 đoàn hệ và 21 bệnh–chứng) cho thấy mối liên quan nhất quán giữa migraine và đột quỵ, RR 1,3–1,6 với bất kỳ đột quỵ, đến 1,7 với đột quỵ thiếu máu và đến 1,5 với xuất huyết. <strong>Migraine có aura</strong> làm tăng nguy cơ đột quỵ thiếu máu với RR gộp 2,17 (KTC 95% 1,78–2,64). Yếu tố nguy cơ tim mạch phổ biến ở bệnh nhân migraine ngay cả ở tuổi trẻ: một nghiên cứu dữ liệu bảo hiểm trên 1,2 triệu người lớn Mỹ 18–64 tuổi bị migraine thấy 18% được coi là nguy cơ biến cố mạch trung bình hoặc cao theo bệnh đồng mắc; tỷ lệ đột quỵ thiếu máu mới cao gấp 3 lần ở nhóm nguy cơ trung bình và &gt;16 lần ở nhóm nguy cơ cao so với nhóm nguy cơ thấp. Tỷ lệ hiện mắc migraine đạt đỉnh ở thập niên thứ tư của cuộc đời — độ tuổi mà các bảng tính nguy cơ chuẩn có thể đánh giá thấp nguy cơ tim mạch. Vì vậy, dù chưa có RCT riêng cho điều chỉnh yếu tố nguy cơ mạch máu trong dự phòng nguyên phát đột quỵ ở người migraine, khuyến cáo đặc biệt chú ý sàng lọc và điều chỉnh yếu tố nguy cơ mạch máu ở bệnh nhân này.</p>
+<p><strong>(2) Tránh thai.</strong> Một tổng quan hệ thống 12 nghiên cứu quan sát thấy mối liên quan nhất quán giữa migraine, dùng CHC và đột quỵ thiếu máu, với nguy cơ tuyệt đối <strong>36,9/100.000</strong> ở phụ nữ 20–44 tuổi migraine có aura dùng CHC so với <strong>2,5/100.000</strong> ở phụ nữ không migraine và không dùng CHC. Nguy cơ cũng tăng ở người migraine không aura. Các nghiên cứu rất không đồng nhất về liều estrogen, báo cáo aura và biến số hiệu chỉnh, với mức đồng thuận đặc biệt thấp giữa các nghiên cứu về migraine không aura. Một tổng quan 2020 của 4 nghiên cứu bệnh–chứng (12.256 phụ nữ) chỉ gồm CHC liều thấp thấy mối liên quan nhất quán của migraine và CHC liều thấp với đột quỵ thiếu máu, dù không đồng nhất cao. Trong một nghiên cứu bệnh–chứng ở nữ Mỹ dùng CHC liều thấp (1.884 ca, 7.536 chứng), phụ nữ migraine có aura dùng CHC có nguy cơ đột quỵ thiếu máu <strong>cao gấp 6 lần</strong> so với người không có cả hai yếu tố. Ở người migraine không aura, CHC liều thấp không làm tăng nguy cơ. Chưa ghi nhận tăng nguy cơ đột quỵ ở người migraine dùng thuốc tránh thai chỉ có progestin.</p>
+<h3 id="h3-s53gap">Khoảng trống kiến thức và nghiên cứu tương lai</h3>
+<p>Dù có nhiều nghiên cứu quan sát về mối liên quan migraine–đột quỵ, còn nhiều điểm chưa chắc chắn trong dự phòng đột quỵ tối ưu ở người migraine. Các ưu tiên nghiên cứu tương lai:</p>
+<ul>
+<li>Xác định migraine có liên quan tăng nguy cơ đột quỵ ở người được kê liệu pháp nền estrogen vì lý do khác tránh thai (vd. liệu pháp hormon khẳng định giới, liệu pháp hormon mãn kinh) và liều estradiol nào được coi là an toàn;</li>
+<li>Xác định mối liên hệ giữa PFO, migraine có aura và đột quỵ thiếu máu không rõ nguyên nhân, gồm RCT kiểm định liệu có cần liệu pháp dự phòng nguyên phát đặc hiệu ở nhóm này;</li>
+<li>Xác định điều trị dự phòng migraine giảm tần suất và cường độ cơn có giảm nguy cơ đột quỵ ở người migraine hay không;</li>
+<li>Xác định các nhóm con đặc thù (aura thân não hoặc aura kéo dài, thai kỳ, có yếu tố nguy cơ mạch khác như rung nhĩ và yếu tố đặc hiệu nữ, có kháng thể kháng phospholipid) có được lợi từ kháng kết tập tiểu cầu, kháng đông, statin hoặc thuốc khác nhằm dự phòng nguyên phát đột quỵ hay không.</li>
+</ul>
+
+<h2 id="h3-s6">6. Các quần thể đặc biệt</h2>
+<h3 id="h3-s61">6.1. Bệnh hồng cầu liềm (SCD)</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — BỆNH HỒNG CẦU LIỀM</div>
+<p style="margin:0 0 6px"><em>Can thiệp sàng lọc</em></p>
+<div class="rec"><span class="num">6.1.1</span> Ở trẻ <strong>2–16 tuổi mắc SCD (Hb SS hoặc Hb S-beta⁰-thalassemia)</strong>, <strong>sàng lọc siêu âm Doppler xuyên sọ (TCD)</strong> với tần suất dựa trên vận tốc dòng chảy trung bình cao nhất ở đoạn tận của động mạch cảnh trong hoặc đoạn gần của động mạch não giữa được khuyến cáo. <span class="grade">COR 1 · LOE B-R</span></div>
+<p style="margin:10px 0 6px"><em>Các can thiệp khác</em></p>
+<div class="rec"><span class="num">6.1.2</span> Ở trẻ 2–16 tuổi mắc SCD có <strong>nguy cơ cao theo TCD</strong>, <strong>truyền máu định kỳ</strong> (mục tiêu giảm Hb S &lt;30%) có hiệu quả giảm nguy cơ đột quỵ. <span class="grade">COR 1 · LOE B-R</span></div>
+<div class="rec"><span class="num">6.1.3</span> Ở trẻ 2–16 tuổi và người trẻ có Hb SS hoặc Hb S-beta⁰-thalassemia, nên chụp <strong>MRI não không dùng an thần</strong> càng sớm càng tốt để đánh giá nhồi máu não thầm lặng (SCI) và xác định nhu cầu <strong>truyền hồng cầu mạn tính (CRCT)</strong> để phòng đột quỵ. <span class="grade">COR 2a · LOE B-R</span></div>
+<div class="rec"><span class="num">6.1.4</span> Ở trẻ 2–16 tuổi mắc SCD có vận tốc TCD đã trở về bình thường, <strong>tiếp tục truyền máu</strong> có thể có lợi để giảm nguy cơ đột quỵ. <span class="grade">COR 2a · LOE B-R</span></div>
+<div class="rec"><span class="num">6.1.5</span> Ở trẻ 2–16 tuổi mắc SCD có vận tốc dòng chảy trung bình đã bình thường hóa và <strong>không hẹp nội sọ</strong>, có thể cân nhắc <strong>chuyển từ truyền máu sang hydroxyurea</strong> để phòng đột quỵ. <span class="grade">COR 2a · LOE B-NR</span></div>
+<div class="rec"><span class="num">6.1.6</span> Ở trẻ 2–16 tuổi mắc SCD <strong>nguy cơ đột quỵ cao (vận tốc TCD trung bình ≥200 cm/s)</strong> nhưng không hẹp nội sọ, không thể tiếp tục hoặc không điều trị được bằng truyền hồng cầu định kỳ, <strong>hydroxyurea hoặc ghép tủy xương</strong> có thể hợp lý để phòng đột quỵ. <span class="grade">COR 2b · LOE B-NR</span></div>
+</div>
+<h3 id="h3-s61syn">Tóm lược</h3>
+<p>SCD, ước tính gặp ở 1/365 người Mỹ gốc Phi, do bất thường chuỗi β của hemoglobin, di truyền lặn trên NST thường. SCD gồm mọi bệnh nhân có 1 bản sao alen β-globin liềm kèm 1 alen β-globin biến đổi thứ hai; alen thứ hai có thể cũng mang đột biến liềm (Hb SS), đột biến β-thalassemia (sickle beta⁰-thalassemia), hoặc đột biến hemoglobin C (bệnh Hb SC), cùng các dạng khác. Về lâm sàng, SCD gây thiếu máu mạn hoặc cơn tắc mạch cấp, thường biểu hiện bằng đợt đau. Biến chứng gồm hội chứng ngực cấp, tăng áp phổi, nhiễm khuẩn, nhồi máu cơ quan — nhất là đột quỵ. SCD cũng có thể biến chứng hội chứng <strong>moyamoya</strong> (bệnh lý mạch nội sọ do hẹp–tắc đoạn tận động mạch cảnh trong và hình thành tuần hoàn bàng hệ). Các tác động khác gồm suy giảm nhận thức liên quan SCI và tăng tín hiệu chất trắng không triệu chứng. Ước tính 11% bệnh nhân SCD đồng hợp tử bị đột quỵ rõ ràng trước 20 tuổi, và nhiều hơn nữa có SCI chỉ thấy trên MRI. TCD xác định những trẻ có nguy cơ đột quỵ cao, cho phép quyết định dự phòng nguyên phát dựa trên bằng chứng. Chưa rõ vận tốc cao tự nó làm tăng nguy cơ hay chỉ là dấu ấn không nhân quả của nguy cơ cao; dù vậy mối liên quan đã được xác lập rõ.</p>
+<div class="tbl-wrap"><table><caption>Bảng 9. Lịch tái đánh giá TCD theo vận tốc dòng chảy trung bình và chỉ định truyền thay máu</caption>
+<tr><th colspan="2">3 nhóm vận tốc (dùng/thử trong RCT)</th><th colspan="2">4 nhóm vận tốc (một số tổ chức hiện dùng)</th></tr>
+<tr><td>&lt;170 cm/s</td><td>Lặp lại hằng năm</td><td>&lt;170 cm/s</td><td>Lặp lại hằng năm</td></tr>
+<tr><td>170–199 cm/s</td><td>Lặp lại sau 1–6 tháng</td><td>170–184 cm/s</td><td>Lặp lại sau 3–6 tháng</td></tr>
+<tr><td rowspan="2">≥200 cm/s</td><td rowspan="2">Lặp lại sau 1–2 tuần</td><td>185–199 cm/s</td><td>Lặp lại sau 1–3 tháng</td></tr>
+<tr><td>≥200 cm/s</td><td>Lặp lại sau 1–2 tuần</td></tr>
+</table></div>
+<p style="font-size:12.5px;color:var(--ink-2)">Vận tốc TCD trong thử nghiệm STOP dùng Doppler chuyên dụng (TCD không hình ảnh) chứ không phải TCD có hình ảnh. Một số nghiên cứu nhỏ cho thấy vận tốc đo bằng TCD có hình ảnh thường thấp hơn Doppler chuyên dụng ở cùng đoạn động mạch. Hội Huyết học Hoa Kỳ khuyến cáo dùng tiêu chí STOP: trung bình theo thời gian của vận tốc tối đa ≥200 cm/s với Doppler chuyên dụng và ≥185 cm/s với TCD có hình ảnh làm ngưỡng điều trị. Thầy thuốc nên cân nhắc dùng vận tốc thấp hơn khi sàng lọc bằng TCD có hình ảnh và phải ghi rõ loại TCD đã dùng.</p>
+<h3 id="h3-s61text">Giải thích hỗ trợ từng khuyến cáo</h3>
+<p><strong>(1) TCD.</strong> Vận tốc dòng chảy TCD cao là yếu tố tiên đoán mạnh nguy cơ đột quỵ. Trong nghiên cứu 315 bệnh nhân SCD 3–18 tuổi theo dõi trung bình 64,4 tháng, tỷ lệ đột quỵ ở nhóm có trung bình theo thời gian của vận tốc tối đa (TCD không hình ảnh) &lt;170 cm/s là <strong>2%</strong>, 170–200 cm/s là <strong>7%</strong>, và &gt;200 cm/s là <strong>40%</strong>. Ở 209 trẻ trong STOP-1 và STOP-2, có 20 ca đột quỵ và lần TCD cuối trước đột quỵ đều cho vận tốc bất thường ở mọi trường hợp. TCD đã trở thành chăm sóc thường quy để đánh giá nguy cơ đột quỵ ở trẻ 2–16 tuổi mắc SCD; giá trị của sàng lọc TCD ở bệnh nhân &gt;16 tuổi chưa được xác lập. Lưu ý: vận tốc TCD thấp bất thường (vd. &lt;50–70 cm/s) ở bất kỳ mạch chính nào có thể gợi ý bệnh mạch não và cần thăm dò thêm. Như ở Bảng 9, các RCT sớm dùng khung vận tốc 3 nhóm rộng hơn, còn các hướng dẫn gần đây dùng 4 nhóm khi cân nhắc thời điểm làm TCD lại; TCD nên lặp lại với khoảng cách dựa trên vận tốc cao nhất ở đoạn tận động mạch cảnh trong hoặc đoạn gần động mạch não giữa.</p>
+<p><strong>(2) Truyền máu định kỳ.</strong> CRCT cho bệnh nhân 2–16 tuổi có TCD nguy cơ cao là nền tảng chăm sóc thường quy. Trong <strong>STOP-1</strong>, 130 trẻ SCD (tuổi trung bình 8) với TCD nguy cơ cao (vận tốc &gt;200 cm/s ở 2 lần đo lặp lại) được ngẫu nhiên vào CRCT với mục tiêu Hb S &lt;30% tổng hemoglobin hoặc quan sát/chăm sóc chuẩn. Thử nghiệm kết thúc sớm sau theo dõi trung bình 20 tháng do giảm đột quỵ rõ rệt ở nhóm CRCT dự phòng (1 đột quỵ ở nhóm truyền máu [2%] so với 10 đột quỵ và 1 xuất huyết não ở nhóm quan sát [16%]).</p>
+<p><strong>(3) MRI não.</strong> SCI là tổn thương thần kinh thường gặp nhất trong SCD, gặp ở 39% trẻ (đến 18 tuổi) và 53% người lớn. Bệnh nhân SCI có nguy cơ cao tái phát SCI, đột quỵ rõ và suy giảm nhận thức. Trong <strong>SIT Trial</strong>, 196 trẻ không có vận tốc TCD nguy cơ cao nhưng có SCI trên MRI não được ngẫu nhiên vào CRCT hoặc quan sát; qua trung vị theo dõi 3 năm, CRCT giảm 58% nguy cơ tương đối đột quỵ và SCI mới/lớn thêm. Vì mức này thấp hơn đáng kể mức giảm 92% của CRCT trong STOP, quyết định CRCT cho trẻ có SCI vẫn cần cá thể hóa do các nguy cơ đáng kể của CRCT. Trẻ nhỏ có thể không nằm yên khi chụp MRI; nên tránh thuốc an thần vì nguy cơ biến chứng tắc mạch (vd. do thiếu oxy/suy hô hấp) — nên chờ đến khi trẻ đủ phát triển để chụp MRI không an thần. Cần lưu ý TCD và MRI thường không tương đồng ở bệnh nhân SCD nên MRI phải làm <em>bổ sung</em> cho TCD, không thay thế TCD như phương tiện sàng lọc.</p>
+<p><strong>(4) Tiếp tục truyền máu.</strong> Khi bệnh nhân đã bắt đầu chương trình truyền máu dự phòng, trong đa số trường hợp nên tiếp tục vô thời hạn đến 16 tuổi, với nhu cầu TCD định kỳ giảm. Quan điểm này được hỗ trợ bởi <strong>STOP-2</strong>, trong đó trẻ SCD nguy cơ đột quỵ cao theo TCD đã truyền máu ≥30 tháng với TCD bình thường hóa được ngẫu nhiên tiếp tục hoặc ngừng truyền. Trẻ có tổn thương hẹp nặng trên MRA mạch não bị loại. Thử nghiệm dừng sớm vì lo ngại an toàn sau khi 79 trong 100 trẻ dự kiến được ngẫu nhiên. Trong 41 trẻ ở nhóm ngừng truyền, vận tốc TCD nguy cơ cao tái phát ở 14 trẻ và 2 trẻ khác đột quỵ trong vòng 4,5±2,6 tháng (khoảng 2,1–10,1 tháng) từ lần truyền cuối. Không có đột quỵ hay tái hồi TCD nguy cơ cao ở 38 trẻ tiếp tục truyền máu.</p>
+<p><strong>(5) Chuyển sang hydroxyurea.</strong> Dù CRCT là tối ưu, bằng chứng cho thấy hydroxyurea có thể dùng ở bệnh nhân có vận tốc bình thường hóa và không hẹp sau điều trị truyền máu. Trong đoàn hệ sơ sinh Créteil, 45 bệnh nhân SCD có TCD bình thường hóa nhờ CRCT được chuyển sang hydroxyurea và theo dõi TCD mỗi quý trung bình 3,4 năm: tái bất thường TCD xảy ra ở 13/45 (28,9%), truyền máu được bắt đầu lại nhanh chóng; không bệnh nhân nào bị đột quỵ hoặc SCI khi dùng hydroxyurea. Trong thử nghiệm <strong>TWiTCH</strong>, 121 trẻ SCD đang CRCT (tối thiểu 1 năm) có vận tốc TCD vẫn bất thường (≥200 cm/s) nhưng không bệnh mạch nặng được ngẫu nhiên tiếp tục truyền máu (n=61) hoặc chuyển sang hydroxyurea sau 1 năm CRCT (n=60). Tiêu chí chính là vận tốc TCD ở 24 tháng; tại phân tích giữa kỳ đầu tiên đã chứng minh không kém hơn (P=8,82×10⁻¹⁶) và thử nghiệm dừng sớm; gánh nặng sắt (ferritin) — tác dụng phụ đã biết của CRCT — cũng giảm có lợi (P≤0,001). Lý tưởng nhất, chuyển sang hydroxyurea nên xảy ra sau thời gian điều trị truyền máu dài nhất có thể và tiếp tục truyền máu trong lúc tăng liều hydroxyurea đến liều tối đa dung nạp.</p>
+<p><strong>(6) Hydroxyurea/ghép tủy.</strong> Không phải mọi bệnh nhân SCD nguy cơ đột quỵ đều tiếp cận hoặc dung nạp CRCT vô thời hạn. Các thử nghiệm gần đây ở trẻ SCD tại Nigeria (<strong>SPRING</strong>) và Tanzania (<strong>SPHERE</strong>) chứng minh trong tình huống đó, <strong>hydroxyurea hằng ngày</strong> là lựa chọn thay thế hiệu quả cho dự phòng nguyên phát đột quỵ; ở cả hai nghiên cứu, vận tốc TCD giảm sau khi bắt đầu hydroxyurea và tỷ lệ đột quỵ tương đương nhóm chứng lịch sử. Thử nghiệm BABY HUG và SCATE gợi ý hydroxyurea có thể giảm tăng vận tốc TCD ở trẻ nguy cơ thấp. Trong đoàn hệ Créteil, 24 bệnh nhân SCD có vận tốc bình thường hóa và không hẹp sau truyền máu được ghép tủy xương từ anh/chị em ruột cùng gen; theo dõi sau ghép trung bình 3,5 năm (0,3–11,0 năm), không bệnh nhân nào bị đột quỵ hoặc SCI. Dữ liệu hỗ trợ thêm từ nghiên cứu 67 trẻ có vận tốc TCD tăng được điều trị bằng ghép tủy từ anh/chị em hoặc chăm sóc chuẩn (CRCT có thể chuyển sang hydroxyurea sau năm đầu): sau 3 năm không có đột quỵ hay tử vong ở cả hai nhóm, không khác biệt nhận thức, ít SCI hơn và vận tốc TCD giảm nhiều hơn với ghép tủy xương.</p>
+<h3 id="h3-s61gap">Khoảng trống kiến thức và nghiên cứu tương lai</h3>
+<ul>
+<li>Dù TCD nhận diện được trẻ nguy cơ đột quỵ cao cần truyền máu, cần phát triển và đánh giá thuật toán dự đoán cải tiến gồm thêm thông số như vận tốc động mạch não trước, dấu ấn sinh học máu, biến thể di truyền và độ bão hòa oxy ban đêm.</li>
+<li>Thiếu nghiên cứu đánh giá thuốc kháng huyết khối, hạ áp và statin ảnh hưởng thế nào đến dự phòng nguyên phát đột quỵ trong SCD.</li>
+<li>Đa số nghiên cứu dự phòng nguyên phát (và thứ phát) đột quỵ trong SCD thực hiện ở trẻ em; chưa rõ khuyến cáo truyền máu hoặc hydroxyurea ở trẻ có còn phù hợp ở người lớn SCD.</li>
+<li>Như STOP-2 cho thấy, ngay cả những trẻ có nguy cơ đột quỵ giảm nhờ truyền máu theo tiêu chí TCD vẫn có khoảng <strong>50%</strong> khả năng tái hồi vận tốc TCD nguy cơ cao hoặc đột quỵ nếu ngừng truyền; hydroxyurea có thể là điều trị duy trì phù hợp. Cần nghiên cứu thêm liều tối ưu và thời gian.</li>
+<li>Dù có lợi ích nhất định của truyền máu dài hạn ở trẻ SCI, số cần điều trị để thấy giảm đột quỵ lớn, nguy cơ và chi phí truyền máu đều cao. Cần xác định đặc điểm bệnh nhân/SCI mang nguy cơ đột quỵ cao nhất để chọn người được lợi nhất; thiếu nghiên cứu về tần suất MRI ở trẻ em và người lớn.</li>
+<li>Cần nghiên cứu thêm vai trò các liệu pháp mới cho SCD (voxelotor, crizanlizumab, L-glutamine) trong dự phòng đột quỵ.</li>
+<li>Thiếu RCT dự phòng nguyên phát đột quỵ ở người lớn SCD và trong quần thể đặc thù (vd. thai kỳ).</li>
+<li>Thể mang gen hồng cầu liềm liên quan không nhất quán với đột quỵ thiếu máu, dù tăng đông và bệnh thận mạn cùng các yếu tố khác có thể điều chỉnh nguy cơ này; cần nghiên cứu thêm.</li>
+<li>Bệnh mạch moyamoya như biến chứng muộn của SCD cần nghiên cứu thêm.</li>
+<li>FDA gần đây phê duyệt <strong>exagamglogene autotemcel</strong> và <strong>lovotibeglogene autotemcel</strong> — liệu pháp gen đầu tiên cho SCD ở bệnh nhân ≥12 tuổi; cần nghiên cứu xác định tác động lên nguy cơ đột quỵ.</li>
+</ul>
+
+<h3 id="h3-s62">6.2. Các hội chứng đột quỵ di truyền</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — HỘI CHỨNG ĐỘT QUỴ DI TRUYỀN</div>
+<div class="rec"><span class="num">6.2.1</span> Ở bệnh nhân <strong>CADASIL</strong>, tư vấn <strong>cai thuốc lá</strong> và điều trị tăng huyết áp cùng các yếu tố nguy cơ mạch máu khác có lợi để giảm nguy cơ đột quỵ mới xảy ra. <span class="grade">COR 1 · LOE C-LD</span></div>
+<div class="rec"><span class="num">6.2.2</span> Ở người trưởng thành có <strong>giãn mao mạch xuất huyết di truyền (HHT)</strong>, <strong>sàng lọc dị dạng động–tĩnh mạch phổi (PAVM)</strong> là hợp lý để xác định nhu cầu đánh giá đa chuyên ngành nhằm quản lý nguy cơ đột quỵ. <span class="grade">COR 2a · LOE B-NR</span></div>
+<div class="rec"><span class="num">6.2.3</span> Ở bệnh nhân <strong>bệnh Fabry</strong>, hiệu quả của <strong>liệu pháp thay thế enzyme (ERT)</strong> trong giảm nguy cơ đột quỵ <strong>chưa được xác lập rõ</strong>. <span class="grade">COR 2b · LOE C-LD</span></div>
+</div>
+<h3 id="h3-s62syn">Tóm lược</h3>
+<p>Vai trò của di truyền trong bệnh sinh đột quỵ ngày càng được công nhận. Các bệnh đơn gen được hiểu rõ nhất, gồm bệnh Fabry, CADASIL, HHT và đột biến collagen type IV (COL4A1/2) cùng các bệnh khác (Bảng 10). Dù mỗi bệnh di truyền riêng lẻ hiếm, nguy cơ đột quỵ ở một số bệnh có thể được điều chỉnh bằng điều trị dự phòng; chẩn đoán còn giúp thảo luận tiên lượng, hạn chế xét nghiệm không cần thiết và hỗ trợ nghiên cứu tiến trình tự nhiên. Nhiều yếu tố, gồm tính hiếm của từng rối loạn, khiến việc nghiên cứu chất lượng cao về dự phòng đột quỵ trong các bệnh này khó khăn. Vì bệnh di truyền thường ảnh hưởng nhiều cơ quan, nhiều RCT chất lượng cao báo cáo kết cục gộp, hạn chế dữ liệu riêng cho đột quỵ. Ngoài ra biểu hiện biến thiên vốn có của nhiều rối loạn khiến khó đưa ra khuyến cáo dự phòng đột quỵ đồng nhất.</p>
+<h3 id="h3-s62text">Giải thích hỗ trợ từng khuyến cáo</h3>
+<p><strong>(1) CADASIL.</strong> CADASIL là bệnh mạch máu nhỏ não di truyền do đột biến gen <em>NOTCH3</em>. Dù chưa có thuốc chữa, dữ liệu dịch tễ gợi ý nguy cơ đột quỵ trong CADASIL liên quan các yếu tố nguy cơ có thể điều chỉnh. Các đoàn hệ tiến cứu cho thấy tăng huyết áp, hút thuốc lá hiện tại và tổng số bao-năm đều liên quan tăng nguy cơ đột quỵ ở bệnh nhân CADASIL; hút thuốc còn có thể liên quan khởi phát đột quỵ/TIA sớm hơn. Một đoàn hệ tiến cứu lớn 973 người mang <em>NOTCH3</em> cho thấy gánh nặng nguy cơ tim mạch liên quan tăng nguy cơ đột quỵ. Cùng nhau, các dữ liệu này gián tiếp gợi ý kiểm soát yếu tố nguy cơ tim mạch có thể giảm nguy cơ đột quỵ ở CADASIL. Tuy nhiên chưa có RCT đánh giá tác động điều chỉnh yếu tố nguy cơ mạch máu lên nguy cơ đột quỵ ở CADASIL. Dù thiếu dữ liệu chất lượng cao về tác động của kiểm soát HA và cai thuốc, các biện pháp này vẫn được khuyến cáo, tối thiểu để giảm tác hại lên bệnh mạch máu xơ vữa, vốn có thể cộng gộp nguy cơ đột quỵ ở CADASIL. Các liệu pháp dự phòng đã chứng minh lợi ích ở bệnh nhân đột quỵ khác — gồm thuốc kháng kết tập tiểu cầu — chưa được chứng minh ảnh hưởng tỷ lệ đột quỵ ở CADASIL.</p>
+<p><strong>(2) HHT.</strong> HHT là loạn sản mạch di truyền trội NST thường, thường biểu hiện chảy máu cam, giãn mao mạch và dị dạng mạch ở não, phổi, gan. <strong>PAVM có ở gần một nửa bệnh nhân HHT</strong> và liên quan biến chứng tắc mạch gồm đột quỵ thiếu máu và áp xe não. Trong nghiên cứu cắt ngang 108 bệnh nhân HHT, người có PAVM có nhiều biến chứng tắc mạch và đột quỵ/TIA hơn, với tỷ số chênh biến cố tắc mạch tăng 7 lần trong mô hình hiệu chỉnh. Phân tích đa biến của đoàn hệ hồi cứu 353 bệnh nhân HHT: PAVM liên quan độc lập với SCI. Trong nghiên cứu cắt ngang 75 người có PAVM, người có nhiều PAVM có tỷ số chênh đột quỵ cao hơn người chỉ có một. Dữ liệu quan sát cho thấy mối liên quan giữa <strong>nút mạch PAVM</strong> và giảm tỷ lệ đột quỵ, nhưng chưa được xác nhận trong thử nghiệm lâm sàng. Vì vậy, một nhóm đa chuyên ngành có chuyên môn HHT — tối thiểu gồm chuyên gia phổi, can thiệp X-quang và thần kinh/phẫu thuật thần kinh — nên cân nhắc lợi–hại can thiệp cho bệnh nhân có PAVM.</p>
+<p><strong>(3) Bệnh Fabry.</strong> Fabry là rối loạn dự trữ lysosome liên kết X gây thiếu α-galactosidase và tích tụ glycosphingolipid ở nhiều mô gồm nội mô mạch máu. ERT bằng α-galactosidase A tái tổ hợp (agalsidase β) đã được chứng minh trong một RCT làm giảm lắng đọng globotriaosylceramide nội mô vi mạch ở thận, tim và da. Tuy nhiên tác động của ERT lên đột quỵ trong Fabry vẫn chưa rõ. Trong giai đoạn mở rộng nhãn mở của thử nghiệm đó, 58 bệnh nhân Fabry dùng ERT có 8,6% bị đột quỵ trong theo dõi 30–36 tháng, thấp hơn tỷ lệ lịch sử 13,7%. Trong RCT có đối chứng giả dược sau đó, ERT làm trì hoãn biến cố lâm sàng đầu tiên (thận, tim, mạch máu não hoặc tử vong), nhưng tỷ lệ đột quỵ thấp (n=2) hạn chế đánh giá tác động lên đột quỵ. Phân tích gộp 77 nghiên cứu đoàn hệ cho thấy ERT liên quan ít biến chứng gộp hơn (thận, tim mạch, mạch máu não). Ngược lại, một nghiên cứu quan sát tiến cứu cho thấy tỷ lệ đột quỵ không khác giữa người dùng ERT và bệnh nhân Fabry ghép cặp không dùng ERT; một đoàn hệ tiến cứu khác 362 bệnh nhân Fabry cũng không thấy khác biệt theo loại hay thời điểm bắt đầu ERT.</p>
+<div class="tbl-wrap"><table><caption>Bảng 10. Các hội chứng đột quỵ di truyền</caption>
+<tr><th>Hội chứng</th><th>Di truyền / gen</th><th>Đặc điểm đột quỵ</th><th>Biểu hiện ngoài đột quỵ</th><th>Tần suất ước tính</th></tr>
+<tr><td>Bệnh Fabry</td><td>Liên kết X; gen GLA (α-galactosidase)</td><td>Đột quỵ trẻ (thường tuần hoàn sau), bất thường chất trắng, mạch dolichoectatic</td><td>Chóng mặt, giảm thính lực, ù tai, rối loạn nhận thức, bệnh thần kinh sợi nhỏ, bệnh cơ tim, suy thận, u mạch sừng hóa, loạn dưỡng giác mạc</td><td>Fabry cổ điển 1:17.000–1:117.000 ở nam; sàng lọc sơ sinh: 1:3.100–1:8.454 (đa số khởi phát muộn)</td></tr>
+<tr><td>Thiếu hụt adenosine deaminase 2 (DADA2)</td><td>Lặn NST thường; ADA2</td><td>Đột quỵ thiếu máu hoặc xuất huyết tái diễn</td><td>Sốt tái diễn, livedo racemosa, suy tủy, suy giảm miễn dịch</td><td>~1:222.000</td></tr>
+<tr><td>CADASIL</td><td>Trội NST thường; NOTCH3 (NST 19)</td><td>Đột quỵ lỗ khuyết thường ở thập niên 6, vi xuất huyết não</td><td>Migraine có aura, sa sút trí tuệ, cảm xúc giả hành tủy</td><td>Kiểu hình cổ điển 1:20.000–1:50.000; đột biến NOTCH3 đổi cysteine có thể 1:300–1:450 nhưng kiểu hình rất khác nhau</td></tr>
+<tr><td>CARASIL</td><td>Lặn NST thường; HTRA1</td><td>Đột quỵ mạch nhỏ, khởi phát khoảng thập niên 3</td><td>Rụng tóc sớm, sa sút trí tuệ, thoái hóa cột sống</td><td>Cực hiếm</td></tr>
+<tr><td>Dị dạng thể hang gia đình (CCM)</td><td>Trội NST thường; CCM1 (KRIT1), CCM2, CCM3 (PDCD10)</td><td>Xuất huyết liên quan CCM</td><td>Co giật, dấu thần kinh khu trú</td><td>1:3.300–1:3.800; có triệu chứng 1:5.400–1:6.200</td></tr>
+<tr><td>Rối loạn liên quan COL4A1/2</td><td>Trội NST thường (nhiều ca de novo)</td><td>Bệnh mạch máu nhỏ, xuất huyết nội sọ, vi xuất huyết, phình mạch</td><td>Bệnh cơ, bệnh thận, dị tật mắt, loạn nhịp tim</td><td>Cực hiếm, có thể chẩn đoán thiếu</td></tr>
+<tr><td>HHT</td><td>Trội NST thường; ENG (HHT1), ACVRL1 (HHT2), SMAD4</td><td>Đột quỵ thiếu máu (rõ và thầm lặng) do thuyên tắc nghịch lý qua PAVM; xuất huyết não do AVM/dị dạng mạch não</td><td>Chảy máu cam, giãn mao mạch, AVM phổi và gan</td><td>1:5.000–1:10.000</td></tr>
+<tr><td>Bệnh mạch võng mạc với loạn dưỡng chất trắng não (TREX1)</td><td>Trội NST thường; TREX1</td><td>Bệnh mạch máu nhỏ</td><td>Bệnh võng mạc, migraine, co giật, suy giảm nhận thức, rối loạn tâm thần, rối loạn chức năng thận và gan</td><td>Cực hiếm</td></tr>
+<tr><td>MELAS (bệnh não ty thể, nhiễm toan lactic, đột quỵ giả)</td><td>Di truyền theo mẹ; DNA ty thể</td><td>Đột quỵ chuyển hóa trước 40 tuổi</td><td>Co giật, sa sút trí tuệ, migraine, lùn, điếc, nôn</td><td>Đột biến 3243A&gt;G ~1:5.500–1:6.000</td></tr>
+<tr><td>Ehlers-Danlos typ IV (mạch máu)</td><td>Trội NST thường; COL3A1</td><td>Bóc tách động mạch</td><td>Da mỏng, bầm máu, vỡ tạng</td><td>1:100.000–1:250.000</td></tr>
+<tr><td>Homocystin niệu</td><td>Lặn NST thường; CBS</td><td>Bệnh mạch máu nhỏ</td><td>Chậm phát triển trí tuệ, lệch thể thủy tinh, loãng xương</td><td>Biến thiên rộng 1:6.400–1:300.000</td></tr>
+<tr><td>Pseudoxanthoma elasticum</td><td>Lặn NST thường; ABCC6</td><td>Bệnh động mạch lớn và nhỏ</td><td>Tổn thương da, vạch mạch võng mạc (angioid streaks), «da cam», bệnh động mạch ngoại biên, hẹp động mạch thận</td><td>1:25.000–1:100.000</td></tr>
+</table></div>
+<p style="font-size:12.5px;color:var(--ink-2)">Đây là các hội chứng đột quỵ di truyền thường gặp hoặc được nhận biết rõ nhất tại thời điểm công bố; không phải danh sách đầy đủ mọi gen dễ mắc đột quỵ.</p>
+<h3 id="h3-s62gap">Khoảng trống kiến thức và nghiên cứu tương lai</h3>
+<ul>
+<li>Cần phát triển các liệu pháp thay đổi bệnh (gồm liệu pháp gen) cho hội chứng di truyền có nguy cơ đột quỵ cao và đánh giá kết cục riêng cho đột quỵ. Vai trò của điều chỉnh yếu tố nguy cơ mạch máu, kháng kết tập tiểu cầu và chẹn kênh calci trong dự phòng đột quỵ ở CADASIL chưa rõ.</li>
+<li>Ở HHT: phương pháp sàng lọc PAVM tối ưu và độ tuổi bắt đầu sàng lọc chưa rõ; tiêu chí chọn điều trị PAVM và cách tiếp cận tối ưu cần hoàn thiện; thiếu máu thiếu sắt như yếu tố nguy cơ đột quỵ có thể điều chỉnh ở HHT có PAVM cần nghiên cứu; vai trò sàng lọc và điều trị AVM não ở HHT chưa xác định.</li>
+<li>Các nghiên cứu tương lai đánh giá nguy cơ xuất huyết não do liệu pháp hormon nữ ở bệnh nhân dị dạng thể hang gia đình nên phân tầng theo loại hormon và tính đến nguy cơ khi không được tránh thai.</li>
+<li>Cần nghiên cứu vai trò thuốc kháng huyết khối, propranolol, statin và thuốc ức chế rhoA kinase ở người có dị dạng thể hang gia đình.</li>
+<li>Cần nghiên cứu thêm lựa chọn bệnh nhân và thời điểm dùng thuốc ức chế TNF ở người thiếu hụt ADA2.</li>
+<li>Do nguy cơ đột quỵ xuất huyết ở người thiếu hụt ADA2 và rối loạn liên quan collagen IV, cần đánh giá hệ thống nguy cơ của thuốc kháng huyết khối ở nhóm này.</li>
+<li>Cần hiểu thêm cách yếu tố di truyền ảnh hưởng nguy cơ đột quỵ qua yếu tố nguy cơ mạch máu, các phân nhóm đột quỵ thường gặp và hội chứng đột quỵ gia đình hiếm; cần nghiên cứu dược di truyền học để cá thể hóa dự phòng.</li>
+</ul>
+
+<h3 id="h3-s63">6.3. Rối loạn đông máu và viêm</h3>
+<h3 id="h3-s631">6.3.1. Viêm trong xơ vữa động mạch</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO</div>
+<div class="rec"><span class="num">6.3.1.1</span> Ở người trưởng thành vừa bị <strong>nhồi máu cơ tim</strong>, thêm <strong>colchicine liều thấp</strong> vào liệu pháp statin tích cực có thể hợp lý để giảm nguy cơ đột quỵ thiếu máu. <span class="grade">COR 2b · LOE B-R</span></div>
+</div>
+<h4 id="h3-s631syn" style="font-family:var(--serif);font-size:16px;margin:18px 0 8px">Tóm lược (chung cho mục 6.3)</h4>
+<p>Các bệnh tự miễn và viêm, ung thư và nhiễm trùng là những yếu tố đã được xác lập góp phần vào nguy cơ đột quỵ nguyên phát. Các tình trạng này được cho là dẫn đến đột quỵ qua nhiều cơ chế liên quan: tăng đông, xơ vữa tăng tốc, phản ứng mạch bất thường, rối loạn chức năng nội mô và hoạt hóa bạch cầu trong lòng mạch... Một số tình trạng — vảy nến, viêm khớp dạng thấp, lupus ban đỏ, HIV/AIDS... — là <em>risk enhancer</em> của ASCVD (Bảng 8) và nên được xét khi xác định quản lý lipid tối ưu; tuy nhiên điều trị đặc hiệu theo bệnh để giảm nguy cơ đột quỵ chưa được xác lập. Với ung thư, tính không đồng nhất giữa các loại ung thư và cơ chế đột quỵ khiến dữ liệu phân tầng nguy cơ và điều trị dự phòng tối ưu còn hạn chế.</p>
+<h4 style="font-family:var(--serif);font-size:16px;margin:18px 0 8px">Giải thích hỗ trợ</h4>
+<p>Viêm giữ vai trò then chốt trong xơ vữa động mạch, và <strong>colchicine</strong> là thuốc chống viêm đã được thử trong nhiều thử nghiệm CVD. Trong <strong>COLCOT</strong>, bệnh nhân vừa MI (30 ngày) và dự kiến dùng statin tích cực được ngẫu nhiên dùng colchicine liều thấp (0,5 mg/ngày) hoặc giả dược. Colchicine liên quan giảm có ý nghĩa tiêu chí chính (tử vong tim mạch, ngừng tim, MI, đột quỵ, đau thắt ngực cần tái thông) và tiêu chí thứ phát định trước là đột quỵ (HR 0,26; KTC 95% 0,10–0,70). Chênh lệch nguy cơ tuyệt đối sau theo dõi trung bình 23 tháng là 0,6%. Lợi ích tiềm năng của colchicine trong dự phòng bệnh mạch vành mạn được đánh giá ở thử nghiệm <strong>LoDoCo2</strong>: colchicine liên quan giảm có ý nghĩa nguy cơ tiêu chí chính (tái thông do thiếu máu cục bộ, MI, đột quỵ thiếu máu, tử vong tim mạch) nhưng giảm không có ý nghĩa với đột quỵ thiếu máu (HR 0,66; KTC 0,35–1,25).</p>
+
+<h3 id="h3-s632">6.3.2. Bệnh tự miễn</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — BỆNH TỰ MIỄN, HỘI CHỨNG KHÁNG PHOSPHOLIPID</div>
+<div class="rec"><span class="num">6.3.2.1</span> Ở bệnh nhân <strong>chưa từng đột quỵ</strong> và <strong>không có chỉ định kháng đông</strong>, có <strong>hồ sơ aPL nguy cơ cao</strong> (dương tính ba (lupus anticoagulant, kháng thể anticardiolipin, anti–β2-glycoprotein 1), hoặc dương tính đôi (bất kỳ cặp nào), hoặc lupus anticoagulant đơn độc, hoặc anticardiolipin đơn độc dương tính dai dẳng ở hiệu giá trung bình–cao), <strong>aspirin dự phòng (75–100 mg/ngày)</strong> được khuyến cáo để giảm nguy cơ đột quỵ. <span class="grade">COR 1 · LOE B-NR</span></div>
+<div class="rec"><span class="num">6.3.2.2</span> Ở bệnh nhân <strong>lupus ban đỏ hệ thống (SLE)</strong> chưa từng huyết khối hoặc biến chứng thai kỳ, có <strong>hồ sơ aPL nguy cơ cao</strong> (như trên), <strong>aspirin 75–100 mg/ngày</strong> được khuyến cáo để giảm nguy cơ đột quỵ. <span class="grade">COR 1 · LOE B-NR</span></div>
+<div class="rec"><span class="num">6.3.2.3</span> Ở bệnh nhân <strong>hội chứng kháng phospholipid (APS)</strong> có <strong>huyết khối tĩnh mạch không do yếu tố khởi phát</strong> trước đó, chọn <strong>thuốc kháng vitamin K (VKA), INR mục tiêu 2–3</strong> ưu tiên hơn aspirin hoặc DOAC là hợp lý để phòng tái phát huyết khối, gồm đột quỵ. <span class="grade">COR 2a · LOE B-R</span></div>
+<div class="rec"><span class="num">6.3.2.4</span> Ở bệnh nhân <strong>viêm khớp dạng thấp</strong>, <strong>statin</strong> có thể hợp lý để giảm biến cố tim mạch bất lợi chính, gồm đột quỵ. <span class="grade">COR 2b · LOE B-R</span></div>
+<div class="rec"><span class="num">6.3.2.5</span> Ở người trưởng thành <strong>không mang thai</strong> chỉ có <strong>tiền sử APS sản khoa</strong>, <strong>aspirin dự phòng (75–100 mg/ngày)</strong> sau khi đánh giá đầy đủ lợi–hại (hồ sơ aPL, yếu tố nguy cơ tim mạch truyền thống đi kèm, không dung nạp hoặc chống chỉ định aspirin) có thể được cân nhắc để giảm nguy cơ đột quỵ. <span class="grade">COR 2b · LOE B-NR</span></div>
+<div class="rec"><span class="num">6.3.2.6</span> Ở bệnh nhân <strong>SLE</strong> chưa từng huyết khối/biến chứng thai kỳ và có <strong>hồ sơ aPL nguy cơ thấp</strong> (anticardiolipin hoặc anti–β2-glycoprotein 1 đơn độc ở hiệu giá thấp–trung bình, nhất là dương tính thoáng qua), <strong>aspirin 75–100 mg/ngày</strong> có thể được cân nhắc để giảm nguy cơ đột quỵ. <span class="grade">COR 2b · LOE C-LD</span></div>
+</div>
+<h4 style="font-family:var(--serif);font-size:16px;margin:18px 0 8px">Tóm lược</h4>
+<p>Bệnh tự miễn gây viêm, góp phần tổn thương mạch và tăng đông, làm tăng nguy cơ đột quỵ. Trong đó, các trạng thái tăng đông mắc phải và di truyền (thrombophilia) có lẽ phổ biến và được hiểu rõ nhất; trong các tình trạng này, <strong>kháng thể kháng phospholipid (aPL)</strong> liên quan thuyết phục nhất với huyết khối động mạch. APS là bệnh tự miễn đặc trưng bởi huyết khối tĩnh mạch hoặc động mạch hoặc biến chứng thai kỳ ở bệnh nhân có aPL. APS có thể là bệnh nguyên phát hoặc thứ phát sau bệnh tự miễn chính (SLE, viêm khớp dạng thấp, Sjögren, xơ cứng bì). APS đặc trưng bởi sự hiện diện <strong>dai dẳng (xét nghiệm lại cách nhau 12 tuần)</strong> của các aPL đặc hiệu cùng tiêu chuẩn lâm sàng như huyết khối mạch hoặc bệnh suất thai kỳ. Định lượng hiệu giá aPL (anticardiolipin, anti–β2-glycoprotein 1, lupus anticoagulant) dùng để xác định hồ sơ aPL nguy cơ cao hay thấp.</p>
+<div class="tbl-wrap"><table><caption>Bảng 11. Định nghĩa hiệu giá aPL trung bình–cao và hồ sơ aPL nguy cơ cao/thấp</caption>
+<tr><th>Hồ sơ</th><th>Định nghĩa</th></tr>
+<tr><td><strong>Hồ sơ aPL nguy cơ cao</strong></td><td>Có (≥2 lần cách nhau ≥12 tuần) lupus anticoagulant, hoặc dương tính đôi (bất kỳ tổ hợp lupus anticoagulant, anticardiolipin, anti–β2-glycoprotein 1) hoặc dương tính ba (cả 3), hoặc hiệu giá aPL cao dai dẳng</td></tr>
+<tr><td><strong>Hồ sơ aPL nguy cơ thấp</strong></td><td>Anticardiolipin hoặc anti–β2-glycoprotein 1 đơn độc ở hiệu giá thấp–trung bình, nhất là dương tính thoáng qua</td></tr>
+<tr><td><strong>Hiệu giá aPL trung bình–cao</strong></td><td>Anticardiolipin IgG hoặc IgM huyết thanh/huyết tương &gt;40 đơn vị GPL hoặc &gt;40 đơn vị MPL, hoặc trên bách phân vị 99 đo bằng ELISA chuẩn hóa. Anti–β2-glycoprotein 1 IgG hoặc IgM trên bách phân vị 99 đo bằng ELISA chuẩn hóa</td></tr>
+</table></div>
+<h4 style="font-family:var(--serif);font-size:16px;margin:18px 0 8px">Giải thích hỗ trợ từng khuyến cáo</h4>
+<p><strong>(1) Người mang aPL không triệu chứng.</strong> Người mang aPL không triệu chứng được định nghĩa là có ≥1 aPL, không tiền sử huyết khối, APS sản khoa hoặc SLE. Aspirin (75–100 mg/ngày) dự phòng nguyên phát đột quỵ lần đầu được ủng hộ bởi phân tích gộp 7 nghiên cứu quan sát trên 460 người mang aPL không triệu chứng cho thấy nguy cơ huyết khối đầu tiên (động mạch và tĩnh mạch gộp) giảm một nửa ở người dùng aspirin so với không dùng (OR 0,50; KTC 95% 0,25–0,99). Đa số bệnh nhân có hồ sơ aPL nguy cơ cao (định nghĩa ở Bảng 11) và ít yếu tố nguy cơ tim mạch truyền thống. Mối liên quan cường độ tương tự thấy ở phân tích gộp dữ liệu cá nhân nhỏ hơn (5 nghiên cứu) từ chính các nghiên cứu này; phân tích nhóm con cho thấy tác dụng bảo vệ của aspirin với huyết khối động mạch (HR 0,43; KTC 0,20–0,93) lớn hơn với tĩnh mạch (HR 0,49; KTC 0,22–1,11). Cả hai phân tích đều nhất quán và có lợi rõ. Dù bằng chứng chủ yếu từ nghiên cứu quan sát, các hội chuyên môn khác rút ra kết luận tương tự nhờ khả năng có lợi và nguy cơ tác dụng phụ thấp.</p>
+<p><strong>(2) SLE có aPL nguy cơ cao.</strong> Một phân tích nhóm con 8 nghiên cứu chủ yếu quan sát từ phân tích gộp lớn hơn ủng hộ dùng aspirin 75–100 mg/ngày cho dự phòng nguyên phát đột quỵ: nguy cơ huyết khối đầu tiên (động mạch + tĩnh mạch) giảm gần một nửa ở bệnh nhân dùng aspirin so với không dùng (OR 0,55; KTC 0,31–0,98) mà không có biến cố chảy máu lớn. Trong nghiên cứu theo dõi dùng dữ liệu cá nhân, aspirin có lợi hơn trong dự phòng huyết khối động mạch (HR 0,43; KTC 0,20–0,94) so với tĩnh mạch (HR 0,49; KTC 0,21–1,10). Đáng chú ý, mối liên quan này <em>độc lập</em> với việc dùng hydroxychloroquine, gợi ý aspirin mang lợi ích thêm ở nhóm này. Bệnh nhân hồ sơ aPL nguy cơ cao chiếm đa số (không phải tất cả); dù có không đồng nhất giữa các nghiên cứu, hướng tác động nhất quán ủng hộ aspirin.</p>
+<p><strong>(3) APS có huyết khối tĩnh mạch không rõ yếu tố khởi phát: VKA.</strong> Ở bệnh nhân được chẩn đoán APS sau một huyết khối tĩnh mạch không do yếu tố khởi phát ban đầu, tỷ lệ tái phát khi không dùng VKA cao nên <strong>kháng đông nên tiếp tục suốt đời</strong>. Dữ liệu từ RCT chỉ gồm biến cố tĩnh mạch và dữ liệu gộp nhiều nghiên cứu cho thấy không có lợi ích thêm với INR mục tiêu 3–4 (so với 2–3). Đáng chú ý INR mục tiêu ở nhóm cường độ cao đạt không nhất quán, có thể gợi ý nguy cơ chảy máu tăng (không có ý nghĩa thống kê) ở nhóm warfarin cường độ cao (HR 2,18; KTC 0,92–5,15). Khi so sánh kháng đông với aspirin, INR 2–3 cho thấy hiệu quả. <strong>DOAC</strong> được gợi ý ở bệnh nhân không đạt INR mục tiêu dù tuân thủ VKA tốt hoặc có chống chỉ định VKA (dị ứng, không dung nạp), nhưng bằng chứng về an toàn và hiệu quả ở APS còn hạn chế. Một phân tích gộp gần đây 4 RCT nhãn mở cho thấy ở APS huyết khối, bệnh nhân ngẫu nhiên dùng DOAC so với VKA có tỷ số chênh huyết khối động mạch tăng (OR 5,43; KTC 1,87–15,75; P≤0,001), đặc biệt đột quỵ, nhưng không khác biệt có ý nghĩa về nguy cơ VTE sau đó hay chảy máu lớn.</p>
+<p><strong>(4) Viêm khớp dạng thấp và statin.</strong> Viêm khớp dạng thấp là bệnh tự miễn mạn gây phản ứng viêm tăng toàn thân, chủ yếu ở khớp, đồng thời làm tăng xơ vữa góp phần nâng nguy cơ MI và đột quỵ. Điều trị tập trung giảm viêm toàn thân. Một số bằng chứng ủng hộ tác động có lợi tiềm năng của statin lên hoạt động bệnh nhờ đặc tính chống viêm và điều hòa miễn dịch. Tiền đề này được khảo sát trong tổng quan hệ thống – phân tích gộp lớn 40.307 bệnh nhân, dùng 6 nghiên cứu (1 RCT mù đôi có đối chứng giả dược, 4 đoàn hệ ghép điểm xu hướng và 1 nghiên cứu quan sát), cho thấy tỷ lệ biến cố tim mạch bất lợi chính (MI không tử vong, đột quỵ thiếu máu nghi ngờ không tử vong, TIA, mọi tái thông mạch vành/ngoài vành, hoặc tử vong tim mạch) thấp hơn ở bệnh nhân viêm khớp dạng thấp dùng statin so với không dùng (OR 0,67; KTC 0,51–0,89; P=0,005).</p>
+<p><strong>(5) Tiền sử APS sản khoa.</strong> Dự phòng nguyên phát huyết khối bằng aspirin (75–100 mg/ngày) ở phụ nữ có tiền sử APS sản khoa không SLE được khảo sát trong phân tích gộp 5 nghiên cứu quan sát: OR gộp cho huyết khối đầu tiên (động mạch và tĩnh mạch) liên quan aspirin là 0,25 (KTC 0,10–0,62). Một nghiên cứu hồi cứu ở nhóm con bệnh nhân nữ chỉ được chẩn đoán APS do bệnh suất thai kỳ cho thấy tác dụng bảo vệ của aspirin, với 59% bệnh nhân không dùng aspirin và 10% bệnh nhân dùng aspirin có thêm biến cố lâm sàng liên quan (P=0,00006). Dù dữ liệu còn hạn chế, có thể cân nhắc aspirin dự phòng 75–100 mg/ngày ở phụ nữ không mang thai có tiền sử APS sản khoa nhưng chỉ sau khi đánh giá đủ lợi–hại.</p>
+<p><strong>(6) SLE có aPL nguy cơ thấp.</strong> Có ít bằng chứng hơn về aspirin ở bệnh nhân có tiền sử APS sản khoa không SLE và hồ sơ aPL nguy cơ thấp (Bảng 11); tuy nhiên dữ liệu từ 2 nghiên cứu đoàn hệ cho thấy dùng aspirin liên quan nguy cơ huyết khối động mạch (và tĩnh mạch) thấp hơn trong bối cảnh này. Tổng hợp lại, các kết quả này và các nghiên cứu khác cho thấy <strong>đến một phần ba</strong> bệnh nhân SLE có aPL (mọi hồ sơ) bị biến chứng huyết khối vào một thời điểm nào đó của bệnh; tỷ lệ biến cố huyết khối lâm sàng cao hơn rõ khi có đủ 3 loại aPL so với chỉ anticardiolipin dương tính.</p>
+<h4 style="font-family:var(--serif);font-size:16px;margin:18px 0 8px">Khoảng trống kiến thức và nghiên cứu tương lai</h4>
+<p>Nghiên cứu tương lai về dự phòng nguyên phát đột quỵ liên quan các tình trạng và đặc điểm thrombophilia/thấp khớp cần trả lời:</p>
+<ul>
+<li>Khi không có huyết khối tĩnh mạch, có chỉ định liệu pháp kháng huyết khối để dự phòng nguyên phát đột quỵ không;</li>
+<li>Khi không có huyết khối tĩnh mạch, sự hiện diện PFO có ảnh hưởng nguy cơ đột quỵ nguyên phát không và chiến lược dự phòng nguyên phát tối ưu là gì;</li>
+<li>Nghiên cứu đủ lực cho từng đặc điểm riêng lẻ; nếu xác nhận nguy cơ đột quỵ nguyên phát tăng, cần thử nghiệm lâm sàng đánh giá điều trị kháng huyết khối tối ưu.</li>
+</ul>
+<p>Dữ liệu để định hướng dự phòng nguyên phát đột quỵ ở người APS còn thiếu; do đó các khoảng trống gồm: (1) làm rõ liệu DOAC (tất cả hay một số) kém hiệu quả hơn warfarin trong giảm đột quỵ ở quần thể này; (2) vai trò của kháng kết tập tiểu cầu kép trong APS (có báo cáo gợi ý vai trò dự phòng hoặc thêm vào kháng đông).</p>
+
+<h3 id="h3-s633">6.3.3. Ung thư</h3>
+<p>Nguy cơ đột quỵ thiếu máu bắt đầu tăng từ giai đoạn sớm của một số loại ung thư. Tính không đồng nhất giữa loại ung thư và cơ chế đột quỵ khiến dữ liệu phân tầng nguy cơ và điều trị dự phòng tối ưu còn hạn chế. Đột quỵ liên quan ung thư hiện được coi là một phân nhóm <strong>đột quỵ thuyên tắc không rõ nguồn gốc</strong>, chiếm 5–10% các đột quỵ này. Cơ chế bệnh sinh gồm: tăng đông, xâm lấn trực tiếp hoặc chèn ép mạch máu, bệnh động mạch do xạ trị, viêm nội tâm mạc huyết khối không do vi khuẩn, và tác dụng thứ phát của hóa trị (vd. độc tính trên tim)... Thuyên tắc động mạch ở bệnh nhân ung thư có thể liên quan VTE trong bối cảnh PFO (có ở ≈25% dân số chung). Dù tăng đông thường gặp ở bệnh nhân ung thư, lợi ích của kháng kết tập hoặc kháng đông, và ở bối cảnh nào, vẫn chưa chắc chắn. Một số bằng chứng cho thấy aspirin có thể giúp giảm nguy cơ một số ung thư (vd. đại trực tràng), nhưng dùng aspirin để dự phòng nguyên phát đột quỵ liên quan ung thư chưa được xác lập. Heparin trọng lượng phân tử thấp (LMWH) thường được dùng theo kinh nghiệm nhưng lợi ích chưa rõ, nhất là ở bệnh nhân ung thư có nguy cơ xuất huyết không chắc chắn.</p>
+<h4 style="font-family:var(--serif);font-size:16px;margin:18px 0 8px">Khoảng trống kiến thức và nghiên cứu tương lai</h4>
+<ul>
+<li>Bệnh nhân ung thư có khuynh hướng tăng đông thay đổi nhưng cũng có thể nguy cơ chảy máu cao hơn với kháng huyết khối; lợi ích kháng huyết khối để dự phòng nguyên phát đột quỵ ở nhóm này chưa xác lập, cần nghiên cứu thêm.</li>
+<li>Chưa biết nhu cầu kháng đông để phòng đột quỵ ở từng loại ung thư; nên là trọng tâm nghiên cứu.</li>
+<li>Dấu ấn sinh học (vd. D-dimer) và hồ sơ biểu hiện mRNA để dự đoán nguy cơ đột quỵ trong ung thư có nhiều hứa hẹn nhưng cần nghiên cứu thêm.</li>
+<li>Dù LMWH thường dùng ở bệnh nhân ung thư và đột quỵ để phòng biến chứng huyết khối tắc mạch, lợi ích tiềm năng trong dự phòng nguyên phát đột quỵ liên quan ung thư chưa biết.</li>
+<li>Dù có một số bằng chứng DOAC có thể thay thế LMWH, cần thêm nghiên cứu làm rõ chỉ định, nguy cơ và lợi ích.</li>
+</ul>
+
+<h3 id="h3-s634">6.3.4. Nhiễm trùng</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — NHIỄM TRÙNG</div>
+<div class="rec"><span class="num">6.3.4.1</span> Ở bệnh nhân <strong>bệnh nha chu (PD)</strong>, <strong>vệ sinh răng miệng tốt và chăm sóc nha khoa định kỳ</strong> có thể có lợi để giảm nguy cơ đột quỵ. <span class="grade">COR 2a · LOE B-NR</span></div>
+<div class="rec"><span class="num">6.3.4.2</span> Ở bệnh nhân <strong>nhập viện vì COVID-19</strong>, điều trị <strong>kháng đông liều đầy đủ</strong> (vd. enoxaparin, apixaban) <strong>không được khuyến cáo</strong> để phòng đột quỵ. <span class="grade">COR 3: Không lợi ích · LOE B-R</span></div>
+</div>
+<h4 style="font-family:var(--serif);font-size:16px;margin:18px 0 8px">Tóm lược</h4>
+<p>Nhiễm trùng cấp và mạn, gồm nhiễm trùng cần nhập viện, liên quan tăng nguy cơ đột quỵ. Cơ chế của khoảng thời gian thoáng qua sau nhiễm trùng khi bệnh nhân dễ bị đột quỵ có thể gồm viêm, thrombophilia hoặc cơ chế khác. Nhiễm khuẩn huyết liên quan chặt với viêm và huyết khối. Nghiên cứu báo cáo nguy cơ đột quỵ tương đối tăng liên quan nhiễm trùng huyết, nhưng nguy cơ đột quỵ tuyệt đối vẫn thấp (≈0,5% trong một năm). Đa số nhiễm trùng trong các nghiên cứu này là hô hấp hoặc tiết niệu; tác nhân cụ thể thường không rõ. Cúm là bệnh virus phổ biến nhưng chẩn đoán cúm đặc hiệu thường không có sẵn. Trong nghiên cứu bắt chéo ca (case-crossover) dùng dữ liệu California, tỷ số chênh đột quỵ thiếu máu trong 15 ngày sau bệnh giống cúm tăng (OR 2,88; KTC 1,86–4,47); nguy cơ giảm theo thời gian và không còn ý nghĩa sau 60 ngày. Trong đại dịch COVID-19 2019–2023, nhà nghiên cứu ghi nhận nguy cơ đột quỵ cao ở bệnh nhân nhiễm; các phân nhóm đột quỵ đa dạng (tắc mạch lớn, mạch nhỏ, tắc mạch từ tim, huyết khối tĩnh mạch não và xuất huyết), gợi ý cơ chế có thể không đặc hiệu cho hội chứng virus mà là hệ quả của thrombophilia, rối loạn chức năng nội mô, bệnh vi mạch huyết khối và tác động viêm không đặc hiệu. Ví dụ về nguy cơ đột quỵ liên quan nhiễm trùng mạn: các nghiên cứu quan sát cho thấy sức khỏe nha chu kém và viêm nha chu liên quan mạnh với nguy cơ đột quỵ tăng.</p>
+<h4 style="font-family:var(--serif);font-size:16px;margin:18px 0 8px">Giải thích hỗ trợ từng khuyến cáo</h4>
+<p><strong>(1) Bệnh nha chu.</strong> Một nghiên cứu tiến cứu toàn quốc dựa trên dân số đánh giá lấy cao răng và CVD: 10.887 người ≥50 tuổi chưa MI hoặc đột quỵ thiếu máu đã lấy cao răng toàn miệng hoặc khu trú được so với 10.989 người không lấy cao răng; trong theo dõi trung bình 7 năm, nhóm lấy cao răng có nguy cơ đột quỵ thấp hơn (HR 0,85; KTC 0,78–0,93). Một nghiên cứu hồi cứu gồm 510.762 người ≥20 tuổi có PD và 208.674 người không PD (2000–2010): người được dự phòng nha khoa hoặc điều trị PD tích cực có nguy cơ đột quỵ thấp hơn nhóm không PD (HR 0,78; KTC 0,75–0,81 và HR 0,95; KTC 0,91–0,99 theo thứ tự); người có PD không điều trị có nguy cơ đột quỵ cao nhất (HR 2,17; KTC 1,64–2,87). Nghiên cứu nha khoa phụ của ARIC (6.736 người chia 7 hồ sơ nha chu): cả 7 mức đều có xu hướng nguy cơ đột quỵ tăng; PD liên quan có ý nghĩa đột quỵ thiếu máu (HR 2,2; KTC 1,3–3,8).</p>
+<p><strong>(2) COVID-19.</strong> Phân tích gộp 7 RCT so sánh kháng đông liều tăng (trung bình hoặc đầy đủ) với liều dự phòng ở 5.154 bệnh nhân COVID-19 nhập viện: tiêu chí chính là tử vong do mọi nguyên nhân (RR 0,96; KTC 0,78–1,18). Có 4 RCT với tiêu chí thứ phát đột quỵ: tỷ lệ đột quỵ 0,5% (11/2.296) ở nhóm liều tăng và 0,5% (12/2.195) ở nhóm liều chuẩn, không khác biệt có ý nghĩa (RR 0,94; KTC 0,43–2,09; I²=0%). Stone và cộng sự thực hiện thử nghiệm đa quốc gia, 3 nhánh, nhãn mở, đối chứng hoạt tính (8/2020–9/2022) trên 3.398 bệnh nhân COVID-19 nhập viện không nguy kịch, ngẫu nhiên dùng enoxaparin liều dự phòng (n=1.141), enoxaparin liều đầy đủ (n=1.136) hoặc apixaban liều đầy đủ (n=1.121). Tiêu chí chính gộp 30 ngày (tử vong do mọi nguyên nhân, cần chăm sóc ICU, thuyên tắc hệ thống xác nhận bằng hình ảnh hoặc cần phẫu thuật, hoặc đột quỵ thiếu máu) xảy ra ở 13,2% nhóm liều dự phòng và 11,3% nhóm liều điều trị gộp (HR 0,85; KTC 0,69–1,04; P=0,11). Không có ca đột quỵ ở nhóm liều dự phòng và chỉ 1 ca ở nhóm liều đầy đủ.</p>
+<h4 style="font-family:var(--serif);font-size:16px;margin:18px 0 8px">Khoảng trống kiến thức và nghiên cứu tương lai</h4>
+<ul>
+<li>Việc dùng vắc-xin cúm để dự phòng nguyên phát đột quỵ ở người lớn vẫn chưa rõ. Các tổng quan hệ thống/phân tích gộp nghiên cứu quan sát (đoàn hệ, bệnh–chứng, bệnh–chứng lồng ghép) gợi ý lợi ích giảm nguy cơ đột quỵ, nhưng các phân tích gộp và RCT khác báo cáo không có lợi ích; cần thêm nghiên cứu và thử nghiệm để xác định tiêm vắc-xin cúm có thể dùng làm chiến lược y tế công cộng dự phòng nguyên phát đột quỵ không.</li>
+<li>Việc nghiên cứu tác động của SARS-CoV-2 lên nguy cơ đột quỵ khó khăn do đại dịch suy giảm dần khiến nhiều nghiên cứu kết thúc sớm với cỡ mẫu không đủ. Cần nghiên cứu làm rõ đột quỵ là biến chứng đặc hiệu của nhiễm SARS-CoV-2 hay là tác động như thấy ở các nhiễm trùng khác, và điều trị SARS-CoV-2 có làm giảm nguy cơ đột quỵ tương lai không.</li>
+</ul>
+
+<h3 id="h3-s64">6.4. Sử dụng chất và rối loạn sử dụng chất</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — SỬ DỤNG CHẤT</div>
+<p style="margin:0 0 6px"><em>Can thiệp sàng lọc</em></p>
+<div class="rec"><span class="num">6.4.1</span> Ở mọi người trưởng thành, <strong>sàng lọc lạm dụng chất và rối loạn sử dụng chất</strong> (rượu, cần sa, cocaine, opioid, amphetamine...) được khuyến cáo để thông tin nguy cơ đột quỵ. <span class="grade">COR 1 · LOE B-NR</span></div>
+<p style="margin:10px 0 6px"><em>Can thiệp khác</em></p>
+<div class="rec"><span class="num">6.4.2</span> Ở bệnh nhân dùng chất giải trí (cần sa, cannabinoid tổng hợp, cocaine, heroin, methamphetamine), lạm dụng rượu hoặc thuốc kê đơn (thuốc kích thích, opioid), hoặc có rối loạn sử dụng chất, <strong>tư vấn ngừng sử dụng hoặc điều trị rối loạn sử dụng chất phù hợp</strong> (thuốc, hành vi hoặc phối hợp) là hợp lý để giảm nguy cơ đột quỵ. <span class="grade">COR 2a · LOE C-LD</span></div>
+</div>
+<h4 style="font-family:var(--serif);font-size:16px;margin:18px 0 8px">Tóm lược</h4>
+<p>Chưa có dữ liệu trực tiếp ủng hộ các can thiệp nhằm vào việc sử dụng chất giải trí/thuốc kê đơn theo cách có hại (lạm dụng) hoặc rối loạn sử dụng chất (nghiện) để dự phòng nguyên phát đột quỵ. Tại Mỹ, 23,3% người lớn &gt;18 tuổi uống rượu say (binge drinking) và 6,4% uống nặng. Rượu có mối quan hệ phụ thuộc liều với đột quỵ, chiếm 5,8% nguy cơ quy cho dân số. Tỷ lệ dùng chất giải trí tại Mỹ báo cáo 21,4% ở người ≥12 tuổi. Sử dụng cần sa (gồm chất tương tự tổng hợp) đang tăng, phản ánh trong tuyên bố khoa học AHA «Cần sa y tế, cần sa giải trí và sức khỏe tim mạch», cho thấy mối quan hệ phụ thuộc liều với đột quỵ. Dữ liệu quan sát cho thấy sử dụng amphetamine, methamphetamine, opioid, khat và cocaine làm tăng tỷ số chênh đột quỵ, và việc dùng chất liên thời gian thường gặp ở các trường hợp đột quỵ trẻ tuổi. Cơ chế đề xuất: thay đổi huyết động, hoạt hóa tiểu cầu, tác động điện sinh lý, bệnh lý mạch và thuyên tắc từ tim. Ngoài giải quyết nguy cơ ở mức cá nhân, dự phòng nguyên phát hiệu quả cần tiếp cận ở mức quần thể, nhắm trước hết vào nhóm lớn nhất có nguy cơ (người lạm dụng chất). Ví dụ các can thiệp chính sách (thuế, quản lý điểm bán rượu) có hiệu quả chi phí và giảm uống rượu quá mức.</p>
+<h4 style="font-family:var(--serif);font-size:16px;margin:18px 0 8px">Giải thích hỗ trợ từng khuyến cáo</h4>
+<p><strong>(1) Sàng lọc.</strong> Uống rượu nặng, với đáp ứng phụ thuộc liều, nhất quán liên quan tăng nguy cơ đột quỵ (thiếu máu và xuất huyết). Dù đường hút hay đường ăn không được nêu rõ, nhập viện vì đột quỵ ở người dùng cần sa trẻ (18–38 tuổi) đang tăng, thường không có nguy cơ tim mạch xác định. Tương tự, khi kiểm soát các hiệp biến liên quan đột quỵ (gồm hút thuốc lá), nguy cơ đột quỵ/TIA tăng ở người dùng cần sa thường xuyên hơn mỗi tuần một lần ở mọi nhóm tuổi (tỷ số tỷ lệ mắc hiệu chỉnh 4,7; KTC 2,1–10,7) — được ủng hộ bởi tổng quan hệ thống và dữ liệu giám sát đại diện xác nhận quan hệ phụ thuộc liều. Phân tích gộp xác định đột quỵ liên quan lạm dụng opioid (OR hiệu chỉnh 2,27). Một tổng quan hệ thống về lạm dụng thuốc kê đơn và thuốc kích thích nhóm amphetamine khác xác định nguy cơ đột quỵ tăng (2 đoàn hệ: RR hiệu chỉnh 1,6 và 3,4) và tăng nguy cơ đột quỵ xuất huyết ở người từng dùng (RR hiệu chỉnh 2,3). Dữ liệu dọc cho thấy người dùng methamphetamine có tỷ lệ đột quỵ cao hơn, đặc biệt đột quỵ xuất huyết (HR 2,09). Dữ liệu sổ bộ (&gt;3 triệu lượt xuất viện) cho thấy nguy cơ đột quỵ xuất huyết liên quan amphetamine (OR 4,95) và cocaine (OR 2,33), và nguy cơ đột quỵ thiếu máu liên quan cocaine (OR 2,03). Dữ liệu quan sát cho thấy dùng cocaine hoặc nhai khat (phổ biến trong văn hóa Trung Đông và châu Phi) liên quan tăng nguy cơ đột quỵ khi đã có bệnh tim.</p>
+<p><strong>(2) Can thiệp.</strong> Dù bằng chứng hiện nay chưa trực tiếp ủng hộ các can thiệp về lạm dụng chất hay rối loạn sử dụng chất để phòng đột quỵ, việc giảm nhẹ các nguy cơ đã biết của chúng đối với xơ vữa sớm và tử vong sớm cùng nguy cơ đột quỵ đi kèm là hợp lý. Các chương trình <strong>SBIRT</strong> (sàng lọc, can thiệp ngắn, giới thiệu điều trị) cho thấy tỷ lệ uống nặng (43,4%) và dùng ma túy bất hợp pháp (75,8%) giảm sau 6 tháng. Các tổng quan hệ thống cho bằng chứng mức trung bình ủng hộ can thiệp ngắn cho uống rượu có hại ở nam và nữ, trong đó can thiệp chăm sóc ban đầu nhiều lần (10–15 phút) có thể giúp thêm 11% người lớn uống trong giới hạn khuyến cáo. Kỹ thuật hành vi gồm phản hồi về tác hại liên quan rượu, làm rõ mức tiêu thụ nguy cơ thấp, lợi ích của giảm lượng uống, tăng cường động lực, phân tích tình huống uống nguy cơ cao, chiến lược đối phó và lập kế hoạch giảm cá nhân. Ở người rối loạn sử dụng rượu, bằng chứng ủng hộ thuốc (<strong>acamprosate, disulfiram, baclofen, naltrexone uống</strong>) hoặc thuốc phối hợp liệu pháp hành vi dựa trên bằng chứng (CBT, tăng cường động lực) để cải thiện kiêng rượu và giảm uống nặng. Tương tự, ở người lớn không bị ép buộc có rối loạn sử dụng rượu, các điều trị do đồng đẳng dẫn dắt (vd. Alcoholics Anonymous) và điều trị chuyên nghiệp có sự tham gia đồng đẳng (vd. Twelve-Steps Facilitation) có thể cải thiện tỷ lệ kiêng liên tục đến 36 tháng. Chiến lược điều trị chủ vận dựa trên bằng chứng để duy trì hoặc ức chế rối loạn sử dụng opioid gồm <strong>buprenorphine</strong> và <strong>methadone</strong>.</p>
+<h4 style="font-family:var(--serif);font-size:16px;margin:18px 0 8px">Khoảng trống kiến thức và nghiên cứu tương lai</h4>
+<ul>
+<li>Cần thêm nghiên cứu để hiểu tác động của kết quả mới từ nghiên cứu INTERSTROKE về liên quan giữa uống rượu mức vừa phải và xuất huyết não, và các khác biệt vùng được xác định về lượng rượu thấp và nguy cơ đột quỵ tổng.</li>
+<li>Cần nghiên cứu dọc hiểu tác động của giảm/ngừng lạm dụng rượu lên nguy cơ đột quỵ tương lai.</li>
+<li>Cần nghiên cứu triển khai xác định chiến lược và độ tuổi mục tiêu tối ưu để tăng sàng lọc lạm dụng rượu và tư vấn/can thiệp ngắn ở nhiều bối cảnh thực hành và nguồn lực.</li>
+<li>Cần có liều chuẩn hóa cho cần sa (tương tự «đơn vị uống chuẩn» hoặc điếu thuốc) để ghi nhận thường quy việc dùng cần sa ngoài y tế trong hệ thống giám sát quốc gia và địa phương, nhằm theo dõi tác động của việc sử dụng và kiểu dùng lên nguy cơ CVD gồm đột quỵ.</li>
+<li>Cần nghiên cứu dọc về tần suất sử dụng, nồng độ tetrahydrocannabinol và thời gian phơi nhiễm để hiểu sâu sắc hơn hệ quả mạch máu não lâm sàng dài hạn của cần sa.</li>
+<li>Cần nghiên cứu cơ bản và lâm sàng về hậu quả sức khỏe ngắn và dài hạn của các sản phẩm cannabinoid tổng hợp lên chức năng mạch máu não.</li>
+<li>Mối liên quan hiện nay giữa lạm dụng chất (cocaine, heroin, methamphetamine, thuốc kê đơn kích thích/opioid) và nguy cơ đột quỵ dựa trên dữ liệu tỷ lệ đột quỵ tại bệnh viện, vốn có nhiều thiên lệch đáng kể; cần nghiên cứu dọc tiến cứu được thiết kế tốt có kiểm soát nhiễu, gồm sử dụng đa chất.</li>
+<li>Cần nghiên cứu lớn riêng cho từng loại đột quỵ (thiếu máu, xuất huyết trong nhu mô, xuất huyết dưới nhện) và mối liên quan với lạm dụng các chất khác nhau.</li>
+<li>Chưa có dữ liệu trực tiếp liên kết giảm sử dụng rượu/chất với giảm nguy cơ đột quỵ; cần lấp đầy khoảng trống này.</li>
+</ul>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Nguồn: Bushnell C và cs. 2024 Guideline for the Primary Prevention of Stroke (AHA/ASA). Stroke 2024;55:e344–e424. DOI: 10.1161/STR.0000000000000475. Số trích dẫn tài liệu tham khảo (số mũ), danh mục tài liệu tham khảo đầy đủ, thông tin công bố xung đột lợi ích và danh sách thành viên ban soạn thảo/phản biện không được chép lại — xem bản gốc. Bản dịch phục vụ học tập, không thay thế bản gốc.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'dq2024_p3_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>

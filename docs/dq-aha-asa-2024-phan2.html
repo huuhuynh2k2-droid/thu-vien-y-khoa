@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AHA/ASA 2024 — Dự phòng nguyên phát đột quỵ — Phần 2</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#3B4A8C; --accent-ink:#1E2A5E; --accent-bg:#E8EBF6;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">Đột quỵ 2024 · Phần 2</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">AHA/ASA 2024 · DỰ PHÒNG NGUYÊN PHÁT ĐỘT QUỴ</div>
+    <div class="doc-title">Hướng dẫn Dự phòng nguyên phát đột quỵ 2024 — Phần 2</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">PHẦN 2</span>
+    <h1>Yếu tố nguy cơ điều chỉnh được (4.3–4.8)</h1>
+    <div class="byline">Bushnell C, McCullough LD, Awad IA, và cs. — American Heart Association / American Stroke Association</div>
+    <div class="cite">Bushnell C, McCullough LD, Awad IA, et al. 2024 Guideline for the Primary Prevention of Stroke: A Guideline From the American Heart Association/American Stroke Association. <em>Stroke</em>. 2024;55:e344–e424. DOI: 10.1161/STR.0000000000000475. · Bản dịch tham khảo phục vụ học tập lâm sàng — không thay thế bản gốc.</div>
+
+    <h3 id="h2-s43">4.3. Cân nặng và béo phì</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — CÂN NẶNG VÀ BÉO PHÌ</div>
+<p style="margin:0 0 6px"><em>Can thiệp sàng lọc</em></p>
+<div class="rec"><span class="num">4.3.1</span> Ở người trưởng thành &gt;18 tuổi, <strong>sàng lọc thừa cân và béo phì</strong> được khuyến cáo để thông tin về nguy cơ đột quỵ. <span class="grade">COR 1 · LOE B-NR</span></div>
+<p style="margin:10px 0 6px"><em>Can thiệp khác</em></p>
+<div class="rec"><span class="num">4.3.2</span> Ở bệnh nhân <strong>béo phì độ II (BMI 35–39,9 kg/m²) trở lên</strong>, <strong>phẫu thuật giảm cân (bariatric)</strong> có thể được cân nhắc để giảm nguy cơ đột quỵ. <span class="grade">COR 2b · LOE C-LD</span></div>
+</div>
+<h3 id="h2-s43syn">Tóm lược</h3>
+<p>Tầm quan trọng của béo phì với y tế công cộng là không thể phủ nhận; tỷ lệ tăng từ 30,5% (1999–2000) lên &gt;42% dân số Mỹ (2017–2018). Ước tính đến 2030 gần 1/2 người lớn Mỹ (48,9%) sẽ béo phì. Béo phì xác định bằng BMI có thể bị đánh giá cao hoặc thấp vì BMI không phân biệt khối mỡ với khối nạc (cơ). Các thước đo béo bụng khác (Bảng 6) cũng dự báo nguy cơ tim mạch, gồm đột quỵ, độc lập với BMI. Vì vậy AHA khuyến cáo <strong>đo vòng eo (WC) hằng năm</strong> bên cạnh BMI, nhất là ở các chủng tộc/sắc tộc không phải da trắng, để cải thiện đánh giá nguy cơ tim mạch. Hậu quả của béo phì (tăng huyết áp, viêm, rối loạn lipid, tăng đường huyết) trung gian phần lớn mối liên quan giữa béo phì với CVD và đột quỵ. Can thiệp lối sống tích cực (thử nghiệm Look AHEAD ở bệnh nhân đái tháo đường) gây giảm cân và vòng eo khiêm tốn so với nhóm chứng nhưng không duy trì và không có lợi ích dự phòng CVD. Tuy nhiên, các phân tích gộp gần đây cho bằng chứng mạnh rằng <strong>thuốc đái tháo đường vừa hạ đường huyết vừa giảm cân (chủ vận thụ thể GLP-1)</strong> và <strong>phẫu thuật bariatric</strong> ở người béo phì độ II–III, có hoặc không có đái tháo đường, liên quan giảm nguy cơ biến cố tim mạch gồm đột quỵ ở bệnh nhân chọn lọc.</p>
+<div class="tbl-wrap"><table><caption>Bảng 6. Các thước đo nhân trắc của béo phì và nguy cơ đột quỵ liên quan</caption>
+<tr><th>Thước đo</th><th>Kỹ thuật đo</th><th>Tiêu chuẩn / phân loại</th><th>Nguy cơ đột quỵ</th></tr>
+<tr><td>BMI</td><td>Cân nặng (kg)/chiều cao² (m²)</td><td>Độ I: 30–34,9; độ II: 35–39,9; độ III: ≥40 kg/m²</td><td>Mỗi tăng 5 đơn vị BMI = tăng 10% nguy cơ đột quỵ</td></tr>
+<tr><td>Vòng eo (WC)*</td><td>Đo tại điểm giữa bờ dưới xương sườn thấp nhất sờ thấy và đỉnh mào chậu</td><td>Nữ: &gt;80 cm tăng nguy cơ chuyển hóa tim mạch; &gt;88 cm tăng đáng kể. Nam: &gt;94 cm† tăng nguy cơ; &gt;102 cm tăng đáng kể</td><td>Mỗi tăng 10 cm WC, RR cao hơn trung bình 10%</td></tr>
+<tr><td>Tỷ số eo–hông (WHR)*</td><td>WC (cm)/vòng hông (cm) đo ở phần rộng nhất của mông</td><td>Nữ &gt;0,85; nam &gt;0,90: tăng đáng kể nguy cơ chuyển hóa tim mạch</td><td>Tăng 0,1 đơn vị WHR = RR đột quỵ 16%</td></tr>
+<tr><td>Tỷ số eo/chiều cao (WHtR)*</td><td>WC (cm)/chiều cao (m)</td><td>Chưa có dữ liệu</td><td>Tăng 0,05 đơn vị = RR đột quỵ 13%</td></tr>
+<tr><td>Chỉ số eo hiệu chỉnh cân nặng (WWI)*</td><td>WC (cm)/√cân nặng (kg)</td><td>Chưa có dữ liệu</td><td>OR đột quỵ 1,62 (KTC 95% 1,06–2,48), tứ phân vị cao nhất so với thấp nhất</td></tr>
+<tr><td>Chỉ số mỡ nội tạng (VAI)*</td><td>Tính từ WC, BMI, triglyceride và HDL-C</td><td>Chưa có dữ liệu</td><td>HR đột quỵ 1,45 (KTC 95% 1,15–1,75), tứ phân vị cao nhất so với thấp nhất</td></tr>
+</table></div>
+<p style="font-size:12.5px;color:var(--ink-2)">*Thước đo đặc hiệu cho béo bụng. †Ngưỡng ở nam gốc Nam Á/Trung Quốc/Nhật: &gt;90 cm.</p>
+<h3 id="h2-s43text">Giải thích hỗ trợ từng khuyến cáo</h3>
+<p><strong>(1) Sàng lọc.</strong> BMI liên quan tăng nguy cơ đột quỵ trên toàn cầu: mỗi tăng 5 kg/m² BMI, nguy cơ đột quỵ tăng 10% theo phân tích gộp 44 nghiên cứu đoàn hệ tiến cứu, &gt;4 triệu người tham gia, &gt;100.000 ca đột quỵ mới. WC, WHR và tỷ số eo/chiều cao liên quan đột quỵ <em>độc lập</em> với BMI. Trong Northern Manhattan Study, WHR liên quan đột quỵ sau hiệu chỉnh BMI và các yếu tố nguy cơ khác (OR 3,0; KTC 95% 1,8–4,8; tứ phân vị 4 so với 1). Nam có WHR &gt;0,93 có nguy cơ đột quỵ tăng 3,8 lần (KTC 1,8–5,0) và nữ có WHR &gt;0,86 tăng 2,5 lần (KTC 1,6–4,0), với độ lớn tương tự ở người da trắng, da đen và gốc Tây Ban Nha. Với tỷ số eo/chiều cao, phân tích gộp 7 nghiên cứu cho RR 1,55 (KTC 95% 1,37–1,76) với đột quỵ thiếu máu não và có xu hướng ý nghĩa với xuất huyết não (RR 1,30; KTC 0,99–1,73) khi so tứ phân vị cao nhất và thấp nhất; cứ WC cao hơn 10 cm thì nguy cơ đột quỵ tương đối cao hơn 10%; WHR tăng 0,1 đơn vị thì cao hơn 16%; tỷ số eo/chiều cao tăng 0,05 thì cao hơn 13%. Do đó, sàng lọc và nhận diện béo phì/mỡ cơ thể là bước đầu quan trọng khi đánh giá nguy cơ đột quỵ trong chăm sóc ban đầu.</p>
+<p><strong>(2) Phẫu thuật bariatric.</strong> Các phẫu thuật như nối tắt dạ dày hoặc cắt dạ dày hình ống có thể giúp giảm cân đáng kể ở bệnh nhân béo phì. Không phải nghiên cứu nào cũng cho thấy giảm đột quỵ, nhưng nhiều nghiên cứu không ngẫu nhiên chất lượng cao cho thấy giảm nguy cơ: một nghiên cứu đoàn hệ quan sát 2.287 bệnh nhân béo phì phẫu thuật so với chứng béo phì cho thấy nguy cơ bệnh mạch máu não (gồm đột quỵ thiếu máu, xuất huyết và can thiệp động mạch cảnh) giảm 33% (HR 0,67; KTC 95% 0,48–0,94; P=0,02); một đoàn hệ hồi cứu ghép điểm xu hướng ở béo phì nặng (BMI &gt;35 kèm bệnh đồng mắc hoặc &gt;40) cho thấy nguy cơ biến cố mạch máu não thấp hơn ở nhóm phẫu thuật (HR 0,162; KTC 0,073–0,360); đoàn hệ tiến cứu 2.010 bệnh nhân phẫu thuật so với 2.037 chứng ghép cặp không phẫu thuật cho thấy giảm 34% biến cố đột quỵ tổng (HR hiệu chỉnh 0,66; KTC 0,49–0,90; P=0,008). Một phân tích gộp báo cáo giảm 51% tỷ số chênh đột quỵ tích lũy (4 nghiên cứu; OR 0,49; KTC 0,32–0,75) và một phân tích khác giảm 36% (14 nghiên cứu; OR 0,64; KTC 0,53–0,77; P&lt;0,001) — nhất quán cho thấy lợi ích giảm đột quỵ.</p>
+<h3 id="h2-s43gap">Khoảng trống kiến thức và nghiên cứu tương lai</h3>
+<ul>
+<li>Các thuốc dùng cho cả đái tháo đường và béo phì — chủ vận GLP-1, chủ vận kép GLP-1/GIP, phối hợp chủ vận GLP-1 với đồng vận amylin tác dụng dài và thuốc ức chế SGLT2, cùng các thuốc đa đích mới cho giảm cân mạnh trong thử nghiệm pha II — cần được thử nghiệm để xác định an toàn và hiệu quả trong dự phòng nguyên phát đột quỵ.</li>
+<li>Chỉ số mỡ nội tạng (VAI), tính từ WC, BMI, triglyceride, HDL-C (có hiệu chỉnh khác nhau giữa nam và nữ), đã liên quan đột quỵ ở Trung Quốc, nhưng cần đánh giá ở các quần thể đa dạng khác và nghiên cứu thêm trước khi đưa vào thực hành lâm sàng.</li>
+<li>Cần thêm nghiên cứu phẫu thuật bariatric có hoặc không kết hợp GLP-1 RA, SGLT2i và các dẫn xuất mới để duy trì giảm cân nhằm xác định chiến lược tốt nhất giảm nguy cơ tim mạch gồm đột quỵ.</li>
+</ul>
+
+<h3 id="h2-s44">4.4. Giấc ngủ</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — GIẤC NGỦ</div>
+<p style="margin:0 0 6px"><em>Can thiệp sàng lọc</em></p>
+<div class="rec"><span class="num">4.4.1</span> Hiệu quả của <strong>sàng lọc OSA ở người trưởng thành</strong> để phòng đột quỵ là <strong>chưa rõ</strong>. <span class="grade">COR 2b · LOE B-R</span></div>
+<p style="margin:10px 0 6px"><em>Can thiệp khác</em></p>
+<div class="rec"><span class="num">4.4.2</span> Ở bệnh nhân OSA, <strong>CPAP</strong> có thể hợp lý để giảm nguy cơ đột quỵ. <span class="grade">COR 2b · LOE C-LD</span></div>
+</div>
+<h3 id="h2-s44syn">Tóm lược</h3>
+<p>Hơn 30% nam và 15% nữ trung niên ở Bắc Mỹ có OSA; tỷ lệ này tăng đáng kể do đại dịch béo phì. OSA đặc trưng bởi các đợt tắc nghẽn đường hô hấp trên tái diễn khi ngủ gây ngừng thở (apnea) hoặc thở nông (hypopnea). Chẩn đoán dựa vào <strong>chỉ số ngưng thở–giảm thở (AHI)</strong> — số biến cố hô hấp tắc nghẽn (apnea, hypopnea hoặc thức giấc liên quan gắng sức hô hấp) mỗi giờ ngủ: <strong>AHI ≥5 lần/giờ</strong> chẩn đoán OSA, AHI càng cao thì OSA càng nặng; <strong>AHI ≥15 lần/giờ</strong> là OSA mức trung bình–nặng. OSA là yếu tố nguy cơ độc lập của đột quỵ, đồng thời tăng nguy cơ gián tiếp qua tăng huyết áp. CPAP giảm hiệu quả buồn ngủ ban ngày, cải thiện chất lượng sống ở OSA trung bình–nặng và giảm HA ngắn hạn; CPAP hiệu quả hơn khí cụ đẩy hàm dưới trong giảm ngưng/giảm thở, cải thiện hiệu quả giấc ngủ và oxy máu ở OSA trung bình–nặng. Chưa có bằng chứng trực tiếp về tác động của CPAP lên giảm nguy cơ đột quỵ.</p>
+<h3 id="h2-s44text">Giải thích hỗ trợ từng khuyến cáo</h3>
+<p><strong>(1) Sàng lọc OSA.</strong> Thiếu bằng chứng trực tiếp rằng sàng lọc OSA giảm nguy cơ đột quỵ. Một tổng quan bằng chứng 2022 về sàng lọc OSA gồm 86 nghiên cứu, không nghiên cứu nào trả lời liệu sàng lọc OSA ở người lớn có cải thiện kết cục sức khỏe; không có nghiên cứu so sánh trực tiếp sàng lọc với không sàng lọc. Các tác giả và USPSTF kết luận bằng chứng không đủ để khuyến cáo sàng lọc OSA ở dân số người lớn không có dấu hiệu/triệu chứng OSA; không công cụ sàng lọc nào (Berlin, STOP-BANG, Epworth Sleepiness Scale) được kiểm định đầy đủ ở dân số chung như chăm sóc ban đầu.</p>
+<p><strong>(2) CPAP.</strong> Nghiên cứu quan sát không ngẫu nhiên gợi ý CPAP có thể giảm nguy cơ đột quỵ ở bệnh nhân OSA. Phân tích gộp 4 đoàn hệ gồm 2.681 người có hoặc không có đột quỵ: điều trị CPAP liên quan nguy cơ đột quỵ thấp hơn (OR gộp 0,59; KTC 95% 0,35–0,99; P=0,047; I²=21%). Một phân tích gộp khác 3 đoàn hệ, 912 người: RR 0,27 (KTC 0,14–0,53; P≤0,001); tuy nhiên 1 RCT và 2 nghiên cứu dữ liệu hành chính không tái lập kết quả này. Phân tích ghép điểm xu hướng từ thử nghiệm SAVE cho thấy bệnh nhân tuân thủ CPAP có nguy cơ đột quỵ thấp hơn nhóm chăm sóc thường quy (HR 0,56; KTC 0,32–1,00; P=0,05). Dù có bằng chứng quan sát, các RCT riêng lẻ và gộp chưa chứng minh CPAP làm giảm đột quỵ: phân tích gộp 9 RCT (4.698 người) cho thấy CPAP không giảm nguy cơ đột quỵ (OR gộp 0,94; KTC 0,70–1,24; P=0,64; I²=0%). Đa số thử nghiệm tuyển người đã có đột quỵ hoặc CVD.</p>
+<h3 id="h2-s44gap">Khoảng trống kiến thức và nghiên cứu tương lai</h3>
+<ul>
+<li>Chưa có dữ liệu thử nghiệm lâm sàng về tác động của can thiệp các rối loạn giấc ngủ khác lên nguy cơ đột quỵ. Đặc biệt cần bằng chứng thử nghiệm về tác động của can thiệp tối ưu hóa thời lượng ngủ (<strong>7–9 giờ/đêm</strong>) lên giảm nguy cơ đột quỵ.</li>
+<li>Thiếu bằng chứng thử nghiệm rằng CPAP hoặc khí cụ đẩy hàm dưới giảm nguy cơ đột quỵ. Đa số thử nghiệm tuyển nam trung niên thừa cân/béo phì có OSA trung bình–nặng; cần thử nghiệm ở nữ, người trẻ và người già, người cân nặng bình thường hoặc OSA nhẹ.</li>
+<li>Cần thử nghiệm OSA ở người không có CVD (kể cả đột quỵ), với cỡ mẫu lớn hơn hoặc thời gian dài hơn để đủ biến cố đột quỵ. Đa số thử nghiệm khí cụ đẩy hàm dưới ≤12 tuần và không đo biến cố đột quỵ.</li>
+<li>Tuân thủ CPAP là thách thức; thời lượng sử dụng CPAP tối thiểu (giờ/đêm) để giảm nguy cơ đột quỵ vẫn chưa rõ.</li>
+</ul>
+
+<h3 id="h2-s45">4.5. Đường huyết</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — ĐƯỜNG HUYẾT</div>
+<p style="margin:0 0 6px"><em>Can thiệp sàng lọc</em></p>
+<div class="rec"><span class="num">4.5.1</span> Ở người trưởng thành <strong>≥18 tuổi không triệu chứng</strong> có thừa cân, béo phì hoặc CVD xơ vữa, <strong>sàng lọc tiền đái tháo đường và đái tháo đường</strong> được khuyến cáo để thông tin về nguy cơ đột quỵ. <span class="grade">COR 1 · LOE C-LD</span></div>
+<p style="margin:10px 0 6px"><em>Can thiệp khác</em></p>
+<div class="rec"><span class="num">4.5.2</span> Ở bệnh nhân <strong>đái tháo đường có nguy cơ tim mạch cao hoặc đã có CVD và HbA1c ≥7%</strong>, điều trị bằng <strong>chủ vận thụ thể GLP-1</strong> có hiệu quả giảm nguy cơ đột quỵ. <span class="grade">COR 1 · LOE A</span></div>
+<div class="rec"><span class="num">4.5.3</span> Ở bệnh nhân đái tháo đường típ 1 hoặc đái tháo đường (nói chung), <strong>kiểm soát đường huyết tích cực (nhắm HbA1c ≤6,5%) không có lợi</strong> trong dự phòng đột quỵ. <span class="grade">COR 3: Không lợi ích · LOE B-R</span></div>
+</div>
+<h3 id="h2-s45syn">Tóm lược</h3>
+<p>Hơn 37 triệu người mọi lứa tuổi mắc đái tháo đường (11,3% dân số Mỹ), trong đó 8,5 triệu người (23%) chưa được chẩn đoán; đái tháo đường típ 2 chiếm &gt;95% các ca. Thêm 96 triệu người lớn ≥18 tuổi có tiền đái tháo đường (38% người lớn Mỹ). Bệnh thường khởi phát ở người ≥45 tuổi nhưng ngày càng gặp ở người trẻ (18–44 tuổi) do béo phì. Chẩn đoán đái tháo đường dựa trên HbA1c, đường huyết huyết tương lúc đói, nghiệm pháp dung nạp glucose đường uống (Bảng 7), hoặc đường huyết ngẫu nhiên ≥200 mg/dL kèm triệu chứng — ưu tiên HbA1c. Đái tháo đường, tiền đái tháo đường và đái tháo đường típ 1 đều là yếu tố nguy cơ đột quỵ độc lập. Ở người đái tháo đường, mức tăng đường huyết tích lũy càng cao thì nguy cơ đột quỵ càng cao — <strong>tăng 12% nguy cơ đột quỵ mỗi 1% HbA1c</strong>. Can thiệp lối sống (đa số &gt;360 phút tiếp xúc) ở người béo phì/thừa cân có tiền đái tháo đường làm giảm tỷ lệ đái tháo đường mới. Ví dụ, trong Diabetes Prevention Program, người tham gia dự 16 buổi trong 24 tuần đầu («chương trình cốt lõi») về điều chỉnh hành vi, tiếp cận linh hoạt cải thiện ăn uống–vận động, nhấn mạnh lòng tự trọng, tự chủ và hỗ trợ xã hội. Có bằng chứng tốt rằng <strong>metformin</strong> liên quan tỷ lệ đái tháo đường thấp hơn; thiazolidinedione và thuốc ức chế α-glucosidase cũng giảm nguy cơ nhưng dung nạp kém hơn. Chưa có bằng chứng trực tiếp rằng các can thiệp này và dự phòng đái tháo đường làm giảm nguy cơ đột quỵ.</p>
+<div class="tbl-wrap"><table><caption>Bảng 7. Phương pháp và ngưỡng chẩn đoán đái tháo đường</caption>
+<tr><th>Kết quả</th><th>HbA1c (%)</th><th>Đường huyết huyết tương lúc đói (mg/dL)</th><th>Đường huyết 2 giờ sau OGTT (mg/dL)</th></tr>
+<tr><td>Bình thường</td><td>&lt;5,7</td><td>&lt;100</td><td>&lt;140</td></tr>
+<tr><td>Tiền đái tháo đường</td><td>5,7–6,4</td><td>100–125</td><td>140–199</td></tr>
+<tr><td>Đái tháo đường</td><td>≥6,5</td><td>≥126</td><td>≥200</td></tr>
+</table></div>
+<h3 id="h2-s45text">Giải thích hỗ trợ từng khuyến cáo</h3>
+<p><strong>(1) Sàng lọc.</strong> Thiếu bằng chứng trực tiếp rằng sàng lọc đái tháo đường/tiền đái tháo đường ở người không triệu chứng hoặc có đái tháo đường chưa nhận biết làm giảm nguy cơ đột quỵ. Một tổng quan 2021 về sàng lọc đái tháo đường/tiền đái tháo đường thấy bằng chứng trực tiếp không đủ về việc sàng lọc cải thiện tử vong hoặc bệnh suất tim mạch; không thử nghiệm nào đánh giá sàng lọc ban đầu bằng HbA1c hoặc đường huyết lúc đói, và không thử nghiệm nào đánh giá sàng lọc tiền đái tháo đường. Tuy vậy, các tác giả và USPSTF khuyến cáo sàng lọc đái tháo đường và tiền đái tháo đường ở người <strong>35–70 tuổi thừa cân hoặc béo phì</strong> dựa trên bằng chứng rằng can thiệp cho đái tháo đường/tiền đái tháo đường mới chẩn đoán có lợi ích sức khỏe thực, nhưng không nêu khoảng cách sàng lọc. <strong>Hội Đái tháo đường Hoa Kỳ (ADA)</strong> khuyến cáo sàng lọc mọi người lớn ≥35 tuổi với khoảng cách tối thiểu 3 năm; cân nhắc sàng lọc người không triệu chứng ở mọi tuổi có thừa cân/béo phì cộng thêm một yếu tố nguy cơ: chủng tộc/sắc tộc nguy cơ cao (người Mỹ gốc Phi, Latin, bản địa Mỹ, gốc Á, đảo Thái Bình Dương), CVD, tăng huyết áp, HDL-C &lt;35 mg/dL, triglyceride &gt;250 mg/dL, hội chứng buồng trứng đa nang, ít vận động, và tình trạng liên quan kháng insulin (béo phì nặng, acanthosis nigricans).</p>
+<p><strong>(2) GLP-1 RA.</strong> Các RCT riêng lẻ và gộp chứng minh chủ vận GLP-1 giảm nguy cơ đột quỵ. <strong>SUSTAIN-6</strong> cho thấy semaglutide giảm đột quỵ nhiều hơn giả dược (tỷ lệ biến cố 1,6% so với 2,7%; HR 0,61; KTC 95% 0,38–0,99; P=0,04) ở bệnh nhân đái tháo đường. Phân tích thăm dò của <strong>REWIND</strong> gợi ý dulaglutide có thể giảm đột quỵ thiếu máu não (HR 0,75; KTC 0,59–0,94; P=0,01). Phân tích gộp 12 RCT với 20.867 bệnh nhân: GLP-1 RA so với giả dược/đối chứng hoạt tính ở người đái tháo đường liên quan nguy cơ đột quỵ thấp hơn (RR 0,73; KTC 0,60–0,89; P≤0,01; I²=0%). Đa số thử nghiệm tuyển bệnh nhân HbA1c ≥7% và có CVD hoặc nguy cơ tim mạch cao. Các RCT riêng và gộp <em>chưa xác lập</em> rằng thuốc ức chế SGLT2 làm giảm đột quỵ; một phân tích post hoc gợi ý <strong>sotagliflozin</strong> có thể giảm đột quỵ hơn giả dược (HR 0,66; KTC 0,48–0,91) ở bệnh nhân đái tháo đường và bệnh thận mạn.</p>
+<p><strong>(3) Kiểm soát đường huyết tích cực.</strong> Các RCT không chứng minh được kiểm soát tích cực (HbA1c ≤6,5%) giảm đột quỵ hơn kiểm soát lỏng hơn (HbA1c 7–8%) ở đái tháo đường típ 1 hoặc típ 2. Một tổng quan về mục tiêu đường huyết tích cực so với thông thường ở đái tháo đường típ 1 (12 thử nghiệm, 2.230 bệnh nhân) thấy bằng chứng chất lượng thấp với ít biến cố đột quỵ; các tác giả kết luận bằng chứng không đủ. Hơn nữa, kiểm soát chặt làm tăng gánh nặng điều trị, chi phí, nguy cơ tác dụng phụ và có thể gây hại (hạ đường huyết nặng). Tóm lại, ở người đái tháo đường cần cân nhắc cả lợi ích tiềm năng của kiểm soát chặt hơn (vd. HbA1c ≤6,5%) trong dự phòng biến chứng vi mạch và nguy cơ hạ đường huyết khi ra quyết định.</p>
+<h3 id="h2-s45gap">Khoảng trống kiến thức và nghiên cứu tương lai</h3>
+<ul>
+<li>Cần thêm bằng chứng về tác động của sàng lọc đái tháo đường/tiền đái tháo đường lên nguy cơ đột quỵ, nhất là ở nhóm chủng tộc có nguy cơ đái tháo đường và đột quỵ cao hơn người da trắng.</li>
+<li>Độ tuổi và tần suất sàng lọc tối ưu chưa rõ.</li>
+<li>Lợi ích của việc giới thiệu bệnh nhân tiền đái tháo đường đến can thiệp hiệu quả (lối sống hoặc metformin) để phòng đột quỵ còn chưa chắc chắn.</li>
+<li>Cần thử nghiệm lâm sàng về tác động dài hạn lên đột quỵ của can thiệp lối sống và điều trị nội khoa cho tiền đái tháo đường/đái tháo đường phát hiện qua sàng lọc, nhất là ở nhóm chủng tộc/sắc tộc nguy cơ cao.</li>
+<li>Mức kiểm soát tăng đường huyết (HbA1c) tối ưu để giảm nguy cơ đột quỵ ở đái tháo đường típ 1/típ 2 chưa rõ. Đa số thử nghiệm thuốc tuyển nam trung niên, người da trắng hoặc châu Á, người có CVD hoặc nguy cơ CVD cao; cần thử nghiệm ở nữ; người Mỹ gốc Phi, Latin, bản địa, đảo Thái Bình Dương; người trẻ và già; người không có CVD.</li>
+<li>Trong dự phòng nguyên phát, đa số người tham gia thử nghiệm GLP-1 RA đã có CVD sẵn (gồm đột quỵ) hoặc bệnh thận mạn; cần các thử nghiệm xác nhận. Vì đái tháo đường hiếm khi đơn độc, cần thêm nghiên cứu theo dõi dọc để hiểu tác động dự phòng nguyên phát của các thuốc đái tháo đường này và khác lên đột quỵ.</li>
+</ul>
+
+<h3 id="h2-s46">4.6. Huyết áp</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — HUYẾT ÁP</div>
+<p style="margin:0 0 6px"><em>Can thiệp sàng lọc</em></p>
+<div class="rec"><span class="num">4.6.1</span> Ở người trưởng thành <strong>≥18 tuổi</strong>, <strong>sàng lọc tăng huyết áp</strong> được khuyến cáo để nhận diện người có nguy cơ đột quỵ tăng và đủ điều kiện điều trị hạ áp. <span class="grade">COR 1 · LOE C-LD</span></div>
+<p style="margin:10px 0 6px"><em>Can thiệp khác</em></p>
+<div class="rec"><span class="num">4.6.2</span> Ở người trưởng thành có <strong>tăng huyết áp giai đoạn 2</strong>, hoặc <strong>giai đoạn 1 kèm nguy cơ CVD xơ vữa cao hơn</strong>, cải thiện lối sống và <strong>điều trị thuốc hạ áp đến HATT/HATTr &lt;130/80 mmHg</strong> được khuyến cáo để phòng đột quỵ. <span class="grade">COR 1 · LOE A</span></div>
+<div class="rec"><span class="num">4.6.3</span> Ở người trưởng thành tăng huyết áp, <strong>thuốc lợi tiểu thiazide và giống thiazide, chẹn kênh calci, ức chế men chuyển (ACEi), chẹn thụ thể angiotensin (ARB)</strong> được khuyến cáo là thuốc hạ áp khởi đầu để phòng đột quỵ. <span class="grade">COR 1 · LOE A</span></div>
+<div class="rec"><span class="num">4.6.4</span> Ở đa số người trưởng thành tăng huyết áp, điều trị hạ áp bằng <strong>≥2 thuốc hạ áp</strong> được chỉ định để đạt kiểm soát HA cần thiết nhằm phòng đột quỵ. <span class="grade">COR 1 · LOE A</span></div>
+</div>
+<h3 id="h2-s46syn">Tóm lược</h3>
+<p>Các nghiên cứu đoàn hệ và liên kết hồ sơ điện tử ghi nhận mối liên quan mạnh, liên tục và tăng dần giữa HA (đặc biệt HA tâm thu) với nguy cơ đột quỵ thiếu máu và xuất huyết. Ở bất kỳ mức HA nào, nguy cơ CVD có thể khác nhau &gt;30 lần. Nguy cơ tuyệt đối do HA thường cao hơn ở người lớn tuổi (khi HA cao hay đi kèm yếu tố nguy cơ CVD khác), còn nguy cơ tương đối thường cao hơn ở người trẻ (thường chỉ có HA cao là yếu tố nguy cơ đơn độc). Ngoài đột quỵ, HA cao còn liên quan biến chứng CVD khác, bệnh thận, suy giảm nhận thức và sa sút trí tuệ. Tăng huyết áp quy ước là mức HA thường ngày, đo chính xác, mà ở đó khuyến cáo dùng thuốc hạ áp kèm can thiệp lối sống. Hướng dẫn HA ACC/AHA định nghĩa <strong>giai đoạn 1: HATT 130–139 hoặc HATTr 80–89 mmHg</strong>; <strong>giai đoạn 2: HATT ≥140 hoặc HATTr ≥90 mmHg</strong>; ngoài ra chẩn đoán tăng huyết áp khi có báo cáo đang dùng thuốc hạ áp. Khoảng 46% người lớn Mỹ bị tăng huyết áp.</p>
+<h3 id="h2-s46text">Giải thích hỗ trợ từng khuyến cáo</h3>
+<p><strong>(1) Sàng lọc.</strong> Chỉ vài nghiên cứu đánh giá giá trị sàng lọc tăng huyết áp để phòng đột quỵ. Một RCT cụm ngẫu nhiên 39 cộng đồng ở Canada cho chương trình sàng lọc và giáo dục tại hiệu thuốc hoặc không can thiệp; sau 1 năm nhóm can thiệp có ít hơn 3,02 ca nhập viện do CVD mỗi 1000 người mỗi năm (tỷ số tỷ lệ 0,91; KTC 95% 0,86–0,97; P≤0,01); với tiêu chí riêng đột quỵ, tỷ số 0,99 (KTC 0,88–1,12; P=0,89). Thiết kế của nghiên cứu này và các RCT sàng lọc khác không cho phép ước tính chính xác tác động sàng lọc tăng huyết áp lên phòng đột quỵ ở từng cá nhân; tuy nhiên dữ liệu mạnh về mối liên hệ HA–đột quỵ và hiệu quả điều trị đã được cân nhắc khi xây dựng khuyến cáo. USPSTF 2021 khuyến cáo sàng lọc hằng năm ở người ≥40 tuổi và người có nguy cơ tăng huyết áp tăng.</p>
+<p><strong>(2) Mục tiêu &lt;130/80 mmHg.</strong> Nhiều RCT chất lượng cao và tổng quan hệ thống/phân tích gộp ủng hộ khuyến cáo này cho dự phòng nguyên phát (và thứ phát). Một thử nghiệm cụm 2 nhánh do nhân viên y tế cộng đồng thực hiện ở nông thôn Trung Quốc tạo chênh lệch HATT/HATTr giữa hai nhóm 23,1/9,9 mmHg, HR đột quỵ (tiêu chí thứ phát) 0,66 (KTC 0,60–0,73). Một thử nghiệm sớm ở Mỹ: chênh lệch HATT/HATTr sau 5 năm 12/4 mmHg, HR đột quỵ (tiêu chí chính) 0,64 (KTC 0,50–0,82); một RCT gần đây ở Trung Quốc: chênh lệch 9,3/2,8 mmHg, HR đột quỵ (thứ phát) 0,67 (KTC 0,47–0,97). <strong>ACCORD BP</strong> (chỉ người đái tháo đường): HR đột quỵ (thứ phát) 0,59 (KTC 0,39–0,89). Phân tích dữ liệu từng cá nhân, dữ liệu nhóm và phân tích gộp mạng lưới cho thấy điều trị hạ áp tích cực hơn có lợi trong giảm đột quỵ, gồm lợi ích của mục tiêu HATT &lt;130 mmHg so với mục tiêu cao hơn. Phân tích gộp mạng lưới ở người đái tháo đường típ 2 cũng cho thấy giảm đột quỵ có ý nghĩa với điều trị tích cực hơn, gồm HR 0,76 (KTC 0,54–0,99) cho HATT đạt được 130–134 so với 140–144 mmHg.</p>
+<p><strong>(3) Thuốc khởi đầu.</strong> Một phân tích gộp các thuốc bước đầu cho thấy lợi tiểu, chẹn beta, chẹn kênh calci, ACEi và ARB đều hiệu quả hơn giả dược trong dự phòng đột quỵ. Các phân tích gộp sau đó cho thấy <strong>chẹn beta bước đầu kém hơn</strong> lợi tiểu, chẹn kênh calci, ACEi hoặc ARB, và chẹn kênh calci có lợi nhất quán nhất để phòng đột quỵ. Trong RCT so sánh thuốc bước đầu chặt chẽ nhất (ALLHAT), không có ưu thế về phòng đột quỵ (tiêu chí thứ phát) của amlodipine (chẹn kênh calci) hay lisinopril (ACEi) so với lợi tiểu thiazide-type chlorthalidone; chlorthalidone vượt trội trong phòng suy tim, nhất là so với amlodipine. Hướng dẫn HA ACC/AHA khuyến cáo lợi tiểu, chẹn kênh calci, ACEi, ARB là thuốc bước đầu.</p>
+<p><strong>(4) ≥2 thuốc.</strong> RCT và khảo sát ghi nhận cần ≥2 thuốc hạ áp ở đa số người tăng huyết áp cần điều trị. Trong các thử nghiệm dùng mục tiêu HATT/HATTr &lt;140/90 mmHg, số thuốc trung bình cần là khoảng 2. Trong ALLHAT, chỉ 29,6% người dùng đơn trị liệu đạt &lt;140/90; tỷ lệ đạt mục tiêu với tối đa 2, 3 và 4 thuốc lần lượt là 54,2%, 65,6% và 70,4%. Với thử nghiệm có mục tiêu HATT &lt;120 mmHg, số thuốc trung bình cần khoảng 3. Báo cáo NHANES 2013–2016: người lớn Mỹ dùng 1, 2, 3 hoặc ≥4 thuốc hạ áp lần lượt chiếm 40,1%, 38,4%, 16,6%, 4,3%; ≥2 thuốc ở gần 60%.</p>
+<div class="box"><div class="box-title">TÓM TẮT NHANH — HẠ ÁP DỰ PHÒNG ĐỘT QUỴ</div><ul>
+<li>Mục tiêu: <strong>&lt;130/80 mmHg</strong> (giai đoạn 2, hoặc giai đoạn 1 + nguy cơ ASCVD cao hơn).</li>
+<li>Thuốc bước đầu: lợi tiểu thiazide/giống thiazide, chẹn kênh calci, ACEi, ARB. Chẹn beta bước đầu kém hơn.</li>
+<li>Đa số cần <strong>≥2 thuốc</strong>; đơn trị liệu chỉ đạt mục tiêu ở ~30%.</li>
+</ul></div>
+<h3 id="h2-s46gap">Khoảng trống kiến thức và nghiên cứu tương lai</h3>
+<ul>
+<li>Dù sàng lọc tăng huyết áp để khởi động điều trị ở người nguy cơ đột quỵ cao là hợp trực giác, chưa có dữ liệu hướng dẫn tần suất/khoảng cách sàng lọc HA để dự phòng nguyên phát đột quỵ hiệu quả; cần nghiên cứu theo giới, chủng tộc/sắc tộc và nguy cơ đột quỵ.</li>
+<li>SPRINT và các phân tích post hoc của ACCORD BP báo cáo lợi ích dự phòng CVD, và với ACCORD BP là lợi ích phòng đột quỵ (tiêu chí thứ phát), khi điều trị đến HATT &lt;120 so với &lt;140 mmHg. Các thử nghiệm kiểu SPRINT đang thực hiện ở Brazil và Trung Quốc dùng cùng mục tiêu HATT; kinh nghiệm từ đó sẽ giúp xác nhận và định lượng lợi ích dự phòng nguyên phát đột quỵ gia tăng của mục tiêu &lt;120 so với &lt;140 mmHg.</li>
+<li>Chẹn beta thế hệ 3 (carvedilol, nebivolol) chọn lọc tim cao và gây giãn mạch ngoài chẹn thụ thể β1; phân tích gộp RCT cho thấy chúng giảm HA trung tâm nhiều hơn chẹn beta thế hệ 2 không giãn mạch (atenolol, metoprolol). Cần RCT đủ lực nhận biết khác biệt về đột quỵ để xác định vai trò của chúng như thuốc bước đầu ở người không có chỉ định bắt buộc dùng chẹn beta.</li>
+<li>Cần thêm RCT so sánh hiệu quả phòng đột quỵ của chính sách <strong>khởi đầu bằng viên phối hợp</strong> với chính sách thêm thuốc rời tuần tự.</li>
+<li>Các thuốc hạ áp có cơ chế bổ trợ được khuyến cáo cho phối hợp khởi đầu. ACCOMPLISH: benazepril + amlodipine vượt trội benazepril + hydrochlorothiazide về tiêu chí gộp CVD (HR 0,80; KTC 0,72–0,90), nhưng khác biệt đột quỵ không có ý nghĩa (HR 0,84; KTC 0,65–1,08); lựa chọn và liều lợi tiểu bị chỉ trích. Cần thêm các so sánh viên phối hợp đơn khác.</li>
+</ul>
+
+<h3 id="h2-s47">4.7. Lipid máu</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — LIPID</div>
+<div class="rec"><span class="num">4.7.1</span> Ở người trưởng thành đủ tiêu chuẩn điều trị hạ lipid theo hướng dẫn dự phòng nguyên phát CVD ACC/AHA 2019 (vd. 20–75 tuổi có <strong>LDL-C &gt;190 mg/dL (&gt;4,9 mmol/L)</strong>, hoặc nguy cơ ASCVD 10 năm <strong>≥20%</strong>, hoặc nguy cơ ASCVD 10 năm <strong>≥7,5% đến &lt;20% kèm ≥1 yếu tố tăng nguy cơ</strong>), <strong>statin</strong> được khuyến cáo để giảm nguy cơ đột quỵ lần đầu. <span class="grade">COR 1 · LOE A</span></div>
+<div class="rec"><span class="num">4.7.2</span> Ở người trưởng thành chưa có CVD đủ tiêu chuẩn điều trị hạ lipid theo hướng dẫn ACC/AHA 2019 (tiêu chí như trên), <strong>không đạt mục tiêu hoặc không dung nạp</strong> các liệu pháp khác như statin: lợi ích của <strong>alirocumab hoặc evolocumab</strong> so với các liệu pháp hạ lipid hoạt tính khác trong giảm nguy cơ đột quỵ lần đầu là <strong>chưa chắc chắn</strong>. <span class="grade">COR 2b · LOE A</span></div>
+<div class="rec"><span class="num">4.7.3</span> Ở người <strong>không dung nạp statin</strong> có LDL-C &gt;100 mg/dL và nguy cơ tim mạch tăng, điều trị bằng <strong>acid bempedoic</strong> để giảm nguy cơ đột quỵ lần đầu <strong>chưa được xác lập</strong>. <span class="grade">COR 2b · LOE B-R</span></div>
+<div class="rec"><span class="num">4.7.4</span> Ở người dùng lượng omega-3 chuỗi dài từ vừa đến thấp, <strong>bổ sung omega-3 không được khuyến cáo</strong> để giảm nguy cơ đột quỵ lần đầu. <span class="grade">COR 3: Không lợi ích · LOE A</span></div>
+</div>
+<h3 id="h2-s47syn">Tóm lược</h3>
+<p>Mối liên quan giữa cholesterol, các phân nhóm lipid và nguy cơ đột quỵ lần đầu phức tạp, một phần vì đột quỵ có thể xảy ra qua nhiều cơ chế ngoài xơ vữa. Không có thử nghiệm dự phòng nguyên phát về quản lý lipid mà đột quỵ là tiêu chí chính; đột quỵ chỉ là tiêu chí thứ phát hoặc thành phần của tiêu chí chính gộp (vd. ASCOT-LLA, HOPE-3), và các thử nghiệm này không được thiết kế/đủ lực để phát hiện tác động độc lập lên đột quỵ. Dù các chiến lược quản lý lipid để phòng đột quỵ lần đầu cần xét trong bối cảnh giảm nguy cơ các bệnh mạch máu xơ vữa khác, các phân tích gộp nhất quán với việc giảm nguy cơ đột quỵ lần đầu bằng liệu pháp hạ lipid ở quần thể nguy cơ. Các khuyến cáo quản lý lipid trong hướng dẫn dự phòng nguyên phát CVD ACC/AHA 2019 cũng áp dụng cho dự phòng đột quỵ lần đầu và được ủng hộ bởi nhiều phân tích gộp. Từng có lo ngại LDL-C thấp làm tăng nguy cơ đột quỵ xuất huyết; tuy nhiên các thử nghiệm và phân tích gộp gần đây <strong>không thấy bằng chứng statin làm tăng xuất huyết não</strong> ở quần thể dự phòng nguyên phát.</p>
+<h3 id="h2-s47text">Giải thích hỗ trợ từng khuyến cáo</h3>
+<p><strong>(1) Statin.</strong> Theo 2 phân tích gộp, statin giảm nguy cơ đột quỵ lần đầu ở người lớn đủ tiêu chuẩn điều trị hạ lipid (Bảng 8) và nguy cơ tim mạch cao (RR 0,78; KTC 95% 0,68–0,89; 10 thử nghiệm, n=40.295; RR 0,81; KTC 0,75–0,87; 24 thử nghiệm, n=165.972). Phân tích thứ phát HOPE-3 (thiết kế giai thừa 2×2 giữa thuốc hạ áp và <strong>rosuvastatin 10 mg</strong> ở người có yếu tố nguy cơ mạch máu, chưa có CVD) cũng cho thấy statin liên quan giảm đột quỵ tổng (HR 0,70; KTC 0,52–0,95). Mức giảm đột quỵ do statin ở nhóm nguy cơ tim mạch cao có thể đưa vào thảo luận với bệnh nhân về lợi ích chung của statin.</p>
+<p><strong>(2) Ức chế PCSK9.</strong> Quản lý tăng lipid máu hiệu quả ở người lớn có thể gồm thuốc ức chế PCSK9 mạnh để đạt mục tiêu. Không thử nghiệm PCSK9 nào được thiết kế để kiểm định tác động dự phòng nguyên phát đột quỵ. Một phân tích gộp so sánh PCSK9i với giả dược hoặc điều trị hoạt tính (statin, ezetimibe hoặc cả hai) đã gộp dữ liệu từ thử nghiệm có và không có CVD (kể cả đột quỵ), không phân tích riêng đột quỵ lần đầu. Alirocumab so với liệu pháp hạ lipid hoạt tính khác không có tác động có ý nghĩa thống kê lên nguy cơ bất kỳ đột quỵ (phân tích evolocumab so với điều trị hoạt tính cho dự phòng đột quỵ không được trình bày). Cả alirocumab và evolocumab hiệu quả phòng bất kỳ đột quỵ so với giả dược, nhưng không báo cáo riêng quần thể dự phòng nguyên phát. Tóm lại, tác động của PCSK9i trong dự phòng nguyên phát đột quỵ chưa chắc chắn.</p>
+<p><strong>(3) Acid bempedoic.</strong> Thử nghiệm <strong>CLEAR Outcomes</strong> đánh giá tác động acid bempedoic lên kết cục tim mạch ở người không dung nạp statin; đủ điều kiện nếu không dung nạp statin, LDL-C &gt;100 mg/dL và nguy cơ tim mạch tăng (điểm Reynolds tăng, điểm vôi hóa mạch vành &gt;400 Agatston, hoặc đái tháo đường típ 1/2 ở nữ &gt;65 tuổi hoặc nam &gt;60 tuổi). Trong phân tích nhóm con định trước của 4.206 người dự phòng nguyên phát, dù ước lượng điểm nghiêng về điều trị, lợi ích của acid bempedoic trong giảm đột quỵ lần đầu chưa rõ (HR 0,76; KTC 0,46–1,26). Tuổi trung bình 67,9; 59% nữ; &gt;90% da trắng; &gt;80% không gốc Tây Ban Nha. Thử nghiệm không đủ lực phát hiện tác động độc lập lên đột quỵ (tiêu chí thứ phát).</p>
+<p><strong>(4) Omega-3.</strong> Không có bằng chứng rằng bổ sung omega-3 chuỗi dài ở người dùng lượng omega-3 vừa hoặc thấp làm giảm nguy cơ đột quỵ lần đầu, theo một phân tích gộp (RR 0,98; KTC 0,9–1,07).</p>
+<div class="tbl-wrap"><table><caption>Bảng 8. Tiêu chuẩn đủ điều kiện điều trị hạ lipid — các yếu tố tăng nguy cơ (risk enhancers)</caption>
+<tr><th>Yếu tố tăng nguy cơ</th><th>Các tình trạng bao gồm</th></tr>
+<tr><td>Tiền sử gia đình ASCVD sớm</td><td>…</td></tr>
+<tr><td>Tăng cholesterol máu nguyên phát</td><td>…</td></tr>
+<tr><td>Hội chứng chuyển hóa</td><td>…</td></tr>
+<tr><td>Bệnh thận mạn</td><td>…</td></tr>
+<tr><td>Bệnh viêm mạn</td><td>Vảy nến, viêm khớp dạng thấp, lupus ban đỏ, HIV/AIDS</td></tr>
+<tr><td>Chủng tộc/sắc tộc nguy cơ cao</td><td>Tổ tiên Nam Á</td></tr>
+<tr><td>Lipid/dấu ấn sinh học liên quan tăng nguy cơ ASCVD</td><td>Tăng triglyceride nguyên phát, hs-CRP tăng, lipoprotein(a) tăng, apolipoprotein B tăng, chỉ số cổ chân–cánh tay (ABI) &lt;0,9</td></tr>
+<tr><td>Tình trạng đặc hiệu ở nữ</td><td>Vd. tiền sản giật, mãn kinh sớm</td></tr>
+</table></div>
+<p style="font-size:12.5px;color:var(--ink-2)">Ghi chú: các dòng «…» là nội dung chưa hiển thị đầy đủ trong bản PDF được cung cấp; xem hướng dẫn gốc/ACC-AHA 2019.</p>
+<h3 id="h2-s47gap">Khoảng trống kiến thức và nghiên cứu tương lai</h3>
+<ul>
+<li>Không có thử nghiệm dự phòng nguyên phát ngẫu nhiên tiến cứu về quản lý lipid với đột quỵ là tiêu chí chính; vì khó có thử nghiệm như vậy trong tương lai, các thử nghiệm có thể phân tầng tuyển chọn theo mức nguy cơ đột quỵ để đánh giá vững chắc hơn kết cục liên quan đột quỵ.</li>
+<li>Cần nghiên cứu xem liệu pháp hạ lipid có hiệu quả và nguy cơ tương tự giữa các nhóm chủng tộc/sắc tộc và giữa nam – nữ hay không.</li>
+<li>Cần thêm nghiên cứu về PCSK9i và acid bempedoic để xác lập chúng có giảm nguy cơ đột quỵ lần đầu hay không.</li>
+</ul>
+
+<h3 id="h2-s48">4.8. Sử dụng thuốc lá</h3>
+<div class="box"><div class="box-title">KHUYẾN CÁO — THUỐC LÁ</div>
+<p style="margin:0 0 6px"><em>Can thiệp sàng lọc</em></p>
+<div class="rec"><span class="num">4.8.1</span> Ở mọi bệnh nhân, <strong>sàng lọc</strong> hút thuốc lá điếu, dùng các dạng thuốc lá khác, <strong>hệ thống phân phối nicotine điện tử (thuốc lá điện tử, vape)</strong> và phơi nhiễm khói thuốc môi trường (khói thuốc thụ động) có hiệu quả để thông tin nguy cơ đột quỵ và nhắm tới can thiệp cai thuốc. <span class="grade">COR 1 · LOE B-NR</span></div>
+<p style="margin:10px 0 6px"><em>Can thiệp dự phòng</em></p>
+<div class="rec"><span class="num">4.8.2</span> Với bệnh nhân <strong>không dùng</strong> sản phẩm thuốc lá, khuyến cáo <strong>tiếp tục kiêng hoàn toàn</strong> thuốc lá điếu, các sản phẩm thuốc lá khác và hệ thống nicotine điện tử, và tránh phơi nhiễm khói thuốc môi trường để tránh nguy cơ đột quỵ tăng. <span class="grade">COR 1 · LOE B-NR</span></div>
+<p style="margin:10px 0 6px"><em>Can thiệp cai thuốc</em></p>
+<div class="rec"><span class="num">4.8.3</span> Với bệnh nhân <strong>đang hút thuốc lá điếu</strong>, <strong>thuốc hỗ trợ cai thuốc kết hợp tư vấn hành vi</strong> được khuyến cáo, ưu tiên hơn chỉ tư vấn hành vi đơn thuần. <span class="grade">COR 1 · LOE A</span></div>
+<div class="rec"><span class="num">4.8.4</span> Với bệnh nhân đang hút thuốc lá điếu và dùng các sản phẩm thuốc lá khác (vd. nicotine điện tử), <strong>hỗ trợ cai thuốc</strong> được khuyến cáo để giảm nguy cơ đột quỵ. <span class="grade">COR 1 · LOE C-LD</span></div>
+<div class="rec"><span class="num">4.8.5</span> Với bệnh nhân đang hút thuốc lá điếu gặp trong <strong>bệnh viện</strong>, cung cấp thuốc cai thuốc cùng tư vấn hành vi như <strong>điều trị mặc định («opt-out»)</strong>, ưu tiên hơn chỉ cho bệnh nhân bày tỏ sẵn sàng bỏ thuốc («opt-in»), có thể có lợi để hỗ trợ cai thuốc ngắn hạn và tăng tham gia điều trị cai thuốc. <span class="grade">COR 2a · LOE B-R</span></div>
+<div class="rec"><span class="num">4.8.6</span> Với bệnh nhân đang hút thuốc lá điếu, lợi ích sức khỏe dài hạn của việc dùng <strong>thuốc lá điện tử thay cho liệu pháp thay thế nicotine</strong> để hỗ trợ cai thuốc <strong>chưa được xác lập</strong>. <span class="grade">COR 2b · LOE B-R</span></div>
+</div>
+<h3 id="h2-s48syn">Tóm lược</h3>
+<p>Sử dụng thuốc lá là yếu tố nguy cơ có thể điều chỉnh chính của đột quỵ trên toàn thế giới. Tỷ lệ hút thuốc hiện nay khác nhau theo vùng, có nơi lên đến 50%. Ở Mỹ, tỷ lệ hút thuốc lá điếu đã giảm xuống mức thấp kỷ lục 11,5% nhưng vẫn &gt;20% ở một số vùng Đông Nam (gồm nhiều bang thuộc «Vành đai đột quỵ» nơi tử vong do đột quỵ cao nhất). Sử dụng các dạng thuốc lá khác và sản phẩm liên quan như thuốc lá điện tử cũng ngày càng phổ biến. Theo ước tính Global Burden of Disease, thuốc lá chịu trách nhiệm cho 18% số ca tử vong và tàn tật do đột quỵ trên toàn cầu. Rất nhiều dữ liệu dịch tễ cho thấy mối liên quan vững chắc giữa hút thuốc lá điếu và phơi nhiễm khói môi trường với nguy cơ đột quỵ, và dữ liệu mới nổi cho thấy nguy cơ tương tự với các sản phẩm thuốc lá khác. Đa số người hút thuốc muốn cai; ≈50% người hút thuốc Mỹ báo cáo đã thử bỏ trong năm qua; tuy nhiên ≈40% cho biết chưa được tư vấn bỏ thuốc và thuốc hỗ trợ cai bị dùng chưa đủ. Vì vậy các khuyến cáo dự phòng nguyên phát đột quỵ ở đây tập trung vào sàng lọc, điều trị, dự phòng sử dụng và phơi nhiễm thuốc lá cùng sản phẩm liên quan (ngoài các can thiệp cấp chính sách vốn cũng có nhiều bằng chứng).</p>
+<h3 id="h2-s48text">Giải thích hỗ trợ từng khuyến cáo</h3>
+<p><strong>(1) Sàng lọc.</strong> Hút thuốc lá điếu liên quan đột quỵ bất kể tuổi, giới, chủng tộc và cường độ hút. Một phân tích gộp đương đại cho thấy dù có không đồng nhất, hút thuốc lá điếu liên quan đột quỵ thiếu máu não (RR 2,17; KTC 95% 2,06–2,28), xuất huyết não (RR 1,77; KTC 1,60–1,95) và xuất huyết dưới nhện (RR 3,46; KTC 3,15–3,80). Các nghiên cứu ngẫu nhiên Mendel ủng hộ quan hệ nhân quả với đột quỵ thiếu máu và xuất huyết dưới nhện. Phơi nhiễm khói thuốc môi trường liên quan tăng nguy cơ đột quỵ (RR 1,23; KTC 1,16–1,31). Dữ liệu mới về các sản phẩm khác: hút tẩu nước (water pipe) liên quan tăng tỷ số chênh đột quỵ thiếu máu trong 2 nghiên cứu bệnh–chứng, mạnh hơn ở người đang hút thuốc lá điếu; thuốc lá không khói (đường miệng) liên quan đột quỵ trong phân tích gộp ngay cả sau loại các nghiên cứu không hiệu chỉnh thuốc lá điếu (RR 1,18; KTC 1,04–1,32). Mối liên quan của thuốc lá điện tử đơn độc với đột quỵ (OR 1,13; KTC 0,99–1,29) chưa kết luận được do nhiễu từ hút thuốc lá đốt. Hơn nữa dữ liệu này không phản ánh nguy cơ đột quỵ dài hạn khi chuyển từ chỉ dùng thuốc lá điện tử sang thuốc lá đốt và dùng kép.</p>
+<p><strong>(2) Không bắt đầu.</strong> Phần lớn dữ liệu về mối liên quan giữa hút thuốc lá điếu và đột quỵ ủng hộ việc không khuyến khích bắt đầu hút ở người không hút. Dữ liệu về nguy cơ đột quỵ do tẩu nước, thuốc lá không khói, nicotine điện tử còn tương đối hạn chế, nhưng người dùng các sản phẩm này thường cũng hút thuốc lá đốt, và có mối liên quan rõ giữa chỉ dùng thuốc lá điện tử với khả năng bắt đầu hút thuốc lá đốt về sau cao hơn. Vì vậy không khuyến khích bắt đầu tẩu nước, thuốc lá không khói và nicotine điện tử ở người không hút.</p>
+<p><strong>(3) Tư vấn cai.</strong> Chưa có RCT so sánh từng chiến lược cai thuốc với kết cục giảm nguy cơ đột quỵ. Tuy nhiên phân tích dịch tễ cho thấy người đã bỏ thuốc có nguy cơ đột quỵ thấp hơn người đang hút; cai thuốc liên quan giảm nguy cơ đột quỵ. Với người đang hút, dữ liệu chất lượng cao từ phân tích gộp RCT cho thấy nhiều can thiệp tư vấn và lời khuyên hiệu quả tăng cai thuốc so với không hoặc can thiệp tối thiểu. Thường can thiệp gồm liên hệ lặp lại qua điện thoại hoặc trực tiếp ngoài chăm sóc thường quy, nhưng ngay cả can thiệp ngắn cũng hiệu quả, gồm can thiệp <strong>30 giây</strong> của bác sĩ. Do đó, tối thiểu nên tư vấn và khuyên mọi người hút thuốc để tăng khả năng cai, phù hợp USPSTF. Người dùng tẩu nước, thuốc lá không khói, thuốc lá điện tử cũng có thể được lợi từ tư vấn (bằng chứng chắc chắn thấp, thay đổi, cho tư vấn trực tiếp, qua điện thoại hoặc tin nhắn).</p>
+<p><strong>(4) Thuốc cai thuốc.</strong> Thuốc kết hợp tư vấn hành vi vượt trội can thiệp hành vi đơn thuần. Các lựa chọn: <strong>varenicline, bupropion, liệu pháp thay thế nicotine (NRT)</strong>. Trong RCT và phân tích gộp lớn, dùng thuốc làm tăng đáng kể tỷ lệ cai thuốc so với chỉ can thiệp hành vi. So sánh các thuốc: <strong>varenicline vượt trội bupropion</strong> (RR 1,36; KTC 1,25–1,49) và <strong>NRT đơn trị</strong> (RR 1,25; KTC 1,14–1,37). Tuy nhiên <strong>NRT phối hợp (tác dụng nhanh + miếng dán)</strong> vượt trội đơn trị (RR 1,27; KTC 1,17–1,37), và varenicline với NRT phối hợp có hiệu quả tương tự (RR 1,02; KTC 0,87–1,20). USPSTF khuyến cáo khởi đầu thuốc phối hợp can thiệp hành vi. Tuy vậy, hỗ trợ hành vi thêm vào thuốc chỉ làm tăng tỷ lệ cai khiêm tốn; việc không có tư vấn hành vi chuyên sâu không nhất thiết cản trở khởi đầu thuốc. Một thử nghiệm gần đây thấy varenicline vượt trội can thiệp hành vi đơn thuần ở người hút nhẹ (≤10 điếu/ngày) — thuốc cũng nên dùng ở người hút nhẹ, chiếm 65% người Mỹ da đen hút thuốc.</p>
+<p><strong>(5) Opt-out ở bệnh viện.</strong> Phương pháp «opt-out» dựa trên ý tưởng đổi điều trị mặc định có thể ảnh hưởng mức tham gia cai thuốc. Trong RCT 1.000 người hút thuốc gặp tại bệnh viện, can thiệp opt-out cho mọi bệnh nhân được so với «opt-in» chuẩn (chỉ bệnh nhân báo sẵn sàng mới được can thiệp). Ở cả hai nhóm, can thiệp gồm cấp thuốc trước khi xuất viện và tối đa 4 cuộc tư vấn qua điện thoại sau xuất viện. Opt-out liên quan cai thuốc nhiều hơn ở 1 tháng (xác suất hậu nghiệm Bayes 0,97) nhưng không ở 6 tháng (0,57). Bệnh nhân nhóm opt-out có khả năng tham gia cai thuốc sau xuất viện (dùng thuốc và tư vấn điện thoại) gấp khoảng hai lần. Một nghiên cứu quan sát cho thấy triển khai chương trình opt-out cấp bệnh viện là khả thi, và bệnh nhân được can thiệp opt-out tại giường có khả năng dùng thuốc và bỏ thuốc ở 1 tháng cao hơn. Phù hợp với dữ liệu này, hướng dẫn của Hội Lồng ngực Hoa Kỳ (ATS) khuyến cáo khởi đầu varenicline ngay cả ở người hút chưa sẵn sàng bỏ ngay.</p>
+<p><strong>(6) Thuốc lá điện tử.</strong> Theo một tổng quan hệ thống – phân tích gộp được cập nhật liên tục, có độ chắc chắn cao dựa trên 6 RCT (2.378 người) rằng tỷ lệ cai thuốc cao hơn ở nhóm dùng thuốc lá điện tử có nicotine so với NRT (RR 1,63; KTC 1,30–2,04). Một thử nghiệm then chốt ngẫu nhiên 886 người hút thuốc trong Dịch vụ Y tế Quốc gia Anh vào NRT (gồm phối hợp) hoặc thuốc lá điện tử, cả hai nhóm đều có hỗ trợ tư vấn hành vi: tỷ lệ kiêng thuốc 1 năm là 18,0% ở nhóm thuốc lá điện tử so với 9,9% ở nhóm NRT (RR 1,83; KTC 1,30–2,58). Tuy nhiên, trong số người kiêng thuốc 1 năm, 80% ở nhóm thuốc lá điện tử vẫn tiếp tục dùng thuốc lá điện tử, trong khi chỉ 9% ở nhóm NRT còn tiếp tục dùng NRT <em>(câu cuối bị cắt ở bản PDF cung cấp)</em>.</p>
+<h3 id="h2-s48gap">Khoảng trống kiến thức và nghiên cứu tương lai</h3>
+<ul>
+<li>Cần nghiên cứu dọc để hiểu hệ quả mạch máu não lâm sàng dài hạn của dùng thuốc lá điện tử.</li>
+<li>Cần nghiên cứu dọc về tác động dài hạn của thuốc lá điện tử lên dùng kép và chuyển sang thuốc lá đốt.</li>
+<li>Các nghiên cứu can thiệp cai thuốc tương lai nên tìm các can thiệp thực tế tận dụng cả tư vấn hành vi và thuốc.</li>
+<li>Cần xác định chiến lược hiệu quả hỗ trợ cai các sản phẩm thuốc lá khác và hệ thống nicotine điện tử (thuốc lá điện tử, vape).</li>
+<li>Các nghiên cứu triển khai cần làm rõ chiến lược tăng triển khai cai thuốc hiệu quả ở nhiều môi trường thực hành, nguồn lực và quần thể bệnh nhân.</li>
+</ul>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Nguồn: Bushnell C và cs. 2024 Guideline for the Primary Prevention of Stroke (AHA/ASA). Stroke 2024;55:e344–e424. DOI: 10.1161/STR.0000000000000475. Số trích dẫn tài liệu tham khảo (số mũ), danh mục tài liệu tham khảo đầy đủ, thông tin công bố xung đột lợi ích và danh sách thành viên ban soạn thảo/phản biện không được chép lại — xem bản gốc. Bản dịch phục vụ học tập, không thay thế bản gốc.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'dq2024_p2_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>
