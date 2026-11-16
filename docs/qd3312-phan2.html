@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Đột quỵ — QĐ 3312/QĐ-BYT 2024 · Phần 2</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#0E6E6B; --accent-ink:#04302E; --accent-bg:#E3F1EF;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">QĐ 3312 · Phần 2</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">BYT 2024 · QĐ 3312 · PHẦN 2/5</div>
+    <div class="doc-title">Hướng dẫn chẩn đoán và điều trị đột quỵ não — bản lâm sàng</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">PHẦN 2/5</span>
+    <h1>Chương 4–5: Phình ĐM não vỡ (XHDN) và chưa vỡ</h1>
+    <div class="byline">Bộ Y tế — Hướng dẫn chẩn đoán và điều trị đột quỵ não (QĐ 3312/QĐ-BYT, 2024)</div>
+    <div class="cite">Nguồn: Bộ Y tế. Hướng dẫn chẩn đoán và điều trị đột quỵ não, ban hành kèm Quyết định 3312/QĐ-BYT, Hà Nội 2024. Bản tóm lược lâm sàng do người biên soạn dựng lại, bám sát số liệu gốc — không thay thế văn bản gốc.</div>
+
+    <h2 id="c4">Chương 4. Phình động mạch não vỡ (chảy máu dưới nhện)</h2>
+
+<h3 id="c4-cd">4.1. Nhận diện và chẩn đoán</h3>
+<ul>
+<li><strong>Phân loại</strong>: túi (98%), thoi, bóc tách. <strong>Yếu tố nguy cơ vỡ cao</strong>: tiền sử chảy máu dưới nhện; tuổi 40–65, nữ gấp 1,6 lần; kích thước 4–7 mm; phình đa thùy; vị trí thông trước, đỉnh thân nền; cổ nhỏ (tỷ lệ đáy/cổ &gt; 1,6); đi kèm AVM (nhất là trên động mạch nuôi AVM).</li>
+<li><strong>Lâm sàng</strong>: 10% tử vong trước khi kịp cấp cứu. <strong>Đau đầu «sét đánh»</strong>, như vỡ tung đầu, lan gáy chẩm; nôn; rối loạn ý thức (hồi phục nhanh nếu chảy máu ít); co giật. <strong>Cứng gáy</strong> là dấu màng não có giá trị chẩn đoán cao. Thể chảy máu nội sọ: thùy trán (phình thông trước), thùy thái dương vùng khe Sylvius (M1–M2): liệt nửa người không đồng đều, rối loạn tâm thần, tổn thương dây sọ, tăng áp lực nội sọ.</li></ul>
+<div class="box"><div class="box-title">BƯỚC CHẨN ĐOÁN</div><ol style="margin:0;padding-left:20px">
+<li><strong>CLVT sọ không cản quang</strong> càng sớm càng tốt: thấy máu quanh đa giác Willis, khe rãnh, quanh cầu–cuống não, có thể có máu trong não thất. Phát hiện ~<strong>99% ở ngày đầu</strong>, 85% trong 5 ngày đầu. Chấm Fisher (tiên lượng co mạch).</li>
+<li>CLVT bình thường mà vẫn nghi ngờ → <strong>chọc dịch não tủy</strong>: máu (nghiệm pháp 3 ống) hoặc <strong>xanthochromia</strong> (sản phẩm thoái biến hemoglobin) = tiêu chuẩn vàng.</li>
+<li>Tìm túi phình: <strong>CTA / MRA (TOF-3D) / DSA</strong>. DSA là tiêu chuẩn vàng, đặc biệt để không bỏ sót túi &lt; 3 mm. DSA âm tính: <strong>chụp lại sau 1–2 tuần, 1 tháng, 3 tháng</strong> mới loại trừ.</li>
+<li>Có nhiều túi phình: túi vỡ thường có hình nhăm nhúm/búp hồng, co mạch lân cận, đọng thuốc cản quang.</li></ol></div>
+<p><strong>Xét nghiệm thường quy</strong>: công thức máu, đông máu, chức năng gan thận, điện giải, glucose, men tim, nước tiểu, ECG, siêu âm tim, X-quang tim phổi. <strong>Phân biệt</strong>: vỡ AVM (CTA/MRA/DSA), viêm màng não mủ (sốt, dịch não tủy).</p>
+<div class="tbl-wrap"><table><caption>Fisher và Fisher sửa đổi (tỷ lệ co mạch)</caption>
+<tr><th>Fisher</th><th>Tiêu chí</th><th>Co mạch</th><th>Fisher sửa đổi</th><th>Tiêu chí</th><th>Co mạch</th></tr>
+<tr><td>1</td><td>Không có máu</td><td>21%</td><td>0</td><td>Không thấy máu dưới nhện, không máu não thất</td><td>0%</td></tr>
+<tr><td>2</td><td>Dày &lt; 1 mm</td><td>25%</td><td>1</td><td>Dày &lt; 1 mm, không tràn máu não thất</td><td>24%</td></tr>
+<tr><td>3</td><td>Dày &gt; 1 mm</td><td>37%</td><td>2</td><td>Dày &lt; 1 mm, có tràn máu não thất</td><td>33%</td></tr>
+<tr><td>4</td><td>Chảy máu dưới nhện có tràn máu não thất</td><td>31%</td><td>3</td><td>Dày &gt; 1 mm, không tràn máu não thất</td><td>33%</td></tr>
+<tr><td></td><td></td><td></td><td>4</td><td>Dày &gt; 1 mm, có tràn máu não thất</td><td>40%</td></tr></table></div>
+<p style="font-size:13px;color:var(--ink-2)">Bảng gốc bị lệch cột khi trích; thứ tự cột đã được sắp lại theo nội dung.</p>
+<div class="tbl-wrap"><table><caption>Phân độ lâm sàng lúc vào viện</caption>
+<tr><th>Độ</th><th>Hunt–Hess</th><th>WFNS</th></tr>
+<tr><td>I</td><td>Nhức đầu vừa, cứng gáy nhẹ</td><td>Glasgow 15, không rối loạn vận động</td></tr>
+<tr><td>II</td><td>Nhức đầu nhiều, cứng gáy, liệt một dây sọ</td><td>Glasgow 13–14, không rối loạn vận động</td></tr>
+<tr><td>III</td><td>Ngủ gà, lú lẫn, liệt vận động vừa</td><td>Glasgow 13–14, có rối loạn vận động</td></tr>
+<tr><td>IV</td><td>Hôn mê, liệt nửa người nặng, co cứng mất não sớm, rối loạn thực vật</td><td>Glasgow 7–12, ± rối loạn vận động</td></tr>
+<tr><td>V</td><td>Hôn mê sâu, co cứng mất não, hấp hối</td><td>Glasgow 3–6, ± rối loạn vận động</td></tr></table></div>
+
+<h3 id="c4-dt">4.2. Điều trị — làm gì</h3>
+<p>Nguyên tắc: <strong>xử trí túi phình càng sớm càng tốt</strong> (phẫu thuật hoặc can thiệp, <strong>ưu tiên can thiệp nội mạch</strong>) để ngăn chảy máu tái phát.</p>
+<h4 id="c4-nk">a) Nội khoa lúc nhập viện</h4>
+<div class="tbl-wrap"><table><tr><th>Vấn đề</th><th>Việc làm</th></tr>
+<tr><td>Hô hấp</td><td>SpO₂ ≥ 94%; bệnh nhân kích thích vật vã nhiều: chủ động an thần, thở máy</td></tr>
+<tr><td><strong>Huyết áp</strong></td><td><strong>Ngay lập tức</strong> đưa HATT &lt; 160 mmHg hoặc HA trung bình &lt; 110 mmHg. Thuốc: <strong>labetalol, nicardipine</strong></td></tr>
+<tr><td>Đau đầu</td><td>Fentanyl + midazolam; đau nhẹ: paracetamol</td></tr>
+<tr><td><strong>Chống co thắt mạch</strong></td><td><strong>Nimodipine uống 60 mg mỗi 4 giờ</strong>, bắt đầu sớm ngay sau chảy máu (kể cả trước can thiệp), kéo dài đến <strong>ngày 21</strong>; có thể dùng đường tĩnh mạch</td></tr>
+<tr><td>Điện giải</td><td>Thường hạ natri và kali máu — điều chỉnh</td></tr></table></div>
+<div class="tbl-wrap"><table><caption>Đảo ngược thuốc chống đông/kháng kết tập khi đang chảy máu dưới nhện</caption>
+<tr><th>Thuốc đang dùng</th><th>Tác nhân</th><th>Liều</th></tr>
+<tr><td>Kháng vitamin K</td><td>PCC 3 hoặc 4 yếu tố (thay thế yếu tố II, IX, X, VII…)</td><td><strong>25–50 U/kg</strong> TM</td></tr>
+<tr><td>Dabigatran</td><td>Idarucizumab (đối kháng trực tiếp)</td><td><strong>5 g</strong> bolus TM</td></tr>
+<tr><td>Kháng kết tập tiểu cầu</td><td>Truyền tiểu cầu hoặc desmopressin (tăng giải phóng yếu tố von Willebrand)</td><td>Desmopressin <strong>0,4 mcg/kg</strong></td></tr></table></div>
+
+<h4 id="c4-pt">b) Xử trí túi phình</h4>
+<div class="tbl-wrap"><table><tr><th>Phương pháp</th><th>Ưu tiên khi</th></tr>
+<tr><td><strong>Phẫu thuật kẹp clip</strong></td><td>Mạch nhánh phức tạp tại cổ, cổ rộng, can thiệp không tiếp cận được · Phình 2 vị trí (M1–M2 và não trước) kèm máu tụ lớn: kẹp clip + lấy máu tụ giải ép · Tràn máu não thất cấp: dẫn lưu não thất ra ngoài sớm ngay sau xử trí túi phình · Máu tụ nhu mô ảnh hưởng chức năng sống: xử trí phình + lấy máu tụ</td></tr>
+<tr><td><strong>Coiling (nút coil)</strong></td><td><strong>Hunt–Hess I–III</strong>, cổ túi hẹp, không máu tụ nhu mô hay tràn máu não thất gây giãn não thất. Chảy máu thấp hơn clip nhưng tái thông cao hơn</td></tr>
+<tr><td>Chống chỉ định tương đối coiling</td><td>Rối loạn đông cầm máu · Hunt–Hess và WFNS độ V · bệnh nội khoa nặng (suy thận, tim, gan) · không có đường vào động mạch đùi · dị ứng thuốc cản quang hoặc chống chỉ định heparin · &gt; 80 tuổi (cân nhắc từng ca) · chống chỉ định gây mê NKQ</td></tr></table></div>
+<p><strong>Mục tiêu</strong>: loại bỏ hoàn toàn thân và cổ túi; nếu khó thì chấp nhận nút không hoàn toàn, lập kế hoạch điều trị triệt để sau giai đoạn cấp.</p>
+
+<h4 id="c4-sau">c) Sau can thiệp và đánh giá</h4>
+<ul><li>Theo dõi 24–48 giờ: nhịp thở, SpO₂, biến chứng gây mê, đường thở, HA, mạch; <strong>tắc mạch</strong> (ý thức, dấu thần kinh khu trú mới); vị trí chọc động mạch đùi (ít nhất 10 giờ). Vận động và phục hồi chức năng sớm.</li>
+<li>Tiếp tục nimodipine 60 mg/4 giờ đến 21 ngày; chỉnh điện giải; theo dõi co mạch, nhồi máu sau co mạch, tràn máu não thất, nhiễm khuẩn, dinh dưỡng. Mục tiêu giai đoạn ổn định: đảm bảo tưới máu não, kiểm soát chảy máu tái phát, chống co thắt mạch.</li>
+<li><strong>Đánh giá kết cục</strong>: mRS (tốt 0–2, xấu 3–5, tử vong 6); GOS (tốt 4–5, xấu 2–3, tử vong 1).</li>
+<li><strong>Tái khám</strong> sau can thiệp: tháng 3, 6, 12, 36; chủ yếu MRA, CTA hoặc DSA để phát hiện tái thông.</li></ul>
+
+<h3 id="c4-bc">4.3. Biến chứng — nhận biết và xử trí</h3>
+<div class="tbl-wrap"><table><tr><th>Biến chứng</th><th>Nhận biết</th><th>Xử trí</th></tr>
+<tr><td><strong>Chảy máu tái phát</strong></td><td>~18% sớm trong những giờ đầu, 75% trong số này ở 2 giờ đầu; đau đầu lặp lại, HA tăng, nôn, ý thức xấu đi, động kinh; CLVT thấy máu tăng/vị trí mới. Tử vong 50%</td><td>Phát hiện và xử trí phình mạch nhanh; không trì hoãn can thiệp</td></tr>
+<tr><td><strong>Tràn dịch não</strong></td><td>Cấp trong 24 giờ đầu, mạn thường sau 10 ngày; rối loạn ý thức, suy giảm trí tuệ nhiều ngày–tuần; CLVT giãn não thất</td><td>Có triệu chứng cấp: dẫn lưu não thất ngoài và/hoặc dẫn lưu ổ bụng <strong>khẩn cấp</strong>; mạn: dẫn lưu lâu dài</td></tr>
+<tr><td><strong>Chảy máu não</strong></td><td>Trán (phình thông trước), thái dương (phình ĐM não giữa); rối loạn ý thức, liệt nửa người</td><td>Xử trí phình + lấy máu tụ nếu ảnh hưởng chức năng sống</td></tr>
+<tr><td><strong>Co thắt mạch</strong></td><td>Thường từ ngày 3, kéo dài tới 3 tuần; rối loạn ý thức, dấu thần kinh khu trú. Theo dõi: CTA/CT tưới máu, MRI, DSA, Doppler xuyên sọ, điện não liên tục</td><td>Nimodipine sớm; co thắt nặng: cân nhắc <strong>nâng HATT chủ động (không quá 160 mmHg)</strong>, giãn mạch đường động mạch, nong bóng</td></tr>
+<tr><td><strong>Rối loạn chức năng tim</strong></td><td>THA, loạn nhịp, rối loạn chức năng cơ tim, phù phổi thần kinh; bất thường ECG (QT kéo dài…) 25–100%, rối loạn chức năng thất trái 8–30%; nặng nhất: đờ cơ tim do thần kinh</td><td>Theo dõi ECG, siêu âm tim; thường hồi phục</td></tr>
+<tr><td>Khác</td><td>Rối loạn ý thức, ngừng tim, động kinh, mất Na⁺/K⁺</td><td>Điều trị triệu chứng</td></tr></table></div>
+<p><strong>Dự phòng</strong>: phát hiện sớm phình mạch và cân nhắc điều trị khi chưa vỡ.</p>
+
+<h2 id="c5">Chương 5. Phình động mạch não chưa vỡ</h2>
+<h3 id="c5-cd">5.1. Nhận diện và chẩn đoán</h3>
+<ul>
+<li>Thường <strong>không triệu chứng</strong>. Triệu chứng khi to: đau đầu (sau hốc mắt; đau liên tục/từng cơn không đáp ứng giảm đau gợi ý phình lóc tách đe dọa vỡ); chèn ép dây II (phình thông trước: giảm/mất thị lực); <strong>dây III (phình thông sau: sụp mi + giãn đồng tử cùng bên — túi phình tăng kích thước, đe dọa vỡ)</strong>; xoang hang: liệt dây III, IV, VI, đau mặt (V); động mạch đốt sống–thân nền: dây IX, X, XI (rối loạn nuốt); khổng lồ: chèn nhu mô.</li>
+<li>Bệnh liên quan: bệnh thận đa nang, loạn sản xơ cơ, Osler–Weber–Rendu, Marfan, moyamoya, rối loạn collagen type III, nhiễm khuẩn. Di truyền gia đình ~2%. Phình nhiễm trùng thường ở nhánh xa ĐM não giữa (75–80%) → loại trừ viêm nội tâm mạc nhiễm khuẩn.</li>
+<li><strong>Chẩn đoán</strong> chủ yếu bằng hình ảnh: <strong>CTA</strong> (phát hiện túi 1–2 mm; &gt; 95% túi thấy trên DSA), <strong>MRA</strong> (tin cậy với túi ≥ 3–4 mm; TOF-3D cho túi nhỏ, MRA có đối quang từ cho túi lớn), <strong>DSA + tái tạo 3D là tiêu chuẩn vàng</strong> (chụp 4 nhánh: 2 cảnh trong, 2 sống nền để không bỏ sót túi nhiều vị trí; loại trừ dương/âm tính giả). Hình ảnh CTA/MRA tin cậy với túi ≥ 5 mm.</li>
+<li>Phân biệt cấu trúc giả phình: gốc nhánh thông sau, gốc ĐM mắt, quai gập khúc (loop).</li></ul>
+<div class="tbl-wrap"><table><caption>Phân loại</caption><tr><th>Tiêu chí</th><th>Nhóm</th></tr>
+<tr><td>Kích thước</td><td>Nhỏ &lt; 5 mm · Trung bình 5–10 mm · Lớn 10,1–25 mm · Khổng lồ &gt; 25 mm</td></tr>
+<tr><td>Hình thái</td><td>Túi · thoi · lóc tách · phình giả · giãn gập khúc</td></tr>
+<tr><td>Cổ túi</td><td>Cổ rộng: đường kính cổ &gt; 4 mm và/hoặc tỷ lệ thân/cổ &lt; 2</td></tr>
+<tr><td>Liên quan động mạch chính</td><td>Thành bên · ngã ba</td></tr></table></div>
+
+<h3 id="c5-dt">5.2. Quyết định điều trị</h3>
+<div class="box"><div class="box-title">CHỈ ĐỊNH ĐIỀU TRỊ TRIỆT ĐỂ (một trong các tình huống)</div><ul>
+<li><strong>Dọa vỡ</strong>: đau đầu bất thường kéo dài nhiều ngày + hình thái dễ vỡ (đặc biệt phình bóc tách đoạn cuối V4 ĐM đốt sống).</li>
+<li><strong>Có triệu chứng</strong>: chèn ép dây sọ, đau đầu dai dẳng.</li>
+<li><strong>Tiến triển</strong>: tăng kích thước/đổi hình thái khi theo dõi.</li>
+<li><strong>Ổn định, không triệu chứng nhưng ở vị trí dễ vỡ</strong>: thông trước, ĐM cảnh trong đoạn thông sau, màng mạch trước, cạnh/trên mấu giường, ngã ba ĐM não giữa, đoạn cuối V4 ĐM đốt sống, đỉnh thân nền.</li></ul>
+<p style="margin:8px 0 0"><strong>Nguyên tắc</strong>: nguy cơ tai biến điều trị phải thấp hơn nguy cơ chảy máu tự nhiên. <strong>Chống chỉ định tương đối</strong>: tình trạng toàn thân nặng, nhiều bệnh phối hợp, nhiễm trùng, tổn thương quá phức tạp.</p></div>
+<p><strong>Nội khoa</strong>: kiểm soát yếu tố nguy cơ vỡ (tăng huyết áp, bệnh phổi phế quản…). Phình mạch nhiễm trùng: <strong>kháng sinh + chống viêm đồng thời can thiệp nội mạch sớm</strong> (nguy cơ chảy máu rất cao).</p>
+<div class="tbl-wrap"><table><caption>Kỹ thuật điều trị triệt để</caption><tr><th>Kỹ thuật</th><th>Chỉ định</th></tr>
+<tr><td>Kẹp clip (clipping)</td><td>Phổ biến nhất, phần lớn túi phình</td></tr>
+<tr><td>Kẹp động mạch chính + cầu nối ngoài–trong sọ (EC-IC bypass)</td><td>Phình khổng lồ ĐM cảnh trong đoạn nền sọ</td></tr>
+<tr><td>Coil đơn thuần (1–2 ống thông)</td><td>Cơ bản, kinh điển</td></tr>
+<tr><td>Coil + bóng chèn cổ (balloon remodeling)</td><td>Cổ rộng</td></tr>
+<tr><td>Coil + stent hỗ trợ</td><td>Cổ rộng hoặc hình thoi</td></tr>
+<tr><td>Coil + phá hủy động mạch chính</td><td>Phình thoi, lóc tách ĐM đốt sống V4</td></tr>
+<tr><td>Phá hủy ĐM chính cùng túi khổng lồ (bóng latex)</td><td>Phình khổng lồ ĐM cảnh trong, khi nhánh thông trước và sau hoạt động tốt</td></tr>
+<tr><td>Stent chuyển dòng (flow diverter) ± coil</td><td>Triệt tiêu túi phình</td></tr></table></div>
+
+<h3 id="c5-sau">5.3. Theo dõi sau can thiệp và tái khám</h3>
+<ul><li><strong>24 giờ đầu</strong>: ý thức, dấu thần kinh khu trú, huyết động, hô hấp, vị trí chọc động mạch. Biến chứng: chảy máu não, huyết khối cấp gây nhồi máu, chảy máu chỗ chọc, dị ứng cản quang, nhiễm khuẩn.</li>
+<li>Kiểm soát HA, giảm đau, an thần khi cần; <strong>đặt stent chuyển dòng hoặc stent hỗ trợ coil → duy trì thuốc chống kết tập tiểu cầu</strong>; dùng dung dịch đẳng trương (NaCl 0,9%) để giảm phù não; dự phòng co giật, nhiễm khuẩn tiết niệu, huyết khối tĩnh mạch, loét dạ dày.</li>
+<li>Chụp lại CT hoặc CTA/MRA ngay khi có/nghi triệu chứng thần kinh bất thường. <strong>Băng ép, bất động chân bên chọc động mạch 6–8 giờ</strong>; giả phình động mạch muộn sau 1–2 tuần tại chỗ chọc: siêu âm Doppler, băng ép lại hoặc hội chẩn phẫu thuật mạch máu.</li>
+<li><strong>Tái khám</strong>: lần đầu 1 tháng, sau đó 6 tháng–1 năm/lần; MRA (1,5–3 T) là chủ yếu, nghi ngờ thì chụp mạch. Can thiệp lại khi tồn dư/tái thông; bổ sung khi túi chưa nút kín, còn túi khác, hoặc túi mới (de novo).</li></ul>
+
+<h3 id="c5-tl">5.4. Tiên lượng — thang điểm PHASES</h3>
+<div class="tbl-wrap"><table><caption>PHASES (nguy cơ vỡ trong 5 năm)</caption><tr><th>Tiêu chí</th><th>Mức</th><th>Điểm</th></tr>
+<tr><td rowspan="3">Phân bố dân cư</td><td>Bắc Mỹ, châu Âu (ngoài Phần Lan)</td><td>0</td></tr><tr><td>Nhật Bản</td><td>3</td></tr><tr><td>Phần Lan</td><td>5</td></tr>
+<tr><td rowspan="2">Tăng huyết áp</td><td>Không</td><td>0</td></tr><tr><td>Có</td><td>1</td></tr>
+<tr><td rowspan="2">Tuổi</td><td>&lt; 70</td><td>0</td></tr><tr><td>≥ 70</td><td>1</td></tr>
+<tr><td rowspan="4">Kích thước</td><td>&lt; 7,0 mm</td><td>0</td></tr><tr><td>7,0–9,9 mm</td><td>3</td></tr><tr><td>10,0–19,9 mm</td><td>6</td></tr><tr><td>≥ 20 mm</td><td>10</td></tr>
+<tr><td rowspan="2">Chảy máu dưới nhện trước đây do phình khác</td><td>Không</td><td>0</td></tr><tr><td>Có</td><td>1</td></tr>
+<tr><td rowspan="3">Vị trí</td><td>ĐM cảnh trong</td><td>0</td></tr><tr><td>ĐM não giữa</td><td>2</td></tr><tr><td>ĐM não trước/thông sau, tuần hoàn sau</td><td>4</td></tr></table></div>
+<p>Tổng 0–22. Ví dụ tỷ lệ vỡ 5 năm: <strong>0 điểm = 0,4%</strong>, <strong>7 điểm = 2,5%</strong>, <strong>22 điểm = 17,8%</strong> (cần công cụ tính trực tuyến cho các mức còn lại). <strong>Phòng bệnh</strong>: chưa có cách dự phòng mắc; sàng lọc bằng CTA/MRA không xâm lấn cho người có tiền sử gia đình phình mạch (đã vỡ hoặc chưa vỡ); điều trị các yếu tố làm tăng nguy cơ vỡ (tăng huyết áp, bệnh hô hấp gây khó thở/ho nhiều), tránh gắng sức và rượu bia.</p>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Danh mục tài liệu tham khảo của từng chương không được chép lại (xem văn bản gốc). Các sơ đồ/hình trong bản gốc không có trong file nguồn dạng chữ nên được tóm tắt bằng bảng hoặc dựng lại thành lưu đồ.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'qd3312_p2_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>

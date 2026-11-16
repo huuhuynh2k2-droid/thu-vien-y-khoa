@@ -500,6 +500,11 @@ window.LIBRARY = {
       org: "AHA/ASA", year: 2024, doi: "https://doi.org/10.1161/STR.0000000000000475", status: 2,
       cat: "Dự phòng nguyên phát · Bản dịch đầy đủ · Sơ đồ tóm tắt · So sánh BYT 2024",
       note: "Dịch đầy đủ 83 khuyến cáo (COR/LOE) trong 4 phần; chương sơ đồ 17 flowchart kèm liều thuốc; chương so sánh với Hướng dẫn đột quỵ BYT 2024 (QĐ 3312).",
-      updated: "2026-11-16", url: "docs/dq-aha-asa-2024-index.html" }
+      updated: "2026-11-16", url: "docs/dq-aha-asa-2024-index.html" },
+    { id: "tk-qd-3312-dot-quy-2024", sp: "tk", topic: "Đột quỵ", title: "Hướng dẫn chẩn đoán và điều trị đột quỵ não — BYT 2024 (QĐ 3312), bản lâm sàng + sơ đồ liều thuốc",
+      org: "Bộ Y tế", year: 2024, doi: "", status: 2,
+      cat: "Đột quỵ nhồi máu · Chảy máu não · XHDN · HKTMN · Tiêu huyết khối · Lấy huyết khối",
+      note: "13 chương trong 5 phần, trình bày để áp dụng tại giường; trang sơ đồ có liều thuốc và cách pha truyền liên tục (phần pha thuốc ngoài văn bản, cần đối chiếu nhãn).",
+      updated: "2026-11-17", url: "docs/qd3312-index.html" }
   ]
 };

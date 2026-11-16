@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Đột quỵ — QĐ 3312/QĐ-BYT 2024 · Phần 3</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#0E6E6B; --accent-ink:#04302E; --accent-bg:#E3F1EF;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">QĐ 3312 · Phần 3</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">BYT 2024 · QĐ 3312 · PHẦN 3/5</div>
+    <div class="doc-title">Hướng dẫn chẩn đoán và điều trị đột quỵ não — bản lâm sàng</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">PHẦN 3/5</span>
+    <h1>Chương 6–8: Huyết khối TM não, sa sút trí tuệ mạch máu, AVM</h1>
+    <div class="byline">Bộ Y tế — Hướng dẫn chẩn đoán và điều trị đột quỵ não (QĐ 3312/QĐ-BYT, 2024)</div>
+    <div class="cite">Nguồn: Bộ Y tế. Hướng dẫn chẩn đoán và điều trị đột quỵ não, ban hành kèm Quyết định 3312/QĐ-BYT, Hà Nội 2024. Bản tóm lược lâm sàng do người biên soạn dựng lại, bám sát số liệu gốc — không thay thế văn bản gốc.</div>
+
+    <h2 id="c6">Chương 6. Huyết khối tĩnh mạch não (HKTMN)</h2>
+<h3 id="c6-cd">6.1. Khi nào nghi ngờ HKTMN</h3>
+<p>HKTMN chiếm 0,5–1% đột quỵ; tuổi trung bình 33, nữ ~2/3 (thai, hậu sản, <strong>thuốc tránh thai</strong> kéo dài, tăng đông). Nghi ngờ khi có một hoặc nhiều dấu hiệu:</p>
+<ul>
+<li>Đau đầu <strong>khác kiểu thông thường</strong> (tiến triển, đổi tần suất/mức độ) ở người đau đầu nguyên phát; đau đầu dữ dội, tăng khi Valsalva hoặc nằm nghiêng; có thể «sét đánh».</li>
+<li>Dấu tăng áp lực nội sọ (nhìn mờ, phù gai thị); rối loạn ý thức; <strong>co giật</strong>; dấu thần kinh khu trú <strong>không phù hợp một vùng mạch máu</strong> hoặc nhiều vùng.</li>
+<li>Hình ảnh không điển hình: nhồi máu không theo vùng tưới máu động mạch, nhồi máu có chuyển dạng chảy máu, chảy máu thùy không rõ nguồn gốc — nghĩ đến HKTMN kể cả khi CLVT ban đầu bình thường, nhất là có yếu tố nguy cơ.</li></ul>
+<div class="tbl-wrap"><table><caption>Biểu hiện theo vị trí</caption><tr><th>Vị trí (tần suất)</th><th>Gợi ý lâm sàng</th></tr>
+<tr><td>Xoang dọc trên (39–62%)</td><td>Co giật cục bộ/toàn thể, liệt một chân lan sang hai chân, rối loạn ý thức, hội chứng màng não, tăng áp nội sọ, phù gai thị</td></tr>
+<tr><td>Xoang ngang (44–73%)</td><td>Đau tai, chảy dịch tai, hạch cổ gáy cùng bên, cứng gáy; thường do viêm tai giữa/xương chũm</td></tr>
+<tr><td>Xoang hang (1,3–1,7%)</td><td>Đau hố mắt, phù gai thị, lồi mắt, lồi kết mạc, xuất huyết quanh mắt, liệt vận nhãn (sụp mi, lác, nhìn đôi)</td></tr>
+<tr><td>Tĩnh mạch vỏ não (3,7–17,1%)</td><td>Động kinh cục bộ, rối loạn ý thức, tăng áp nội sọ, liệt nửa người, rối loạn ngôn ngữ</td></tr></table></div>
+
+<h3 id="c6-cls">6.2. Cận lâm sàng</h3>
+<div class="tbl-wrap"><table><tr><th>Việc làm</th><th>Ghi chú</th></tr>
+<tr><td><strong>MRI + MRV (T2*)</strong></td><td>Nhạy nhất. 5 ngày đầu: đồng tín hiệu T1, giảm tín hiệu T2; sau 5 ngày: tăng tín hiệu T1 và T2. MRV: mất tín hiệu dòng chảy ở xoang bị tắc</td></tr>
+<tr><td><strong>CLVT + CLVT tĩnh mạch</strong></td><td>CLVT thường <strong>bình thường ở 30%</strong>. Dấu delta đặc (tam giác tăng đậm độ trong xoang dọc trên); sau cản quang: <strong>dấu delta rỗng</strong>; nhồi máu không theo vùng động mạch, nhồi máu + chảy máu; tổn thương có thể «biến mất» theo dõi dọc</td></tr>
+<tr><td>DSA</td><td>Đặc hiệu hơn nhưng thường không cần; chỉ khi CT/MRI nghi ngờ hoặc chưa xác định. Thấy tĩnh mạch vỏ não kết thúc đột ngột quanh «tĩnh mạch nút chai», xoang không hiện, thoát máu chậm</td></tr>
+<tr><td><strong>D-dimer</strong></td><td>&gt; 500 µg/L hỗ trợ chẩn đoán; <strong>bình thường không loại trừ</strong></td></tr>
+<tr><td>Dịch não tủy</td><td>Khi nghi viêm hệ thần kinh trung ương; bất thường không đặc hiệu (30–50%). Sốt/nhiễm trùng huyết không rõ nguồn: chọc dò thắt lưng</td></tr>
+<tr><td>Tăng đông</td><td>Protein S, C, antithrombin III (làm sau ≥ 2 tuần ngừng kháng đông uống vì huyết khối cấp làm giảm tạm thời), kháng thể kháng phospholipid (lupus anticoagulant, anti-cardiolipin, anti-β2GP-I: <strong>lặp lại sau 12 tuần</strong> để xác nhận APS), fibrinogen, yếu tố VIII, yếu tố V Leiden, prothrombin 20210A</td></tr>
+<tr><td>Khác</td><td>Công thức máu, sinh hóa, PT, aPTT. Trên 40 tuổi chưa rõ nguyên nhân: <strong>tầm soát ung thư</strong>. Vẫn tìm nguyên nhân sau giai đoạn cấp (APS, đa hồng cầu, tăng tiểu cầu, ác tính)</td></tr></table></div>
+<p><strong>Chẩn đoán xác định</strong>: hình ảnh có huyết khối trong xoang/tĩnh mạch não. <strong>Nguyên nhân</strong>: thuốc tránh thai 54,3%; hậu sản 13,8%; thai kỳ 6,3%; liệu pháp hormon thay thế 4,3%; ung thư 7,4%; tăng đông di truyền 22,4% hoặc mắc phải 15,7%; nhiễm khuẩn đầu mặt/tai/xoang 8,2%, thần kinh trung ương 2,1%; hiếm: collagen, hồng cầu liềm, đa hồng cầu, chấn thương sọ não, rò động mạch cảnh–xoang hang, rối loạn sinh tủy, mất nước, hội chứng thận hư; 20–35% chưa rõ. Cũng tìm huyết khối tĩnh mạch nơi khác (~1/2 người lớn).</p>
+
+<h3 id="c6-dt">6.3. Điều trị — làm gì</h3>
+<div class="box"><div class="box-title">TRÌNH TỰ XỬ TRÍ (theo AHA/ASA 2011)</div><ol style="margin:0;padding-left:20px">
+<li>Xác định chẩn đoán bằng MRI+MRV / CLVT+CLVT tĩnh mạch / DSA khi cần.</li>
+<li><strong>Kháng đông ngay</strong> nếu không chống chỉ định: heparin truyền TM hoặc LMWH tiêm dưới da. <strong>Nhồi máu/chảy máu não hoặc chảy máu dưới nhện do HKTMN KHÔNG phải chống chỉ định kháng đông.</strong></li>
+<li>Điều trị triệu chứng (co giật, tăng áp nội sọ, bảo vệ thần kinh) và <strong>nguyên nhân</strong> (kháng sinh…).</li>
+<li><strong>Cải thiện</strong> → kháng đông uống, INR 2–3. <strong>Xấu đi</strong>: có hiệu ứng khối nặng/chảy máu nội sọ trên hình ảnh chụp lại → xét <strong>mở sọ giải áp</strong>; không hoặc hiệu ứng nhẹ → xét <strong>can thiệp nội mạch</strong>.</li></ol></div>
+<div class="tbl-wrap"><table><tr><th>Nội dung</th><th>Khuyến cáo</th></tr>
+<tr><td><strong>Kháng đông giai đoạn cấp</strong></td><td>Ưu tiên <strong>LMWH</strong> (trừ khi có thể phải can thiệp xâm lấn/phẫu thuật hoặc chống chỉ định như suy thận → dùng heparin không phân đoạn). Kháng vitamin K uống sau giai đoạn cấp; khi INR 2–3 thì ngừng heparin/LMWH</td></tr>
+<tr><td><strong>DOAC</strong></td><td><strong>Dabigatran 150 mg × 2 lần/ngày</strong> hoặc <strong>rivaroxaban 20 mg/ngày</strong>, tối thiểu 6 tháng</td></tr>
+<tr><td><strong>Thai kỳ</strong></td><td>LMWH suốt thai kỳ và ít nhất 6 tháng sau sinh; theo dõi chảy máu</td></tr>
+<tr><td>Tiêu huyết khối</td><td>Thường dùng nếu lâm sàng xấu đi dù đã kháng đông, hoặc tăng áp nội sọ tiến triển dù điều trị tích cực</td></tr>
+<tr><td>Lấy huyết khối cơ học</td><td>Lâm sàng xấu dù kháng đông đầy đủ ± tiêu huyết khối nội mạch; tại trung tâm có kinh nghiệm</td></tr>
+<tr><td><strong>Tăng áp nội sọ</strong></td><td>Kê cao đầu, an thần nhẹ, mannitol hoặc muối ưu trương, tăng thông khí (PaCO₂ 30–35 mmHg), theo dõi ICP. <strong>Mở sọ giải áp</strong> khi vùng nhồi máu rộng/máu tụ lớn, nguy cơ thoát vị. Tăng áp nội sọ mạn: <strong>acetazolamide</strong> có thể xem xét (bảo vệ thị lực, giảm đau đầu)</td></tr>
+<tr><td><strong>Co giật</strong></td><td>Thuốc chống động kinh ngay sau cơn đầu tiên; giảm và ngừng khi giải quyết nguyên nhân; <strong>không dự phòng khi chưa có cơn</strong>. Ưu tiên <strong>valproate hoặc levetiracetam</strong> hơn phenytoin (ít tương tác với kháng vitamin K). Trẻ hôn mê/thở máy: xem xét điện não liên tục</td></tr>
+<tr><td>Nhiễm trùng</td><td>Kháng sinh bắt buộc khi viêm màng não hoặc nhiễm trùng cấu trúc lân cận (viêm tai giữa, xương chũm)</td></tr>
+<tr><td>Bảo vệ thần kinh</td><td>Cerebrolysin concentrate, choline alfoscerate, citicoline</td></tr>
+<tr><td>Bệnh viêm liên quan</td><td>Behçet, lupus, viêm mạch: cân nhắc glucocorticoid</td></tr></table></div>
+
+<h3 id="c6-tk">6.4. Thời gian kháng đông, nhóm đặc biệt, tiên lượng</h3>
+<div class="tbl-wrap"><table><tr><th>Tình huống</th><th>Thời gian kháng đông (INR 2–3)</th></tr>
+<tr><td>Nguyên nhân tạm thời đã giải quyết</td><td><strong>3 tháng</strong></td></tr>
+<tr><td>Không rõ nguyên nhân hoặc tăng đông nhẹ</td><td><strong>6–12 tháng</strong></td></tr>
+<tr><td>Tăng đông nặng hoặc HKTMN tái phát</td><td><strong>Suốt đời</strong></td></tr>
+<tr><td>Ung thư</td><td>Kháng đông lâu dài; chống chỉ định (vd. CrCl &lt; 30 ml/phút) thì LMWH được ưu tiên hơn kháng vitamin K</td></tr>
+<tr><td>Suy thận mạn</td><td>Chống chỉ định DOAC → thay bằng kháng vitamin K (warfarin)</td></tr>
+<tr><td>Trẻ em</td><td>Kháng vitamin K, heparin không phân đoạn hoặc LMWH</td></tr></table></div>
+<div class="box"><div class="box-title">TIÊU CHUẨN XUẤT VIỆN</div>Sinh tồn ổn định (hô hấp, tim mạch, nhiệt độ); ý thức và triệu chứng thần kinh cải thiện; MRV/CLVT tĩnh mạch cho thấy nhu mô cải thiện, tĩnh mạch lưu thông. Hoàn thiện hồ sơ, ghi lịch khám lại.</div>
+<p><strong>Tiên lượng</strong>: hồi phục hoàn toàn ~75%; ~15% tử vong hoặc phụ thuộc; xấu hơn khi nữ, tuổi cao, hôn mê/rối loạn ý thức, chảy máu nội sọ, phù não lớn, nhiễm trùng. Tái phát 2–7% (4–7% khi kèm huyết khối tĩnh mạch khác).</p>
+<div class="tbl-wrap"><table><caption>Thang điểm ISCVT (Ferro)</caption><tr><th>Đặc điểm</th><th>Điểm nếu có</th></tr>
+<tr><td>Ung thư</td><td>2</td></tr><tr><td>Hôn mê</td><td>2</td></tr><tr><td>Rối loạn ý thức chưa đến hôn mê</td><td>1</td></tr><tr><td>Huyết khối tĩnh mạch sâu</td><td>2</td></tr><tr><td>Chảy máu não</td><td>1</td></tr><tr><td>Nữ giới</td><td>1</td></tr></table></div>
+<p>Tổng 0–9: <strong>&lt; 3 tiên lượng tốt, ≥ 3 tiên lượng xấu</strong>.</p>
+<h2 id="c7">Chương 7. Sa sút trí tuệ nguyên nhân mạch máu (SSTT mạch máu)</h2>
+<h3 id="c7-cd">7.1. Nhận diện và chẩn đoán</h3>
+<ul>
+<li>SSTT mạch máu: nguyên nhân thường gặp thứ hai sau Alzheimer; ~15–20% SSTT ở Bắc Mỹ/châu Âu, ~30% ở châu Á; thường sau 70 tuổi, nam nhiều hơn, ở người có yếu tố nguy cơ mạch máu hoặc từng đột quỵ. Tỷ lệ SSTT 5–34% sau 1 năm nếu do TIA hoặc đột quỵ nặng.</li>
+<li><strong>Dạng tổn thương</strong>: nhồi máu ổ khuyết đa ổ; nhồi máu tái phát nhiều lần; nhồi máu một ổ ở vị trí chiến lược (hồi góc, đồi thị); bệnh Binswanger (tăng huyết áp nặng, kém kiểm soát); SSTT mạch máu di truyền (CADASIL, CARASIL — gen NOTCH3, HTRA1). Chảy máu não cũng làm tăng nguy cơ.</li>
+<li><strong>Biểu hiện</strong>: lú lẫn, khó giải quyết vấn đề, khó chú ý–tập trung, học và nhớ kém, lập kế hoạch kém, thay đổi tâm trạng/mất hứng thú, khó tìm từ, vụng về/dáng đi chậm hoặc không vững. Tổn thương dưới vỏ: thiếu sót nhẹ, kín đáo, tăng dần; đa ổ: có thể từ từ hoặc từng bậc sau mỗi đột quỵ. <strong>Rối loạn chức năng điều hành nổi trội, mất trí nhớ nhẹ/không có</strong> gợi ý SSTT mạch máu.</li>
+<li><strong>Test nhận thức</strong>: MMSE &lt; 24/30 → suy giảm nhận thức; MoCA nhạy hơn với chú ý, điều hành (chịu ảnh hưởng của học vấn).</li>
+<li><strong>Hình ảnh</strong>: CLVT/MRI — teo não, nhồi máu đa ổ, tổn thương chất trắng lan tỏa (nặng = nguy cơ cao), chảy máu. FDG-PET giúp phân biệt với Alzheimer. Dấu ấn dịch não tủy (Aβ-42, Tau) nhạy với Alzheimer nhưng chưa có dấu ấn đặc hiệu để phân biệt.</li></ul>
+<div class="box"><div class="box-title">TIÊU CHUẨN CHẨN ĐOÁN SSTT MẠCH MÁU (DSM-5, rút gọn)</div><ol style="margin:0;padding-left:20px">
+<li><strong>Thỏa tiêu chuẩn SSTT</strong>: suy giảm nhận thức đáng kể ≥ 2 lĩnh vực (chú ý, điều hành, học–nhớ, ngôn ngữ, thị giác–không gian, nhận thức xã hội) + ảnh hưởng độc lập sinh hoạt + không do mê sảng + không do bệnh tâm thần (trầm cảm, tâm thần phân liệt).</li>
+<li>Đặc tính lâm sàng phù hợp nguyên nhân mạch máu: khởi phát liên quan thời gian với biến cố mạch máu <em>hoặc</em> suy giảm nổi trội về chú ý phức tạp và chức năng điều hành thùy trán.</li>
+<li>Có bằng chứng bệnh mạch máu não (tiền sử, khám, hình ảnh) đủ giải thích.</li>
+<li>Không được giải thích tốt hơn bởi bệnh não hoặc bệnh hệ thống khác.</li></ol></div>
+<div class="box"><div class="box-title">TIÊU CHUẨN VAS-COG (nội dung chính)</div><ul>
+<li><strong>Rối loạn nhận thức nhẹ</strong>: giảm 1–2 độ lệch chuẩn (3–16%) ở ≥ 1 lĩnh vực; chưa cản trở độc lập. <strong>SSTT</strong>: giảm ≥ 2 độ lệch chuẩn (dưới bách phân vị 3), cản trở độc lập (vd. quản lý tài chính, thuốc men).</li>
+<li><strong>Căn nguyên mạch máu tiềm tàng</strong>: (A) suy giảm nhận thức liên quan ≥ 1 biến cố mạch máu (khởi phát đột ngột/từng đợt, không hồi phục hoàn toàn sau 3 tháng; nhồi máu dưới vỏ có thể từ từ), hoặc không tiền sử đột quỵ nhưng suy giảm chú ý/điều hành <strong>kèm</strong> ≥ 1: rối loạn dáng đi sớm hay ngã, rối loạn tiểu tiện sớm không do tiết niệu, thay đổi nhân cách (thờ ơ, trầm cảm). (B) Hình ảnh ≥ 1: một ổ nhồi máu lớn; nhồi máu vùng chiến lược (đồi thị, nhân xám); ≥ 2 ổ khuyết (trừ thân não); tổn thương chất trắng lan tỏa; chảy máu vùng chiến lược hoặc ≥ 2 ổ chảy máu; hoặc kết hợp.</li>
+<li><strong>Loại trừ</strong>: mất trí nhớ khởi phát sớm tiến triển hoặc rối loạn ngôn ngữ/thất dụng/tri giác không có tổn thương khu trú hay biến cố mạch máu; Parkinson khởi phát sớm; bệnh thần kinh khác (xơ cứng rải rác, viêm não, ngộ độc); không có tổn thương mạch máu trên CT/MRI; bệnh nội khoa gây suy giảm nhận thức (ngộ độc, u, viêm não, trầm cảm); marker Alzheimer (đang nghiên cứu).</li></ul></div>
+
+<h3 id="c7-dt">7.2. Điều trị — làm gì</h3>
+<p>Không có điều trị đặc hiệu được chấp thuận. <strong>Kiểm soát yếu tố nguy cơ tim mạch</strong>: huyết áp, hạ cholesterol, <strong>glucose huyết tương 90–150 mg/dL</strong>, ngừng thuốc lá, tránh béo phì; lối sống lành mạnh (nhiều rau quả, cá, hạn chế mỡ và muối; tập thể dục; tránh thuốc lá và rượu bia).</p>
+<div class="tbl-wrap"><table><caption>Thuốc triệu chứng (SSTT mạch máu mức nhẹ–trung bình; hiệu quả với SSTT mạch thuần túy còn không chắc chắn)</caption>
+<tr><th>Thuốc</th><th>Khuyến cáo</th><th>Mức</th></tr>
+<tr><td>Donepezil</td><td>Cải thiện chức năng nhận thức, nên dùng</td><td>I – A</td></tr>
+<tr><td>Galantamine</td><td>Nên dùng, kể cả SSTT hỗn hợp (kèm Alzheimer)</td><td>I – A</td></tr>
+<tr><td>Memantine</td><td>Làm chậm mất chức năng nhận thức, không cải thiện đáng kể; có thể xem xét</td><td>I – A</td></tr>
+<tr><td>Piracetam</td><td>Thay đổi ấn tượng chung (GIC), không cải thiện nhận thức</td><td>IV – GPP</td></tr>
+<tr><td><strong>Vinpocetine 30–60 mg/ngày</strong></td><td>Có thể cải thiện nhận thức và ấn tượng chung</td><td>II – B</td></tr>
+<tr><td>Citicoline</td><td>Hiệu quả dương tính lên nhận thức, hành vi, ấn tượng chung</td><td>I và II – B</td></tr>
+<tr><td><strong>Ginkgo biloba EGb761 240 mg/ngày</strong></td><td>Cải thiện nhận thức và hành vi (theo dõi 24 tuần; Alzheimer và SSTT mạch máu)</td><td>II – B</td></tr>
+<tr><td>Cerebrolysin concentrate</td><td>Cải thiện nhận thức và chức năng tổng thể</td><td>I</td></tr></table></div>
+<p><strong>Tập luyện nhận thức</strong>: huấn luyện, phục hồi, kích thích nhận thức. <strong>Phòng ngừa</strong>: can thiệp đa yếu tố (ăn uống lành mạnh, ổn định huyết áp–đường huyết, bỏ thuốc lá, tập thể dục, tập luyện nhận thức) duy trì/cải thiện nhận thức người cao tuổi (mức II – B).</p>
+
+<h2 id="c8">Chương 8. Dị dạng thông động–tĩnh mạch não (AVM)</h2>
+<h3 id="c8-cd">8.1. Nhận diện và chẩn đoán</h3>
+<ul>
+<li><strong>Chảy máu não</strong>: biểu hiện thường gặp nhất, 50–70% lúc chẩn đoán. AVM dễ vỡ: nhỏ, dẫn lưu tĩnh mạch sâu, nằm sâu; tĩnh mạch dẫn lưu hẹp, áp lực cao ở động mạch nuôi, có túi phình, tăng huyết áp.</li>
+<li><strong>Động kinh</strong>: triệu chứng thường gặp thứ hai (18–35%); nguy cơ cao khi AVM lớn, nidus/động mạch nuôi ở vỏ não, thùy thái dương; kháng trị 18%.</li>
+<li>Khác: đau đầu mạn 6–14%; dấu thần kinh khu trú 3–10%. AVM đa ổ 0,3–3,2% (hội chứng Rendu–Osler–Weber, Wyburn–Mason).</li>
+<li><strong>Nguy cơ chảy máu</strong>: chảy máu cao nhất trong năm đầu sau chẩn đoán; <strong>tiền sử chảy máu trước đó là yếu tố tiên đoán mạnh nhất (×3 trong 5 năm)</strong>; AVM sâu, dưới lều, dẫn lưu tĩnh mạch sâu; AVM dưới lều trong 5 năm đầu: 11,6%/năm (chung 2,4%/năm). <strong>Nguy cơ cả đời = 1 − (1 − nguy cơ hằng năm)<sup>số năm còn lại</sup></strong> (vd. 3%/năm, 25 năm → 53%); công thức đơn giản: nguy cơ (%) ≈ 105 − tuổi.</li></ul>
+<div class="tbl-wrap"><table><caption>Spetzler–Martin (độ = tổng điểm 1–5)</caption><tr><th>Đặc điểm</th><th>Mức</th><th>Điểm</th></tr>
+<tr><td rowspan="3">Kích cỡ nidus</td><td>Nhỏ &lt; 3 cm</td><td>1</td></tr><tr><td>Trung bình 3–6 cm</td><td>2</td></tr><tr><td>Lớn &gt; 6 cm</td><td>3</td></tr>
+<tr><td rowspan="2">Vùng não chức năng</td><td>Có chức năng</td><td>1</td></tr><tr><td>Ít chức năng</td><td>0</td></tr>
+<tr><td rowspan="2">Tĩnh mạch dẫn lưu</td><td>Nông (chỉ hệ vỏ não)</td><td>0</td></tr><tr><td>Sâu (bất kỳ/tất cả qua hệ sâu)</td><td>1</td></tr></table></div>
+<p style="font-size:13px;color:var(--ink-2)">Vùng chức năng: vỏ cảm giác–vận động, ngôn ngữ, thị giác, đồi thị, dưới đồi, bao trong, thân não, cuống tiểu não, nhân sâu tiểu não. Vùng ít chức năng: thùy trán/thái dương phía trước, vỏ tiểu não.</p>
+<div class="tbl-wrap"><table><caption>Nataf (nguy cơ chảy máu)</caption><tr><th>Độ</th><th>Đặc điểm</th><th>Tỷ lệ chảy máu</th></tr>
+<tr><td>Ia</td><td>Không yếu tố nguy cơ, có tăng sinh tĩnh mạch</td><td>13%</td></tr><tr><td>Ib</td><td>Không yếu tố nguy cơ, không tăng sinh tĩnh mạch</td><td>38%</td></tr>
+<tr><td>II</td><td>Hẹp tĩnh mạch hoặc trào ngược tĩnh mạch</td><td>48%</td></tr>
+<tr><td>III</td><td>Chỉ dẫn lưu tĩnh mạch sâu</td><td>90%</td></tr><tr><td>IV</td><td>Túi phình trong hoặc cạnh nidus</td><td>90%</td></tr></table></div>
+
+<h3 id="c8-dt">8.2. Điều trị — chọn gì</h3>
+<p><strong>Mục tiêu</strong>: loại hoàn toàn AVM khỏi tuần hoàn, ít tai biến nhất. Ba phương thức: <strong>vi phẫu, nút mạch nội mạch, xạ phẫu</strong> (trung tâm cần đủ cả ba). Nguy cơ điều trị không được vượt nguy cơ chảy máu cả đời nếu không điều trị.</p>
+<div class="tbl-wrap"><table><tr><th>Tình huống</th><th>Hướng xử trí</th></tr>
+<tr><td>Grade I–II</td><td>Phẫu thuật lấy toàn bộ AVM là chính yếu. Xạ phẫu đơn thuần cho AVM nhỏ &lt; 3 cm grade I–II nếu giải phẫu mạch không phù hợp mổ</td></tr>
+<tr><td>Grade II–V</td><td>Phối hợp để triệt nidus (nút mạch trước mổ hoặc xạ phẫu); grade IV–V: mổ lấy AVM đơn thuần không khả thi</td></tr>
+<tr><td>Nút mạch hỗ trợ (không tắc hoàn toàn)</td><td>Hữu ích khi động kinh kháng thuốc hoặc thiếu sót thần kinh do lưu lượng cao/tăng áp tĩnh mạch</td></tr>
+<tr><td><strong>AVM đã vỡ</strong></td><td>Cần điều trị kể cả người lớn tuổi (nguy cơ vỡ lại rất cao). Khối AVM lớn/phức tạp vỡ đe dọa tính mạng: <strong>mổ cấp cứu lấy máu tụ</strong>, xử trí AVM ở thì hai sau vài ngày (có MRI, chụp mạch ± nút mạch hỗ trợ). AVM nhỏ: có thể lấy luôn một thì. AVM phức tạp, máu tụ ít: lên kế hoạch mổ trong vài ngày sau nút mạch hỗ trợ (lựa chọn ưa chuộng nhất). Nút mạch một thì khi máu tụ ít, có thể tắc hoàn toàn. Xạ phẫu tác dụng chậm: chỉ cho AVM sâu không tiếp cận được</td></tr>
+<tr><td><strong>AVM chưa vỡ</strong></td><td>Còn bàn cãi; dự phòng. Grade I–II: nên điều trị, nhất là người trẻ/trẻ em. Grade III: chưa thống nhất (nguy cơ cao ở vùng chức năng), tư vấn kỹ. <strong>Grade IV–V: theo dõi bảo tồn</strong>. Người trẻ điều trị tích cực hơn. Phẫu thuật lấy trọn AVM có thể giúp cả động kinh kháng thuốc</td></tr></table></div>
+<div class="box"><div class="box-title">TIÊU CHUẨN «LOẠI BỎ HOÀN TOÀN»</div><ul>
+<li><strong>DSA (tiêu chuẩn vàng)</strong>: không còn động mạch nuôi, nidus, tĩnh mạch dẫn lưu ở thì động mạch và thì mao mạch.</li>
+<li><strong>MRI có đối quang từ</strong>: không còn AVM trên TOF 3D (hoặc MRA có thuốc), không ngấm thuốc nidus trên T1 có thuốc, không còn flow void trên T2.</li>
+<li>AVM vẫn có thể tái phát tại chỗ khi theo dõi → «triệt căn» = tắc hoàn toàn và không tái phát trong theo dõi. Quản lý chảy máu não: xem chương 3.</li></ul></div>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Danh mục tài liệu tham khảo của từng chương không được chép lại (xem văn bản gốc). Các sơ đồ/hình trong bản gốc không có trong file nguồn dạng chữ nên được tóm tắt bằng bảng hoặc dựng lại thành lưu đồ.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'qd3312_p3_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>

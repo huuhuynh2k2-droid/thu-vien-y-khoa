@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Đột quỵ — QĐ 3312/QĐ-BYT 2024 · Sơ đồ tóm tắt</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#0E6E6B; --accent-ink:#04302E; --accent-bg:#E3F1EF;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+
+.fc{display:flex;flex-direction:column;align-items:center;background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px 14px 24px;margin:14px 0 8px;overflow-x:auto}
+.nd{border:1.5px solid var(--accent);border-radius:10px;padding:8px 12px;background:#fff;text-align:center;font-size:13.5px;line-height:1.5;max-width:600px;width:100%}
+.nd small{display:block;font-size:11.5px;color:var(--ink-2);margin-top:2px}
+.nd.start{background:var(--accent);color:#fff;font-weight:600;max-width:420px}
+.nd.start small{color:#dfe3f5}
+.nd.dc{border-style:dashed;background:var(--accent-bg);font-weight:600;border-radius:22px}
+.nd.ok{background:#E3F1E6;border-color:#2E7D4F}
+.nd.no{background:#FBE7E7;border-color:#B03A3A}
+.nd.wr{background:#FBEFE0;border-color:#C98A1B}
+.nd.ds{background:#EAF3FA;border-color:#2B6C99;text-align:left}
+.nd.dx{background:#F3EEF9;border-color:#7A55A6;text-align:left}
+.nd.ds ul,.nd.dx ul{margin:4px 0 0;padding-left:18px}.nd.ds li,.nd.dx li{margin-bottom:2px}
+.nd .tg{display:inline-block;font-size:10.5px;font-weight:700;border-radius:4px;padding:0 6px;margin-right:4px;color:#fff;background:#2B6C99}
+.nd.dx .tg{background:#7A55A6}
+.ar{width:2px;height:20px;background:#7b7a76;position:relative;margin:0 auto;flex-shrink:0}
+.ar:after{content:"";position:absolute;left:-4px;bottom:-1px;border:5px solid transparent;border-top:7px solid #7b7a76;border-bottom:0}
+.br{display:flex;gap:12px;align-items:stretch;justify-content:center;width:100%;flex-wrap:wrap;border-top:2px solid #7b7a76;padding-top:0;margin-top:0}
+.col{flex:1 1 230px;display:flex;flex-direction:column;align-items:center;min-width:0}
+.lbl{font-size:11.5px;font-weight:700;color:var(--accent-ink);background:var(--accent-bg);border:1px solid var(--border);border-radius:20px;padding:1px 10px;margin:-10px 0 4px;position:relative;z-index:1}
+.fcref{font-size:12.5px;color:var(--ink-2);margin:2px 0 26px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12.5px;margin:12px 0 22px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:16px;height:16px;border-radius:4px;border:1.5px solid}
+.mini{width:100%;border-collapse:collapse;font-size:12.5px;margin:0}.mini th,.mini td{border:1px solid var(--border);padding:5px 8px}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">QĐ 3312 · Sơ đồ tóm tắt</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">BYT 2024 · QĐ 3312 · SƠ ĐỒ</div>
+    <div class="doc-title">Sơ đồ tóm tắt xử trí đột quỵ, kèm liều thuốc và cách pha</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">SƠ ĐỒ TÓM TẮT</span>
+    <h1>Sơ đồ tóm tắt xử trí đột quỵ — liều thuốc và cách pha truyền</h1>
+    <div class="byline">Dựng lại từ Hướng dẫn chẩn đoán và điều trị đột quỵ não (QĐ 3312/QĐ-BYT, 2024)</div>
+    <div class="cite">Nguồn: Bộ Y tế. Hướng dẫn chẩn đoán và điều trị đột quỵ não, QĐ 3312/QĐ-BYT, Hà Nội 2024. Lưu đồ do người biên soạn dựng lại; các ô màu tím là phần ngoài văn bản.</div>
+
+    <div class="legend">
+<span><i style="background:var(--accent);border-color:var(--accent)"></i>Điểm khởi đầu</span>
+<span><i style="background:var(--accent-bg);border-color:var(--accent);border-style:dashed"></i>Câu hỏi/điều kiện</span>
+<span><i style="background:#E3F1E6;border-color:#2E7D4F"></i>Nên làm</span>
+<span><i style="background:#FBEFE0;border-color:#C98A1B"></i>Thận trọng / cân nhắc</span>
+<span><i style="background:#FBE7E7;border-color:#B03A3A"></i>Không làm / chống chỉ định</span>
+<span><i style="background:#EAF3FA;border-color:#2B6C99"></i>Liều/ngưỡng lấy từ văn bản BYT 2024</span>
+<span><i style="background:#F3EEF9;border-color:#7A55A6"></i>Ngoài văn bản BYT: cách pha, tốc độ truyền (đối chiếu nhãn thuốc/phác đồ bệnh viện)</span></div>
+<p style="font-size:13.5px;color:var(--ink-2)">Trang này gồm lưu đồ xử trí rút gọn của chương 1–4, 6 và 10–12, kèm liều thuốc. Ô xanh dương là số liệu trích nguyên từ văn bản; ô tím là phần người soạn bổ sung để dùng tại giường (cách pha, tốc độ), <b>không có trong văn bản BYT</b>. Phình mạch chưa vỡ (chương 5), sa sút trí tuệ mạch máu (chương 7), AVM (chương 8), hình ảnh học (chương 9) và phục hồi chức năng (chương 13): xem các phần 2–5.</p><h2 id="sd-tia">1. TIA / đột quỵ nhẹ — chọn kháng kết tập tiểu cầu</h2><div class="fcref">Chương 1 (mục 1.3, 1.4)</div><div class="fc"><div class="nd start">TIA hoặc đột quỵ nhẹ (NIHSS ≤ 5)<small>Nguy cơ tái phát sớm rất cao — điều trị ngay</small></div><div class="ar"></div><div class="nd ok">Chụp CLVT sọ, MRI (DWI/FLAIR/T2*/TOF), ECG + Holter, siêu âm tim, Doppler mạch cảnh – đốt sống, xét nghiệm đường máu, lipid, đông máu</div><div class="ar"></div><div class="nd dc">Có rung nhĩ / van cơ học / hẹp hai lá trung bình–nặng?</div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Có</div><div class="nd ok">Kháng đông (xem sơ đồ 8)</div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Kháng đông theo nguyên nhân</b><ul><li>Rung nhĩ không bệnh van: <b>DOAC</b> ưu tiên hơn kháng vitamin K</li><li>Van hai lá cơ học hoặc hẹp hai lá vừa–nặng: <b>kháng vitamin K, INR 2,5–3,5</b></li><li>Van sinh học: kháng vitamin K INR 2–3 trong 3–6 tháng đầu rồi aspirin 75–100 mg</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Không</div><div class="nd dc">Phân tầng ABCD2<small>A tuổi ≥ 60 (1) · B HA &gt; 140/90 (1) · C liệt nửa người (2) / nói khó (1) · D thời gian ≥ 60 phút (2) / 10–59 phút (1) · ĐTĐ (1)</small></div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">ABCD2 &lt; 4</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Đơn trị</b><ul><li>Aspirin 81–325 mg/ngày, sau đó 81–100 mg/ngày, lâu dài</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">ABCD2 ≥ 4 hoặc NIHSS ≤ 3</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Aspirin + clopidogrel (DAPT)</b><ul><li>Aspirin 81–325 mg rồi 81–100 mg/ngày</li><li>Clopidogrel nạp 300–600 mg rồi 75 mg/ngày</li><li>Bắt đầu ngay, tối ưu ≤ 24 giờ (tối đa 7 ngày)</li><li>Dùng kép 21–90 ngày rồi đơn trị</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">ABCD2 ≥ 5 hoặc NIHSS ≤ 5</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Aspirin + ticagrelor</b><ul><li>Ticagrelor nạp 180 mg, sau 12 giờ 90 mg, rồi 90 mg × 2 lần/ngày</li><li>Tối ưu ≤ 24 giờ (tối đa 7 ngày), ticagrelor 30 ngày</li><li>Nguy cơ chảy máu cao hơn</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Dị ứng aspirin / loét dạ dày</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Đơn trị thay thế</b><ul><li>Clopidogrel 75 mg/ngày</li><li>hoặc aspirin 25 mg + dipyridamole 200 mg × 2 lần/ngày</li><li>hoặc cilostazol 100 mg × 2 lần/ngày</li></ul></div></div></div></div></div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Song song điều trị yếu tố nguy cơ</b><ul><li>HA &lt; 130/80 mmHg · LDL-C &lt; 70 mg/dL (1,8 mmol/L) · HbA1c &lt; 7% · BMI &lt; 23</li></ul></div></div><h2 id="sd-nmn">2. Nhồi máu não cấp — quyết định tái thông và huyết áp</h2><div class="fcref">Chương 2 (2.4), chương 9–11</div><div class="fc"><div class="nd start">Nghi đột quỵ: khiếm khuyết thần kinh khu trú đột ngột<small>Ghi giờ khởi phát / lần cuối còn bình thường · NIHSS · đường máu mao mạch ngay</small></div><div class="ar"></div><div class="nd ok">CLVT sọ không cản quang (± CTA, tưới máu) hoặc MRI — loại trừ chảy máu</div><div class="ar"></div><div class="nd dc">Có chảy máu não / dưới nhện?</div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Có</div><div class="nd wr">Chuyển sơ đồ 5 (chảy máu não) hoặc 6 (chảy máu dưới nhện)</div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Không → nhồi máu não</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Hỗ trợ ban đầu</b><ul><li>ABC · đầu cao 30° · oxy khi SpO₂ ≤ 94% (duy trì &gt; 94%)</li><li>Paracetamol khi &gt; 38 °C</li><li>Hạ HA/giảm thể tích: dịch đẳng trương; không đủ → noradrenalin ± dobutamin</li></ul></div><div class="ar"></div><div class="nd dc">Còn trong cửa sổ tiêu huyết khối (&lt; 4,5 giờ, hoặc thỏa tiêu chuẩn hình ảnh nâng cao)?</div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Có → sơ đồ 3</div><div class="nd ok">HA &lt; 185/110 trước tiêu huyết khối; sau đó &lt; 180/105 trong 24 giờ</div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Tắc mạch lớn → sơ đồ 4</div><div class="nd ok">Lấy huyết khối cơ học: HA ≤ 185/110 trước; &lt; 180/105 trong và 24 giờ sau</div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Không tái thông</div><div class="nd dc">HA &lt; 220/110</div><div class="ar"></div><div class="nd no">Không dùng thuốc hạ áp ít nhất 24 giờ đầu<small>trừ: bệnh mạch vành tiến triển, suy tim, phình ĐMC, bệnh não tăng huyết áp, tiền sản giật/sản giật</small></div><div class="ar"></div><div class="nd wr">HA ≥ 220/120: giảm 15% HATT trong 24 giờ đầu</div></div></div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Điều trị chung trong 24–72 giờ đầu</b><ul><li>Không hạ HATT xuống 130–140 mmHg trong 72 giờ đầu (nếu tiêu huyết khối)</li><li>Phù não: mannitol 1–2 g/kg truyền 30–60 phút, lặp mỗi 6–8 giờ (theo chương 2)</li><li>Theo dõi nuốt, huyết khối tĩnh mạch sâu, nhiễm trùng, dinh dưỡng, loét tỳ đè</li></ul></div></div></div></div><h2 id="sd-tshk">3. Tiêu huyết khối tĩnh mạch</h2><div class="fcref">Chương 10</div><div class="fc"><div class="nd start">Nhồi máu não, khiếm khuyết rõ: NIHSS &gt; 5, hoặc ≤ 5 nhưng gây tàn tật<small>Tuổi &gt; 18 · mục tiêu cửa–kim ≤ 60 phút</small></div><div class="ar"></div><div class="nd dc">Thời gian khởi phát</div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">&lt; 4,5 giờ</div><div class="nd ok">Đủ điều kiện nếu không có chống chỉ định</div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">4,5–9 giờ hoặc thức giấc</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Cần hình ảnh nâng cao</b><ul><li>Khởi phát rõ 4,5–9 giờ hoặc thức giấc ≤ 9 giờ từ điểm giữa giấc ngủ: lõi &lt; 70 ml, tỷ lệ giảm tưới máu/lõi &gt; 1,2, penumbra &gt; 10 ml, không định lấy huyết khối</li><li>Thức giấc ≤ 4,5 giờ từ khi phát hiện: DWI có tổn thương, FLAIR chưa, tổn thương ≤ 1/3 MCA, NIHSS ≤ 25</li></ul></div></div></div><div class="ar"></div><div class="nd dc">Kiểm tra chống chỉ định</div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Chống chỉ định chính</b><ul><li>HA ≥ 185/110 chưa hạ được</li><li>Tiền sử/hiện có chảy máu não, nghi chảy máu dưới nhện, chảy máu trong đang hoạt động</li><li>Tiểu cầu &lt; 100 G/L · INR &gt; 1,7 hoặc PT &gt; 15 giây · heparin với aPTT &gt; 40 giây · LMWH liều điều trị</li><li>DOAC: chỉ khi liều cuối &gt; 48 giờ hoặc xét nghiệm bình thường (anti-Xa &lt; 0,5 U/ml, TT &lt; 60 giây); dabigatran: idarucizumab 5 g rồi tiêu huyết khối</li><li>Chấn thương đầu nặng/phẫu thuật nội sọ/tủy trong 3 tháng · viêm nội tâm mạc · lóc tách quai ĐMC · nhồi máu &gt; 1/3 bán cầu</li></ul></div><div class="ar"></div><div class="nd dc">Chọn thuốc</div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Alteplase chuẩn</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>0,9 mg/kg, tối đa 90 mg</b><ul><li>Tiêm TM <b>10%</b> trong 1 phút</li><li>Truyền TM <b>90%</b> còn lại trong 60 phút</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Alteplase nguy cơ chảy máu cao</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>0,6 mg/kg, tối đa 60 mg</b><ul><li>Tiêm TM <b>15%</b> trong 1 phút</li><li>Truyền TM <b>85%</b> còn lại trong 60 phút</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Tenecteplase</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>0,25 mg/kg, tối đa 25 mg</b><ul><li>Tiêm TM một liều (bolus)</li></ul></div></div></div><div class="ar"></div><div class="nd dx"><span class="tg">Ngoài văn bản BYT — tham khảo, đối chiếu nhãn thuốc</span><b>Pha thuốc và tốc độ (ví dụ bệnh nhân 70 kg, alteplase 0,9 mg/kg)</b><ul><li>Lọ 50 mg + 50 mL nước cất vô trùng → <b>1 mg/mL</b>. Liều = 70 × 0,9 = <b>63 mg</b> (63 mL)</li><li>Bolus 10% = <b>6,3 mL</b> tiêm trong 1 phút. Còn lại <b>56,7 mL truyền bơm tiêm điện/máy truyền 56,7 mL/giờ</b> × 60 phút</li><li>Không pha loãng bằng glucose. Lượng dư bỏ đi. Tenecteplase: lọ 50 mg + 10 mL nước cất → 5 mg/mL; thể tích (mL) = cân nặng (kg) ÷ 20, tối đa 5 mL (theo nhãn thuốc)</li></ul></div><div class="ar"></div><div class="nd wr">Theo dõi: HA và thần kinh mỗi 15 phút × 2 giờ, mỗi 30 phút × 6 giờ, mỗi giờ × 16 giờ · trì hoãn sonde dạ dày/tiểu, A-line</div><div class="ar"></div><div class="nd no">Đau đầu dữ dội, tăng HA cấp, nôn, ý thức xấu đi → DỪNG thuốc, chụp CLVT sọ cấp</div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Chảy máu nội sọ có triệu chứng</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Xử trí</b><ul><li>Dừng alteplase · xét nghiệm công thức máu, PT, aPTT, fibrinogen, nhóm máu</li><li>Cryo 10 U (300–400 mL) truyền 10–30 phút; thêm nếu fibrinogen &lt; 150 mg/dL</li><li>Tranexamic acid 1000 mg truyền 10 phút, hoặc ε-aminocaproic 4–5 g trong 1 giờ rồi 1 g/giờ</li><li>Hội chẩn huyết học, phẫu thuật thần kinh</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Phản vệ / phù thanh quản</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Xử trí</b><ul><li>Dừng alteplase và ACEI · kiểm soát đường thở</li><li>Methylprednisolone 125 mg TM · diphenhydramine 50 mg TM</li><li>Ranitidine 50 mg hoặc famotidine 20 mg TM · adrenalin nếu cần</li></ul></div></div></div></div><h2 id="sd-lhk">4. Lấy huyết khối cơ học (can thiệp nội mạch)</h2><div class="fcref">Chương 11</div><div class="fc"><div class="nd start">Nhồi máu não + tắc động mạch lớn đoạn gần (CTA/MRA)<small>Không chờ tiêu huyết khối nếu đủ tiêu chuẩn lấy huyết khối</small></div><div class="ar"></div><div class="nd dc">Thời gian từ lúc còn bình thường</div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">≤ 6 giờ</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Chỉ định</b><ul><li>NIHSS ≥ 6, ASPECTS ≥ 6, mRS trước ≤ 1, tuổi ≥ 18</li><li>Tắc ICA tận, M1, đầu M2, hoặc A1/A2</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">6–24 giờ (lâm sàng–lõi, DAWN)</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Chỉ định</b><ul><li>mRS ≤ 1, tắc ICA/M1, nhồi máu ≤ 1/3 MCA</li><li>≥ 80 tuổi: NIHSS ≥ 10, lõi &lt; 21 ml</li><li>&lt; 80 tuổi: NIHSS 10–19, lõi &lt; 31 ml; NIHSS ≥ 20, lõi &lt; 51 ml</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">6–24 giờ (tưới máu)</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Chỉ định</b><ul><li>NIHSS ≥ 6, mRS ≤ 2, tắc ICA/M1</li><li>Lõi &lt; 70 ml, tỷ lệ thiếu máu/lõi &gt; 1,8, thể tích thiếu máu trừ lõi &gt; 15 ml</li></ul></div></div></div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Lõi lớn ≤ 24 giờ</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Có thể chỉ định</b><ul><li>ASPECTS 3–5, hoặc ASPECTS ≥ 6 với lõi CTP ≥ 50 ml</li><li>NIHSS ≥ 6, mRS ≤ 1, tắc ICA tận/M1</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Thân nền</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Hợp lý tại trung tâm chuyên môn</b><ul><li>NIHSS ≥ 6, mRS ≤ 2, tuổi 18–80</li><li>Tắc thân nền trong 12 giờ</li></ul></div></div></div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Huyết áp</b><ul><li>Trước tái thông: HATT 150–180 mmHg</li><li>Sau tái thông thành công: mục tiêu &lt; 140 mmHg</li><li>Đã tiêu huyết khối: ≤ 180/105 mmHg trong và 24 giờ sau</li></ul></div><div class="ar"></div><div class="nd ok">Thủ thuật: đường vào ĐM đùi, hút, stent thu hồi hoặc phối hợp · thành công = mTICI 2b–3</div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Thoát thuốc ngoại mạch</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Xử trí</b><ul><li>Protamine sulfat: 1 mg trung hòa 100 đơn vị heparin, tối đa 50 mg/liều, tiêm TM chậm</li><li>Chảy nhiều: bóng chẹn, coil/keo, phẫu thuật dẫn lưu máu tụ</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Co thắt mạch nặng</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Xử trí</b><ul><li>Nimodipine 2 mg pha nước muối sinh lý bơm động mạch chậm 10–15 phút, lặp lại đến khi giãn mạch</li><li>Theo dõi HA; tụt HA phối hợp vận mạch</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Vùng bẹn</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Xử trí</b><ul><li>Băng ép, bất động chân ≥ 8 giờ</li><li>Giả phình &lt; 2 cm: băng ép, theo dõi; &gt; 2 cm: phẫu thuật</li><li>Chảy máu sau phúc mạc: CLVT bụng, bù dịch/máu, hội chẩn mổ cấp</li></ul></div></div></div></div><h2 id="sd-cmn">5. Chảy máu não</h2><div class="fcref">Chương 3 (3.2)</div><div class="fc"><div class="nd start">CLVT sọ: ổ tăng tỷ trọng 55–90 HU<small>Tính thể tích Broderick V = A × B × C / 2 · ICH score</small></div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Làm ngay</b><ul><li>ABC, NKQ khi suy hô hấp, SpO₂ &gt; 94% · theo dõi tại hồi sức thần kinh/đột quỵ · tìm nguyên nhân bằng CTA/MRI/DSA</li></ul></div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Huyết áp</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Mục tiêu</b><ul><li>Hạ sớm, tốt nhất ≤ 2 giờ từ khởi phát</li><li>Trong 6 giờ đầu: 130 &lt; HATT &lt; 150 mmHg; không giảm quá 90 mmHg so với ban đầu; duy trì ≥ 7 ngày</li><li>Thuốc: labetalol hoặc nicardipine (chương 4)</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Tăng áp lực nội sọ</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Xử trí</b><ul><li>Glasgow &lt; 8: theo dõi ICP · đầu 20–30° · an thần giảm đau</li><li>Tăng thông khí pCO₂ 30–35 mmHg khi cần</li><li>Mannitol 20%: nạp 0,5–1,5 g/kg, rồi 0,25–0,75 g/kg mỗi 4–6 giờ, truyền TM nhanh</li><li>Muối ưu trương ≥ 3%: Na⁺ 145–155 mmol/L, thẩm thấu 300–320 mOsm/L</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Phẫu thuật</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Hội chẩn phẫu thuật thần kinh</b><ul><li>Máu tụ trên lều lớn/đè đẩy đường giữa: lấy máu tụ ± mở sọ</li><li>Chảy máu não thất giãn não thất: dẫn lưu ± tiêu huyết khối</li><li>Tiểu não ý thức xấu dần, chèn ép thân não: lấy máu tụ ± dẫn lưu</li></ul></div></div></div><div class="ar"></div><div class="nd dc">Đang dùng thuốc chống đông / kháng kết tập: đảo ngược</div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Kháng vitamin K</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Xử trí</b><ul><li>Ngừng thuốc · vitamin K TM · đích INR &lt; 1,3, thử INR mỗi 12–24 giờ</li><li>FFP hoặc PCC (chương 4: PCC 25–50 U/kg)</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Heparin</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Xử trí</b><ul><li>Protamine sulfat, liều theo liều heparin và thời gian từ liều cuối (chương 11: 1 mg/100 đơn vị, tối đa 50 mg)</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">DOAC</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Xử trí</b><ul><li>Dabigatran: idarucizumab 5 g (hoặc PCC)</li><li>Ức chế Xa (apixaban, rivaroxaban, edoxaban): PCC</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Tiểu cầu thấp / thiếu yếu tố</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Xử trí</b><ul><li>Truyền yếu tố đông máu, khối tiểu cầu</li></ul></div></div></div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Khác</b><ul><li>Glucose 4–11 mmol/L · co giật: diazepam 10 mg hoặc phenytoin · PPI dự phòng chảy máu tiêu hóa · lăn trở mỗi 3 giờ · sàng lọc nuốt</li></ul></div><div class="ar"></div><div class="nd dx"><span class="tg">Ngoài văn bản BYT — tham khảo, đối chiếu nhãn thuốc</span><b>Pha và truyền (ví dụ)</b><ul><li>Labetalol: bolus 10–20 mg TM trong 1–2 phút (không có trong chương 3); truyền: 200 mg trong 200 mL NaCl 0,9% = 1 mg/mL, tốc độ 1–2 mg/phút = 60–120 mL/giờ</li><li>Nicardipine: pha 0,1 mg/mL (ví dụ 25 mg + 250 mL NaCl 0,9% hoặc glucose 5%); 5 mg/giờ = 50 mL/giờ; tăng 2,5 mg/giờ (25 mL/giờ) mỗi 5–15 phút, tối đa 15 mg/giờ = 150 mL/giờ</li><li>Mannitol 20% = 0,2 g/mL: liều 1 g/kg = 5 mL/kg (60 kg = 300 mL)</li></ul></div></div><h2 id="sd-sah">6. Phình động mạch não vỡ (chảy máu dưới nhện)</h2><div class="fcref">Chương 4 (4.2)</div><div class="fc"><div class="nd start">Đau đầu sét đánh, cứng gáy<small>CLVT không cản quang sớm (99% ngày 1) · bình thường mà vẫn nghi: chọc dịch não tủy (xanthochromia)</small></div><div class="ar"></div><div class="nd ok">CTA / MRA / DSA tìm túi phình; DSA âm tính: chụp lại sau 1–2 tuần, 1 tháng, 3 tháng</div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Nội khoa ngay</b><ul><li>HATT &lt; 160 mmHg hoặc HA trung bình &lt; 110 mmHg (labetalol, nicardipine)</li><li>SpO₂ ≥ 94% · đau đầu: fentanyl + midazolam; nhẹ: paracetamol</li><li><b>Nimodipine uống 60 mg mỗi 4 giờ</b>, bắt đầu sớm, đến ngày 21 (có thể đường tĩnh mạch)</li><li>Chỉnh natri, kali</li></ul></div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Dùng kháng vitamin K</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Đảo ngược</b><ul><li>PCC 3–4 yếu tố 25–50 U/kg TM</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Dabigatran</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Đảo ngược</b><ul><li>Idarucizumab 5 g bolus TM</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Kháng kết tập tiểu cầu</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Đảo ngược</b><ul><li>Truyền tiểu cầu hoặc desmopressin 0,4 mcg/kg</li></ul></div></div></div><div class="ar"></div><div class="nd dc">Xử trí túi phình càng sớm càng tốt (ưu tiên can thiệp nội mạch)</div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Coiling</div><div class="nd ok">Hunt–Hess I–III, cổ hẹp, không máu tụ nhu mô/tràn não thất giãn</div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Kẹp clip</div><div class="nd ok">Cổ rộng, nhánh phức tạp tại cổ, máu tụ lớn: clip + lấy máu tụ; tràn não thất: dẫn lưu ngoài</div></div></div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Biến chứng</b><ul><li>Co thắt mạch (ngày 3 đến 3 tuần): nimodipine; nặng: nâng HATT chủ động (không quá 160 mmHg), giãn mạch động mạch, nong bóng</li><li>Tràn dịch não: dẫn lưu não thất ngoài/ổ bụng</li><li>Tái chảy máu: không trì hoãn can thiệp</li></ul></div><div class="ar"></div><div class="nd dx"><span class="tg">Ngoài văn bản BYT — tham khảo, đối chiếu nhãn thuốc</span><b>Pha nimodipine tĩnh mạch (nhãn thuốc, ví dụ Nimotop)</b><ul><li>Dung dịch 0,2 mg/mL (10 mg/50 mL); bơm tiêm điện qua catheter trung tâm, nối chữ Y/ba chạc cùng dịch pha loãng (glucose 5%, NaCl 0,9%) theo tỷ lệ khoảng 1:4</li><li>Khởi đầu 1 mg/giờ (5 mL/giờ) trong 2 giờ đầu, nếu HA ổn định tăng 2 mg/giờ (10 mL/giờ); cân nặng &lt; 70 kg hoặc HA không ổn định: khởi đầu 0,5 mg/giờ</li><li>Không dùng ống PVC (dùng polyethylene); theo dõi HA sát vì nguy cơ tụt huyết áp</li></ul></div></div><h2 id="sd-cvst">7. Huyết khối tĩnh mạch não</h2><div class="fcref">Chương 6 (6.3, 6.4)</div><div class="fc"><div class="nd start">Đau đầu tiến triển, co giật, tăng áp nội sọ, nhồi máu không theo vùng động mạch</div><div class="ar"></div><div class="nd ok">MRI + MRV (hoặc CLVT + CLVT tĩnh mạch); D-dimer &gt; 500 µg/L hỗ trợ; DSA khi cần</div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Kháng đông ngay (chảy máu do huyết khối tĩnh mạch KHÔNG phải chống chỉ định)</b><ul><li>Ưu tiên <b>LMWH</b>; nếu có thể phải can thiệp/phẫu thuật hoặc suy thận: <b>heparin không phân đoạn truyền TM</b></li><li>Sau giai đoạn cấp: kháng vitamin K, INR 2–3; INR 2–3 thì ngừng heparin/LMWH</li><li>DOAC: dabigatran 150 mg × 2/ngày hoặc rivaroxaban 20 mg/ngày, tối thiểu 6 tháng</li><li>Thai kỳ: LMWH suốt thai kỳ và ≥ 6 tháng sau sinh</li></ul></div><div class="ar"></div><div class="nd dx"><span class="tg">Ngoài văn bản BYT — tham khảo, đối chiếu nhãn thuốc</span><b>Pha heparin không phân đoạn (ví dụ thực hành)</b><ul><li>Pha 25.000 đơn vị + 250 mL NaCl 0,9% = 100 đơn vị/mL; truyền bơm tiêm điện theo phác đồ bệnh viện, chỉnh theo aPTT đích 1,5–2,5 lần chứng</li><li>Ví dụ 18 đơn vị/kg/giờ: 70 kg = 1260 đơn vị/giờ = 12,6 mL/giờ (liều và đích aPTT theo phác đồ cơ sở)</li></ul></div><div class="ar"></div><div class="nd dc">Xấu đi dù kháng đông?</div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Có</div><div class="nd wr">Tiêu huyết khối nội mạch hoặc lấy huyết khối cơ học tại trung tâm có kinh nghiệm</div><div class="ar"></div><div class="nd wr">Hiệu ứng khối nặng/chảy máu nội sọ trên hình ảnh: xét mở sọ giải áp</div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Không</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Thời gian kháng đông (INR 2–3)</b><ul><li>Nguyên nhân tạm thời đã giải quyết: 3 tháng</li><li>Không rõ nguyên nhân/tăng đông nhẹ: 6–12 tháng</li><li>Tăng đông nặng hoặc tái phát: suốt đời</li><li>Ung thư: kháng đông lâu dài; chống chỉ định thì LMWH ưu tiên</li></ul></div></div></div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Hỗ trợ</b><ul><li>Tăng áp nội sọ: kê cao đầu, mannitol/muối ưu trương, PaCO₂ 30–35 mmHg</li><li>Co giật: valproate hoặc levetiracetam (ít tương tác với kháng vitamin K); không dự phòng khi chưa có cơn</li><li>Nhiễm trùng lân cận: kháng sinh bắt buộc</li></ul></div></div><h2 id="sd-thuphat">8. Dự phòng thứ phát nhồi máu não theo căn nguyên</h2><div class="fcref">Chương 12</div><div class="fc"><div class="nd start">Nhồi máu não / TIA đã ổn định — xác định căn nguyên<small>ECG, Holter, siêu âm tim, mạch cảnh – nội sọ</small></div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Xơ vữa ĐM cảnh ngoài sọ</div><div class="nd dc">Hẹp ICA có triệu chứng</div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Tái thông</b><ul><li>70–99%: CEA (hợp lý nhất); 50–69%: cân nhắc</li><li>CAS nếu hẹp ≥ 70% (không xâm lấn) hoặc &gt; 50% (DSA), nguy cơ thủ thuật thấp–trung bình</li><li>Tuổi ≥ 70 hoặc làm trong 1 tuần: ưu tiên CEA · làm trong 2 tuần</li></ul></div><div class="ar"></div><div class="nd ok">Nội khoa: KKTTC, statin, HA &lt; 130/80</div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Xơ vữa nội sọ</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Điều trị</b><ul><li>Hẹp 50–99%: aspirin 325 mg/ngày (không dùng warfarin)</li><li>70–99% trong 30 ngày: clopidogrel 75 mg + aspirin ≤ 90 ngày</li><li>Ticagrelor 90 mg × 2 + aspirin ≤ 30 ngày (trong 24 giờ, đột quỵ nhẹ/TIA nguy cơ cao, hẹp &gt; 30%)</li><li>HATT &lt; 140; LDL-C &lt; 55 mg/dL</li><li>Không stent đầu tay; không bắc cầu cảnh ngoài–trong</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Rung nhĩ / cuồng nhĩ</div><div class="nd dc">Không hẹp hai lá vừa–nặng, không van cơ học</div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Kháng đông uống</b><ul><li>DOAC ưu tiên (apixaban, dabigatran, edoxaban, rivaroxaban) hoặc warfarin/acenocoumarol</li><li>TIA: bắt đầu ngay ngày đầu</li><li>Đột quỵ nguy cơ chảy máu thấp: ngày 2–14; nguy cơ cao: sau 14 ngày</li><li>Không dùng được kháng đông dài hạn: bít tiểu nhĩ trái (cần dùng ≥ 45 ngày)</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Van tim</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Điều trị</b><ul><li>Van cơ học hoặc hẹp hai lá vừa–nặng: kháng vitamin K, INR đích 3,0 (2,5–3,5), thêm aspirin 75–100 mg</li><li>Van sinh học, van tự nhiên không rung nhĩ: KKTTC</li><li>Viêm nội tâm mạc: mổ sớm nếu thuyên tắc tái phát/sùi &gt; 10 mm; trì hoãn ≥ 4 tuần nếu nhồi máu nặng/chảy máu não</li></ul></div></div></div><div class="ar"></div><div class="br"><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">PFO (18–60 tuổi, không tìm được căn nguyên)</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Quyết định</b><ul><li>PFO nguy cơ cao (phình vách, shunt lớn): đóng PFO + KKTTC dài hạn hợp lý</li><li>Nguy cơ thấp: lợi ích chưa rõ; thảo luận tim mạch + thần kinh</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Mạch máu nhỏ</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Điều trị</b><ul><li>KKTTC + kiểm soát HA, ĐTĐ</li></ul></div></div><div class="col"><div class="ar" style="height:12px"></div><div class="lbl">Lóc tách / moyamoya</div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Điều trị</b><ul><li>Lóc tách: aspirin hoặc warfarin ≥ 3 tháng</li><li>Moyamoya: bắc cầu mạch máu; aspirin đơn trị</li></ul></div></div></div><div class="ar"></div><div class="nd ds"><span class="tg">Liều/ngưỡng trích từ Hướng dẫn BYT 2024</span><b>Lipid</b><ul><li>LDL-C &gt; 100, không bệnh vành: atorvastatin đến 80 mg/ngày</li><li>Bệnh xơ vữa: đích LDL-C &lt; 70 mg/dL (statin ± ezetimibe); vẫn &gt; 70: PCSK9</li></ul></div></div><h2 id="sd-pha">9. Bảng cách pha thuốc truyền liên tục và truyền nhanh</h2><div class="fcref">Tổng hợp từ các chương 2, 3, 4, 6, 10</div><div class="fc"><div style="width:100%"><div class="nd dx" style="max-width:100%"><span class="tg">Ngoài văn bản BYT — tham khảo, đối chiếu nhãn thuốc</span><b>Cột «Chỉ định» lấy từ văn bản; các cột «Cách pha» và «Tốc độ» là phần bổ sung của người soạn. Kiểm tra nồng độ, thể tích và dung môi trên nhãn sản phẩm và phác đồ của bệnh viện trước khi pha.</b></div><div style="height:14px"></div><div class="tbl-wrap"><table class="mini"><tr><th>Thuốc</th><th>Chỉ định (theo văn bản)</th><th>Cách pha (ngoài văn bản)</th><th>Tốc độ</th></tr>
+<tr><td>Nicardipine</td><td>5 mg/giờ, tăng 2,5 mg/giờ mỗi 5–15 phút, tối đa 15 mg/giờ</td><td>0,1 mg/mL: 25 mg + 250 mL NaCl 0,9% hoặc glucose 5% (túi pha sẵn 0,1–0,2 mg/mL dùng theo nhãn)</td><td>5 mg/giờ = 50 mL/giờ; tối đa 15 mg/giờ = 150 mL/giờ</td></tr>
+<tr><td>Labetalol</td><td>HA cao trong chảy máu não/trước tiêu huyết khối (liều không có trong văn bản)</td><td>200 mg/200 mL NaCl 0,9% = 1 mg/mL</td><td>1–2 mg/phút = 60–120 mL/giờ</td></tr>
+<tr><td>Nimodipine tĩnh mạch</td><td>Chảy máu dưới nhện (có thể đường tĩnh mạch)</td><td>Dung dịch 0,2 mg/mL; ba chạc cùng glucose 5%/NaCl 0,9% tỷ lệ khoảng 1:4; ống polyethylene</td><td>1 mg/giờ (5 mL/giờ) × 2 giờ, rồi 2 mg/giờ (10 mL/giờ) nếu HA ổn định; &lt; 70 kg: khởi đầu 0,5 mg/giờ</td></tr>
+<tr><td>Noradrenalin</td><td>Hạ HA kéo dài sau bù dịch</td><td>4 mg + 46 mL NaCl 0,9% hoặc glucose 5% = 80 µg/mL (qua đường trung tâm)</td><td>mL/giờ = liều (µg/kg/phút) × cân nặng (kg) × 60 ÷ 80. Ví dụ 60 kg, 0,1 µg/kg/phút = 4,5 mL/giờ</td></tr>
+<tr><td>Dobutamin</td><td>Khi bù dịch vẫn không nâng HA</td><td>250 mg + 50 mL = 5 mg/mL</td><td>mL/giờ = liều (µg/kg/phút) × cân nặng × 60 ÷ 5000. Khoảng 2,5–10 µg/kg/phút (theo nhãn)</td></tr>
+<tr><td>Heparin không phân đoạn</td><td>Huyết khối tĩnh mạch não</td><td>25.000 đơn vị + 250 mL NaCl 0,9% = 100 đơn vị/mL</td><td>Ví dụ 18 đơn vị/kg/giờ; chỉnh theo aPTT</td></tr>
+<tr><td>Alteplase</td><td>0,9 mg/kg (tối đa 90 mg): 10% bolus, 90% truyền 60 phút</td><td>50 mg + 50 mL nước cất = 1 mg/mL</td><td>70 kg: bolus 6,3 mL; truyền 56,7 mL/giờ</td></tr>
+<tr><td>Mannitol 20%</td><td>CMN: 0,5–1,5 g/kg rồi 0,25–0,75 g/kg mỗi 4–6 giờ; NMN: 1–2 g/kg trong 30–60 phút</td><td>Dung dịch 20% (0,2 g/mL), 5 mL = 1 g</td><td>60 kg, 1 g/kg = 300 mL truyền nhanh (CMN) hoặc trong 30–60 phút (NMN)</td></tr>
+<tr><td>Muối ưu trương</td><td>≥ 3%; Na⁺ 145–155 mmol/L</td><td>Dung dịch NaCl 3% pha sẵn; ưu tiên đường trung tâm</td><td>Theo phác đồ cơ sở; theo dõi Na⁺, thẩm thấu mỗi 4–6 giờ</td></tr>
+<tr><td>Tranexamic acid</td><td>Chảy máu sau tiêu huyết khối: 1000 mg trong 10 phút</td><td>1 g pha trong 100 mL NaCl 0,9%</td><td>100 mL trong 10 phút</td></tr></table></div></div></div>
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Ô tím (cách pha, tốc độ truyền) KHÔNG có trong văn bản BYT: chỉ là ví dụ thực hành, phải đối chiếu nhãn thuốc và phác đồ bệnh viện. Văn bản gốc có nhiều chỗ liều khác nhau giữa các chương (ví dụ mannitol), xem chú thích ở từng phần.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'qd3312_sodo_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>

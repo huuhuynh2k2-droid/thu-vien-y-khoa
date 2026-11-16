@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Đột quỵ — QĐ 3312/QĐ-BYT 2024 · Phần 1</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#0E6E6B; --accent-ink:#04302E; --accent-bg:#E3F1EF;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">QĐ 3312 · Phần 1</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">BYT 2024 · QĐ 3312 · PHẦN 1/5</div>
+    <div class="doc-title">Hướng dẫn chẩn đoán và điều trị đột quỵ não — bản lâm sàng</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">PHẦN 1/5</span>
+    <h1>Chương 1–3: TIA/đột quỵ nhẹ, nhồi máu não cấp, chảy máu não</h1>
+    <div class="byline">Bộ Y tế — Hướng dẫn chẩn đoán và điều trị đột quỵ não (QĐ 3312/QĐ-BYT, 2024)</div>
+    <div class="cite">Nguồn: Bộ Y tế. Hướng dẫn chẩn đoán và điều trị đột quỵ não, ban hành kèm Quyết định 3312/QĐ-BYT, Hà Nội 2024. Bản tóm lược lâm sàng do người biên soạn dựng lại, bám sát số liệu gốc — không thay thế văn bản gốc.</div>
+
+    <div class="box"><div class="box-title">CÁCH DÙNG TRANG NÀY</div><ul>
+<li>Bản <strong>tóm lược ứng dụng lâm sàng</strong> của <em>Hướng dẫn chẩn đoán và điều trị đột quỵ não</em> (Bộ Y tế, QĐ 3312/QĐ-BYT, 2024), gồm 13 chương theo đúng thứ tự văn bản gốc. Mỗi chương: <strong>nhận diện → cận lâm sàng → làm gì (liều thuốc, mục tiêu) → theo dõi/dự phòng</strong>.</li>
+<li>Số liệu (ngưỡng, liều, thời gian) bám sát văn bản gốc. Chỗ nào văn bản không ghi, hoặc là phần bổ sung của người soạn, đều có ghi chú «ngoài văn bản».</li>
+<li>Chia 5 phần: <strong>Phần 1</strong> chương 1–3 · <strong>Phần 2</strong> chương 4–5 · <strong>Phần 3</strong> chương 6–8 · <strong>Phần 4</strong> chương 9–11 · <strong>Phần 5</strong> chương 12–13. Có thêm trang <strong>Sơ đồ tóm tắt</strong> (flowchart + liều + cách pha truyền).</li></ul></div>
+
+<h2 id="c1">Chương 1. Đột quỵ nhẹ và cơn thiếu máu não thoáng qua (TIA)</h2>
+
+<h3 id="c1-dn">1.1. Định nghĩa và chẩn đoán xác định</h3>
+<div class="tbl-wrap"><table><tr><th>Thể</th><th>Tiêu chuẩn</th></tr>
+<tr><td><strong>Đột quỵ nhẹ</strong></td><td>Nhồi máu não, <strong>NIHSS ≤ 5</strong>; có tổn thương trên DWI</td></tr>
+<tr><td><strong>TIA (CTMNTQ)</strong></td><td>Triệu chứng thần kinh khu trú (não hoặc võng mạc) đột ngột, kéo dài <strong>&lt; 24 giờ</strong>, <strong>không có tổn thương trên DWI</strong></td></tr></table></div>
+<ul>
+<li><strong>Dấu hiệu dễ bỏ sót</strong>: méo miệng nhẹ, chóng mặt, thất điều, nói khó, rung giật nhãn cầu, tê hoặc yếu nhẹ một bên/một chi; có thể tiến triển nặng dần hoặc từng bậc.</li>
+<li><strong>Triệu chứng gây khuyết tật</strong> = nếu không hồi phục sẽ cản trở sinh hoạt cơ bản (tắm, mặc quần áo, đi lại, vệ sinh, ăn uống) hoặc đi làm.</li>
+<li><strong>Chẩn đoán phân biệt</strong>: đau nửa đầu, ngất, động kinh, mất trí nhớ thoáng qua, hạ glucose máu.</li></ul>
+
+<h3 id="c1-cls">1.2. Cận lâm sàng cần làm</h3>
+<div class="tbl-wrap"><table><tr><th>Nhóm</th><th>Việc làm</th></tr>
+<tr><td>Hình ảnh</td><td>CLVT sọ không cản quang (mất phân biệt chất xám–trắng, giảm tỷ trọng nhân xám/vỏ não). <strong>MRI não–mạch não</strong>: DWI/FLAIR xác định tổn thương, T2* tìm chảy máu chuyển dạng, TOF đánh giá hẹp/tắc/lóc tách nội sọ</td></tr>
+<tr><td>Chức năng</td><td>Siêu âm tim qua thành ngực/thực quản (hẹp hai lá, huyết khối buồng tim, PFO…); <strong>ECG + Holter</strong> tìm rung nhĩ; Doppler xuyên sọ (hẹp nội sọ, shunt phải–trái bằng bóng khí); Doppler mạch cảnh – đốt sống</td></tr>
+<tr><td>Xét nghiệm</td><td>Công thức máu, CRP, PT, APTT, điện giải, creatinine, glucose, HbA1c, lipid (TC, LDL-C, HDL-C, ApoA, ApoB, TG), máu lắng; nếu nghi: tự miễn (lupus, viêm mạch), tăng đông (protein S, C, AT III)</td></tr></table></div>
+
+<h3 id="c1-dt">1.3. Điều trị — làm gì</h3>
+<p>Nguyên tắc: <strong>điều trị dự phòng tái phát càng sớm càng tốt</strong>; điều trị căn nguyên và kiểm soát yếu tố nguy cơ. TIA/đột quỵ nhẹ có nguy cơ tái phát sớm rất cao.</p>
+
+<h4 id="c1-kktc">a) Kháng kết tập tiểu cầu (xơ vữa mạch lớn, tắc mạch nhỏ, chưa rõ căn nguyên)</h4>
+<div class="tbl-wrap"><table><caption>Chọn phác đồ theo nguy cơ</caption>
+<tr><th>Tình huống</th><th>Phác đồ</th><th>Thời điểm / thời gian</th></tr>
+<tr><td><strong>TIA nguy cơ thấp</strong> (ABCD2 &lt; 4)</td><td>Aspirin 81–325 mg/ngày, sau đó duy trì 81–100 mg/ngày</td><td>Đơn trị, lâu dài</td></tr>
+<tr><td><strong>TIA nguy cơ cao (ABCD2 ≥ 4) hoặc đột quỵ nhẹ NIHSS ≤ 3</strong></td><td><strong>Aspirin</strong> 81–325 mg rồi 81–100 mg/ngày <strong>+ Clopidogrel</strong> nạp 300–600 mg rồi 75 mg/ngày</td><td>Bắt đầu ngay, tối ưu trong 24 giờ đầu (tối đa 7 ngày đầu); dùng kép <strong>21–90 ngày</strong>, sau đó đơn trị</td></tr>
+<tr><td><strong>TIA nguy cơ cao (ABCD2 ≥ 5) hoặc đột quỵ nhẹ NIHSS ≤ 5</strong></td><td><strong>Aspirin</strong> 81–325 mg rồi 81–100 mg/ngày <strong>+ Ticagrelor</strong> nạp 180 mg, 12 giờ sau 90 mg, duy trì 90 mg × 2 lần/ngày</td><td>Sớm, tối ưu trong 24 giờ đầu (tối đa 7 ngày); ticagrelor <strong>30 ngày</strong>. <em>Nguy cơ chảy máu cao</em></td></tr>
+<tr><td>Dị ứng/không dung nạp aspirin hoặc viêm loét dạ dày</td><td>Clopidogrel 75 mg/ngày, <em>hoặc</em> aspirin 25 mg + dipyridamole 200 mg × 2 lần/ngày, <em>hoặc</em> cilostazol 100 mg × 2 lần/ngày</td><td>Đơn trị</td></tr></table></div>
+
+<h4 id="c1-kd">b) Kháng đông</h4>
+<ul>
+<li><strong>Rung nhĩ không bệnh van</strong>: ưu tiên DOAC (dabigatran, rivaroxaban, apixaban, edoxaban) hơn kháng vitamin K.</li>
+<li><strong>Van hai lá cơ học hoặc hẹp hai lá trung bình–nặng</strong>: kháng vitamin K, <strong>INR 2,5–3,5</strong>.</li>
+<li><strong>Thay van hai lá/van động mạch chủ sinh học</strong>: kháng vitamin K, <strong>INR 2–3</strong> trong 3–6 tháng đầu sau mổ nếu nguy cơ chảy máu thấp; sau đó aspirin 75–100 mg/ngày.</li></ul>
+
+<h4 id="c1-yt">c) Căn nguyên và yếu tố nguy cơ</h4>
+<ul>
+<li><strong>Huyết áp &lt; 130/80 mmHg</strong>: ưu tiên phối hợp 2–3 thuốc (ức chế thụ thể AT1 hoặc ức chế men chuyển) + lợi tiểu thiazide/giống thiazide.</li>
+<li><strong>LDL-C &lt; 70 mg/dL (1,8 mmol/L)</strong>: theo dõi sau 4–12 tuần, chỉnh liều mỗi 3–12 tháng. Triglyceride cao: tìm căn nguyên, giảm glucid và rượu, thêm omega-3.</li>
+<li><strong>HbA1c &lt; 7%</strong>; chọn thuốc ĐTĐ phù hợp nguy cơ tim mạch. <strong>BMI &lt; 23</strong>.</li></ul>
+
+<h3 id="c1-abcd2">1.4. Thang điểm ABCD2 (phân tầng nguy cơ tái phát)</h3>
+<div class="tbl-wrap"><table><caption>ABCD2 (Johnston)</caption><tr><th>Yếu tố</th><th>Tiêu chí</th><th>Điểm</th></tr>
+<tr><td>A – Tuổi</td><td>≥ 60</td><td>1</td></tr>
+<tr><td>B – Huyết áp</td><td>HATT &gt; 140 và/hoặc HATTr ≥ 90 mmHg</td><td>1</td></tr>
+<tr><td rowspan="2">C – Lâm sàng</td><td>Liệt nửa người</td><td>2</td></tr><tr><td>Nói khó không liệt</td><td>1</td></tr>
+<tr><td rowspan="2">D1 – Thời gian</td><td>≥ 60 phút</td><td>2</td></tr><tr><td>10–59 phút</td><td>1</td></tr>
+<tr><td>D2 – Đái tháo đường</td><td>Có</td><td>1</td></tr></table></div>
+<p><strong>Nguy cơ tái phát</strong>: 0–3 điểm thấp · 4–5 cao · 6–7 rất cao.</p>
+<div class="box"><div class="box-title">PHÒNG BỆNH</div>Kiểm soát tăng huyết áp, đái tháo đường; ăn lành mạnh, tăng vận động, duy trì cân nặng lý tưởng.</div>
+
+<h2 id="c2">Chương 2. Nhồi máu não cấp</h2>
+
+<h3 id="c2-cd">2.1. Nhận diện và chẩn đoán</h3>
+<ul>
+<li><strong>Khởi phát đột ngột</strong> một hoặc phối hợp: liệt nửa người/một chi, mất cảm giác nửa người, mất thị lực một/hai mắt, khiếm khuyết thị trường, nhìn đôi, rối loạn ngôn ngữ, liệt mặt, thất điều, chóng mặt, rối loạn tri giác.</li>
+<li><strong>Ghi chính xác thời điểm khởi phát hoặc lần cuối còn bình thường</strong> (quyết định chỉ định tái tưới máu). Ngủ dậy đã có triệu chứng hoặc không ai chứng kiến = đột quỵ không rõ thời điểm khởi phát.</li>
+<li><strong>Khai thác</strong> tiền sử, thuốc đang dùng, yếu tố nguy cơ; chấm <strong>NIHSS</strong>.</li></ul>
+<div class="tbl-wrap"><table><caption>Phân độ nặng theo NIHSS</caption><tr><th>NIHSS</th><th>Mức độ</th></tr>
+<tr><td>0–5</td><td>Nhẹ</td></tr><tr><td>6–10</td><td>Trung bình</td></tr><tr><td>11–20</td><td>Vừa đến nặng</td></tr><tr><td>&gt; 20</td><td>Rất nặng, đe dọa tính mạng</td></tr></table></div>
+<div class="box"><div class="box-title">CHẨN ĐOÁN XÁC ĐỊNH</div>Khiếm khuyết thần kinh khu trú khởi phát đột ngột <strong>+</strong> hình ảnh học <strong>loại trừ chảy máu não</strong>, chưa có tổn thương hoặc có dấu hiệu sớm của nhồi máu não <strong>+</strong> <strong>không hạ glucose máu</strong>.</div>
+
+<h3 id="c2-cls">2.2. Cận lâm sàng</h3>
+<ul>
+<li><strong>Hình ảnh ngay khi nhập viện</strong> (CLVT và/hoặc MRI). CLVT không cản quang: giảm tỷ trọng nhân xám, xóa ranh giới xám–trắng, dấu tăng đậm động mạch bị tắc; chấm <strong>ASPECTS</strong> (tuần hoàn trước) / <strong>pc-ASPECTS</strong> (tuần hoàn sau). CLVT mạch máu (≥ 64 dãy): vị trí tắc, kích thước huyết khối, tuần hoàn bàng hệ, khả năng tiếp cận khi can thiệp. CLVT/MRI tưới máu: tính lõi nhồi máu và vùng tranh tối tranh sáng để mở rộng cửa sổ điều trị.</li>
+<li><strong>MRI</strong>: ADC giảm, DWI tăng tín hiệu (phát hiện rất sớm), FLAIR (sớm có thể chưa tổn thương), T2* (chảy máu), TOF (mạch lớn). Hạn chế: không sẵn có, thời gian chụp lâu, chống chỉ định khi có máy tạo nhịp vĩnh viễn, van cơ học…</li>
+<li><strong>Thăm dò khác</strong>: Doppler xuyên sọ; Doppler động mạch cảnh; siêu âm tim (±qua thực quản); ECG, Holter (rung nhĩ cơn nếu chưa rõ căn nguyên); DSA khi cần; điện não đồ nếu nghi động kinh.</li>
+<li><strong>Xét nghiệm</strong>: đường máu mao mạch (làm ngay), công thức máu, đông máu (PT, PT%, APTT, INR, fibrinogen, D-dimer), ure, creatinine, ALT/AST, lipid, điện giải, <strong>troponin</strong>, nước tiểu; độc chất/ma túy nếu nghi; máu lắng, ANA, RF; homocystein, protein S, C; cấy máu nếu nghi viêm nội tâm mạc; xét nghiệm di truyền nếu nghi.</li></ul>
+
+<h3 id="c2-pb">2.3. Chẩn đoán phân biệt</h3>
+<div class="tbl-wrap"><table><tr><th>Bệnh giống đột quỵ</th><th>Điểm phân biệt chính</th></tr>
+<tr><td>Hạ đường máu</td><td>Tiền sử ĐTĐ; xác định bằng đường máu</td></tr>
+<tr><td>Liệt Todd / động kinh</td><td>Liệt thoáng qua sau cơn, hết nhanh; <em>thận trọng vì động kinh có thể thứ phát sau nhồi máu não</em></td></tr>
+<tr><td>Ngất</td><td>Không có hoặc thoáng qua triệu chứng thần kinh</td></tr>
+<tr><td>Viêm não/màng não</td><td>Sốt, dấu màng não; dịch não tủy, hình ảnh</td></tr>
+<tr><td>Migraine biến chứng</td><td>Tiền sử tương tự, tiền triệu và nhức đầu; <em>migraine cũng là yếu tố nguy cơ nhồi máu não</em></td></tr>
+<tr><td>U/áp xe não</td><td>Triệu chứng thần kinh, dấu nhiễm trùng; hình ảnh</td></tr>
+<tr><td>Tụ máu ngoài/dưới màng cứng</td><td>Chấn thương, nghiện rượu, thuốc chống đông, rối loạn đông máu</td></tr>
+<tr><td>Chảy máu não</td><td>Hôn mê, cứng gáy, co giật, HA rất cao, nôn, đau đầu; hình ảnh</td></tr>
+<tr><td>Chảy máu dưới nhện</td><td>Đau đầu «sét đánh», dấu màng não; nếu hình ảnh bình thường thì chọc dịch não tủy</td></tr>
+<tr><td>Huyết khối tĩnh mạch não</td><td>Đau đầu tăng dần + triệu chứng thần kinh; thuốc tránh thai, nhiễm trùng lân cận; hình ảnh có đánh giá hệ tĩnh mạch</td></tr>
+<tr><td>Hôn mê tăng áp lực thẩm thấu</td><td>Tiền sử ĐTĐ, đường máu rất cao</td></tr>
+<tr><td>Hạ natri máu</td><td>Lợi tiểu, u não, dung nạp nước quá mức</td></tr>
+<tr><td>Bệnh não tăng huyết áp</td><td>Khởi phát từ từ, rối loạn chức năng não toàn thể, nhức đầu, sảng, HA tăng, phù não</td></tr>
+<tr><td>Bệnh não Wernicke</td><td>Nghiện rượu/suy dinh dưỡng; thất điều, liệt vận nhãn, lú lẫn</td></tr>
+<tr><td>Viêm mê đạo, bệnh Ménière</td><td>Chủ yếu triệu chứng tiền đình (±ù tai, điếc), thường không dấu thần kinh khu trú; có thể nhầm đột quỵ tiểu não</td></tr>
+<tr><td>Ngộ độc thuốc (lithium, phenytoin, carbamazepine)</td><td>Tiền sử thuốc; định lượng nồng độ máu; thất điều, chóng mặt, buồn nôn</td></tr>
+<tr><td>Liệt Bell</td><td>Chỉ liệt dây VII ngoại biên đơn độc, thường trẻ</td></tr>
+<tr><td>Mất myelin (xơ cứng rải rác)</td><td>Khởi phát từ từ, nhiều đợt ở các vùng khác nhau</td></tr>
+<tr><td>Rối loạn phân ly</td><td>Không liệt dây sọ; triệu chứng không theo phân bố giải phẫu</td></tr></table></div>
+
+<h3 id="c2-dt">2.4. Điều trị cấp — làm gì theo thứ tự</h3>
+<p><strong>Mục tiêu</strong>: bảo tồn vùng tranh tối tranh sáng bằng tái tưới máu nếu có chỉ định; kiểm soát yếu tố nguy cơ; dự phòng tái phát và biến chứng; bảo vệ thần kinh; phục hồi chức năng. Vận chuyển nhanh, an toàn đến cơ sở điều trị đột quỵ.</p>
+
+<h4 id="c2-abc">a) Đường thở, hô hấp, dấu hiệu sinh tồn</h4>
+<ul><li>Đánh giá ABC; nằm ngửa <strong>đầu cao 30°</strong>; nằm nghiêng an toàn nếu rối loạn ý thức.</li>
+<li><strong>Oxy</strong> khi SpO₂ ≤ 94%, duy trì &gt; 94%.</li>
+<li><strong>Paracetamol</strong> khi thân nhiệt &gt; 38 °C.</li></ul>
+
+<h4 id="c2-ha">b) Huyết áp</h4>
+<p>Theo dõi sát 24 giờ đầu.</p>
+<div class="tbl-wrap"><table><tr><th>Tình huống</th><th>Việc làm / mục tiêu</th></tr>
+<tr><td>Hạ huyết áp, giảm thể tích</td><td>Truyền dịch đẳng trương theo áp lực tĩnh mạch trung tâm; đủ dịch vẫn không nâng HA → <strong>noradrenalin và/hoặc dobutamin</strong></td></tr>
+<tr><td><strong>Sẽ tiêu sợi huyết tĩnh mạch</strong></td><td>Hạ HA <strong>&lt; 185/110</strong> trước tiêu sợi huyết; sau đó duy trì <strong>&lt; 180/105 mmHg trong 24 giờ</strong>. Không hạ HATT xuống 130–140 mmHg trong 72 giờ đầu</td></tr>
+<tr><td><strong>Sẽ lấy huyết khối cơ học</strong></td><td>HA <strong>≤ 185/110</strong> trước can thiệp; <strong>&lt; 180/105</strong> trong và 24 giờ sau; không chủ động hạ HATT &lt; 130 mmHg trong 24 giờ sau can thiệp thành công</td></tr>
+<tr><td>Không tái thông, HA &lt; 220/110</td><td>Không dùng thuốc hạ áp ít nhất 24 giờ đầu, <em>trừ</em> bệnh mạch vành tiến triển, suy tim sung huyết, phình động mạch chủ, bệnh não tăng huyết áp, tiền sản giật/sản giật</td></tr>
+<tr><td>Không tái thông, HA ≥ 220/120</td><td>Giảm <strong>15%</strong> HATT trong 24 giờ đầu</td></tr></table></div>
+<div class="box"><div class="box-title">THUỐC TĨNH MẠCH KHI CẦN TÁI THÔNG (bảng 2 – AHA/ASA 2019)</div><ul>
+<li>Đủ tiêu chuẩn tái thông nhưng HA &gt; 185/110: <strong>nicardipine 5 mg/giờ</strong> truyền TM, tăng <strong>2,5 mg/giờ mỗi 5–15 phút</strong>, tối đa <strong>15 mg/giờ</strong>. <strong>Không tiêu sợi huyết nếu HA không giữ được ≤ 185/110.</strong></li>
+<li>Theo dõi HA <strong>mỗi 15 phút</strong> đến 2 giờ sau bắt đầu tiêu sợi huyết, rồi <strong>mỗi 30 phút × 6 giờ</strong>, rồi <strong>mỗi giờ × 16 giờ</strong>.</li>
+<li>Sau tiêu sợi huyết, HATT &gt; 180–230 hoặc HATTr &gt; 105–120: nicardipine như trên. Không kiểm soát được hoặc HATTr &gt; 140: cân nhắc <strong>natri nitroprusside</strong> TM.</li></ul></div>
+<p>Trong 24 giờ đầu ưu tiên <strong>thuốc tĩnh mạch</strong> ở ca có tái thông; còn lại có thể dùng đường uống.</p>
+
+<h4 id="c2-tt">c) Tái thông, kháng kết tập, kháng đông</h4>
+<ul><li>Tiêu huyết khối tĩnh mạch → <strong>chương 10</strong>. Lấy huyết khối cơ học → <strong>chương 11</strong>. Kháng kết tập và kháng đông → <strong>chương 12</strong> (và chương 1).</li></ul>
+
+<h4 id="c2-khac">d) Statin, đường huyết, phù não, động kinh, bảo vệ thần kinh</h4>
+<div class="tbl-wrap"><table><tr><th>Vấn đề</th><th>Việc làm</th></tr>
+<tr><td><strong>Statin</strong></td><td>Mục tiêu giảm LDL-C ≥ 50% so với nền <strong>và</strong> &lt; 70 mg/dL (1,8 mmol/L). Atorvastatin 20–80 mg/ngày (hoặc rosuvastatin, simvastatin, pravastatin…); cân nhắc thêm ezetimibe; chưa đạt với statin tối đa + ezetimibe → thuốc nhắm PCSK9 (siRNA hoặc kháng thể đơn dòng)</td></tr>
+<tr><td><strong>Glucose máu</strong></td><td>&lt; 60 mg/dL (3,3 mmol/L): bù đường nhanh. &gt; 180 mg/dL (10 mmol/L): điều trị, mục tiêu <strong>140–180 mg/dL (7,8–10 mmol/L)</strong></td></tr>
+<tr><td><strong>Phù não nặng</strong></td><td>Gợi ý: trên lều — giảm tri giác, giãn đồng tử, sụp mi; nhồi máu tiểu não — giảm tri giác, mất phản xạ giác mạc, co đồng tử. Xử trí: <strong>mannitol 1–2 g/kg TM trong 30–60 phút, lặp lại mỗi 6–8 giờ</strong>; muối ưu trương (3%, 5%…) khi nằm hồi sức thần kinh; <strong>mở sọ giải áp</strong> khi nhồi máu diện rộng có phù não đe dọa tính mạng</td></tr>
+<tr><td><strong>Động kinh</strong></td><td>Không dự phòng tiên phát; nên ngăn cơn tiếp theo bằng thuốc chống động kinh; động kinh mạn sau nhồi máu xử trí như các tổn thương thần kinh khác</td></tr>
+<tr><td><strong>Bảo vệ thần kinh</strong></td><td>Có thể dùng: citicoline, cerebrolysin concentrate, saponin, cholin alfoscerate, phức hợp succinic acid–nicotinamide–inosine–riboflavin, piracetam… (thuốc có phép lưu hành và đúng chỉ định)</td></tr></table></div>
+
+<h3 id="c2-bc">2.5. Biến chứng, dự phòng, tái khám</h3>
+<ul><li><strong>Gần</strong>: thoát vị não, chuyển dạng chảy máu, nhồi máu cơ tim, suy tim, khó nuốt, viêm phổi sặc, nhiễm trùng tiểu, DVT, thuyên tắc phổi, suy dinh dưỡng, loét tỳ đè. <strong>Xa</strong>: ngã, trầm cảm, sa sút trí tuệ, co cứng cơ, biến chứng xương khớp.</li>
+<li><strong>Dự phòng tiên phát</strong>: thay đổi lối sống, điều trị tăng huyết áp/ĐTĐ, statin, bỏ thuốc lá và thuốc lào, tập thể dục.</li>
+<li><strong>Dự phòng thứ phát</strong>: kháng huyết khối lâu dài; LDL-C &lt; 1,8 mmol/L; HA &lt; 130/80; HbA1c ≤ 7%; ăn lành mạnh, vận động. Xử trí nguyên nhân (hội chẩn): hẹp hai lá (nong/thay van); <strong>hẹp ĐM cảnh trong 50–99%</strong> (stent hoặc bóc nội mạc); PFO (hội chẩn tim mạch đóng lỗ).</li>
+<li>Tái khám chuyên khoa đột quỵ định kỳ; phục hồi chức năng.</li></ul>
+
+<h2 id="c3">Chương 3. Chảy máu não</h2>
+<h3 id="c3-cd">3.1. Nhận diện và chẩn đoán</h3>
+<ul><li><strong>Định nghĩa</strong>: máu chảy vào nhu mô não và/hoặc não thất, không do chấn thương. <strong>Nguyên nhân</strong>: nguyên phát 80–85% (tăng huyết áp, bệnh mạch máu dạng tinh bột); thứ phát 15–20% (dị dạng mạch vỡ, u, HKTMN, viêm mạch, rượu/amphetamin/cocain, rối loạn đông máu do thuốc chống đông/kháng kết tập hay bệnh huyết học).</li>
+<li><strong>Lâm sàng</strong>: khởi phát đột ngột, tiến triển nhanh, tối đa sau 30 phút đến vài giờ; đau đầu, buồn nôn, liệt nửa người, rối loạn ý thức. Tiểu não: nhức đầu chẩm dữ dội, thất điều, nôn — khối lớn gây suy hô hấp, tụt kẹt hạnh nhân. Thân não: rối loạn thân nhiệt, nhịp thở, nuốt; đồng tử; rối loạn cơ tròn. Đồi thị: rối loạn cảm giác. Thùy trán/thái dương/đỉnh: có thể co giật; thái dương/đỉnh/chẩm: khuyết thị trường.</li>
+<li><strong>CLVT sọ không cản quang = chẩn đoán xác định</strong>: ổ tăng tỷ trọng 55–90 HU, bờ rõ, viền phù. <strong>Thể tích (Broderick) V = A × B × C / 2</strong> (A đường kính lớn nhất; B vuông góc với A; C = độ dày lát × số lát thấy máu tụ).</li>
+<li><strong>Tìm nguyên nhân</strong>: MRI (cavernoma, u chảy máu, vi chảy máu; MRI có tiêm thì tĩnh mạch là tối ưu cho HKTMN); CLVT mạch; <strong>DSA</strong> để xác định và can thiệp.</li>
+<li><strong>Xét nghiệm</strong>: công thức máu; glucose, ure, creatinine, GOT, GPT, điện giải; thời gian chảy–đông máu, PT, aPTT, INR hoặc yếu tố Xa; độc chất (rượu, cocain, ma túy); ECG.</li>
+<li><strong>Phân biệt</strong>: nhồi máu não, bệnh não tăng huyết áp, hạ đường máu, biến chứng migraine, co giật.</li></ul>
+
+<h3 id="c3-dt">3.2. Điều trị — làm gì</h3>
+<ul><li>Theo dõi tại Đơn vị Hồi sức thần kinh hoặc Đột quỵ; theo dõi sát lâm sàng + hình ảnh; <strong>khảo sát căn nguyên (mạch não) càng sớm càng tốt</strong>.</li>
+<li><strong>ABC</strong>; cân nhắc đặt NKQ khi suy hô hấp; SpO₂ &gt; 94%.</li></ul>
+<div class="tbl-wrap"><table><tr><th>Vấn đề</th><th>Việc làm</th></tr>
+<tr><td><strong>Phẫu thuật</strong> (hội chẩn PTTK)</td><td>Lấy máu tụ ± mở sọ giải ép: máu tụ nhu mô trên lều lớn hoặc đè đẩy đường giữa, phù não rõ · Dẫn lưu não thất ± tiêu huyết khối não thất: chảy máu não thất gây giãn não thất · Chảy máu tiểu não ý thức xấu dần, chèn ép thân não và/hoặc giãn não thất do tắc nghẽn: lấy máu tụ ± dẫn lưu não thất</td></tr>
+<tr><td><strong>Can thiệp nội mạch</strong></td><td>Khi có nguyên nhân: phình động mạch não, AVM, rò động–tĩnh mạch màng cứng</td></tr>
+<tr><td><strong>Huyết áp</strong></td><td>Điều trị sớm nhất có thể, tốt nhất <strong>≤ 2 giờ</strong> từ khởi phát. Trong 6 giờ đầu: <strong>130 &lt; HATT &lt; 150 mmHg</strong>, HATT không giảm quá 90 mmHg so với ban đầu, duy trì ≥ 7 ngày</td></tr>
+<tr><td><strong>Tăng áp lực nội sọ</strong></td><td>Theo dõi ICP nếu Glasgow &lt; 8 · đầu giường 20–30° · giảm đau, an thần · tăng thông khí nếu cần, <strong>pCO₂ 30–35 mmHg</strong> · <strong>Mannitol 20%: nạp 0,5–1,5 g/kg, rồi 0,25–0,75 g/kg cách 4–6 giờ</strong>, truyền TM nhanh · <strong>Muối ưu trương ≥ 3%</strong>, Na⁺ máu 145–155 mmol/L, áp lực thẩm thấu 300–320 mOsm/L; theo dõi thẩm thấu/Na⁺ và chức năng thận</td></tr>
+<tr><td><strong>Glucose</strong></td><td>4–11 mmol/L</td></tr>
+<tr><td><strong>Giảm tiểu cầu / thiếu yếu tố</strong></td><td>Truyền yếu tố đông máu, khối tiểu cầu</td></tr>
+<tr><td><strong>Đang dùng kháng vitamin K (INR tăng)</strong></td><td>Ngừng thuốc; vitamin K TM, <strong>đích INR &lt; 1,3</strong>, xét nghiệm INR mỗi 12–24 giờ; <strong>FFP hoặc PCC</strong></td></tr>
+<tr><td><strong>Đang dùng heparin (UFH/LMWH)</strong></td><td>Protamine sulfat; liều tùy liều heparin và thời gian từ liều cuối</td></tr>
+<tr><td><strong>Đang dùng DOAC</strong></td><td>Dabigatran: <strong>idarucizumab</strong> hoặc PCC. Ức chế yếu tố Xa (apixaban, rivaroxaban, edoxaban): <strong>PCC</strong></td></tr>
+<tr><td>Hạ thân nhiệt</td><td>Có thể giảm/ngăn phù quanh ổ máu tụ</td></tr>
+<tr><td>Co giật, sốt, suy hô hấp, rối loạn điện giải, kiềm toan</td><td>Cắt cơn <strong>diazepam 10 mg</strong> hoặc phenytoin, phối hợp thuốc kháng động kinh</td></tr></table></div>
+<div class="box"><div class="box-title">DỰ PHÒNG BIẾN CHỨNG</div><ul>
+<li>Khó nuốt: sàng lọc, tập sớm · DVT/PE: vận động sớm, băng/đeo áp lực ngắt quãng (xem QĐ 3908/QĐ-BYT) · Trầm cảm: thuốc chống trầm cảm, hội chẩn tâm thần · Chảy máu tiêu hóa: PPI, hội chẩn tiêu hóa · Nhiễm khuẩn: cấy, kháng sinh theo kháng sinh đồ · Loét tỳ đè: lăn trở mỗi 3 giờ, đệm hơi · Suy dinh dưỡng: hội chẩn dinh dưỡng · Bảo vệ thần kinh: citicoline, cerebrolysin, cholin alfoscerate…</li></ul></div>
+<div class="warn"><strong>Lưu ý nguồn:</strong> mannitol ở chương 2 (nhồi máu, 1–2 g/kg trong 30–60 phút, lặp 6–8 giờ) khác chương 3 (chảy máu, 0,5–1,5 g/kg nạp + 0,25–0,75 g/kg mỗi 4–6 giờ). Văn bản gốc không ghi liều protamine, idarucizumab, PCC trong chương này (xem chương 4 có idarucizumab 5 g, PCC 25–50 U/kg).</div>
+
+<h3 id="c3-tl">3.3. Tiên lượng và dự phòng tái phát</h3>
+<p>20–30% bệnh nhân tự sinh hoạt độc lập sau 6 tháng; xấu hơn khi tuổi cao, rối loạn ý thức, chảy máu não thất.</p>
+<div class="tbl-wrap"><table><caption>Thang điểm ICH (tử vong 30 ngày)</caption><tr><th>Tiêu chí</th><th>Mức</th><th>Điểm</th></tr>
+<tr><td rowspan="3">Glasgow</td><td>3–4</td><td>2</td></tr><tr><td>5–12</td><td>1</td></tr><tr><td>13–15</td><td>0</td></tr>
+<tr><td>Thể tích máu tụ</td><td>≥ 30 ml / &lt; 30 ml</td><td>1 / 0</td></tr>
+<tr><td>Máu trong não thất</td><td>Có / Không</td><td>1 / 0</td></tr>
+<tr><td>Vị trí</td><td>Dưới lều / Trên lều</td><td>1 / 0</td></tr>
+<tr><td>Tuổi</td><td>≥ 80 / &lt; 80</td><td>1 / 0</td></tr></table></div>
+<p><strong>Tổng 0–6 điểm → tử vong 30 ngày</strong>: 0 = 0% · 1 = 13% · 2 = 26% · 3 = 72% · 4 = 97% · 5–6 = 100%.</p>
+<p><strong>Dự phòng tái phát</strong>: HA &lt; 130/80 (thiazide/giống thiazide, chẹn kênh calci, ức chế men chuyển/thụ thể); lối sống lành mạnh, kiểm soát cân nặng, ngừng thuốc lá, giảm cafein, điều trị ngưng thở khi ngủ; xử trí sớm dị dạng mạch chưa vỡ (AVM, phình mạch).</p>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Danh mục tài liệu tham khảo của từng chương không được chép lại (xem văn bản gốc). Các sơ đồ/hình trong bản gốc không có trong file nguồn dạng chữ nên được tóm tắt bằng bảng hoặc dựng lại thành lưu đồ.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'qd3312_p1_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>

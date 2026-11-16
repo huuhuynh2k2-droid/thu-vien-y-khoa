@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Đột quỵ — QĐ 3312/QĐ-BYT 2024 · Phần 5</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#0E6E6B; --accent-ink:#04302E; --accent-bg:#E3F1EF;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">QĐ 3312 · Phần 5</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">BYT 2024 · QĐ 3312 · PHẦN 5/5</div>
+    <div class="doc-title">Hướng dẫn chẩn đoán và điều trị đột quỵ não — bản lâm sàng</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">PHẦN 5/5</span>
+    <h1>Chương 12–13: Dự phòng thứ phát theo căn nguyên, phục hồi chức năng</h1>
+    <div class="byline">Bộ Y tế — Hướng dẫn chẩn đoán và điều trị đột quỵ não (QĐ 3312/QĐ-BYT, 2024)</div>
+    <div class="cite">Nguồn: Bộ Y tế. Hướng dẫn chẩn đoán và điều trị đột quỵ não, ban hành kèm Quyết định 3312/QĐ-BYT, Hà Nội 2024. Bản tóm lược lâm sàng do người biên soạn dựng lại, bám sát số liệu gốc — không thay thế văn bản gốc.</div>
+
+    <h2 id="c12">Chương 12. Dự phòng tái phát nhồi máu não theo căn nguyên</h2>
+<div class="box"><div class="box-title">PHÂN LOẠI CĂN NGUYÊN (chọn thuốc theo nhóm này)</div>
+<ul><li><strong>Xơ vữa động mạch lớn</strong> → kháng kết tập tiểu cầu (KKTTC) + statin + HA; xét tái thông mạch cảnh</li>
+<li><strong>Huyết khối tim</strong> (rung nhĩ…) → <strong>kháng đông uống</strong>; van cơ học/hẹp hai lá vừa–nặng → <strong>kháng vitamin K</strong></li>
+<li><strong>Bệnh mạch máu nhỏ (lỗ khuyết)</strong> → KKTTC + kiểm soát HA, ĐTĐ</li>
+<li><strong>Căn nguyên khác</strong> (lóc tách, moyamoya…) · <strong>Chưa xác định</strong> (xét PFO ở người 18–60 tuổi)</li></ul></div>
+
+<h3 id="c12-xv">12.1. Xơ vữa động mạch lớn</h3>
+<p><strong>Dịch tễ</strong>: xơ vữa ĐM cảnh chiếm khoảng 10–15% nhồi máu não; hẹp nội sọ rất thường gặp ở người gốc Á. Tái phát 1 năm có thể tới 18% khi hẹp ≥ 70%. Cơ chế: thuyên tắc ĐM–ĐM (chính ở hẹp ngoài sọ), huyết khối tại chỗ, tắc nhánh xuyên (chính ở thân não/tuần hoàn sau), giảm tưới máu (thường là cơ chế cộng thêm).</p>
+<p><strong>Chẩn đoán mạch</strong>: siêu âm Doppler cảnh (mức hẹp, mảng xơ vữa) · Doppler xuyên sọ (~80% đoạn ICA xa, MCA, ACA gần) · CTA (khó thấy đoạn xương đá/xoang hang) · MRA (TOF nội sọ; MRA cản từ cho ngoài sọ) · <strong>DSA là tiêu chuẩn vàng</strong> (khi cần can thiệp hoặc nghi bất thường chưa rõ) · MRI thành mạch (xơ vữa, viêm mạch, lóc tách, moyamoya, phình mạch).</p>
+
+<h3 id="c12-canh">12.2. Hẹp động mạch cảnh trong ngoài sọ — tái thông</h3>
+<div class="tbl-wrap"><table><tr><th>Tình huống</th><th>Làm gì</th></tr>
+<tr><td>TIA hoặc đột quỵ không tàn tật trong 6 tháng + hẹp ICA cùng bên <strong>70–99%</strong></td><td><strong>Bóc nội mạc ĐM cảnh (CEA)</strong> để phòng tái phát</td></tr>
+<tr><td>Hẹp <strong>50–69%</strong></td><td>Có thể cân nhắc CEA, tùy tuổi, giới, bệnh kèm</td></tr>
+<tr><td>Hẹp có triệu chứng ≥ 70% (không xâm lấn) hoặc &gt; 50% (DSA), nguy cơ thủ thuật nội mạch trung bình–thấp</td><td><strong>CAS (đặt stent)</strong> là lựa chọn thay thế CEA, nhất là khi bệnh tim mạch nặng kèm theo làm tăng nguy cơ phẫu thuật</td></tr>
+<tr><td><strong>Tuổi ≥ 70</strong>, hoặc cần tái thông trong <strong>1 tuần</strong> sau đột quỵ</td><td>Ưu tiên <strong>CEA</strong> hơn CAS (giảm đột quỵ quanh thủ thuật)</td></tr>
+<tr><td>Thời điểm</td><td>CEA/CAS cần làm <strong>trong vòng 2 tuần</strong> sau biến cố</td></tr></table></div>
+
+<h3 id="c12-noimed">12.3. Điều trị nội khoa tích cực (nhồi máu không do tim)</h3>
+<ul>
+<li><strong>Thuốc kháng huyết khối</strong>: chọn <strong>KKTTC, không dùng kháng đông</strong>. Một trong: aspirin 50–325 mg/ngày · clopidogrel 75 mg · cilostazol 100 mg · aspirin 25 mg + dipyridamole 200 mg giải phóng kéo dài.</li>
+<li><strong>DAPT aspirin + clopidogrel</strong>: đột quỵ nhẹ (NIHSS ≤ 5) hoặc TIA nguy cơ cao (ABCD2 ≥ 4); khởi đầu càng sớm càng tốt, tốt nhất ≤ 24 giờ và tối đa 7 ngày; duy trì 21 ngày (tối đa 90 ngày) rồi chuyển đơn trị.</li>
+<li><strong>Ticagrelor + aspirin</strong>: đột quỵ nhẹ (NIHSS ≤ 5) hoặc TIA nguy cơ cao (ABCD2 ≥ 6) hoặc hẹp có triệu chứng ≥ 30% ICA trong/ngoài sọ; bắt đầu ≤ 24 giờ, dùng không quá 30 ngày.</li>
+<li><strong>Huyết áp mục tiêu</strong>: &lt; 130/80 mmHg.</li>
+<li><strong>Lipid</strong>: nhồi máu não không bệnh vành, không do tim, LDL-C &gt; 100 mg/dL → <strong>atorvastatin đến 80 mg/ngày</strong>. Có bệnh lý xơ vữa (ĐM cảnh, nội sọ, vành) → statin ± <strong>ezetimibe</strong> để đạt <strong>LDL-C &lt; 70 mg/dL</strong>. Nguy cơ rất cao mà vẫn LDL-C &gt; 70 dù tối đa statin + ezetimibe → <strong>ức chế PCSK9</strong> (kháng thể đơn dòng hoặc si-RNA).</li></ul>
+<div class="box"><div class="box-title">NGUY CƠ RẤT CAO (ASCVD) — theo Hội Tim mạch Hoa Kỳ</div>
+Tiền sử nhiều biến cố ASCVD lớn, <strong>hoặc</strong> một biến cố ASCVD lớn + nhiều yếu tố nguy cơ cao.<br>
+<strong>Biến cố ASCVD lớn</strong>: tiền sử nhồi máu não · hội chứng vành cấp trong 12 tháng · tiền sử nhồi máu cơ tim · bệnh động mạch ngoại biên có triệu chứng.<br>
+<strong>Yếu tố nguy cơ cao</strong>: tuổi ≥ 65 · tăng cholesterol máu gia đình dị hợp tử · đái tháo đường · tăng huyết áp · bệnh thận mạn (eGFR 15–59) · hiện hút thuốc lá.</div>
+
+<h3 id="c12-noisoi">12.4. Hẹp động mạch lớn nội sọ do xơ vữa</h3>
+<div class="tbl-wrap"><table><tr><th>Vấn đề</th><th>Khuyến cáo</th></tr>
+<tr><td>Thuốc nền</td><td>Hẹp nặng <strong>50–99%</strong>: <strong>aspirin 325 mg/ngày</strong>, <strong>không dùng</strong> kháng đông uống (warfarin)</td></tr>
+<tr><td>DAPT ngắn hạn</td><td>Đột quỵ/TIA trong 30 ngày + hẹp nặng 70–99%: <strong>clopidogrel 75 mg + aspirin tối đa 90 ngày</strong></td></tr>
+<tr><td>Ticagrelor</td><td>Trong 24 giờ, đột quỵ nhẹ hoặc TIA nguy cơ cao + hẹp &gt; 30%: <strong>ticagrelor 90 mg × 2/ngày + aspirin, không quá 30 ngày</strong></td></tr>
+<tr><td>Cilostazol</td><td>Hẹp 50–99%: có thể cân nhắc <strong>cilostazol 200 mg/ngày</strong> + aspirin hoặc clopidogrel</td></tr>
+<tr><td>Tạo hình / đặt stent</td><td><strong>Không</strong> làm đầu tay ở hẹp 70–99%, <strong>không</strong> làm ở hẹp 50–69%. Chỉ cân nhắc (lợi ích chưa chắc) nếu hẹp 70–99% và triệu chứng tiến triển/tái phát dù đã điều trị nội khoa tối ưu (DAPT + HATT &lt; 140 + statin mạnh)</td></tr>
+<tr><td>Bắc cầu cảnh ngoài–trong</td><td><strong>Không khuyến cáo</strong></td></tr>
+<tr><td>Yếu tố nguy cơ</td><td><strong>HATT &lt; 140 mmHg</strong> (hẹp 30–99%); nhóm nguy cơ rất cao → statin đạt <strong>LDL-C &lt; 55 mg/dL (1,4 mmol/L)</strong></td></tr></table></div>
+
+<h3 id="c12-tim">12.5. Huyết khối tim</h3>
+<div class="tbl-wrap"><table><tr><th>Nguy cơ cao</th><th>Nguy cơ thấp</th></tr>
+<tr><td>Rung nhĩ kéo dài/cơn · hội chứng suy nút xoang · cuồng nhĩ kéo dài · nhồi máu cơ tim &lt; 1 tháng · bệnh van ĐMC hoặc hai lá hậu thấp · van tim cơ học/sinh học · suy tim EF &lt; 30% · bệnh cơ tim giãn · viêm nội tâm mạc huyết khối không nhiễm trùng · viêm nội tâm mạc nhiễm khuẩn · u nhầy nhĩ trái</td><td>Vôi hóa van hai lá · còn lỗ bầu dục (PFO) · phình vách liên nhĩ</td></tr></table></div>
+<p><strong>Chẩn đoán</strong>: ECG; Holter dài ngày nếu chưa rõ căn nguyên (tăng phát hiện rung nhĩ); siêu âm tim qua thành ngực/thực quản (PFO, u nhầy, viêm nội tâm mạc, huyết khối nhĩ/thất, mảng xơ vữa quai ĐMC, van nhân tạo, khối u).</p>
+<div class="tbl-wrap"><table><caption>Thang điểm nguy cơ đột quỵ trong rung nhĩ</caption>
+<tr><th>Yếu tố</th><th>CHADS₂</th><th>CHA₂DS₂-VASc</th></tr>
+<tr><td>Suy tim sung huyết</td><td>1</td><td>1</td></tr>
+<tr><td>Tăng huyết áp</td><td>1</td><td>1</td></tr>
+<tr><td>Tuổi ≥ 75</td><td>1</td><td>2</td></tr>
+<tr><td>Đái tháo đường</td><td>1</td><td>1</td></tr>
+<tr><td>Đột quỵ / TIA</td><td>2</td><td>2</td></tr>
+<tr><td>Bệnh mạch máu (NMCT, bệnh ĐM ngoại biên, xơ vữa ĐMC)</td><td>—</td><td>1</td></tr>
+<tr><td>Tuổi 65–74</td><td>—</td><td>1</td></tr>
+<tr><td>Giới nữ</td><td>—</td><td>1</td></tr></table></div>
+
+<h3 id="c12-rn">12.6. Rung nhĩ / cuồng nhĩ — kháng đông (không hẹp hai lá vừa–nặng, không van cơ học)</h3>
+<ul>
+<li><strong>Kháng đông uống</strong> cho mọi thể (cơn, dai dẳng, vĩnh viễn): warfarin, acenocoumarol hoặc DOAC (apixaban, dabigatran, edoxaban, rivaroxaban). Cuồng nhĩ: chỉ định như rung nhĩ.</li>
+<li><strong>Ưu tiên DOAC</strong> hơn kháng vitamin K (không có bệnh van đặc biệt); bắt buộc cân nhắc DOAC khi không giữ được INR trong đích.</li></ul>
+<div class="tbl-wrap"><table><caption>Thời điểm bắt đầu kháng đông</caption><tr><th>Tình huống</th><th>Thời điểm</th></tr>
+<tr><td><strong>TIA</strong></td><td><strong>Ngay ngày đầu</strong> sau biến cố</td></tr>
+<tr><td>Đột quỵ, nguy cơ chuyển dạng chảy máu <strong>thấp</strong></td><td>Xem xét <strong>giữa ngày 2 và ngày 14</strong></td></tr>
+<tr><td>Đột quỵ, nguy cơ chuyển dạng chảy máu <strong>cao</strong></td><td>Trì hoãn đến <strong>sau 14 ngày</strong></td></tr></table></div>
+<p><strong>Chống chỉ định kháng đông lâu dài</strong> nhưng dùng được ≥ 45 ngày → cân nhắc <strong>bít tiểu nhĩ trái qua da</strong>.</p>
+
+<h3 id="c12-van">12.7. Bệnh van tim</h3>
+<div class="tbl-wrap"><table><tr><th>Tình huống</th><th>Làm gì</th></tr>
+<tr><td>Rung nhĩ + hẹp hai lá vừa–nặng, hoặc <strong>van cơ học bất kỳ</strong></td><td><strong>Kháng vitamin K</strong> (warfarin, acenocoumarol)</td></tr>
+<tr><td>Van hai lá cơ học + tiền sử NMN/TIA trước thay van</td><td>Kháng vitamin K <strong>INR đích 3,0 (2,5–3,5)</strong> + <strong>aspirin 75–100 mg/ngày</strong></td></tr>
+<tr><td>Van ĐMC cơ học + tiền sử NMN/TIA</td><td>Kháng vitamin K INR đích 3,0 (2,5–3,5); có thể thêm aspirin 75–100 mg</td></tr>
+<tr><td>Bệnh van ĐMC tự nhiên hoặc van hai lá không do thấp, <strong>không rung nhĩ</strong>, không chỉ định kháng đông khác</td><td>KKTTC</td></tr>
+<tr><td>Van hai lá/ĐMC <strong>sinh học</strong></td><td>Aspirin dài hạn ưu tiên hơn kháng đông dài hạn</td></tr>
+<tr><td><strong>Viêm nội tâm mạc nhiễm khuẩn</strong> + NMN/TIA</td><td>Phẫu thuật sớm (trong thời gian nằm viện, trước khi hết kháng sinh) nếu không có chảy máu não hoặc nhồi máu quá lớn và: <strong>thuyên tắc tái phát, sùi tồn tại dù kháng sinh phù hợp</strong>; hoặc <strong>sùi di động &gt; 10 mm</strong> trên van tự nhiên tim trái; hoặc có chỉ định mổ khác</td></tr>
+<tr><td>Viêm nội tâm mạc + nhồi máu nặng hoặc chảy máu não, huyết động ổn định</td><td>Trì hoãn phẫu thuật van <strong>ít nhất 4 tuần</strong></td></tr></table></div>
+
+<h3 id="c12-pfo">12.8. Còn lỗ bầu dục (PFO)</h3>
+<ul>
+<li><strong>Đối tượng xét đóng PFO</strong>: 18–60 tuổi, nhồi máu não <strong>không phải lỗ khuyết</strong>, đã khảo sát đầy đủ không tìm thấy căn nguyên khác.</li>
+<li><strong>Khảo sát</strong>: MRI xác nhận, MRA/CTA trong–ngoài sọ, siêu âm tim cản âm/hình ảnh tim nâng cao, tìm huyết khối tĩnh mạch sâu, theo dõi ECG kéo dài tìm rung nhĩ cơn; chọn thêm: độc chất, CRP, kháng thể kháng phospholipid, cấy máu, xét nghiệm tăng đông, viêm mạch, DSA, chọc dịch não tủy, gen.</li>
+<li><strong>PFO nguy cơ cao</strong> (phình vách nhĩ hoặc shunt phải–trái lớn): <strong>đóng PFO qua ống thông + KKTTC dài hạn là hợp lý</strong>.</li>
+<li><strong>PFO nguy cơ thấp</strong>: lợi ích đóng PFO chưa rõ so với KKTTC đơn thuần.</li>
+<li><strong>Tăng lợi ích đóng</strong>: điểm RoPE cao (trẻ, ít yếu tố nguy cơ), tiền sử huyết khối tĩnh mạch sâu/tăng đông, thất bại KKTTC. <strong>Giảm lợi ích</strong>: RoPE thấp (lớn tuổi, nhiều yếu tố nguy cơ), có chỉ định kháng đông khác.</li>
+<li>Quyết định cùng bệnh nhân, bác sĩ tim mạch và thần kinh, cân nhắc mức đóng góp nhân quả của PFO.</li></ul>
+
+<h3 id="c12-nho">12.9. Bệnh mạch máu nhỏ</h3>
+<ul>
+<li>Chiếm khoảng <strong>20–30%</strong> nhồi máu não; tổn thương dưới vỏ &lt; 15 mm (lỗ khuyết). Yếu tố chính: <strong>tăng huyết áp, đái tháo đường</strong>. Tái phát 1 năm khoảng 4–11%; liên quan suy giảm nhận thức/sa sút trí tuệ mạch máu.</li>
+<li><strong>Dự phòng</strong>: kiểm soát huyết áp, đái tháo đường… + KKTTC như các nhồi máu không do tim.</li></ul>
+
+<h3 id="c12-khac">12.10. Căn nguyên khác</h3>
+<ul>
+<li><strong>Lóc tách ĐM cảnh/đốt sống ngoài sọ</strong> (cơ chế thuyên tắc ĐM–ĐM): kháng huyết khối (<strong>aspirin hoặc warfarin</strong>) <strong>ít nhất 3 tháng</strong>; tái phát dù điều trị → cân nhắc can thiệp nội mạch.</li>
+<li><strong>Moyamoya</strong> + tiền sử NMN/TIA: phẫu thuật tái lập mạch (bắc cầu trực tiếp hoặc gián tiếp) có thể có lợi; aspirin đơn trị có thể hợp lý.</li></ul>
+
+<h2 id="c13">Chương 13. Phục hồi chức năng sau đột quỵ</h2>
+<div class="box"><div class="box-title">TÓM TẮT NHANH</div><ul>
+<li>PHCN <strong>sớm, đa chuyên ngành</strong>, tại đơn vị đột quỵ; hầu hết hồi phục xảy ra trong những ngày–tháng đầu (cần tập nhiều nhất trong <strong>6 tháng đầu</strong>).</li>
+<li><strong>Không</strong> vận động rất sớm cường độ cao trong 24 giờ đầu (III-A). Bắt đầu vật lý trị liệu <strong>24–48 giờ</strong> khi ổn định (B).</li>
+<li><strong>Sàng lọc nuốt trước khi ăn/uống/uống thuốc.</strong></li></ul></div>
+
+<h3 id="c13-kk">13.1. Các khiếm khuyết cần nhận biết</h3>
+<div class="tbl-wrap"><table><tr><th>Khiếm khuyết</th><th>Điểm cần nhớ</th></tr>
+<tr><td>Vận động</td><td>&gt; 80% yếu/liệt; 1/3 không đi được, 1/3 tàn tật nặng. Đồng động, co cứng (mẫu tháp: gấp chi trên, duỗi chi dưới), rối loạn vận động khác</td></tr>
+<tr><td>Cảm giác</td><td>Dị cảm, đau thần kinh; <strong>đau vùng đồi thị</strong> phổ biến nhất; mất cảm giác sâu gây rối loạn thăng bằng</td></tr>
+<tr><td>Đại tiểu tiện</td><td>Tiểu không tự chủ (nguy cơ nhiễm khuẩn tiết niệu, ngã); táo bón 22,9–60%; đại tiện không tự chủ 31–40% trong 2 tuần đầu, 9–15% giai đoạn mạn</td></tr>
+<tr><td>Thị giác</td><td>Bán manh, giảm thị lực, liệt cơ vận nhãn</td></tr>
+<tr><td><strong>Nuốt</strong></td><td>42–67% trong 3 ngày đầu; 25–50% ở bất kỳ thời điểm; <strong>khoảng 2/3 hít sặc là thầm lặng</strong>; viêm phổi hít là biến chứng nặng nhất</td></tr>
+<tr><td>Ngôn ngữ</td><td>~ 1/2 có rối loạn giọng nói/ngôn ngữ. Thất ngôn Broca (không lưu loát, hiểu tương đối tốt); Wernicke (lưu loát, hiểu và lặp lại kém); toàn bộ</td></tr>
+<tr><td>Nhận thức</td><td><strong>~ 30% sa sút trí tuệ sau 1 năm</strong>; chú ý, trí nhớ, chức năng điều hành, lãng quên nửa người</td></tr>
+<tr><td>Cảm xúc</td><td><strong>Trầm cảm</strong> hay gặp nhất: điều trị bằng thuốc chống trầm cảm + tư vấn tâm lý</td></tr></table></div>
+
+<h3 id="c13-nhom">13.2. Nhóm đa chuyên ngành và quy trình</h3>
+<ul>
+<li><strong>Thành phần</strong>: bác sĩ (PHCN), điều dưỡng, vật lý trị liệu, hoạt động trị liệu, ngôn ngữ trị liệu, chỉnh hình, tâm lý lâm sàng, công tác xã hội, dinh dưỡng (± tâm thần, nhãn khoa).</li>
+<li><strong>Vòng PHCN</strong>: <strong>Lượng giá → đặt mục tiêu (ngắn/trung/dài hạn, thực tế) → can thiệp cá thể → tái lượng giá</strong>. Dùng thang đo khách quan; ghi nhận chức năng trước bệnh, hỗ trợ xã hội, mong muốn người bệnh; lượng giá nuốt, dinh dưỡng, nguy cơ hô hấp và loét ép; phân loại theo ICF (cấu trúc–chức năng, hoạt động, tham gia).</li>
+<li><strong>Nguyên tắc</strong>: can thiệp sớm; tập <strong>chủ động, theo tác vụ, lặp lại, tăng dần độ khó</strong>, đủ cường độ–tần suất–thời gian; môi trường giàu kích thích.</li></ul>
+
+<h3 id="c13-gd">13.3. Theo giai đoạn</h3>
+<div class="tbl-wrap"><table><tr><th>Giai đoạn</th><th>Làm gì</th></tr>
+<tr><td><strong>Tối cấp (0–24 giờ)</strong></td><td>Tập thụ động hoặc chủ động nhẹ · đặt tư thế đúng, xoay trở thường xuyên · vệ sinh, phòng loét ép · phòng nhiễm trùng hô hấp (vật lý trị liệu hô hấp nếu viêm phổi) · tập nuốt an toàn · hoạt động trị liệu đơn giản · dinh dưỡng, dịch · tâm lý trị liệu</td></tr>
+<tr><td><strong>Bán cấp: sớm (24 giờ–3 tháng), muộn (3–6 tháng)</strong></td><td>Mỗi phương pháp (vật lý trị liệu, hoạt động trị liệu, ngôn ngữ trị liệu) <strong>tối thiểu 45–60 phút/ngày</strong> tùy khả năng chịu đựng; không tiếp cận được dịch vụ → PHCN nội trú tích cực; tập nhiều nhất trong 6 tháng đầu. Gồm: tư thế trị liệu, rời giường sớm, xử trí co cứng/cảm giác/giao tiếp/nuốt, phục hồi chi trên, cơ lực, dáng đi–thăng bằng, sức bền, ADL, phòng co rút, đau vai–bán trật khớp vai, đau thần kinh, phù chi, mệt mỏi, nhận thức, trầm cảm; <strong>phòng huyết khối tĩnh mạch sâu/thuyên tắc phổi</strong>, loét ép, nhiễm trùng, ngã, tiểu không tự chủ; có thể kích thích não không xâm lấn (tDCS, rTMS)</td></tr>
+<tr><td><strong>Mạn tính (&gt; 6 tháng)</strong></td><td>PHCN cộng đồng, tái hòa nhập; liên tục theo dõi, phòng biến chứng thứ phát</td></tr></table></div>
+
+<h3 id="c13-kc">13.4. Khuyến cáo AHA/ASA theo từng vấn đề (Class – mức bằng chứng)</h3>
+<div class="tbl-wrap"><table><caption>Vận động sớm; loét ép; co rút</caption><tr><th>Khuyến cáo</th><th>Mức</th></tr>
+<tr><td>PHCN sớm trong mô hình chăm sóc đột quỵ đa chuyên ngành</td><td>I-A</td></tr>
+<tr><td>Vận động rất sớm, cường độ cao &lt; 24 giờ: <strong>không khuyến cáo</strong></td><td>III-A</td></tr>
+<tr><td>Đánh giá nguy cơ loét bằng thang khách quan (Braden); giảm ma sát–áp lực, bề mặt nâng đỡ, xoay trở, đệm chống loét, dinh dưỡng–nước đủ; tư vấn người chăm sóc</td><td>I-C</td></tr>
+<tr><td>Vai bên liệt xoay ngoài tối đa 30 phút/ngày</td><td>IIa-B</td></tr>
+<tr><td>Nẹp nghỉ cổ tay/bàn tay (mất vận động chủ động); nẹp bột chu kỳ/nẹp điều chỉnh cho co rút khuỷu–cổ tay nhẹ–vừa; nẹp nghỉ cổ chân đêm và khi đứng hỗ trợ</td><td>IIb-B/C</td></tr></table></div>
+<div class="tbl-wrap"><table><caption>Rối loạn nuốt</caption><tr><th>Khuyến cáo</th><th>Mức</th></tr>
+<tr><td>Sàng lọc nuốt sớm; <strong>đánh giá trước khi ăn, uống, uống thuốc</strong>; vệ sinh miệng</td><td>I-B</td></tr>
+<tr><td>Sàng lọc do ngôn ngữ trị liệu/nhân viên được đào tạo</td><td>IIa-C</td></tr>
+<tr><td>Đánh giá bằng dụng cụ khi nghi hít sặc (nội soi mềm, quay video có cản quang)</td><td>IIa-B</td></tr>
+<tr><td><strong>Nuôi ăn qua ống trong 7 ngày</strong> nếu không nuốt an toàn</td><td>I-A</td></tr>
+<tr><td>Ống thông dạ dày qua mũi ngắn hạn (2–3 tuần); <strong>mở dạ dày qua da</strong> nếu mất nuốt mạn</td><td>I-B</td></tr>
+<tr><td>Bổ sung dinh dưỡng khi nuôi dưỡng kém/nguy cơ suy dinh dưỡng</td><td>IIa-B</td></tr>
+<tr><td>Can thiệp hành vi; châm cứu bổ trợ</td><td>IIb-A / IIb-B</td></tr></table></div>
+<div class="tbl-wrap"><table><caption>Đau vai, bán trật khớp vai; co cứng</caption><tr><th>Khuyến cáo</th><th>Mức</th></tr>
+<tr><td>Hướng dẫn người bệnh/người nhà chăm sóc vai (tầm vận động, tư thế), nhất là trước ra viện</td><td>I-C</td></tr>
+<tr><td>Botulinum toxin giảm co cứng nặng cơ vai</td><td>IIa-A</td></tr>
+<tr><td>Thuốc điều biến thần kinh khi đau vai có đặc điểm đau thần kinh</td><td>IIa-A</td></tr>
+<tr><td>Tư thế, dụng cụ hoặc băng treo hỗ trợ khớp vai bán trật</td><td>IIa-C</td></tr>
+<tr><td>NMES; phong bế thần kinh trên vai; siêu âm chẩn đoán mô mềm</td><td>IIb-A / B</td></tr>
+<tr><td><strong>Không</strong> dùng bài tập ròng rọc trên đầu</td><td>III-C</td></tr>
+<tr><td><strong>Botulinum toxin vào cơ mục tiêu</strong> chi trên (giảm co cứng, cải thiện vệ sinh, mặc quần áo, đặt tư thế) và chi dưới (cải thiện dáng đi)</td><td>I-A</td></tr>
+<tr><td>Thuốc chống co cứng uống cho co cứng toàn thể (cẩn thận an thần)</td><td>IIa-A</td></tr>
+<tr><td>Bơm baclofen tủy sống cho co cứng nặng kháng trị; NMES/rung tại cơ co cứng</td><td>IIb-A</td></tr>
+<tr><td><strong>Không</strong> dùng nẹp/băng để phòng co cứng cổ tay–ngón tay</td><td>III-B</td></tr></table></div>
+<div class="tbl-wrap"><table><caption>Vận động, đi lại, chi trên, thăng bằng, dụng cụ</caption><tr><th>Khuyến cáo</th><th>Mức</th></tr>
+<tr><td>Tập <strong>tích cực, lặp lại, theo tác vụ</strong> cho mọi người hạn chế đi lại</td><td>I-A</td></tr>
+<tr><td><strong>Nẹp dưới gối</strong> khi có khiếm khuyết dáng đi (bàn chân rủ)</td><td>I-A</td></tr>
+<tr><td>Phối hợp tập tim mạch + sức mạnh cơ; NMES thay nẹp dưới gối</td><td>IIa-A</td></tr>
+<tr><td>Thảm lăn ± nâng đỡ trọng lượng; tập robot; thiết bị cơ học sớm cho người không đi được; thực tế ảo (dáng đi)</td><td>IIb-A / B</td></tr>
+<tr><td>Châm cứu cho vận động–đi lại: chưa đủ bằng chứng</td><td>IIb-B</td></tr>
+<tr><td>Chi trên: bài tập chức năng theo tác vụ, tăng dần độ khó</td><td>I-A</td></tr>
+<tr><td>Tập ADL cơ bản và ADL có dụng cụ, cá thể hóa theo hoàn cảnh khi ra viện</td><td>I-A / I-B</td></tr>
+<tr><td>Liệu pháp tập cưỡng bức (CIMT); robot chi trên (liệt vừa–nặng); NMES (còn vận động nhẹ hoặc bán trật khớp vai); tập tâm trí/gương; tập sức mạnh cơ; thực tế ảo</td><td>IIa-A / B</td></tr>
+<tr><td>Châm cứu cho ADL và chi trên: <strong>không khuyến cáo</strong></td><td>III-A</td></tr>
+<tr><td>Chương trình tập thăng bằng (kém, sợ ngã, nguy cơ ngã cao); dụng cụ/nẹp hỗ trợ thăng bằng</td><td>I-A</td></tr>
+<tr><td>Lượng giá thăng bằng, tự tin thăng bằng, nguy cơ ngã</td><td>I-C</td></tr>
+<tr><td>Dụng cụ trợ đi lại (gậy, khung); nẹp dưới gối khi cổ chân không vững/yếu gấp mu chân</td><td>I-B</td></tr>
+<tr><td>Xe lăn khi không đi được hoặc đi hạn chế; dụng cụ thích nghi vì an toàn và chức năng</td><td>I-C</td></tr></table></div>
+<div class="tbl-wrap"><table><caption>Nhận thức, trí nhớ, lãng quên</caption><tr><th>Khuyến cáo</th><th>Mức</th></tr>
+<tr><td>Tập luyện trong môi trường giàu kích thích</td><td>I-A</td></tr>
+<tr><td>PHCN nhận thức cho chú ý, trí nhớ, lãng quên thị giác, chức năng điều hành; chiến lược thực hành–bù trừ–thích nghi</td><td>IIa-B</td></tr>
+<tr><td>Chiến lược bù trừ trí nhớ (nội tại, công nghệ hỗ trợ bên ngoài)</td><td>IIb-A</td></tr>
+<tr><td>Tập trí nhớ chuyên biệt; liệu pháp âm nhạc cho trí nhớ lời nói; vận động thể lực bổ trợ nhận thức</td><td>IIb-B</td></tr></table></div>
+<div class="warn">Chương này không có liều thuốc hay chỉ số cấp cứu. Điểm cần làm ngay tại giường: <strong>sàng lọc nuốt trước mọi đường uống, xoay trở và đánh giá loét ép, dự phòng huyết khối tĩnh mạch sâu, tầm soát trầm cảm, bắt đầu PHCN 24–48 giờ</strong>.</div>
+
+
+    <hr class="sect">
+    <p style="font-size:12.5px; color:var(--ink-2);">Danh mục tài liệu tham khảo của từng chương không được chép lại (xem văn bản gốc). Các sơ đồ/hình trong bản gốc không có trong file nguồn dạng chữ nên được tóm tắt bằng bảng hoặc dựng lại thành lưu đồ.</p>
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'qd3312_p5_v1';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : 'lvl3';
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>
