@@ -505,6 +505,11 @@ window.LIBRARY = {
       org: "Bộ Y tế", year: 2024, doi: "", status: 2,
       cat: "Đột quỵ nhồi máu · Chảy máu não · XHDN · HKTMN · Tiêu huyết khối · Lấy huyết khối",
       note: "13 chương trong 5 phần, trình bày để áp dụng tại giường; trang sơ đồ có liều thuốc và cách pha truyền liên tục (phần pha thuốc ngoài văn bản, cần đối chiếu nhãn).",
-      updated: "2026-11-17", url: "docs/qd3312-index.html" }
+      updated: "2026-11-17", url: "docs/qd3312-index.html" },
+    { id: "tk-jama-2026-dieu-tri-nmn-cap", sp: "tk", topic: "Đột quỵ", title: "Điều trị nhồi máu não cấp — bài tổng quan JAMA 2026 (bản dịch tổng quan + đối chiếu QĐ 3312)",
+      org: "JAMA (Albers GW, Heit JJ) · dựa trên AHA/ASA 2026", year: 2026, doi: "https://doi.org/10.1001/jama.2026.19482", status: 2,
+      cat: "Nhồi máu não cấp · Tiêu huyết khối · Lấy huyết khối · Thư mục Đột quỵ",
+      note: "Tiêu huyết khối đến 24 giờ, lấy huyết khối lõi lớn/thân nền/mạch cỡ vừa, kháng kết tập kép, dự phòng thứ phát; kèm bảng đối chiếu với Hướng dẫn BYT 2024. Thư mục docs/dot-quy/.",
+      updated: "2026-11-17", url: "docs/dot-quy/jama-2026-dieu-tri-nmn-cap.html" }
   ]
 };
