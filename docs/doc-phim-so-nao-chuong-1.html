@@ -122,6 +122,31 @@
     <div class="cite">Fundamentals of Diagnostic Radiology (Brant &amp; Helms), Chương 1. Bản dịch + biên soạn lại tiếng Việt, chỉ giữ phần MRI. <em>Bản dịch tham khảo phục vụ học tập lâm sàng — không thay thế bản gốc.</em></div>
 
     <div class="box">
+<div class="box-title">QUY ƯỚC: CÁC CHUỖI XUNG TRONG BẢNG “SERIES CHOOSER” TRÊN PACS TƯƠNG ỨNG VỚI NỘI DUNG CHƯƠNG NÀY</div>
+<div class="tbl-wrap"><table>
+<thead><tr><th>Tên trên PACS</th><th>Chuỗi xung tương ứng</th><th>Dùng để đọc gì</th></tr></thead>
+<tbody>
+<tr><td>Localizer #27</td><td>Ảnh định vị (scout) 3 mặt phẳng, dùng để lập kế hoạch cắt</td><td>Chỉ kiểm tra tư thế/phạm vi phủ; không dùng chẩn đoán</td></tr>
+<tr><td>Ax T2 FLAIR FS #24</td><td><strong>T2 FLAIR</strong> mặt phẳng ngang, có xoá mỡ (FS)</td><td>Phù, mất myelin, tổn thương cạnh não thất; DNT sáng bất thường (xuất huyết dưới nhện, viêm màng não, lan tràn dưới nhện)</td></tr>
+<tr><td>Ax T2* GRE #24</td><td><strong>Gradient-echo T2*</strong></td><td>Máu/hemosiderin (xuất huyết, vi xuất huyết), vôi hoá; “blooming”</td></tr>
+<tr><td>Ax DWI B-1000 #48</td><td><strong>DWI</strong> b = 1000 s/mm² (24 lát × 2 loạt: b0 và b1000)</td><td>Hạn chế khuếch tán: nhồi máu cấp, áp xe, u giàu tế bào, u biểu bì</td></tr>
+<tr><td>ORIG: Ax DWI B-1000 (410)</td><td>Bản <strong>gốc</strong> của DWI b1000, dùng làm nguồn cho các bản dựng bên dưới</td><td>Giống DWI b1000</td></tr>
+<tr><td>DW_Synthetic (400; 40410 ORIG)</td><td>DWI <strong>tổng hợp</strong> (tính lại từ dữ liệu b0/b1000, thường là b cao hơn hoặc nền được điều chỉnh)</td><td>Dùng như DWI; so với DWI gốc để đỡ nhiễu T2</td></tr>
+<tr><td>ADC (10^-6 mm²/s) #24 (450)</td><td><strong>Bản đồ ADC</strong>, đơn vị 10⁻⁶ mm²/s</td><td>ADC thấp = hạn chế khuếch tán thật; so với DWI để loại “T2 shine-through”</td></tr>
+<tr><td>eADC #24 (451)</td><td>Bản đồ <strong>ADC mũ (exponential ADC)</strong></td><td>Vùng hạn chế khuếch tán sáng, mô bình thường tối (loại trừ ảnh hưởng T2)</td></tr>
+<tr><td>3D Ax TOF #114</td><td><strong>MRA time-of-flight</strong> 3D, ảnh nguồn (114 lát)</td><td>Hẹp/tắc mạch lớn, phình mạch; xem ảnh nguồn khi MIP nghi ngờ</td></tr>
+<tr><td>500 COL:3D Ax TOF #1; 501 PJN:3D Ax TOF #19</td><td>Bản dựng từ TOF: <strong>COL</strong> = 1 ảnh gộp (collapsed MIP), <strong>PJN</strong> = 19 ảnh chiếu (projection MIP) xoay nhiều góc</td><td>Xem tổng quan vòng Willis và cây mạch; luôn đối chiếu ảnh nguồn</td></tr>
+<tr><td>Ax T2 FSE #24</td><td><strong>T2 fast spin-echo</strong> chuẩn</td><td>Giải phẫu, flow void, tín hiệu u/nang, T2 tối của u giàu tế bào</td></tr>
+<tr><td>3D Ax T1 BRAVO #150</td><td><strong>T1 3D</strong> (IR-prepped FSPGR) <strong>trước tiêm</strong></td><td>Mỡ, máu methemoglobin, melanin, protein; chuẩn để so với sau tiêm; dựng đa mặt phẳng</td></tr>
+<tr><td>3D Ax T1 BRAVO C+ #150</td><td><strong>T1 3D sau tiêm gadolinium</strong> (C+)</td><td>Ngấm thuốc: u, áp xe, viêm màng não, màng cứng, hoại tử; tìm nốt ngấm sau mổ/xạ</td></tr>
+<tr><td>Ax PERFUSION #690</td><td><strong>Tưới máu DSC</strong> (nhiều pha trong 1 lần tiêm thuốc cản từ), 690 ảnh</td><td>Từ đây phần mềm dựng bản đồ CBV/CBF/MTT/Tmax; phân biệt u độ cao, tái phát với hoại tử xạ, tiến triển giả</td></tr>
+<tr><td>All In One #1415</td><td>Toàn bộ ca (tổng số ảnh)</td><td>Xem hết mọi chuỗi trong một lần mở</td></tr>
+</tbody></table></div>
+<p style="font-size:13px;margin:10px 0 4px;"><strong>Các nút bố cục ở dưới cùng bảng:</strong> 1×1, 1×2, 1×3, 1×4 (cột), 2×1 (hàng), 2×2/lưới, và biểu tượng người dùng (cấu hình riêng). Gợi ý: đặt <em>DWI – ADC</em> cạnh nhau (1×2); <em>T1 trước – T1 C+</em> cạnh nhau; <em>FLAIR – T2</em> cạnh nhau.</p>
+<p style="font-size:12.5px;margin:8px 0 0;">Ghi chú: tên chuỗi theo ca mẫu trên PACS của bạn (máy kiểu GE: “BRAVO” là T1 3D; hãng khác đặt tên khác, ví dụ MPRAGE – Siemens, 3D T1-TFE – Philips). “#N” là số ảnh trong chuỗi. Cách hiểu các chuỗi “Synthetic”, “COL”, “PJN” là suy ra từ tên và cách dùng thông thường, hãy đối chiếu với kỹ thuật viên/quy trình tại khoa.</p>
+</div>
+
+<div class="box">
 <div class="box-title">PHẠM VI BẢN DỊCH NÀY</div>
 <ul>
 <li>Nguồn: Chương 1 <em>Các phương pháp chẩn đoán hình ảnh</em> (William E. Brant) – <em>Fundamentals of Diagnostic Radiology</em>.</li>
