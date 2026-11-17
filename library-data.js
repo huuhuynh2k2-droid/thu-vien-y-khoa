@@ -7,7 +7,7 @@
 // trong chuyên khoa đó (ví dụ bài Viêm phổi đầu tiên trong "hh"), tự đặt tên topic mới
 // hợp lý (ví dụ "Nhiễm trùng hô hấp") — không cần hỏi lại, trang sẽ tự tạo nhóm mới.
 window.LIBRARY = {
-  updated: "2026-11-08",
+  updated: "2026-11-17",
   dashboardUrl: "https://huuhuynh2k2-droid.github.io/on-thi-dashboard/",
   // "topic" mới trong "tm" (Tim mạch): "Kháng kết tập tiểu cầu" — nhóm này chưa từng có bài
   // nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
@@ -490,6 +490,11 @@ window.LIBRARY = {
       org: "Oxford University Hospitals NHS", year: 2022, doi: "", status: 2,
       cat: "Hạ kali máu",
       note: "Định nghĩa, nguyên nhân, đường uống và tĩnh mạch, liều dùng và theo dõi, giới hạn an toàn khi bù kali.",
-      updated: "", url: "https://huuhuynh2k2-droid.github.io/ha-kali-mau/" }
+      updated: "", url: "https://huuhuynh2k2-droid.github.io/ha-kali-mau/" },
+    { id: "tk-doc-phim-so-nao", sp: "tk", topic: "Chẩn đoán hình ảnh sọ não", title: "Đọc phim sọ não thực chiến — nguyên lý MRI và khung đọc MRI sọ (Phần 1–2)",
+      org: "Brant WE (Diagnostic Imaging Methods, Ch.1 – chỉ phần MRI) · Mukundan S, Seidenwurm D (Introduction to Brain Imaging, Ch.2)", year: 2026, doi: "", status: 1,
+      cat: "Dự án đang mở rộng · Bản dịch tiếng Việt · Trang chỉ mục 2 phần",
+      note: "Phần 1: nguyên lý tạo ảnh MRI, T1/T2/PD, FLAIR, STIR, GRE/T2*, SWI, DWI/DTI, MRS, MRA/TOF, nghệ phẩm, tuổi máu, gadolinium. Phần 2: khung đọc phim sọ não logic (đường giữa, bể não, não thất, checklist, CT vs MR, DWI/ADC, SWI, fMRI), chiến lược theo hội chứng lâm sàng, phân tích tổn thương; 25 hình đã dịch chữ trong ảnh. Các chương sau sẽ được bổ sung.",
+      updated: "2026-11-17", url: "docs/doc-phim-so-nao-index.html" }
   ]
 };
