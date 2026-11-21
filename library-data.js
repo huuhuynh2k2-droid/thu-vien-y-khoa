@@ -7,7 +7,7 @@
 // trong chuyên khoa đó (ví dụ bài Viêm phổi đầu tiên trong "hh"), tự đặt tên topic mới
 // hợp lý (ví dụ "Nhiễm trùng hô hấp") — không cần hỏi lại, trang sẽ tự tạo nhóm mới.
 window.LIBRARY = {
-  updated: "2026-11-17",
+  updated: "2026-11-21",
   dashboardUrl: "https://huuhuynh2k2-droid.github.io/on-thi-dashboard/",
   // "topic" mới trong "tm" (Tim mạch): "Kháng kết tập tiểu cầu" — nhóm này chưa từng có bài
   // nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
@@ -496,6 +496,11 @@ window.LIBRARY = {
       cat: "Dự án đang mở rộng · Bản dịch tiếng Việt · Trang chỉ mục 6 phần",
       note: "Phần 1: nguyên lý tạo ảnh MRI, T1/T2/PD, FLAIR, STIR, GRE/T2*, SWI, DWI/DTI, MRS, MRA/TOF, nghệ phẩm, tuổi máu, gadolinium. Phần 2: khung đọc phim sọ não logic (đường giữa, bể não, não thất, checklist, CT vs MR, DWI/ADC, SWI, fMRI), chiến lược theo hội chứng lâm sàng, phân tích tổn thương; 25 hình đã dịch chữ trong ảnh; kèm bổ sung giải phẫu sọ (27 hình). Phần 3: bệnh lý mạch máu não — kỹ thuật US/TCD, CTA, MRA, DSA, tưới máu; xuất huyết, nhồi máu (ASPECTS, DWI), huyết khối xoang tĩnh mạch, phình mạch, AVM/dAVF, moyamoya, viêm mạch, CADASIL, CAA; 42 hình. Phần 4: u nội sọ — trong/ngoài trục, CT/MRI/tưới máu/phổ, phân loại WHO, u màng não, schwannoma, di căn, u não thất, u sao bào – GB, u thần kinh đệm ít nhánh, u nguyên bào tuỷ, DNET, u nguyên bào mạch máu, lymphoma, vùng tuyến tùng, nang, hình ảnh sau mổ/xạ trị, tiến triển giả, RANO; 59 hình. Phần 5: nhiễm trùng và viêm không nhiễm trùng của não — áp xe, viêm màng não, viêm não, lao, nấm, ký sinh trùng, prion, COVID-19, sarcoidosis, GPA, viêm tự miễn; 27 hình. Phần 6: 11 sơ đồ flowchart tóm tắt từ hình ảnh đến chẩn đoán, gắn với tên chuỗi xung trên PACS; mỗi chương 1–5 có ô quy ước chuỗi PACS. Các chương sau sẽ được bổ sung.",
       updated: "2026-11-17", url: "docs/doc-phim-so-nao-index.html" },
+    { id: "tk-aha-asa-2026-nmn-cap", sp: "tk", topic: "Đột quỵ", title: "Hướng dẫn AHA/ASA 2026 Xử trí sớm nhồi máu não cấp — Bản dịch đầy đủ (6 phần)",
+      org: "AHA/ASA Guideline (Prabhakaran S, et al. Stroke 2026;57:e316–e436)", year: 2026, doi: "https://doi.org/10.1161/STR.0000000000000513", status: 1,
+      cat: "Guideline mới nhất · Bản dịch đầy đủ kèm hình gốc · Trang chỉ mục 6 phần · Thư mục Đột quỵ",
+      note: "Thay thế hướng dẫn AIS 2018/2019. Phần 1: tiền viện, EMS, MSU, nơi vận chuyển, telestroke, tổ chức hệ thống, sổ bộ. Phần 2: NIHSS, hình ảnh (CT/CTA/CTP/MRI, ASPECTS), xét nghiệm, đường thở, huyết áp, thân nhiệt, đường huyết. Phần 3: tiêu huyết khối tĩnh mạch (tenecteplase 0,25 mg/kg hoặc alteplase 0,9 mg/kg, cửa sổ mở rộng, tình huống đặc biệt, xử trí sICH/phù mạch). Phần 4: lấy huyết khối (lõi lớn, thân nền, mạch cỡ vừa, trẻ em, thuật toán Hình 3). Phần 5: kháng tiểu cầu/DAPT, kháng đông sớm trong rung nhĩ, bảo vệ thần kinh, CEA cấp. Phần 6: đơn vị đột quỵ, rối loạn nuốt, dinh dưỡng, dự phòng DVT, trầm cảm, phục hồi chức năng, phù não, mở sọ giải ép, nhồi máu tiểu não, co giật. Mọi bảng khuyến cáo có COR/LOE; Hình 1–5 và Bảng 2 nhúng nguyên bản.",
+      updated: "2026-11-21", url: "docs/dot-quy/aha-asa-2026-nmn-cap-index.html" },
     { id: "tk-dq-aha-asa-2024", sp: "tk", topic: "Đột quỵ", title: "Hướng dẫn dự phòng nguyên phát đột quỵ AHA/ASA 2024 (dịch đầy đủ + sơ đồ + so sánh BYT 2024)",
       org: "AHA/ASA", year: 2024, doi: "https://doi.org/10.1161/STR.0000000000000475", status: 2,
       cat: "Dự phòng nguyên phát · Bản dịch đầy đủ · Sơ đồ tóm tắt · So sánh BYT 2024",
