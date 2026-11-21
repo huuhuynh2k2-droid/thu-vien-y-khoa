@@ -515,6 +515,12 @@ window.LIBRARY = {
       org: "JAMA (Albers GW, Heit JJ) · dựa trên AHA/ASA 2026", year: 2026, doi: "https://doi.org/10.1001/jama.2026.19482", status: 2,
       cat: "Nhồi máu não cấp · Tiêu huyết khối · Lấy huyết khối · Thư mục Đột quỵ",
       note: "Tiêu huyết khối đến 24 giờ, lấy huyết khối lõi lớn/thân nền/mạch cỡ vừa, kháng kết tập kép, dự phòng thứ phát; kèm bảng đối chiếu với Hướng dẫn BYT 2024. Thư mục docs/dot-quy/.",
-      updated: "2026-11-17", url: "docs/dot-quy/jama-2026-dieu-tri-nmn-cap.html" }
+      updated: "2026-11-17", url: "docs/dot-quy/jama-2026-dieu-tri-nmn-cap.html" },
+    // "topic" mới trong "tk" (Thần kinh): "Khám lâm sàng & Định khu tổn thương" — nhóm này chưa từng có bài nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
+    { id: "tk-kham-dinh-khu-blumenfeld-ch3", sp: "tk", topic: "Khám lâm sàng & Định khu tổn thương", title: "Khám thần kinh như một bài học giải phẫu thần kinh — Chương 3 (Blumenfeld), bản dịch đầy đủ 4 phần",
+      org: "Blumenfeld H. Neuroanatomy through Clinical Cases, 3rd ed. (Sinauer/Oxford), Chapter 3 · video minh họa neuroexam.com", year: 2021, doi: "", status: 2,
+      cat: "Bộ bài mới: Khám lâm sàng & Định khu tổn thương (chương đầu tiên) · Bản dịch đầy đủ · 67 hình gốc · 10 bảng dựng lại tiếng Việt · Thư mục docs/kham-than-kinh/",
+      note: "Phần 1: tổng quan, Bảng 3.1 dàn ý khám, Bảng 3.2, khám trạng thái tâm thần (chú ý/digit span, định hướng — không viết A&O×3, trí nhớ, ngôn ngữ, Gerstmann, apraxia, lãng quên nửa bên, dấu thùy trán). Phần 2: 12 dây thần kinh sọ (thị trường, swinging flashlight, phân ly ánh sáng–nhìn gần, vận nhãn/saccade/OKN, phản xạ giác mạc/hàm, liệt mặt trung ương vs ngoại biên, tiền đình, IX–XII). Phần 3: NVĐT vs NVĐD (Bảng 3.3), thang sức cơ, Bảng 3.4–3.5 cơ–dây–rễ, thang phản xạ, Hoffmann/Babinski, Bảng 3.6–3.7, thất điều chi vs thân trục, Romberg, dáng đi, khám cảm giác và cảm giác vỏ não. Phần 4: chiến lược khi bệnh nhân hạn chế, khám hôn mê (Bảng 3.8–3.9, đồng tử, mắt búp bê, caloric COWS, tư thế mất vỏ/mất não, gấp ba), chết não, rối loạn chuyển dạng/giả bệnh (Hoover), khám sàng lọc 5–10 phút (Bảng 3.10). Mỗi nghiệm pháp có khung 'Điều gì đang được kiểm tra?' để định khu.",
+      updated: "2026-11-21", url: "docs/kham-than-kinh/index.html" }
   ]
 };
