@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dược lý các thuốc tác động thần kinh — phân loại, liều, chống chỉ định</title>
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --ink:#211F1B; --ink-2:#6B6862;
+    --border:#E4E1D8; --accent:#2F4B8A; --accent-ink:#172447; --accent-bg:#E8EDF7;
+    --warn-bg:#FBEFE0; --warn-ink:#6B3E06; --warn-border:#EBCE9C;
+    --hl:#FFE58A;
+    --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:290px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; font-size:16px;}
+  a{color:var(--accent-ink);}
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .1s linear;}
+  #topbar{display:none; position:sticky; top:0; z-index:60; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 14px; align-items:center; gap:10px;}
+  #topbar button{background:none; border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:14px; color:var(--ink); cursor:pointer;}
+  #topbar .ttl{font-family:var(--serif); font-size:15px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  #sidebar{width:var(--sidebar-w); flex-shrink:0; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto; padding:28px 18px 40px 28px; border-right:1px solid var(--border);}
+  #sidebar .eyebrow{font-size:11px; letter-spacing:.03em; color:var(--accent-ink); font-weight:600; margin-bottom:6px;}
+  #sidebar .doc-title{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.35; margin-bottom:14px;}
+  #readpct{font-size:12px; color:var(--ink-2); margin-bottom:18px;}
+  #toc{list-style:none; margin:0; padding:0; font-size:13.5px;}
+  #toc li{margin:0;}
+  #toc a{display:block; padding:6px 8px; border-radius:6px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent;}
+  #toc a.lvl2{font-weight:600; color:var(--ink); margin-top:6px;}
+  #toc a.lvl3{padding-left:20px; font-size:13px;}
+  #toc a.lvl4{padding-left:34px; font-size:12.5px; padding-top:3px; padding-bottom:3px;}
+  h4{scroll-margin-top:20px;}
+  #toc a:hover{background:var(--accent-bg);}
+  #toc a.active{border-left:2px solid var(--accent); color:var(--accent-ink); background:var(--accent-bg); font-weight:600;}
+  #sidebar-foot{margin-top:22px; padding-top:14px; border-top:1px solid var(--border);}
+  #sidebar-foot button{width:100%; background:none; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:12.5px; color:var(--ink-2); cursor:pointer;}
+  #sidebar-foot button:hover{border-color:var(--accent); color:var(--accent-ink);}
+  #hlcount{font-size:12px; color:var(--ink-2); margin-bottom:8px;}
+  main{flex:1; min-width:0; padding:44px 48px 120px; max-width:780px;}
+  .kicker{display:inline-block; background:var(--accent); color:#fff; font-size:11.5px; letter-spacing:.06em; font-weight:600; padding:4px 10px; border-radius:4px; margin-bottom:16px;}
+  h1{font-family:var(--serif); font-size:32px; line-height:1.22; font-weight:600; margin:0 0 10px;}
+  .byline{color:var(--ink-2); font-size:14px; margin-bottom:4px;}
+  .cite{color:var(--ink-2); font-size:12.5px; margin-bottom:30px; border-bottom:1px solid var(--border); padding-bottom:26px;}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:44px 0 14px; scroll-margin-top:20px;}
+  h3{font-family:var(--serif); font-size:18.5px; font-weight:600; margin:30px 0 10px; scroll-margin-top:20px;}
+  p{margin:0 0 16px;}
+  .sup{font-size:11px; vertical-align:super; color:var(--accent-ink);}
+  strong{font-weight:600;}
+  .box{background:var(--accent-bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin:20px 0;}
+  .box .box-title{font-weight:600; color:var(--accent-ink); font-size:13px; letter-spacing:.02em; margin-bottom:8px;}
+  .box ul{margin:0; padding-left:20px;}
+  .box li{margin-bottom:6px;}
+  .rec{background:#F1EFE6; border-left:3px solid var(--accent); border-radius:6px; padding:12px 16px; margin:14px 0; font-size:14.5px;}
+  .rec .num{font-weight:700; color:var(--accent-ink);}
+  .grade{display:inline-block; font-weight:700; font-size:11.5px; background:var(--accent); color:#fff; border-radius:4px; padding:1px 6px; margin-left:4px;}
+  .warn{background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; margin:20px 0; color:var(--warn-ink); font-size:14.5px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 26px; font-size:13.5px;}
+  caption{caption-side:top; text-align:left; font-weight:600; font-size:13.5px; margin-bottom:8px; color:var(--ink);}
+  th,td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#F1EFE6; font-weight:600;}
+  tr:nth-child(even) td{background:#FCFCFA;}
+  .tbl-wrap{overflow-x:auto;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+  .fig-caption{font-size:13px; color:var(--ink-2); font-style:italic; margin-top:8px;}
+  hr.sect{border:none; border-top:1px solid var(--border); margin:36px 0;}
+  mark.hl{background:var(--hl); padding:0 1px; border-radius:2px; cursor:pointer;}
+  #hlbtn{position:absolute; display:none; z-index:80; background:var(--ink); color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); user-select:none;}
+  #hlbtn:hover{background:#000;}
+  @media (max-width:880px){
+    #topbar{display:flex;}
+    .layout{flex-direction:column;}
+    #sidebar{position:fixed; top:0; left:0; height:100%; z-index:70; background:var(--surface); width:82vw; max-width:320px; transform:translateX(-100%); transition:transform .22s ease; box-shadow:8px 0 30px rgba(0,0,0,.12);}
+    #sidebar.open{transform:translateX(0);}
+    #overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:65;}
+    #overlay.show{display:block;}
+    main{padding:28px 20px 100px; max-width:100%;}
+    h1{font-size:25px;}
+  }
+  main{overflow-wrap:anywhere;}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="topbar"><button id="menuBtn" aria-label="Mục lục">☰ Mục lục</button><div class="ttl">Dược lý thuốc thần kinh</div></div>
+<div id="overlay"></div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <div class="eyebrow">CHUYÊN ĐỀ DƯỢC LÝ · TỔNG HỢP 2026</div>
+    <div class="doc-title">Dược lý các thuốc tác động thần kinh: phân loại, liều, chống chỉ định</div>
+    <div id="readpct">Đã đọc: 0%</div>
+    <ul id="toc"></ul>
+    <div id="sidebar-foot">
+      <div id="hlcount">0 đoạn đã highlight</div>
+      <button id="clearHl">Xoá tất cả highlight</button>
+    </div>
+  </aside>
+
+  <main id="content">
+    <span class="kicker">CHUYÊN ĐỀ DƯỢC LÝ LÂM SÀNG</span>
+    <h1>Dược lý các thuốc tác động thần kinh trên khoa Nội – Thần kinh: phân loại, cơ chế, liều dùng, chống chỉ định</h1>
+    <div class="byline">Biên soạn: BS. Huỳnh Hữu Minh (với hỗ trợ của Claude) · tổng hợp từ Stahl's Essential Psychopharmacology 5e, Goodman &amp; Gilman 14e, Maudsley Prescribing Guidelines 15e, BNF, NICE CG173/NG222/NG217, nhãn thuốc FDA/EMA, cảnh báo MHRA/FDA/EMA, AGS Beers 2023, Cochrane</div>
+    <div class="cite">Chuyên đề tổng hợp nhiều nguồn, không phải bản dịch một văn bản. Cập nhật 11/2026. Liều ghi cho người lớn, chức năng gan thận bình thường, trừ khi ghi khác. Tài liệu học tập — luôn đối chiếu tờ hướng dẫn sử dụng của chế phẩm đang dùng tại khoa và Dược thư Quốc gia.</div>
+
+    <div class="box">
+<p><strong>Bài này giải quyết gì.</strong> Trên khoa Nội – Thần kinh, một bệnh nhân có thể cùng lúc dùng amitriptyline (đau thần kinh), gabapentin (Neurontin), valproate (Depakine), một thuốc ngủ và một "thuốc bổ não". Các thuốc này chồng lấn nhau về <strong>chỉ định</strong> (thuốc chống động kinh dùng cho đau, thuốc chống trầm cảm dùng cho đau và mất ngủ), về <strong>tác dụng phụ</strong> (an thần, ngã, hạ Na, QT dài) và <strong>tương tác</strong>. Chuyên đề sắp xếp lại theo <strong>đích tác động</strong>, rồi với từng thuốc ghi: cơ chế → chỉ định thực tế → liều khởi đầu / đích / tối đa → chỉnh liều gan thận → chống chỉ định → tác dụng phụ cần theo dõi. Tên biệt dược hay gặp ở Việt Nam ghi trong ngoặc để nhận diện trên y lệnh.</p>
+</div>
+
+<h2 id="h-banDo">1. Bản đồ phân loại theo đích tác động</h2>
+
+<p>Gần như mọi thuốc thần kinh – tâm thần tác động lên một trong năm "đích": <strong>(1)</strong> hệ monoamine (serotonin, noradrenalin, dopamin), <strong>(2)</strong> thụ thể GABA-A, <strong>(3)</strong> kênh ion điện thế (Na⁺, Ca²⁺) và protein túi synap, <strong>(4)</strong> thụ thể dopamin D2, <strong>(5)</strong> hệ cholinergic và glutamat. Nhớ đích giúp đoán được cả hiệu quả lẫn tác dụng phụ: thuốc chẹn kênh Na⁺ vừa chống động kinh vừa giảm đau thần kinh, nhưng quá liều gây giãn QRS; thuốc chẹn D2 vừa chống loạn thần vừa gây hội chứng ngoại tháp.</p>
+
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:#F7F3EA;border:1px solid var(--border);border-radius:10px" font-family="Inter, Arial, sans-serif" font-size="13">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6B6862"/></marker></defs>
+<rect x="330" y="18" width="240" height="54" rx="10" fill="#2F4B8A"/>
+<text x="450" y="42" text-anchor="middle" fill="#fff" font-weight="700" font-size="15">THUỐC TÁC ĐỘNG THẦN KINH</text>
+<text x="450" y="61" text-anchor="middle" fill="#E8EDF7" font-size="12">phân theo đích tác động</text>
+<g stroke="#6B6862" stroke-width="1.6" fill="none" marker-end="url(#ar)">
+<path d="M370 72 L100 128"/><path d="M410 72 L280 128"/><path d="M450 72 L460 128"/><path d="M490 72 L640 128"/><path d="M530 72 L810 128"/>
+</g>
+<rect x="14" y="130" width="172" height="400" rx="10" fill="#FFFFFF" stroke="#C9D3EA"/>
+<rect x="14" y="130" width="172" height="44" rx="10" fill="#E8EDF7"/>
+<text x="100" y="149" text-anchor="middle" font-weight="700" fill="#172447">① Monoamine</text>
+<text x="100" y="166" text-anchor="middle" fill="#172447" font-size="11.5">5-HT · NA · DA</text>
+<text x="26" y="198" font-weight="700" fill="#211F1B">TCA</text><text x="26" y="215" fill="#6B6862" font-size="12">amitriptyline, nortriptyline</text>
+<text x="26" y="240" font-weight="700" fill="#211F1B">SSRI</text><text x="26" y="257" fill="#6B6862" font-size="12">sertraline, escitalopram,</text><text x="26" y="272" fill="#6B6862" font-size="12">fluoxetine, paroxetine</text>
+<text x="26" y="297" font-weight="700" fill="#211F1B">SNRI</text><text x="26" y="314" fill="#6B6862" font-size="12">duloxetine, venlafaxine</text>
+<text x="26" y="339" font-weight="700" fill="#211F1B">Khác</text><text x="26" y="356" fill="#6B6862" font-size="12">mirtazapine, trazodone,</text><text x="26" y="371" fill="#6B6862" font-size="12">bupropion, agomelatine</text>
+<text x="26" y="396" font-weight="700" fill="#211F1B">IMAO-B</text><text x="26" y="413" fill="#6B6862" font-size="12">rasagiline, selegiline</text>
+<text x="26" y="446" fill="#2F4B8A" font-size="12" font-weight="600">Dùng: trầm cảm, lo âu,</text><text x="26" y="462" fill="#2F4B8A" font-size="12" font-weight="600">đau thần kinh (TCA,</text><text x="26" y="478" fill="#2F4B8A" font-size="12" font-weight="600">SNRI), mất ngủ</text>
+<text x="26" y="506" fill="#9A3412" font-size="12">⚠ HC serotonin, hạ Na,</text><text x="26" y="521" fill="#9A3412" font-size="12">chảy máu, QT</text>
+
+<rect x="196" y="130" width="172" height="400" rx="10" fill="#FFFFFF" stroke="#C9E3D6"/>
+<rect x="196" y="130" width="172" height="44" rx="10" fill="#E3F2EA"/>
+<text x="282" y="149" text-anchor="middle" font-weight="700" fill="#14532D">② GABA-A</text>
+<text x="282" y="166" text-anchor="middle" fill="#14532D" font-size="11.5">tăng ức chế Cl⁻</text>
+<text x="208" y="198" font-weight="700" fill="#211F1B">Benzodiazepine</text><text x="208" y="215" fill="#6B6862" font-size="12">diazepam, lorazepam,</text><text x="208" y="230" fill="#6B6862" font-size="12">midazolam, clonazepam,</text><text x="208" y="245" fill="#6B6862" font-size="12">alprazolam</text>
+<text x="208" y="270" font-weight="700" fill="#211F1B">Z-drug</text><text x="208" y="287" fill="#6B6862" font-size="12">zolpidem, zopiclone</text>
+<text x="208" y="312" font-weight="700" fill="#211F1B">Barbiturat</text><text x="208" y="329" fill="#6B6862" font-size="12">phenobarbital</text>
+<text x="208" y="446" fill="#14532D" font-size="12" font-weight="600">Dùng: cắt cơn co giật,</text><text x="208" y="462" fill="#14532D" font-size="12" font-weight="600">cai rượu, lo âu cấp,</text><text x="208" y="478" fill="#14532D" font-size="12" font-weight="600">mất ngủ ngắn hạn</text>
+<text x="208" y="506" fill="#9A3412" font-size="12">⚠ ức chế hô hấp, ngã,</text><text x="208" y="521" fill="#9A3412" font-size="12">lú lẫn, lệ thuộc</text>
+
+<rect x="378" y="130" width="172" height="400" rx="10" fill="#FFFFFF" stroke="#EBCE9C"/>
+<rect x="378" y="130" width="172" height="44" rx="10" fill="#FBEFE0"/>
+<text x="464" y="149" text-anchor="middle" font-weight="700" fill="#6B3E06">③ Kênh ion – synap</text>
+<text x="464" y="166" text-anchor="middle" fill="#6B3E06" font-size="11.5">Na⁺ · Ca²⁺ · SV2A · α2δ</text>
+<text x="390" y="198" font-weight="700" fill="#211F1B">Chẹn kênh Na⁺</text><text x="390" y="215" fill="#6B6862" font-size="12">carbamazepine, oxcarba-</text><text x="390" y="230" fill="#6B6862" font-size="12">zepine, phenytoin,</text><text x="390" y="245" fill="#6B6862" font-size="12">lamotrigine, lacosamide</text>
+<text x="390" y="270" font-weight="700" fill="#211F1B">Đa cơ chế</text><text x="390" y="287" fill="#6B6862" font-size="12">valproate, topiramate</text>
+<text x="390" y="312" font-weight="700" fill="#211F1B">SV2A</text><text x="390" y="329" fill="#6B6862" font-size="12">levetiracetam</text>
+<text x="390" y="354" font-weight="700" fill="#211F1B">α2δ (gabapentinoid)</text><text x="390" y="371" fill="#6B6862" font-size="12">gabapentin, pregabalin</text>
+<text x="390" y="446" fill="#6B3E06" font-size="12" font-weight="600">Dùng: động kinh, đau</text><text x="390" y="462" fill="#6B3E06" font-size="12" font-weight="600">thần kinh, đau dây V,</text><text x="390" y="478" fill="#6B3E06" font-size="12" font-weight="600">dự phòng migraine</text>
+<text x="390" y="506" fill="#9A3412" font-size="12">⚠ SJS, quái thai, hạ Na,</text><text x="390" y="521" fill="#9A3412" font-size="12">cảm ứng/ức chế men gan</text>
+
+<rect x="560" y="130" width="160" height="400" rx="10" fill="#FFFFFF" stroke="#E5C6E9"/>
+<rect x="560" y="130" width="160" height="44" rx="10" fill="#F4E8F6"/>
+<text x="640" y="149" text-anchor="middle" font-weight="700" fill="#5B2163">④ Dopamin D2</text>
+<text x="640" y="166" text-anchor="middle" fill="#5B2163" font-size="11.5">chẹn hoặc kích thích</text>
+<text x="572" y="198" font-weight="700" fill="#211F1B">Chẹn D2 – cổ điển</text><text x="572" y="215" fill="#6B6862" font-size="12">haloperidol, sulpiride</text>
+<text x="572" y="240" font-weight="700" fill="#211F1B">Chẹn D2 – thế hệ 2</text><text x="572" y="257" fill="#6B6862" font-size="12">risperidone, olanzapine,</text><text x="572" y="272" fill="#6B6862" font-size="12">quetiapine, aripiprazole,</text><text x="572" y="287" fill="#6B6862" font-size="12">clozapine</text>
+<text x="572" y="312" font-weight="700" fill="#211F1B">Kích thích DA</text><text x="572" y="329" fill="#6B6862" font-size="12">levodopa, pramipexole,</text><text x="572" y="344" fill="#6B6862" font-size="12">ropinirole, amantadine</text>
+<text x="572" y="446" fill="#5B2163" font-size="12" font-weight="600">Dùng: sảng, kích động,</text><text x="572" y="462" fill="#5B2163" font-size="12" font-weight="600">loạn thần; Parkinson</text>
+<text x="572" y="506" fill="#9A3412" font-size="12">⚠ ngoại tháp, NMS, QT,</text><text x="572" y="521" fill="#9A3412" font-size="12">tử vong ở sa sút trí tuệ</text>
+
+<rect x="730" y="130" width="156" height="400" rx="10" fill="#FFFFFF" stroke="#D6D3CC"/>
+<rect x="730" y="130" width="156" height="44" rx="10" fill="#EFEDE7"/>
+<text x="808" y="149" text-anchor="middle" font-weight="700" fill="#211F1B">⑤ ACh · Glutamat</text>
+<text x="808" y="166" text-anchor="middle" fill="#211F1B" font-size="11.5">và nhóm "bổ não"</text>
+<text x="742" y="198" font-weight="700" fill="#211F1B">Ức chế AChE</text><text x="742" y="215" fill="#6B6862" font-size="12">donepezil, rivastig-</text><text x="742" y="230" fill="#6B6862" font-size="12">mine, galantamine</text>
+<text x="742" y="255" font-weight="700" fill="#211F1B">Đối kháng NMDA</text><text x="742" y="272" fill="#6B6862" font-size="12">memantine</text>
+<text x="742" y="297" font-weight="700" fill="#211F1B">Kháng cholinergic</text><text x="742" y="314" fill="#6B6862" font-size="12">trihexyphenidyl</text>
+<text x="742" y="339" font-weight="700" fill="#211F1B">Bằng chứng yếu</text><text x="742" y="356" fill="#6B6862" font-size="12">piracetam, citicolin,</text><text x="742" y="371" fill="#6B6862" font-size="12">cerebrolysin, ginkgo</text>
+<text x="742" y="446" fill="#211F1B" font-size="12" font-weight="600">Dùng: sa sút trí tuệ,</text><text x="742" y="462" fill="#211F1B" font-size="12" font-weight="600">rung giật cơ vỏ não</text>
+<text x="742" y="506" fill="#9A3412" font-size="12">⚠ nhịp chậm, ngất;</text><text x="742" y="521" fill="#9A3412" font-size="12">chi phí không lợi ích</text>
+</svg>
+<div class="fig-caption">Hình 1 (tự vẽ). Năm đích tác động và các nhóm thuốc tương ứng. Một thuốc có thể tác động nhiều đích: TCA chặn tái hấp thu 5-HT/NA nhưng đồng thời chẹn H1, M1, α1 và kênh Na⁺ — chính các đích "ngoài ý muốn" này tạo ra tác dụng phụ và độc tính quá liều.</div>
+</figure>
+
+<div class="tbl-wrap"><table>
+<caption>Bảng 1. Đọc nhanh: biệt dược hay gặp trên y lệnh và nhóm thuốc</caption>
+<tr><th>Biệt dược (VN)</th><th>Hoạt chất</th><th>Nhóm</th><th>Dùng trên khoa để</th></tr>
+<tr><td>Laroxyl, Elavil, Amitriptylin</td><td>amitriptyline</td><td>TCA</td><td>đau thần kinh, đau đầu căng cơ mạn, mất ngủ kèm đau</td></tr>
+<tr><td>Zoloft, Sertralin</td><td>sertraline</td><td>SSRI</td><td>trầm cảm sau đột quỵ, lo âu; an toàn tim mạch</td></tr>
+<tr><td>Lexapro</td><td>escitalopram</td><td>SSRI</td><td>trầm cảm, lo âu lan toả</td></tr>
+<tr><td>Cymbalta</td><td>duloxetine</td><td>SNRI</td><td>đau thần kinh do đái tháo đường + trầm cảm</td></tr>
+<tr><td>Remeron</td><td>mirtazapine</td><td>NaSSA</td><td>trầm cảm kèm mất ngủ, chán ăn, sụt cân</td></tr>
+<tr><td>Neurontin</td><td>gabapentin</td><td>gabapentinoid</td><td>đau thần kinh, đau sau zona; động kinh cục bộ (hỗ trợ)</td></tr>
+<tr><td>Lyrica</td><td>pregabalin</td><td>gabapentinoid</td><td>đau thần kinh, lo âu lan toả</td></tr>
+<tr><td>Depakine, Depakine Chrono</td><td>valproate</td><td>chống động kinh phổ rộng</td><td>động kinh toàn thể/không rõ loại, trạng thái động kinh, rối loạn lưỡng cực</td></tr>
+<tr><td>Tegretol</td><td>carbamazepine</td><td>chẹn kênh Na⁺</td><td>động kinh cục bộ, <strong>đau dây V</strong> (hàng đầu)</td></tr>
+<tr><td>Trileptal</td><td>oxcarbazepine</td><td>chẹn kênh Na⁺</td><td>động kinh cục bộ</td></tr>
+<tr><td>Keppra</td><td>levetiracetam</td><td>SV2A</td><td>động kinh mọi loại, trạng thái động kinh, co giật sau đột quỵ/chấn thương</td></tr>
+<tr><td>Lamictal</td><td>lamotrigine</td><td>chẹn kênh Na⁺</td><td>động kinh (nữ tuổi sinh đẻ), lưỡng cực</td></tr>
+<tr><td>Dilantin</td><td>phenytoin</td><td>chẹn kênh Na⁺</td><td>trạng thái động kinh (hàng 2), động kinh</td></tr>
+<tr><td>Gardenal</td><td>phenobarbital</td><td>barbiturat</td><td>động kinh, trạng thái động kinh khi thiếu thuốc khác</td></tr>
+<tr><td>Seduxen</td><td>diazepam</td><td>BZD</td><td>cắt cơn co giật, cai rượu</td></tr>
+<tr><td>Rivotril</td><td>clonazepam</td><td>BZD</td><td>rung giật cơ, hoảng sợ, động kinh hỗ trợ</td></tr>
+<tr><td>Stilnox</td><td>zolpidem</td><td>Z-drug</td><td>mất ngủ khởi phát (ngắn hạn)</td></tr>
+<tr><td>Haldol</td><td>haloperidol</td><td>chẹn D2 cổ điển</td><td>sảng kích động, loạn thần</td></tr>
+<tr><td>Seroquel</td><td>quetiapine</td><td>chẹn D2 thế hệ 2</td><td>loạn thần ở bệnh Parkinson/Lewy, kích động ở người già</td></tr>
+<tr><td>Zyprexa</td><td>olanzapine</td><td>chẹn D2 thế hệ 2</td><td>kích động, loạn thần</td></tr>
+<tr><td>Dogmatil</td><td>sulpiride</td><td>chẹn D2 cổ điển (benzamid)</td><td>hay bị kê cho chóng mặt, lo âu — dễ gây ngoại tháp, tăng prolactin</td></tr>
+<tr><td>Madopar, Sinemet</td><td>levodopa + benserazide/carbidopa</td><td>tiền chất dopamin</td><td>Parkinson</td></tr>
+<tr><td>Aricept</td><td>donepezil</td><td>ức chế AChE</td><td>sa sút trí tuệ Alzheimer, Lewy, mạch máu</td></tr>
+<tr><td>Ebixa</td><td>memantine</td><td>đối kháng NMDA</td><td>Alzheimer trung bình – nặng</td></tr>
+<tr><td>Nootropil</td><td>piracetam</td><td>"nootropic"</td><td>chỉ định có bằng chứng duy nhất: <strong>rung giật cơ nguồn gốc vỏ não</strong></td></tr>
+<tr><td>Somazina</td><td>citicoline</td><td>"bảo vệ thần kinh"</td><td>không có lợi ích trong nhồi máu não cấp (ICTUS)</td></tr>
+<tr><td>Betaserc</td><td>betahistine</td><td>đồng vận H1 yếu / đối kháng H3</td><td>Ménière</td></tr>
+<tr><td>Sibelium / Stugeron</td><td>flunarizine / cinnarizine</td><td>chẹn kênh Ca²⁺ + kháng H1, chẹn D2 nhẹ</td><td>dự phòng migraine / chóng mặt — gây parkinson do thuốc ở người già</td></tr>
+<tr><td>Myonal / Mydocalm</td><td>eperisone / tolperisone</td><td>giãn cơ trung ương</td><td>EMA 2012: tolperisone chỉ còn chỉ định co cứng sau đột quỵ</td></tr>
+</table></div>
+
+<hr class="sect">
+
+<h2 id="h-ad">2. Thuốc chống trầm cảm</h2>
+
+<h3 id="h-ad-cc">2.1. Cơ chế chung và vì sao phải chờ 2–4 tuần</h3>
+<p>Mọi thuốc chống trầm cảm hiện dùng đều làm <strong>tăng nồng độ monoamine</strong> ở khe synap (chặn tái hấp thu qua SERT/NET, chặn thụ thể tự điều hoà α2, hoặc ức chế MAO). Nồng độ tăng ngay trong vài giờ, nhưng tác dụng chống trầm cảm cần 2–4 tuần vì hiệu quả thật đến từ <strong>giảm điều hoà thụ thể</strong> (5-HT1A tự điều hoà mất nhạy) và tăng BDNF, tạo synap mới. Ngược lại, <strong>tác dụng phụ xuất hiện ngay</strong> (buồn nôn, bồn chồn, mất ngủ của SSRI) — cần dặn bệnh nhân điều này để tránh tự bỏ thuốc.</p>
+<p><strong>Tác dụng giảm đau thần kinh</strong> lại xuất hiện sớm hơn (1–2 tuần) và ở liều thấp hơn liều chống trầm cảm, vì cơ chế là tăng <em>noradrenalin</em> ở đường ức chế đau đi xuống (thân não → sừng sau tủy). Đây là lý do <strong>chỉ TCA và SNRI giảm đau thần kinh, SSRI thì gần như không</strong>.</p>
+
+<h3 id="h-ad-tca">2.2. Thuốc chống trầm cảm ba vòng (TCA)</h3>
+<p>TCA (amitriptyline, nortriptyline, imipramine, clomipramine) chặn tái hấp thu 5-HT và NA, nhưng cùng lúc chẹn <strong>5 đích ngoài ý muốn</strong> — nhớ theo chữ <strong>"H-M-α-Na-QT"</strong>:</p>
+<div class="tbl-wrap"><table>
+<caption>Bảng 2. TCA: đích phụ → tác dụng phụ → hệ quả lâm sàng</caption>
+<tr><th>Đích bị chẹn</th><th>Tác dụng phụ</th><th>Hệ quả trên khoa</th></tr>
+<tr><td>H1 (histamin)</td><td>an thần, tăng cân</td><td>dùng có chủ đích: uống buổi tối giúp ngủ</td></tr>
+<tr><td>M1 (muscarinic)</td><td>khô miệng, táo bón, <strong>bí tiểu</strong>, nhìn mờ, nhịp nhanh, <strong>lú lẫn/sảng</strong> ở người già</td><td>CCĐ tương đối: phì đại tiền liệt tuyến, glôcôm góc đóng, sa sút trí tuệ</td></tr>
+<tr><td>α1 (adrenergic)</td><td><strong>hạ huyết áp tư thế</strong>, chóng mặt</td><td>ngã ở người cao tuổi</td></tr>
+<tr><td>Kênh Na⁺ nhanh (cơ tim)</td><td>chậm dẫn truyền, <strong>giãn QRS</strong>, block nhánh</td><td>quá liều gây loạn nhịp thất, co giật — chỉ 10–20 viên có thể gây chết</td></tr>
+<tr><td>Kênh K⁺ (hERG)</td><td>QT dài</td><td>tránh phối hợp thuốc kéo dài QT</td></tr>
+</table></div>
+
+<div class="tbl-wrap"><table>
+<caption>Bảng 3. Liều TCA thường dùng (BNF, SmPC amitriptyline, NICE CG173)</caption>
+<tr><th>Thuốc</th><th>Chỉ định</th><th>Khởi đầu</th><th>Duy trì / tối đa</th><th>Ghi chú</th></tr>
+<tr><td><strong>Amitriptyline</strong></td><td>Đau thần kinh, dự phòng đau đầu căng cơ mạn, migraine</td><td><strong>10 mg buổi tối</strong> (10–25 mg)</td><td>tăng 10–25 mg mỗi 3–7 ngày; thường 25–75 mg/tối; <strong>tối đa 75 mg</strong> cho đau (cao hơn chỉ khi có chuyên khoa đau)</td><td>uống 1–2 giờ trước ngủ; đánh giá lại sau 6–8 tuần</td></tr>
+<tr><td></td><td>Trầm cảm</td><td>25 mg × 2 lần (người già, bệnh tim: 10–25 mg)</td><td>thường 75–150 mg/ngày; liều &gt; 100 mg cần thận trọng</td><td>ECG trước khi dùng (SmPC châu Âu) để loại QT dài bẩm sinh</td></tr>
+<tr><td><strong>Nortriptyline</strong></td><td>Đau thần kinh, trầm cảm ở người già (ít kháng cholinergic hơn)</td><td>10–25 mg buổi tối</td><td>đau: 25–75 mg; trầm cảm: 75–100 mg/ngày</td><td>chất chuyển hoá của amitriptyline; ít hạ HA tư thế hơn</td></tr>
+<tr><td><strong>Clomipramine</strong></td><td>Rối loạn ám ảnh cưỡng chế, trầm cảm</td><td>10–25 mg</td><td>100–150 mg; tối đa 250 mg</td><td>TCA thiên serotonin nhất — nguy cơ HC serotonin khi phối hợp</td></tr>
+</table></div>
+
+<div class="warn"><strong>Chống chỉ định TCA (SmPC amitriptyline):</strong> nhồi máu cơ tim mới; <strong>bất kỳ mức độ block tim</strong>, rối loạn nhịp, suy vành; giai đoạn hưng cảm; bệnh gan nặng; đang dùng hoặc mới ngưng <strong>IMAO trong 14 ngày</strong>. Thận trọng: động kinh (giảm ngưỡng co giật), bí tiểu, phì đại tiền liệt tuyến, glôcôm góc đóng, cường giáp, suy tim mất bù, nhịp chậm, đang dùng thuốc kéo dài QT, ý tưởng tự sát (kê ít viên). AGS Beers 2023: <strong>tránh TCA ở người ≥ 65 tuổi</strong> (kháng cholinergic mạnh, an thần, hạ HA tư thế). Thuốc ức chế CYP2D6 mạnh (fluoxetine, paroxetine, bupropion) làm tăng nồng độ TCA → giảm liều.</div>
+
+<div class="rec"><span class="num">Ngộ độc TCA — nhận diện và xử trí:</span> lơ mơ → hôn mê, co giật, hội chứng kháng cholinergic (da khô nóng đỏ, đồng tử giãn, bí tiểu), tụt HA, nhịp nhanh. ECG: <strong>QRS &gt; 100 ms</strong> (nguy cơ co giật), &gt; 160 ms (nguy cơ loạn nhịp thất), <strong>sóng R ở aVR &gt; 3 mm</strong>. Xử trí: <strong>Natri bicarbonate 8,4% 1–2 mEq/kg TM bolus</strong>, lặp lại tới khi QRS hẹp lại, đích pH máu 7,45–7,55; than hoạt khi đến sớm và bảo vệ được đường thở; co giật dùng BZD. <strong>Tránh</strong> flumazenil, physostigmine, phenytoin, thuốc chống loạn nhịp nhóm IA/IC.</div>
+
+<h3 id="h-ad-ssri">2.3. SSRI, SNRI và các thuốc chống trầm cảm khác</h3>
+<div class="tbl-wrap"><table>
+<caption>Bảng 4. Liều thuốc chống trầm cảm thế hệ mới (BNF, Maudsley 15e, nhãn FDA/MHRA)</caption>
+<tr><th>Thuốc</th><th>Khởi đầu</th><th>Liều thường / tối đa</th><th>Điểm khác biệt cần nhớ</th></tr>
+<tr><td><strong>Sertraline</strong></td><td>25–50 mg sáng</td><td>50–100 mg; tối đa 200 mg</td><td>lựa chọn an toàn sau nhồi máu cơ tim (SADHART); ít tương tác; tiêu chảy</td></tr>
+<tr><td><strong>Escitalopram</strong></td><td>5–10 mg</td><td>10–20 mg; <strong>≥ 65 tuổi tối đa 10 mg</strong></td><td>QT kéo dài phụ thuộc liều (MHRA 2011)</td></tr>
+<tr><td><strong>Citalopram</strong></td><td>10–20 mg</td><td>tối đa <strong>40 mg</strong>; <strong>&gt; 60 tuổi hoặc suy gan: tối đa 20 mg</strong></td><td>FDA 2011–2012: QT kéo dài phụ thuộc liều, xoắn đỉnh; CCĐ hội chứng QT dài bẩm sinh</td></tr>
+<tr><td><strong>Fluoxetine</strong></td><td>20 mg</td><td>20–60 mg</td><td>t½ rất dài (chất chuyển hoá 1–2 tuần) → ít hội chứng ngưng thuốc nhưng chờ 5 tuần trước khi chuyển sang IMAO; ức chế CYP2D6 mạnh</td></tr>
+<tr><td><strong>Paroxetine</strong></td><td>10–20 mg</td><td>20–50 mg</td><td>kháng cholinergic nhất trong SSRI (Beers: tránh ở người già); hội chứng ngưng thuốc nặng; tránh trong thai kỳ (dị tật tim)</td></tr>
+<tr><td><strong>Fluvoxamine</strong></td><td>50 mg tối</td><td>100–300 mg</td><td>ức chế CYP1A2 mạnh → tăng nồng độ theophylline, clozapine, tizanidine, agomelatine</td></tr>
+<tr><td><strong>Duloxetine</strong></td><td>30 mg × 1 tuần</td><td><strong>60 mg/ngày</strong> (đau thần kinh ĐTĐ); trầm cảm tối đa 120 mg</td><td>giảm đau thần kinh; <strong>tránh khi CrCl &lt; 30</strong>, bệnh gan, nghiện rượu; buồn nôn</td></tr>
+<tr><td><strong>Venlafaxine</strong></td><td>37,5–75 mg</td><td>75–225 mg; tối đa 375 mg (nội trú)</td><td>tăng HA phụ thuộc liều (&gt; 150 mg); ngưng thuốc phải giảm rất chậm; giảm liều khi suy thận</td></tr>
+<tr><td><strong>Mirtazapine</strong></td><td>15 mg tối</td><td>15–45 mg</td><td>chẹn α2, 5-HT2, H1: <strong>gây ngủ, ăn ngon, tăng cân</strong> — dùng có chủ đích cho người già sụt cân, mất ngủ; ít rối loạn tình dục, ít tương tác; hiếm: mất bạch cầu hạt</td></tr>
+<tr><td><strong>Trazodone</strong></td><td>mất ngủ: 25–50 mg tối</td><td>trầm cảm: 150–300 mg; tối đa 400 mg ngoại trú</td><td>hạ HA tư thế, cương dương kéo dài (priapism)</td></tr>
+<tr><td><strong>Bupropion</strong></td><td>150 mg sáng</td><td>150–300 mg</td><td><strong>CCĐ: động kinh</strong>, chán ăn/cuồng ăn, đang cai rượu/BZD đột ngột; ức chế CYP2D6</td></tr>
+<tr><td><strong>Agomelatine</strong></td><td>25 mg tối</td><td>tối đa 50 mg</td><td>đồng vận MT1/MT2; <strong>xét nghiệm men gan</strong> trước và trong điều trị; CCĐ suy gan, phối hợp fluvoxamine/ciprofloxacin</td></tr>
+<tr><td><strong>Tianeptine</strong> (Stablon)</td><td>12,5 mg × 3</td><td>37,5 mg/ngày; người già, suy thận: 25 mg</td><td>đồng vận thụ thể μ-opioid → có nguy cơ lạm dụng, lệ thuộc</td></tr>
+</table></div>
+
+<div class="warn"><strong>Tác dụng phụ nhóm SSRI/SNRI cần chủ động tìm trên khoa:</strong>
+<ul>
+<li><strong>Hạ natri máu do SIADH</strong> — thường trong 2–4 tuần đầu, người già, phối hợp lợi tiểu thiazide. Kiểm tra Na⁺ khi bệnh nhân lú lẫn, ngã, buồn nôn.</li>
+<li><strong>Chảy máu</strong> (giảm serotonin tiểu cầu): tăng nguy cơ xuất huyết tiêu hoá khi phối hợp NSAID, aspirin, kháng đông → cân nhắc PPI.</li>
+<li><strong>Hội chứng serotonin</strong> khi phối hợp: tramadol, fentanyl, pethidine, linezolid, xanh methylen, IMAO (kể cả rasagiline/selegiline), triptan, lithium.</li>
+<li><strong>Bồn chồn, tăng lo âu</strong> tuần đầu; <strong>ý tưởng tự sát</strong> ở người &lt; 25 tuổi (cảnh báo đóng khung FDA).</li>
+<li><strong>Hội chứng ngưng thuốc</strong> (chóng mặt, "điện giật", mất ngủ): paroxetine và venlafaxine nặng nhất → giảm liều dần trong ≥ 4 tuần.</li>
+</ul></div>
+
+<div class="rec"><span class="num">Hội chứng serotonin — tiêu chuẩn Hunter</span> (đang dùng thuốc serotonin và có 1 trong): rung giật cơ tự phát; rung giật cơ gây được + kích động hoặc vã mồ hôi; rung giật nhãn cầu + kích động hoặc vã mồ hôi; run + tăng phản xạ; tăng trương lực + nhiệt độ &gt; 38 °C + rung giật nhãn cầu hoặc rung giật cơ gây được. <strong>Xử trí:</strong> ngưng thuốc, BZD an thần, làm mát; nặng: <strong>cyproheptadine 12 mg uống</strong>, rồi 2 mg mỗi 2 giờ nếu còn triệu chứng; sốt &gt; 41 °C: an thần, đặt NKQ, liệt cơ. Phân biệt với hội chứng ác tính do thuốc an thần (NMS): khởi phát chậm (ngày), <strong>cứng cơ kiểu ống chì, phản xạ giảm</strong>, không rung giật cơ.</div>
+
+<h3 id="h-ad-chon">2.4. Chọn thuốc theo tình huống trên khoa thần kinh</h3>
+<div class="tbl-wrap"><table>
+<caption>Bảng 5. Chọn thuốc chống trầm cảm theo bệnh cảnh</caption>
+<tr><th>Tình huống</th><th>Ưu tiên</th><th>Tránh</th></tr>
+<tr><td>Trầm cảm sau đột quỵ</td><td>sertraline, escitalopram (citalopram ≤ 20 mg ở người già)</td><td>TCA (tim mạch, ngã); thận trọng SSRI + kháng đông/kháng tiểu cầu kép</td></tr>
+<tr><td>Trầm cảm + đau thần kinh ĐTĐ</td><td>duloxetine</td><td>duloxetine khi CrCl &lt; 30</td></tr>
+<tr><td>Người già, mất ngủ, sụt cân</td><td>mirtazapine 7,5–15 mg tối</td><td>paroxetine, TCA</td></tr>
+<tr><td>Trầm cảm ở bệnh nhân động kinh</td><td>sertraline, escitalopram</td><td>bupropion, clomipramine, TCA liều cao (giảm ngưỡng co giật)</td></tr>
+<tr><td>Bệnh tim, QT dài, nhiều thuốc kéo dài QT</td><td>sertraline</td><td>citalopram, escitalopram liều cao, TCA</td></tr>
+<tr><td>Trầm cảm trong Parkinson</td><td>SSRI, SNRI (theo dõi khi phối hợp IMAO-B)</td><td>—</td></tr>
+</table></div>
+
+<hr class="sect">
+
+<h2 id="h-asm">3. Thuốc chống động kinh (ASM)</h2>
+
+<h3 id="h-asm-cc">3.1. Phân loại theo cơ chế và theo cảm ứng men</h3>
+<p>Hai cách chia quyết định cách dùng: <strong>theo cơ chế</strong> (chọn thuốc theo loại cơn, đoán tác dụng phụ) và <strong>theo ảnh hưởng men gan</strong> (đoán tương tác — đây là nguồn sai sót lớn nhất trên khoa).</p>
+<div class="tbl-wrap"><table>
+<caption>Bảng 6. Cơ chế, phổ tác dụng và ảnh hưởng men gan</caption>
+<tr><th>Cơ chế</th><th>Thuốc</th><th>Phổ</th><th>Men gan</th></tr>
+<tr><td>Chẹn kênh Na⁺ điện thế</td><td>carbamazepine, oxcarbazepine, phenytoin, lamotrigine, lacosamide</td><td>cơn cục bộ (lamotrigine: cả toàn thể, cơn vắng); <strong>làm nặng cơn vắng, giật cơ</strong> (trừ lamotrigine với cơn vắng)</td><td><strong>Cảm ứng mạnh:</strong> carbamazepine, phenytoin; oxcarbazepine cảm ứng yếu</td></tr>
+<tr><td>Tăng GABA</td><td>phenobarbital, BZD</td><td>rộng</td><td>phenobarbital cảm ứng mạnh</td></tr>
+<tr><td>Gắn SV2A (túi synap)</td><td>levetiracetam, brivaracetam</td><td>rộng</td><td>không — gần như không tương tác</td></tr>
+<tr><td>Đa cơ chế (Na⁺, Ca²⁺ type T, tăng GABA)</td><td>valproate, topiramate</td><td>rộng</td><td><strong>Valproate ức chế men</strong> (tăng nồng độ lamotrigine, phenobarbital)</td></tr>
+<tr><td>Chẹn Ca²⁺ type T (đồi thị)</td><td>ethosuximide</td><td>chỉ cơn vắng</td><td>—</td></tr>
+<tr><td>Gắn tiểu đơn vị α2δ của kênh Ca²⁺</td><td>gabapentin, pregabalin</td><td>cục bộ (yếu); chủ yếu giảm đau</td><td>không chuyển hoá ở gan, thải qua thận</td></tr>
+</table></div>
+<p><strong>Hệ quả thực hành của thuốc cảm ứng men</strong> (carbamazepine, phenytoin, phenobarbital): làm giảm nồng độ warfarin, thuốc tránh thai nội tiết, corticoid, nhiều thuốc kháng virus, statin, một số thuốc kháng đông đường uống trực tiếp (NOAC) — với NOAC nên tránh phối hợp. Ngưng thuốc cảm ứng thì nồng độ các thuốc kia tăng trở lại sau 2–3 tuần.</p>
+
+<h3 id="h-asm-tung">3.2. Từng thuốc: liều, theo dõi, chống chỉ định</h3>
+
+<h4 id="h-vpa">Valproate (Depakine) — thuốc phổ rộng, nhiều cạm bẫy nhất</h4>
+<ul>
+<li><strong>Cơ chế:</strong> chẹn kênh Na⁺, kênh Ca²⁺ type T, tăng GABA (ức chế GABA transaminase). Ức chế men gan và ức chế glucuronid hoá.</li>
+<li><strong>Chỉ định:</strong> động kinh toàn thể (co cứng – co giật, giật cơ, cơn vắng), động kinh không rõ loại; trạng thái động kinh (hàng 2); rối loạn lưỡng cực; dự phòng migraine.</li>
+<li><strong>Liều uống (BNF):</strong> khởi đầu 600 mg/ngày chia 1–2 lần, tăng 150–300 mg mỗi 3 ngày; thường <strong>1–2 g/ngày (20–30 mg/kg)</strong>; tối đa 2,5 g/ngày. Dạng Chrono uống 1 lần/ngày.</li>
+<li><strong>TM (trạng thái động kinh):</strong> 40 mg/kg (tối đa 3000 mg) truyền trong 10 phút (ESETT/AES 2016).</li>
+<li><strong>Nồng độ đích:</strong> 50–100 mg/L (chỉ đo khi nghi ngộ độc, không tuân thủ, tương tác).</li>
+<li><strong>Theo dõi:</strong> men gan, công thức máu – tiểu cầu trước và trong 6 tháng đầu; NH₃ khi lơ mơ.</li>
+</ul>
+<div class="warn"><strong>Chống chỉ định valproate:</strong> bệnh gan cấp/mạn hoặc tiền sử gia đình suy gan nặng do thuốc; <strong>bệnh ty thể do đột biến POLG</strong> (Alpers); rối loạn chu trình urê; porphyria. <strong>Phụ nữ có thai và nữ có khả năng mang thai</strong> trừ khi tuân thủ chương trình phòng tránh thai (nguy cơ dị tật ~10%, rối loạn phát triển thần kinh 30–40%). <strong>MHRA từ 31/01/2024:</strong> không khởi trị valproate cho bệnh nhân (cả nam và nữ) dưới 55 tuổi, trừ khi hai bác sĩ chuyên khoa độc lập xác nhận không có lựa chọn khác; từ 09/2024 khuyên nam giới đang dùng valproate và bạn tình dùng biện pháp tránh thai hiệu quả.</div>
+<div class="rec"><span class="num">Tương tác "chết người" trên khoa:</span> <strong>Valproate + carbapenem</strong> (meropenem, imipenem, ertapenem) làm nồng độ valproate tụt 60–100% trong 24 giờ, không bù được bằng tăng liều → co giật tái phát. Tránh phối hợp; nếu buộc dùng carbapenem thì chuyển tạm sang levetiracetam. <strong>Valproate + lamotrigine:</strong> valproate làm t½ lamotrigine tăng gấp đôi → phải dùng phác đồ tăng liều chậm riêng (xem lamotrigine), nguy cơ SJS cao.</div>
+<p><strong>Bệnh não do tăng NH₃ máu do valproate</strong>: lơ mơ, nôn, tăng tần suất cơn dù men gan và nồng độ valproate bình thường → đo NH₃; xử trí ngưng thuốc, <strong>L-carnitine</strong>.</p>
+
+<h4 id="h-cbz">Carbamazepine (Tegretol) và oxcarbazepine (Trileptal)</h4>
+<ul>
+<li><strong>Chỉ định:</strong> động kinh cục bộ; <strong>đau dây thần kinh V — thuốc hàng đầu</strong> (NICE CG173); rối loạn lưỡng cực.</li>
+<li><strong>Liều carbamazepine (BNF):</strong> động kinh: khởi đầu 100–200 mg × 1–2 lần/ngày, tăng 100–200 mg mỗi 2 tuần; thường 0,8–1,2 g/ngày; tối đa 2 g. Đau dây V: 100 mg × 1–2 lần, thường 200 mg × 3–4 lần/ngày, tối đa 1,6 g.</li>
+<li><strong>Tự cảm ứng men:</strong> t½ giảm từ ~35 giờ xuống ~15 giờ sau 2–4 tuần → nồng độ tụt dù liều không đổi; đo nồng độ (4–12 mg/L) sau khoảng 4 tuần.</li>
+<li><strong>Oxcarbazepine:</strong> 300 mg × 2 lần, tăng tới 600–2400 mg/ngày; ít cảm ứng men hơn nhưng <strong>hạ Na⁺ thường gặp hơn</strong> carbamazepine.</li>
+</ul>
+<div class="warn"><strong>Chống chỉ định carbamazepine:</strong> block nhĩ thất; tiền sử suy tuỷ; porphyria; đang dùng IMAO. <strong>Người gốc Á (Hán, Thái, Việt…): xét nghiệm HLA-B*1502 trước khi dùng</strong> — dương tính thì không dùng (nguy cơ SJS/TEN rất cao), cũng tránh phenytoin, oxcarbazepine. Tác dụng phụ: hạ Na⁺, giảm bạch cầu, song thị, thất điều khi quá liều, làm nặng cơn vắng và giật cơ.</div>
+
+<h4 id="h-pht">Phenytoin và phenobarbital</h4>
+<ul>
+<li><strong>Phenytoin:</strong> duy trì 3–4 mg/kg/ngày (thường 300 mg); động học <strong>bậc 0</strong> ở liều điều trị — tăng liều nhỏ có thể làm nồng độ tăng vọt. Nồng độ đích 10–20 mg/L; khi albumin thấp phải hiệu chỉnh (Winter–Tozer: nồng độ đo ÷ (0,2 × albumin g/dL + 0,1)). Ngộ độc: rung giật nhãn cầu → thất điều → lơ mơ. Mạn tính: phì đại lợi, rậm lông, nhuyễn xương, thiếu folat. TM: pha NaCl 0,9%, ≤ 50 mg/phút, monitor ECG; CCĐ block AV độ II–III, nhịp chậm xoang.</li>
+<li><strong>Phenobarbital (Gardenal):</strong> 60–180 mg buổi tối; nồng độ 15–40 mg/L. Cảm ứng men mạnh, an thần, suy giảm nhận thức; ngưng đột ngột gây co giật. Beers: tránh ở người già.</li>
+</ul>
+
+<h4 id="h-lev">Levetiracetam (Keppra) — thuốc "dễ dùng" nhất trên khoa</h4>
+<ul>
+<li><strong>Liều:</strong> 500 mg × 2 lần/ngày, tăng 500 mg/lần mỗi 2 tuần; tối đa 1500 mg × 2 lần (3000 mg/ngày). Dạng TM dùng cùng liều, chuyển đổi 1:1. Trạng thái động kinh: 60 mg/kg TM (tối đa 4500 mg).</li>
+<li><strong>Ưu điểm:</strong> không chuyển hoá qua CYP, gần như không tương tác, không cần đo nồng độ, dùng được ở bệnh gan, có dạng TM.</li>
+<li><strong>Thải qua thận — bắt buộc chỉnh liều</strong> (bảng 7).</li>
+<li><strong>Tác dụng phụ:</strong> cáu gắt, hung hăng, trầm cảm, hiếm loạn thần — hỏi gia đình về thay đổi hành vi; thận trọng ở người có tiền sử trầm cảm/tự sát.</li>
+</ul>
+<div class="tbl-wrap"><table>
+<caption>Bảng 7. Levetiracetam theo chức năng thận (nhãn FDA/EMA; CrCl hiệu chỉnh theo 1,73 m²)</caption>
+<tr><th>CrCl (mL/phút/1,73 m²)</th><th>Liều</th></tr>
+<tr><td>≥ 80</td><td>500–1500 mg mỗi 12 giờ</td></tr>
+<tr><td>50–79</td><td>500–1000 mg mỗi 12 giờ</td></tr>
+<tr><td>30–49</td><td>250–750 mg mỗi 12 giờ</td></tr>
+<tr><td>&lt; 30</td><td>250–500 mg mỗi 12 giờ</td></tr>
+<tr><td>Lọc máu chu kỳ</td><td>500–1000 mg mỗi 24 giờ + bổ sung 250–500 mg sau mỗi lần lọc</td></tr>
+</table></div>
+
+<h4 id="h-ltg">Lamotrigine (Lamictal) — tăng liều chậm là bắt buộc</h4>
+<p>Phổ rộng (cục bộ, toàn thể, cơn vắng; có thể làm nặng giật cơ), là lựa chọn ưu tiên cho <strong>nữ tuổi sinh đẻ</strong> cùng levetiracetam. Nguy cơ phát ban và <strong>SJS/TEN tăng khi tăng liều nhanh</strong> hoặc phối hợp valproate — vì vậy phác đồ phụ thuộc thuốc đi kèm:</p>
+<div class="tbl-wrap"><table>
+<caption>Bảng 8. Phác đồ tăng liều lamotrigine ở người lớn (BNF/SmPC)</caption>
+<tr><th>Bối cảnh</th><th>Tuần 1–2</th><th>Tuần 3–4</th><th>Duy trì thường dùng</th></tr>
+<tr><td>Đơn trị</td><td>25 mg × 1 lần/ngày</td><td>50 mg × 1 lần/ngày</td><td>tăng tối đa 50–100 mg mỗi 1–2 tuần → 100–200 mg/ngày (tối đa 500)</td></tr>
+<tr><td><strong>Có valproate</strong></td><td><strong>25 mg cách ngày</strong></td><td>25 mg × 1 lần/ngày</td><td>tăng tối đa 25–50 mg mỗi 1–2 tuần → 100–200 mg/ngày</td></tr>
+<tr><td>Có thuốc cảm ứng men (không valproate)</td><td>50 mg × 1 lần/ngày</td><td>50 mg × 2 lần/ngày</td><td>tăng tối đa 100 mg mỗi 1–2 tuần → 200–400 mg/ngày</td></tr>
+</table></div>
+<p>Phát ban xuất hiện (thường trong 8 tuần đầu) → ngưng ngay trừ khi chắc chắn không do thuốc. Bỏ thuốc &gt; 5 lần t½ (khoảng 5 ngày) thì phải tăng lại từ đầu.</p>
+
+<h4 id="h-khac">Các thuốc khác</h4>
+<div class="tbl-wrap"><table>
+<caption>Bảng 9. Topiramate, lacosamide, clonazepam</caption>
+<tr><th>Thuốc</th><th>Liều</th><th>Tác dụng phụ / chống chỉ định đặc trưng</th></tr>
+<tr><td><strong>Topiramate</strong></td><td>25 mg tối, tăng 25–50 mg mỗi 1–2 tuần; động kinh 100–200 mg/ngày (tối đa 400); dự phòng migraine 50–100 mg/ngày</td><td>chậm chạp, khó tìm từ; sỏi thận; toan chuyển hoá; sụt cân; giảm tiết mồ hôi; <strong>glôcôm góc đóng cấp</strong>; quái thai (khe hở môi – vòm)</td></tr>
+<tr><td><strong>Lacosamide</strong></td><td>50 mg × 2 lần, tăng 50 mg × 2 lần mỗi tuần; tối đa 200 mg × 2 lần; có dạng TM</td><td><strong>kéo dài PR</strong> → thận trọng block AV, ECG trước khi dùng; chóng mặt</td></tr>
+<tr><td><strong>Clonazepam</strong></td><td>động kinh/rung giật cơ: 0,5–1 mg tối, tăng dần, thường 4–8 mg/ngày</td><td>an thần, tăng tiết đờm dãi, dung nạp và lệ thuộc</td></tr>
+</table></div>
+
+<div class="box"><div class="box-title">NGUYÊN TẮC CHUNG KHI DÙNG THUỐC CHỐNG ĐỘNG KINH</div>
+<ul>
+<li>Đơn trị, liều thấp tăng dần; <strong>không ngưng đột ngột</strong> (nguy cơ trạng thái động kinh).</li>
+<li>Mọi thuốc chống động kinh đều có cảnh báo FDA về <strong>ý tưởng tự sát</strong> (tăng nhẹ).</li>
+<li>Thuốc chẹn kênh Na⁺ (carbamazepine, phenytoin, oxcarbazepine) làm nặng cơn vắng và giật cơ.</li>
+<li>Đo nồng độ thuốc có ý nghĩa với phenytoin, carbamazepine, valproate, phenobarbital; gần như không cần với levetiracetam, gabapentin.</li>
+<li>Bệnh nhân nằm viện không uống được: levetiracetam, valproate, phenytoin, lacosamide, phenobarbital có dạng TM; carbamazepine, lamotrigine không có.</li>
+</ul></div>
+
+<hr class="sect">
+
+<h2 id="h-gaba">4. Gabapentinoid và tiếp cận đau thần kinh</h2>
+
+<h3 id="h-gaba-cc">4.1. Gabapentin (Neurontin) và pregabalin (Lyrica)</h3>
+<p>Dù tên gọi giống GABA, hai thuốc này <strong>không tác động lên thụ thể GABA</strong>. Chúng gắn tiểu đơn vị <strong>α2δ-1</strong> của kênh Ca²⁺ điện thế ở đầu tận cùng trước synap → giảm Ca²⁺ đi vào → giảm giải phóng glutamat, chất P, CGRP ở sừng sau tủy. Không chuyển hoá ở gan, <strong>thải nguyên dạng qua thận</strong> → liều phụ thuộc hoàn toàn vào CrCl.</p>
+<div class="tbl-wrap"><table>
+<caption>Bảng 10. So sánh gabapentin và pregabalin</caption>
+<tr><th></th><th>Gabapentin</th><th>Pregabalin</th></tr>
+<tr><td>Hấp thu</td><td>bão hoà (vận chuyển L-amino acid) → sinh khả dụng giảm khi tăng liều (60% ở 900 mg, ~35% ở 3600 mg)</td><td>tuyến tính, sinh khả dụng ≥ 90%</td></tr>
+<tr><td>Chỉnh liều tới hiệu quả</td><td>chậm, chia 3 lần/ngày</td><td>nhanh hơn, chia 2 lần/ngày</td></tr>
+<tr><td>Khởi đầu (đau thần kinh)</td><td>300 mg ngày 1 → 300 mg × 2 ngày 2 → 300 mg × 3 ngày 3 (người già, suy nhược: 100–300 mg tối)</td><td>75 mg × 2 lần/ngày (150 mg); người già 25–50 mg tối</td></tr>
+<tr><td>Liều hiệu quả / tối đa</td><td>1800–3600 mg/ngày chia 3 lần; tối đa 3600 mg</td><td>300–600 mg/ngày; tăng lên 300 mg/ngày sau 3–7 ngày; tối đa 600 mg</td></tr>
+</table></div>
+
+<div class="tbl-wrap"><table>
+<caption>Bảng 11. Chỉnh liều theo chức năng thận — tổng liều/ngày (nhãn FDA Neurontin, Lyrica)</caption>
+<tr><th>CrCl (mL/phút)</th><th>Gabapentin</th><th>Pregabalin</th></tr>
+<tr><td>≥ 60</td><td>900–3600 mg, chia 3 lần</td><td>150–600 mg, chia 2–3 lần</td></tr>
+<tr><td>30–59</td><td>400–1400 mg, chia 2 lần</td><td>75–300 mg, chia 2–3 lần</td></tr>
+<tr><td>15–29</td><td>200–700 mg, 1 lần/ngày</td><td>25–150 mg, chia 1–2 lần</td></tr>
+<tr><td>&lt; 15</td><td>100–300 mg, 1 lần/ngày</td><td>25–75 mg, 1 lần/ngày</td></tr>
+<tr><td>Lọc máu chu kỳ</td><td>liều theo CrCl + bổ sung 125–350 mg sau lọc</td><td>liều theo CrCl + bổ sung 25–150 mg sau lọc</td></tr>
+</table></div>
+
+<div class="warn"><strong>Tác dụng phụ và cảnh báo:</strong> chóng mặt, buồn ngủ, <strong>thất điều, ngã</strong>, phù ngoại biên, tăng cân, nhìn mờ; bệnh não ở người suy thận không chỉnh liều (lơ mơ, rung giật cơ). <strong>FDA 12/2019:</strong> ức chế hô hấp nặng khi phối hợp opioid, BZD, hoặc ở người có bệnh phổi (COPD), người già. Có nguy cơ <strong>lạm dụng, lệ thuộc</strong> (Anh xếp nhóm thuốc kiểm soát từ 2019) — hỏi tiền sử nghiện chất. Ngưng thuốc giảm dần trong ≥ 1 tuần. Chống chỉ định duy nhất trên nhãn: quá mẫn (pregabalin có thể gây phù mạch).</div>
+
+<h3 id="h-dau">4.2. Phác đồ đau thần kinh (NICE CG173)</h3>
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 470" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:#F7F3EA;border:1px solid var(--border);border-radius:10px" font-family="Inter, Arial, sans-serif" font-size="13">
+<defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6B6862"/></marker></defs>
+<rect x="300" y="16" width="300" height="50" rx="10" fill="#2F4B8A"/>
+<text x="450" y="38" text-anchor="middle" fill="#fff" font-weight="700" font-size="14">Đau thần kinh (DN4 ≥ 4/10)</text>
+<text x="450" y="56" text-anchor="middle" fill="#E8EDF7" font-size="12">tìm và điều trị nguyên nhân song song</text>
+<g stroke="#6B6862" stroke-width="1.8" fill="none" marker-end="url(#ar2)"><path d="M380 66 L200 112"/><path d="M520 66 L690 112"/></g>
+<rect x="40" y="114" width="320" height="104" rx="10" fill="#FBEFE0" stroke="#EBCE9C"/>
+<text x="200" y="138" text-anchor="middle" font-weight="700" fill="#6B3E06">Đau dây thần kinh V</text>
+<text x="200" y="162" text-anchor="middle" fill="#211F1B">Carbamazepine 100 mg × 1–2 lần</text>
+<text x="200" y="181" text-anchor="middle" fill="#211F1B">→ thường 200 mg × 3–4 lần/ngày</text>
+<text x="200" y="203" text-anchor="middle" fill="#6B6862" font-size="12">không đáp ứng/CCĐ → chuyển chuyên khoa sớm</text>
+<rect x="430" y="114" width="440" height="140" rx="10" fill="#FFFFFF" stroke="#C9D3EA"/>
+<text x="650" y="138" text-anchor="middle" font-weight="700" fill="#172447">Mọi đau thần kinh khác — chọn 1 trong 4 thuốc</text>
+<text x="448" y="164" fill="#211F1B"><tspan font-weight="700">Amitriptyline</tspan> 10 mg tối → tối đa 75 mg</text>
+<text x="448" y="186" fill="#211F1B"><tspan font-weight="700">Duloxetine</tspan> 60 mg/ngày (ưu tiên khi có ĐTĐ, trầm cảm)</text>
+<text x="448" y="208" fill="#211F1B"><tspan font-weight="700">Gabapentin</tspan> 300 mg → 1800–3600 mg/ngày</text>
+<text x="448" y="230" fill="#211F1B"><tspan font-weight="700">Pregabalin</tspan> 150 mg → tối đa 600 mg/ngày</text>
+<g stroke="#6B6862" stroke-width="1.8" fill="none" marker-end="url(#ar2)"><path d="M650 254 L650 292"/></g>
+<rect x="430" y="294" width="440" height="72" rx="10" fill="#E8EDF7" stroke="#C9D3EA"/>
+<text x="650" y="318" text-anchor="middle" font-weight="700" fill="#172447">Đánh giá lại sớm, rồi sau mỗi 2–4 tuần</text>
+<text x="650" y="340" text-anchor="middle" fill="#211F1B">Không đỡ ở liều tối đa dung nạp được →</text>
+<text x="650" y="358" text-anchor="middle" fill="#211F1B">đổi sang 1 trong 3 thuốc còn lại (đổi, không cộng dồn ngay)</text>
+<g stroke="#6B6862" stroke-width="1.8" fill="none" marker-end="url(#ar2)"><path d="M650 366 L650 400"/></g>
+<rect x="430" y="402" width="440" height="56" rx="10" fill="#FBEFE0" stroke="#EBCE9C"/>
+<text x="650" y="424" text-anchor="middle" font-weight="700" fill="#6B3E06">Tramadol chỉ cho cơn đau cấp bùng phát (ngắn hạn)</text>
+<text x="650" y="444" text-anchor="middle" fill="#6B3E06" font-size="12">capsaicin bôi cho đau khu trú; chuyển chuyên khoa đau khi kháng trị</text>
+<rect x="40" y="250" width="320" height="200" rx="10" fill="#FFFFFF" stroke="#E4E1D8"/>
+<text x="200" y="274" text-anchor="middle" font-weight="700" fill="#211F1B">Chọn theo người bệnh</text>
+<text x="56" y="300" fill="#211F1B">• Già, tim mạch, bí tiểu, glôcôm</text>
+<text x="70" y="318" fill="#6B6862">→ tránh amitriptyline</text>
+<text x="56" y="342" fill="#211F1B">• Suy thận</text>
+<text x="70" y="360" fill="#6B6862">→ gabapentinoid giảm liều; tránh</text>
+<text x="70" y="378" fill="#6B6862">  duloxetine khi CrCl &lt; 30</text>
+<text x="56" y="402" fill="#211F1B">• Mất ngủ vì đau</text>
+<text x="70" y="420" fill="#6B6862">→ amitriptyline hoặc pregabalin tối</text>
+<text x="56" y="442" fill="#211F1B">• Đang dùng tramadol → tránh SSRI/SNRI</text>
+</svg>
+<div class="fig-caption">Hình 2 (tự vẽ theo NICE CG173, 2013, cập nhật 2020). NICE khuyến cáo chọn 1 trong 4 thuốc hàng đầu; không khởi đầu tramadol, opioid mạnh, capsaicin miếng dán, cannabis ở tuyến không chuyên. Hiệu quả theo phân tích gộp Finnerup (Lancet Neurol 2015): NNT amitriptyline ~3,6; SNRI ~6,4; gabapentin ~6,3; pregabalin ~7,7.</div>
+</figure>
+
+<hr class="sect">
+
+<h2 id="h-bzd">5. Benzodiazepine và thuốc ngủ Z</h2>
+<p><strong>Cơ chế:</strong> gắn vị trí BZD trên thụ thể GABA-A → tăng <em>tần số</em> mở kênh Cl⁻ (barbiturat tăng <em>thời gian</em> mở, và liều cao mở kênh trực tiếp — vì vậy barbiturat dễ gây chết hơn khi quá liều). Tác dụng: an thần, giải lo âu, chống co giật, giãn cơ, quên thuận chiều.</p>
+<div class="tbl-wrap"><table>
+<caption>Bảng 12. Benzodiazepine thường dùng (BNF; bảng quy đổi Ashton/Maudsley)</caption>
+<tr><th>Thuốc</th><th>t½ (giờ)</th><th>Liều tương đương ~ diazepam 10 mg</th><th>Liều thường dùng</th><th>Điểm riêng</th></tr>
+<tr><td><strong>Diazepam</strong> (Seduxen)</td><td>20–100 (chất chuyển hoá có hoạt tính)</td><td>10 mg</td><td>lo âu 2 mg × 3, tối đa 30 mg/ngày; co giật 10 mg TM (0,15–0,2 mg/kg)</td><td>tích luỹ ở người già, suy gan; tái phát cơn sau 20–30 phút do phân bố vào mỡ</td></tr>
+<tr><td><strong>Lorazepam</strong></td><td>10–20</td><td>1 mg</td><td>1–4 mg/ngày; co giật 0,1 mg/kg TM (tối đa 4 mg)</td><td>glucuronid hoá trực tiếp → <strong>an toàn hơn khi suy gan</strong></td></tr>
+<tr><td><strong>Midazolam</strong></td><td>2–4</td><td>—</td><td>co giật: 10 mg tiêm bắp (&gt; 40 kg); an thần thủ thuật 1–2,5 mg TM</td><td>tan trong nước → tiêm bắp, xịt mũi được</td></tr>
+<tr><td><strong>Clonazepam</strong> (Rivotril)</td><td>20–60</td><td>0,5 mg</td><td>0,5–2 mg/ngày</td><td>rung giật cơ, hoảng sợ, rối loạn hành vi giấc ngủ REM</td></tr>
+<tr><td><strong>Alprazolam</strong></td><td>6–12</td><td>0,5 mg</td><td>0,25–0,5 mg × 3</td><td>ngắn → lệ thuộc và hội chứng cai nặng</td></tr>
+<tr><td><strong>Bromazepam</strong> (Lexomil)</td><td>10–20</td><td>5–6 mg</td><td>1,5–3 mg × 2–3</td><td>hay kê ở VN cho lo âu</td></tr>
+<tr><td><strong>Zolpidem</strong> (Stilnox)</td><td>2–3</td><td>—</td><td><strong>5 mg tối</strong> ở nữ, người già (FDA 2013); nam 5–10 mg</td><td>tác động chọn lọc α1; hành vi phức tạp khi ngủ (lái xe, đi lại) — FDA cảnh báo đóng khung 2019</td></tr>
+</table></div>
+<div class="warn"><strong>Chống chỉ định BZD (SmPC/BNF):</strong> suy hô hấp nặng, hội chứng ngưng thở khi ngủ chưa điều trị, <strong>nhược cơ</strong>, suy gan nặng (trừ lorazepam/oxazepam liều thấp có theo dõi), trạng thái ám ảnh/sợ hoặc loạn thần mạn khi dùng đơn độc. <strong>FDA 2016:</strong> cảnh báo đóng khung khi phối hợp opioid (ức chế hô hấp, tử vong); FDA 2020: lạm dụng, lệ thuộc, cai thuốc. Beers 2023: <strong>tránh BZD và Z-drug ở người ≥ 65 tuổi</strong> (ngã, gãy xương, sảng, tai nạn) trừ cai rượu, động kinh, lo âu nặng không đáp ứng thuốc khác.</div>
+<p><strong>Dùng ngắn hạn:</strong> mất ngủ 2–4 tuần, lo âu cấp tối đa 2–4 tuần. Dùng lâu → giảm liều chậm (thường 5–10% liều mỗi 1–2 tuần, có thể chuyển sang diazepam rồi giảm). <strong>Flumazenil</strong> chỉ dùng để đảo ngược an thần do thủ thuật; tránh ở người dùng BZD lâu ngày hoặc ngộ độc phối hợp TCA (gây co giật).</p>
+
+<hr class="sect">
+
+<h2 id="h-ap">6. Thuốc chống loạn thần (chẹn D2)</h2>
+<p><strong>Cơ chế:</strong> chẹn D2 ở đường viền – não giữa (giảm hoang tưởng, ảo giác, kích động). Chẹn D2 ở đường khác gây tác dụng phụ: <strong>thể vân</strong> → ngoại tháp; <strong>phễu – tuyến yên</strong> → tăng prolactin. Thế hệ 2 chẹn thêm 5-HT2A nên ít ngoại tháp hơn, nhưng nhiều tác dụng chuyển hoá hơn (olanzapine, clozapine). Trên khoa nội – thần kinh, chỉ định chính là <strong>sảng kích động gây nguy hiểm</strong>, loạn thần ở bệnh Parkinson / sa sút trí tuệ thể Lewy, và kích động nặng.</p>
+<div class="tbl-wrap"><table>
+<caption>Bảng 13. Thuốc chống loạn thần thường gặp</caption>
+<tr><th>Thuốc</th><th>Liều trên khoa nội</th><th>Ngoại tháp</th><th>An thần</th><th>QT</th><th>Ghi chú</th></tr>
+<tr><td><strong>Haloperidol</strong> (Haldol)</td><td>sảng: 0,5–1 mg uống/tiêm bắp, lặp sau 2 giờ nếu cần; người già tổng liều thường ≤ 5 mg/ngày; loạn thần 2–10 mg/ngày</td><td>+++</td><td>+</td><td>++ (TM nhiều hơn)</td><td>ECG trước khi dùng; <strong>CCĐ Parkinson, sa sút trí tuệ Lewy</strong></td></tr>
+<tr><td><strong>Risperidone</strong></td><td>0,25–0,5 mg × 1–2; loạn thần 2–6 mg/ngày</td><td>++ (liều &gt; 6 mg)</td><td>+</td><td>+</td><td>tăng prolactin; giảm liều khi suy thận</td></tr>
+<tr><td><strong>Olanzapine</strong> (Zyprexa)</td><td>2,5–5 mg; kích động 5–10 mg; tối đa 20 mg</td><td>+</td><td>+++</td><td>+</td><td>tăng cân, đường huyết, lipid; tiêm bắp không dùng trong vòng 1 giờ sau BZD tiêm</td></tr>
+<tr><td><strong>Quetiapine</strong> (Seroquel)</td><td>loạn thần Parkinson/Lewy: 12,5–25 mg tối, tăng tới 50–150 mg</td><td>± (thấp nhất trừ clozapine)</td><td>+++</td><td>+</td><td>hạ HA tư thế; không dùng như thuốc ngủ</td></tr>
+<tr><td><strong>Aripiprazole</strong></td><td>5–15 mg; tối đa 30 mg</td><td>+ (bồn chồn ngồi không yên)</td><td>±</td><td>±</td><td>đồng vận D2 bán phần; ít tăng cân, ít QT</td></tr>
+<tr><td><strong>Clozapine</strong></td><td>loạn thần Parkinson: 6,25–50 mg tối</td><td>gần như không</td><td>+++</td><td>+</td><td><strong>mất bạch cầu hạt</strong> → đếm bạch cầu định kỳ; viêm cơ tim, co giật, táo bón nặng</td></tr>
+<tr><td><strong>Sulpiride</strong> (Dogmatil)</td><td>tâm thần phân liệt 200–400 mg × 2 (tối đa 2400 mg)</td><td>++</td><td>+</td><td>+</td><td>hay bị kê liều thấp cho chóng mặt/lo âu — dễ gây parkinson, tiết sữa; CCĐ u tuỷ thượng thận, u phụ thuộc prolactin</td></tr>
+</table></div>
+<div class="warn"><strong>Cảnh báo và chống chỉ định chung:</strong>
+<ul>
+<li><strong>Người già sa sút trí tuệ:</strong> tăng tử vong (~1,6–1,7 lần) và đột quỵ — cảnh báo đóng khung FDA (2005, 2008). Chỉ dùng khi kích động nguy hiểm, liều thấp nhất, ngắn nhất, đánh giá lại sau 6 tuần.</li>
+<li><strong>Bệnh Parkinson, sa sút trí tuệ thể Lewy:</strong> chống chỉ định haloperidol (phản ứng quá mẫn an thần nặng ở Lewy, có thể tử vong); chỉ dùng quetiapine, clozapine (hoặc pimavanserin nơi có). Cũng tránh metoclopramide, prochlorperazine, sulpiride, flunarizine.</li>
+<li><strong>Haloperidol CCĐ (SmPC):</strong> hôn mê, ức chế thần kinh trung ương, Parkinson, Lewy, liệt trên nhân tiến triển, QTc kéo dài, nhồi máu cơ tim mới, suy tim mất bù, loạn nhịp, hạ kali chưa điều chỉnh, đang dùng thuốc kéo dài QT.</li>
+<li><strong>Hội chứng ác tính do thuốc an thần (NMS):</strong> sốt cao, cứng cơ kiểu ống chì, rối loạn ý thức, rối loạn thần kinh tự chủ, CK tăng rất cao. Ngưng thuốc, làm mát, bù dịch; nặng: dantrolene, bromocriptine. Ngưng đột ngột levodopa cũng gây bệnh cảnh tương tự.</li>
+<li><strong>Sảng:</strong> NICE CG103 — điều trị nguyên nhân và biện pháp không dùng thuốc trước; thuốc chống loạn thần chỉ cho kích động gây nguy hiểm, ngắn hạn (thường ≤ 1 tuần). BZD làm sảng nặng thêm, trừ sảng do cai rượu/BZD.</li>
+</ul></div>
+
+<hr class="sect">
+
+<h2 id="h-pd">7. Thuốc Parkinson và thuốc điều trị sa sút trí tuệ</h2>
+<div class="tbl-wrap"><table>
+<caption>Bảng 14. Thuốc Parkinson (BNF; MDS evidence-based review)</caption>
+<tr><th>Nhóm / thuốc</th><th>Liều</th><th>Tác dụng phụ / lưu ý</th></tr>
+<tr><td><strong>Levodopa + chất ức chế dopa-decarboxylase</strong> (Madopar, Sinemet)</td><td>khởi đầu levodopa 50 mg × 3, tăng dần; thường 300–600 mg levodopa/ngày chia 3–4 lần; uống xa bữa ăn giàu đạm</td><td>buồn nôn, hạ HA tư thế, ảo giác, loạn động muộn, dao động "on-off". <strong>Không ngưng đột ngột</strong> (hội chứng tăng thân nhiệt – cứng cơ giống NMS) — bệnh nhân nhịn ăn, mổ: chuyển sonde hoặc dạng thay thế</td></tr>
+<tr><td><strong>Đồng vận dopamin:</strong> pramipexole, ropinirole</td><td>pramipexole 0,125 mg (dạng muối) × 3, tăng tuần; tối đa 4,5 mg muối/ngày; giảm liều khi suy thận. Ropinirole 0,25 mg × 3, tối đa 24 mg</td><td><strong>rối loạn kiểm soát xung động</strong> (cờ bạc, mua sắm, hành vi tình dục), cơn ngủ đột ngột, phù chân, ảo giác ở người già</td></tr>
+<tr><td><strong>Ức chế MAO-B:</strong> rasagiline, selegiline</td><td>rasagiline 1 mg sáng; selegiline 5–10 mg sáng</td><td>hội chứng serotonin khi phối hợp SSRI/SNRI/TCA liều cao, tramadol, pethidine, linezolid</td></tr>
+<tr><td><strong>Ức chế COMT:</strong> entacapone</td><td>200 mg mỗi liều levodopa (tối đa 2000 mg/ngày)</td><td>nước tiểu màu cam, tăng loạn động</td></tr>
+<tr><td><strong>Amantadine</strong></td><td>100 mg sáng, tăng 100 mg × 2</td><td>giảm loạn động; ảo giác, mạng xanh tím (livedo reticularis), phù; <strong>giảm liều theo CrCl</strong></td></tr>
+<tr><td><strong>Kháng cholinergic:</strong> trihexyphenidyl</td><td>1 mg, tăng tới 6–10 mg/ngày</td><td>chủ yếu cho run ở người trẻ; <strong>tránh ở người già</strong> (lú lẫn, bí tiểu, táo bón); dùng điều trị ngoại tháp do thuốc</td></tr>
+</table></div>
+<div class="tbl-wrap"><table>
+<caption>Bảng 15. Thuốc điều trị sa sút trí tuệ (NICE NG97; BNF)</caption>
+<tr><th>Thuốc</th><th>Liều</th><th>Lưu ý</th></tr>
+<tr><td><strong>Donepezil</strong> (Aricept)</td><td>5 mg tối × 4–6 tuần → 10 mg</td><td>Nhóm ức chế AChE: <strong>nhịp chậm, block AV, ngất</strong> (thận trọng hội chứng nút xoang, đang dùng chẹn beta), buồn nôn, tiêu chảy, ác mộng (uống sáng nếu bị), loét dạ dày, co thắt phế quản ở hen/COPD</td></tr>
+<tr><td><strong>Rivastigmine</strong></td><td>uống 1,5 mg × 2, tăng mỗi 2 tuần tới 3–6 mg × 2; miếng dán 4,6 → 9,5 mg/24 giờ (tối đa 13,3)</td><td>miếng dán ít tác dụng phụ tiêu hoá hơn; có chỉ định sa sút trí tuệ trong Parkinson</td></tr>
+<tr><td><strong>Galantamine</strong></td><td>dạng phóng thích kéo dài 8 mg → 16 mg → 24 mg (mỗi 4 tuần)</td><td>tránh khi CrCl &lt; 9 mL/phút, suy gan nặng</td></tr>
+<tr><td><strong>Memantine</strong> (Ebixa)</td><td>5 mg, tăng 5 mg mỗi tuần → 20 mg/ngày</td><td>Alzheimer trung bình – nặng; CrCl 30–49: 10 mg (tăng lên 20 nếu dung nạp); CrCl 5–29: 10 mg; chóng mặt, táo bón, đau đầu</td></tr>
+</table></div>
+
+<hr class="sect">
+
+<h2 id="h-bonao">8. Nhóm "bổ não", chống chóng mặt, giãn cơ hay gặp ở Việt Nam</h2>
+<p>Nhóm này chiếm phần lớn y lệnh ở nhiều khoa nhưng <strong>bằng chứng lợi ích lâm sàng rất hạn chế</strong>. Cần biết rõ để không kê thay cho điều trị có bằng chứng, và để nhận diện tác dụng phụ.</p>
+<div class="tbl-wrap"><table>
+<caption>Bảng 16. Bằng chứng và an toàn của các thuốc "dinh dưỡng thần kinh", chống chóng mặt, giãn cơ</caption>
+<tr><th>Thuốc</th><th>Bằng chứng</th><th>Liều / chống chỉ định / tác dụng phụ</th></tr>
+<tr><td><strong>Piracetam</strong> (Nootropil)</td><td>Chỉ có bằng chứng cho <strong>rung giật cơ nguồn gốc vỏ não</strong>. Cochrane: không cải thiện tử vong hay phụ thuộc sau nhồi máu não cấp; không đủ bằng chứng cho sa sút trí tuệ</td><td>rung giật cơ: 7,2 g/ngày, tăng 4,8 g mỗi 3–4 ngày, tối đa 24 g. CCĐ: <strong>xuất huyết não</strong>, suy thận giai đoạn cuối (CrCl &lt; 20), múa giật Huntington; có tác dụng chống kết tập tiểu cầu</td></tr>
+<tr><td><strong>Citicoline</strong> (Somazina)</td><td>Thử nghiệm ICTUS (Lancet 2012, 2298 bệnh nhân nhồi máu não cấp) dừng vì vô ích; Cochrane 2020 không thấy lợi ích rõ</td><td>an toàn, nhưng không thay thế tiêu sợi huyết/lấy huyết khối, phục hồi chức năng</td></tr>
+<tr><td><strong>Cerebrolysin</strong></td><td>Cochrane (cập nhật 2023): không giảm tử vong do mọi nguyên nhân sau nhồi máu não; bằng chứng về phục hồi chức năng chất lượng thấp</td><td>có thể tăng biến cố bất lợi nặng không tử vong; chi phí cao</td></tr>
+<tr><td><strong>Ginkgo biloba</strong> (Tanakan)</td><td>Thử nghiệm GEM (JAMA 2008): không phòng sa sút trí tuệ</td><td>tăng nguy cơ chảy máu khi dùng cùng kháng đông/kháng tiểu cầu</td></tr>
+<tr><td><strong>Vinpocetine</strong> (Cavinton)</td><td>bằng chứng yếu</td><td>FDA 2019: có thể gây sảy thai, hại thai → tránh ở phụ nữ có thể mang thai</td></tr>
+<tr><td><strong>Betahistine</strong> (Betaserc)</td><td>Ménière; thử nghiệm BEMED (BMJ 2016) không hơn giả dược trong giảm cơn</td><td>16 mg × 3 hoặc 24 mg × 2. CCĐ: u tuỷ thượng thận; thận trọng loét dạ dày, hen</td></tr>
+<tr><td><strong>Flunarizine</strong> (Sibelium), <strong>cinnarizine</strong> (Stugeron)</td><td>flunarizine có bằng chứng dự phòng migraine</td><td>flunarizine 5–10 mg tối. CCĐ: <strong>tiền sử trầm cảm, hội chứng ngoại tháp/Parkinson</strong>. Cả hai gây <strong>parkinson do thuốc</strong>, trầm cảm, tăng cân ở người già — nguyên nhân hay bị bỏ sót khi khám run, chậm vận động</td></tr>
+<tr><td><strong>Tolperisone</strong> (Mydocalm), <strong>eperisone</strong> (Myonal)</td><td>EMA 2012: tolperisone chỉ còn lợi ích hơn nguy cơ ở <strong>co cứng sau đột quỵ ở người lớn, dạng uống</strong>; bỏ dạng tiêm</td><td>tolperisone 150–450 mg/ngày chia 3; eperisone 50 mg × 3. Phản ứng quá mẫn (phù mạch, sốc phản vệ)</td></tr>
+<tr><td><strong>Mecobalamin</strong> (vitamin B12)</td><td>có lợi khi thiếu B12 thật (định lượng B12, acid methylmalonic)</td><td>không thay thế điều trị đau thần kinh có bằng chứng; người dùng metformin lâu dài nên kiểm tra B12</td></tr>
+</table></div>
+
+<hr class="sect">
+
+<h2 id="h-tt">9. Tương tác thuốc cần thuộc lòng</h2>
+<div class="tbl-wrap"><table>
+<caption>Bảng 17. Tương tác nguy hiểm thường gặp trên khoa</caption>
+<tr><th>Phối hợp</th><th>Hậu quả</th><th>Xử lý</th></tr>
+<tr><td>SSRI/SNRI/TCA + tramadol, fentanyl, pethidine, linezolid, xanh methylen, IMAO-B, triptan</td><td>hội chứng serotonin; tramadol còn giảm ngưỡng co giật</td><td>chọn giảm đau khác; nếu buộc dùng linezolid thì ngưng thuốc serotonin và theo dõi</td></tr>
+<tr><td>Opioid + BZD + gabapentinoid</td><td>ức chế hô hấp, tử vong</td><td>tránh; liều thấp nhất, theo dõi SpO₂, nhịp thở</td></tr>
+<tr><td>Valproate + carbapenem</td><td>nồng độ valproate giảm mạnh → co giật</td><td>đổi kháng sinh hoặc chuyển levetiracetam</td></tr>
+<tr><td>Valproate + lamotrigine</td><td>tăng nồng độ lamotrigine gấp đôi, SJS</td><td>phác đồ tăng liều chậm riêng</td></tr>
+<tr><td>Carbamazepine/phenytoin/phenobarbital + warfarin, NOAC, tránh thai, corticoid</td><td>giảm hiệu quả các thuốc kia</td><td>đổi sang levetiracetam/lamotrigine khi được; tăng theo dõi INR</td></tr>
+<tr><td>Citalopram/escitalopram, TCA, haloperidol + thuốc kéo dài QT khác (macrolid, quinolon, ondansetron, amiodaron, domperidone) hoặc hạ K/Mg</td><td>QT dài, xoắn đỉnh</td><td>ECG, điều chỉnh điện giải, chọn sertraline</td></tr>
+<tr><td>SSRI/SNRI + NSAID, aspirin, kháng đông</td><td>xuất huyết tiêu hoá</td><td>cân nhắc PPI</td></tr>
+<tr><td>Fluvoxamine, ciprofloxacin + clozapine, agomelatine, theophylline</td><td>ức chế CYP1A2 → ngộ độc</td><td>tránh hoặc giảm liều</td></tr>
+<tr><td>Fluoxetine, paroxetine, bupropion + TCA, chẹn beta (metoprolol), tamoxifen</td><td>ức chế CYP2D6 → tăng TCA/metoprolol; tamoxifen giảm hoạt hoá</td><td>giảm liều; với tamoxifen chọn SSRI khác</td></tr>
+<tr><td>Levodopa / Parkinson + metoclopramide, haloperidol, sulpiride</td><td>Parkinson nặng lên</td><td>domperidone (chú ý QT) hoặc ondansetron; quetiapine/clozapine</td></tr>
+</table></div>
+
+<hr class="sect">
+
+<h2 id="h-dacbiet">10. Người cao tuổi, suy thận, suy gan, thai kỳ</h2>
+<div class="tbl-wrap"><table>
+<caption>Bảng 18. Chọn thuốc theo nhóm bệnh nhân đặc biệt</caption>
+<tr><th>Đối tượng</th><th>Tránh / thận trọng</th><th>Ưu tiên</th></tr>
+<tr><td><strong>≥ 65 tuổi</strong> (Beers 2023)</td><td>TCA, paroxetine, BZD, Z-drug, thuốc chống loạn thần (trừ chỉ định tâm thần), trihexyphenidyl, phenobarbital; tổng "gánh nặng kháng cholinergic"</td><td>sertraline, mirtazapine liều thấp; gabapentinoid liều thấp có chỉnh theo thận; levetiracetam/lamotrigine</td></tr>
+<tr><td><strong>Suy thận</strong></td><td>chỉnh liều: gabapentin, pregabalin, levetiracetam, topiramate, lacosamide, amantadine, memantine, pramipexole, venlafaxine, risperidone; tránh duloxetine khi CrCl &lt; 30, piracetam khi CrCl &lt; 20</td><td>valproate, lamotrigine, carbamazepine (chuyển hoá gan); sertraline</td></tr>
+<tr><td><strong>Suy gan</strong></td><td>valproate (CCĐ), carbamazepine, phenytoin, duloxetine, agomelatine, BZD tác dụng dài (diazepam)</td><td>levetiracetam, gabapentin/pregabalin; lorazepam/oxazepam nếu cần BZD</td></tr>
+<tr><td><strong>Thai kỳ / nữ tuổi sinh đẻ</strong></td><td>valproate (CCĐ), topiramate, carbamazepine, phenytoin, phenobarbital (dị tật); paroxetine</td><td>levetiracetam, lamotrigine (theo dõi nồng độ, tăng liều khi có thai); acid folic liều cao từ trước khi mang thai; sertraline</td></tr>
+</table></div>
+
+<hr class="sect">
+
+<h2 id="h-bay">11. Bẫy thường gặp (thi và thực hành)</h2>
+<ol>
+<li><strong>SSRI không giảm đau thần kinh</strong> có ý nghĩa — giảm đau cần tăng noradrenalin (TCA, SNRI).</li>
+<li>Amitriptyline cho đau: khởi đầu <strong>10 mg</strong>, tối đa <strong>75 mg</strong> — không phải liều chống trầm cảm 150 mg.</li>
+<li>Ngộ độc TCA có <strong>QRS &gt; 100 ms</strong> → <strong>natri bicarbonate</strong>, không phải thuốc chống loạn nhịp nhóm IA/IC, không flumazenil.</li>
+<li>Gabapentin "giống GABA" về tên nhưng <strong>không tác động thụ thể GABA</strong>; gắn α2δ; thải qua thận.</li>
+<li>Bệnh nhân suy thận dùng gabapentin/pregabalin liều chuẩn → lơ mơ, rung giật cơ, ngã: nghĩ <strong>ngộ độc do không chỉnh liều</strong>.</li>
+<li>Citalopram ở người &gt; 60 tuổi: tối đa <strong>20 mg</strong>; escitalopram ở người ≥ 65 tuổi: tối đa <strong>10 mg</strong>.</li>
+<li>Người già lú lẫn, ngã sau khởi trị SSRI 2–3 tuần → <strong>hạ Na⁺ do SIADH</strong>.</li>
+<li>Valproate + meropenem → co giật tái phát dù đủ liều valproate.</li>
+<li>Lamotrigine + valproate → khởi đầu <strong>25 mg cách ngày</strong>.</li>
+<li>Carbamazepine: nồng độ tụt sau 2–4 tuần do <strong>tự cảm ứng men</strong>; người Việt cần <strong>HLA-B*1502</strong>.</li>
+<li>Đau dây V: thuốc hàng đầu là <strong>carbamazepine</strong>, không phải gabapentin.</li>
+<li>Loạn thần ở bệnh Parkinson/Lewy: <strong>quetiapine hoặc clozapine</strong>; haloperidol là chống chỉ định.</li>
+<li>Run, chậm vận động ở người già đang uống flunarizine, cinnarizine, sulpiride, metoclopramide → <strong>parkinson do thuốc</strong>; ngưng thuốc trước khi chẩn đoán bệnh Parkinson.</li>
+<li>Hội chứng serotonin có <strong>rung giật cơ, tăng phản xạ</strong>, khởi phát trong giờ; NMS có <strong>cứng cơ kiểu ống chì, phản xạ giảm</strong>, khởi phát trong ngày.</li>
+<li>Bupropion chống chỉ định ở bệnh nhân động kinh; tramadol giảm ngưỡng co giật.</li>
+<li>Donepezil + chẹn beta ở người già ngất → nghĩ <strong>nhịp chậm do thuốc ức chế AChE</strong>.</li>
+<li>Citicoline, piracetam không cải thiện kết cục nhồi máu não cấp; piracetam chống chỉ định trong xuất huyết não.</li>
+<li>MHRA 2024: không khởi trị valproate cho người &lt; 55 tuổi (cả nam) trừ khi 2 bác sĩ chuyên khoa xác nhận.</li>
+</ol>
+
+<h2 id="h-tomtat">12. Tóm tắt một trang</h2>
+<div class="tbl-wrap"><table>
+<tr><th>Nhóm</th><th>Nhớ 1 câu</th></tr>
+<tr><td>TCA</td><td>Đau: 10 → 75 mg tối. Chẹn H1, M1, α1, Na⁺, K⁺. CCĐ NMCT mới, block tim, IMAO 14 ngày. Ngộ độc → NaHCO₃.</td></tr>
+<tr><td>SSRI</td><td>Sertraline an toàn tim mạch. Citalopram &gt; 60 tuổi ≤ 20 mg. Hạ Na⁺, chảy máu, HC serotonin.</td></tr>
+<tr><td>SNRI</td><td>Duloxetine 60 mg cho đau thần kinh ĐTĐ; tránh CrCl &lt; 30, bệnh gan. Venlafaxine tăng HA.</td></tr>
+<tr><td>Mirtazapine</td><td>Ngủ ngon, ăn ngon, tăng cân — có chủ đích ở người già.</td></tr>
+<tr><td>Gabapentinoid</td><td>Gắn α2δ, thải qua thận, chỉnh theo CrCl. Gabapentin 900–3600; pregabalin 150–600. Ức chế hô hấp với opioid.</td></tr>
+<tr><td>Valproate</td><td>Phổ rộng; CCĐ bệnh gan, POLG, thai/nữ tuổi sinh đẻ. Ức chế men. Tránh carbapenem. NH₃.</td></tr>
+<tr><td>Carbamazepine</td><td>Đau dây V hàng đầu; cảm ứng và tự cảm ứng men; HLA-B*1502; hạ Na⁺; làm nặng cơn vắng.</td></tr>
+<tr><td>Levetiracetam</td><td>Không tương tác, có TM, chỉnh theo thận; cáu gắt, trầm cảm.</td></tr>
+<tr><td>Lamotrigine</td><td>Tăng liều chậm; có valproate → 25 mg cách ngày; ban → ngưng.</td></tr>
+<tr><td>BZD</td><td>Lorazepam an toàn khi suy gan. CCĐ suy hô hấp, ngưng thở khi ngủ, nhược cơ. Tránh ở người già.</td></tr>
+<tr><td>Chống loạn thần</td><td>Sảng: haloperidol 0,5–1 mg ngắn hạn. Parkinson/Lewy: quetiapine, clozapine. Tử vong tăng ở sa sút trí tuệ.</td></tr>
+<tr><td>Parkinson</td><td>Không ngưng levodopa đột ngột; đồng vận DA gây rối loạn kiểm soát xung động; tránh thuốc chẹn D2.</td></tr>
+<tr><td>Sa sút trí tuệ</td><td>Ức chế AChE gây nhịp chậm, ngất; memantine chỉnh theo thận.</td></tr>
+<tr><td>"Bổ não"</td><td>Piracetam chỉ cho rung giật cơ vỏ não; citicoline, cerebrolysin không lợi ích ở nhồi máu não; flunarizine gây parkinson.</td></tr>
+</table></div>
+
+<h2 id="h-nguon">13. Nguồn tài liệu</h2>
+<ul style="font-size:14px">
+<li>Stahl SM. <em>Stahl's Essential Psychopharmacology</em>, 5th ed. Cambridge University Press, 2021.</li>
+<li>Brunton LL, Knollmann BC (eds). <em>Goodman &amp; Gilman's The Pharmacological Basis of Therapeutics</em>, 14th ed. McGraw-Hill, 2023 — các chương thuốc chống trầm cảm, chống động kinh, chống loạn thần, an thần – gây ngủ.</li>
+<li>Taylor DM, Barnes TRE, Young AH. <em>The Maudsley Prescribing Guidelines in Psychiatry</em>, 15th ed. Wiley, 2024.</li>
+<li>Joint Formulary Committee. <em>British National Formulary</em> (BNF), bản trực tuyến 2026 — liều amitriptyline, valproate, carbamazepine, lamotrigine, BZD, thuốc Parkinson, thuốc sa sút trí tuệ.</li>
+<li>NICE CG173. Neuropathic pain in adults: pharmacological management in non-specialist settings (2013, cập nhật 2020). NICE NG222 Depression in adults (2022). NICE NG217 Epilepsies (2022). NICE CG103 Delirium (cập nhật 2023). NICE NG97 Dementia (2018).</li>
+<li>Nhãn thuốc FDA: Neurontin (gabapentin), Lyrica (pregabalin), Keppra (levetiracetam); EMA Keppra SmPC; SmPC amitriptyline (emc, MHRA).</li>
+<li>FDA Drug Safety Communication: citalopram và QT (08/2011, 03/2012); gabapentinoid và ức chế hô hấp (12/2019); BZD + opioid (2016); zolpidem (2013, 2019). MHRA Drug Safety Update: citalopram/escitalopram và QT (12/2011); valproate (01/2024, 09/2024, 02/2025). EMA: hạn chế tolperisone (06/2012).</li>
+<li>American Geriatrics Society 2023 Updated AGS Beers Criteria. J Am Geriatr Soc 2023;71:2052–2081.</li>
+<li>Finnerup NB, et al. Pharmacotherapy for neuropathic pain in adults: a systematic review and meta-analysis. Lancet Neurol 2015;14:162–173.</li>
+<li>Dávalos A, et al. Citicoline in the treatment of acute ischaemic stroke (ICTUS). Lancet 2012;380:349–357. Cochrane: Martí-Carvajal AJ, et al. Citicoline for treating people with acute ischemic stroke (2020); Ricci S, et al. Piracetam for acute ischaemic stroke (2012); Cerebrolysin for acute ischaemic stroke (cập nhật 2023).</li>
+<li>Dunkley EJC, et al. The Hunter Serotonin Toxicity Criteria. QJM 2003;96:635–642.</li>
+<li>Glauser T, et al. Treatment of convulsive status epilepticus in children and adults (AES 2016). Epilepsy Curr 2016;16:48–61. Kapur J, et al. ESETT. N Engl J Med 2019;381:2103–2113.</li>
+<li>Adrion C, et al. BEMED trial: betahistine in Ménière's disease. BMJ 2016;352:h6816. DeKosky ST, et al. GEM study: Ginkgo biloba for prevention of dementia. JAMA 2008;300:2253–2262.</li>
+</ul>
+
+  </main>
+</div>
+
+<div id="hlbtn">Đánh dấu</div>
+
+<script>
+(function(){
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const progress = document.getElementById('progress');
+  const readpct = document.getElementById('readpct');
+  const tocEl = document.getElementById('toc');
+  const hlbtn = document.getElementById('hlbtn');
+  const hlcount = document.getElementById('hlcount');
+  const clearHlBtn = document.getElementById('clearHl');
+  const STORAGE_KEY = 'hl-duoc-ly-thuoc-than-kinh';
+
+  menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+  overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+  const headings = Array.from(content.querySelectorAll('h2, h3, h4'));
+  const links = [];
+  headings.forEach(h=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+h.id;
+    a.textContent = h.textContent;
+    a.className = h.tagName === 'H2' ? 'lvl2' : (h.tagName === 'H3' ? 'lvl3' : 'lvl4');
+    a.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    li.appendChild(a);
+    tocEl.appendChild(li);
+    links.push({id:h.id, el:a});
+  });
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop/docHeight)*100)) : 0;
+    progress.style.width = pct + '%';
+    readpct.textContent = 'Đã đọc: ' + pct + '%';
+    let currentId = links[0] ? links[0].id : null;
+    for (const h of headings){
+      const rect = h.getBoundingClientRect();
+      if (rect.top - 90 <= 0) currentId = h.id;
+    }
+    links.forEach(l=> l.el.classList.toggle('active', l.id === currentId));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const blocks = Array.from(content.querySelectorAll('p, li, td'));
+  blocks.forEach((el, i)=>{ el.setAttribute('data-hid', 'b'+i); });
+
+  function getTextOffset(container, node, offset){
+    let total = 0; let found = false;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let n;
+    while(n = walker.nextNode()){
+      if (n === node){ total += offset; found = true; break; }
+      total += n.textContent.length;
+    }
+    return found ? total : null;
+  }
+
+  function wrapRange(container, start, end, hlid){
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    let pos = 0; let n; const toWrap = [];
+    while(n = walker.nextNode()){
+      const len = n.textContent.length;
+      const nStart = pos, nEnd = pos+len;
+      if (nEnd > start && nStart < end){
+        const wStart = Math.max(0, start-nStart);
+        const wEnd = Math.min(len, end-nStart);
+        toWrap.push({node:n, wStart, wEnd});
+      }
+      pos += len;
+      if (pos >= end) break;
+    }
+    toWrap.reverse().forEach(({node, wStart, wEnd})=>{
+      const range = document.createRange();
+      range.setStart(node, wStart);
+      range.setEnd(node, wEnd);
+      const mark = document.createElement('mark');
+      mark.className = 'hl';
+      mark.setAttribute('data-hlid', hlid);
+      mark.title = 'Bấm để xoá highlight';
+      try{ range.surroundContents(mark); }catch(e){}
+    });
+  }
+
+  function loadHighlights(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list.forEach(item=>{
+      const container = content.querySelector('[data-hid="'+item.bid+'"]');
+      if (container) wrapRange(container, item.start, item.end, item.id);
+    });
+    updateHlCount();
+  }
+
+  function saveHighlight(bid, start, end, text){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    list.push({id, bid, start, end, text});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    updateHlCount();
+  }
+
+  function removeHighlight(hlid){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    list = list.filter(x=>x.id !== hlid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    document.querySelectorAll('mark.hl[data-hlid="'+hlid+'"]').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  }
+
+  function updateHlCount(){
+    let list = [];
+    try{ list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ list = []; }
+    hlcount.textContent = list.length + ' đoạn đã highlight';
+  }
+
+  content.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'MARK' && e.target.classList.contains('hl')){
+      const hlid = e.target.getAttribute('data-hlid');
+      if (confirm('Xoá highlight này?')) removeHighlight(hlid);
+    }
+  });
+
+  clearHlBtn.addEventListener('click', ()=>{
+    if (!confirm('Xoá toàn bộ highlight đã lưu?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('mark.hl').forEach(m=>{
+      const parent = m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    });
+    updateHlCount();
+  });
+
+  let pendingSelection = null;
+  document.addEventListener('mouseup', (e)=>{
+    if (e.target === hlbtn) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0){ hlbtn.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const el = container.nodeType === 1 ? container : container.parentElement;
+    const block = el.closest ? el.closest('[data-hid]') : null;
+    if (!block || !content.contains(block)){ hlbtn.style.display='none'; return; }
+    const start = getTextOffset(block, range.startContainer, range.startOffset);
+    const end = getTextOffset(block, range.endContainer, range.endOffset);
+    if (start === null || end === null || end <= start){ hlbtn.style.display='none'; return; }
+    pendingSelection = { bid: block.getAttribute('data-hid'), start, end, text: sel.toString() };
+    const rect = range.getBoundingClientRect();
+    hlbtn.style.left = (window.scrollX + rect.left + rect.width/2 - 34) + 'px';
+    hlbtn.style.top = (window.scrollY + rect.top - 38) + 'px';
+    hlbtn.style.display = 'block';
+  });
+
+  hlbtn.addEventListener('mousedown', (e)=> e.preventDefault());
+  hlbtn.addEventListener('click', ()=>{
+    if (!pendingSelection) return;
+    const { bid, start, end } = pendingSelection;
+    const container = content.querySelector('[data-hid="'+bid+'"]');
+    const id = 'h'+Date.now()+Math.floor(Math.random()*1000);
+    if (container) wrapRange(container, start, end, id);
+    saveHighlight(bid, start, end, pendingSelection.text);
+    window.getSelection().removeAllRanges();
+    hlbtn.style.display = 'none';
+    pendingSelection = null;
+  });
+
+  document.addEventListener('mousedown', (e)=>{
+    if (e.target !== hlbtn) hlbtn.style.display = 'none';
+  });
+
+  loadHighlights();
+})();
+</script>
+</body>
+</html>

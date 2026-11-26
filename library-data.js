@@ -7,7 +7,7 @@
 // trong chuyên khoa đó (ví dụ bài Viêm phổi đầu tiên trong "hh"), tự đặt tên topic mới
 // hợp lý (ví dụ "Nhiễm trùng hô hấp") — không cần hỏi lại, trang sẽ tự tạo nhóm mới.
 window.LIBRARY = {
-  updated: "2026-11-21",
+  updated: "2026-11-26",
   dashboardUrl: "https://huuhuynh2k2-droid.github.io/on-thi-dashboard/",
   // "topic" mới trong "tm" (Tim mạch): "Kháng kết tập tiểu cầu" — nhóm này chưa từng có bài
   // nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
@@ -491,6 +491,14 @@ window.LIBRARY = {
       cat: "Hạ kali máu",
       note: "Định nghĩa, nguyên nhân, đường uống và tĩnh mạch, liều dùng và theo dõi, giới hạn an toàn khi bù kali.",
       updated: "", url: "https://huuhuynh2k2-droid.github.io/ha-kali-mau/" },
+    // "topic" mới trong "tk" (Thần kinh): "Dược lý thần kinh" — nhóm này chưa từng có bài nào trước đó nên tự tạo mới theo hướng dẫn ở trên.
+    { id: "tk-duoc-ly-thuoc-than-kinh", sp: "tk", topic: "Dược lý thần kinh",
+      title: "Dược lý các thuốc tác động thần kinh — phân loại, cơ chế, liều dùng, chống chỉ định (chống trầm cảm, chống động kinh, gabapentinoid, BZD, chống loạn thần, Parkinson, sa sút trí tuệ, nhóm \"bổ não\")",
+      org: "Chuyên đề tổng hợp: Stahl 5e · Goodman & Gilman 14e · Maudsley 15e · BNF · NICE CG173/NG222/NG217/CG103/NG97 · nhãn FDA/EMA · MHRA/FDA/EMA safety · Beers 2023 · Cochrane", year: 2026,
+      doi: "", status: 2,
+      cat: "Dược lý lâm sàng · Tổng hợp nhiều nguồn · 2 sơ đồ tự vẽ · 18 bảng · 18 bẫy MCQ",
+      note: "Bản đồ 5 đích tác động (monoamine, GABA-A, kênh ion–SV2A–α2δ, D2, ACh/glutamat) và bảng biệt dược VN; TCA (H-M-α-Na-QT, liều đau 10→75 mg, CCĐ, ngộ độc QRS > 100 ms → NaHCO₃); SSRI/SNRI/mirtazapine/trazodone/bupropion/agomelatine/tianeptine với liều và giới hạn QT citalopram/escitalopram, hạ Na⁺, chảy máu, hội chứng serotonin (Hunter), chọn thuốc theo bệnh cảnh thần kinh; thuốc chống động kinh theo cơ chế và cảm ứng/ức chế men, valproate (CCĐ, MHRA 2024, + carbapenem, NH₃), carbamazepine (tự cảm ứng, HLA-B*1502, đau dây V), phenytoin (bậc 0, Winter–Tozer), levetiracetam (bảng chỉnh theo thận), lamotrigine (phác đồ tăng liều theo valproate/cảm ứng men), topiramate, lacosamide; gabapentin vs pregabalin (bảng CrCl FDA, FDA 2019 ức chế hô hấp) và sơ đồ đau thần kinh NICE CG173; BZD (quy đổi, CCĐ, Beers), Z-drug; thuốc chống loạn thần (sảng, Parkinson/Lewy, cảnh báo sa sút trí tuệ, NMS); thuốc Parkinson và sa sút trí tuệ; bằng chứng nhóm \"bổ não\" (piracetam, citicoline ICTUS, cerebrolysin, ginkgo, vinpocetine, betahistine, flunarizine, tolperisone EMA 2012); bảng tương tác; người già, suy thận, suy gan, thai kỳ.",
+      updated: "2026-11-26", url: "docs/duoc-ly-thuoc-tac-dong-than-kinh.html" },
     { id: "tk-doc-phim-so-nao", sp: "tk", topic: "Chẩn đoán hình ảnh sọ não", title: "Đọc phim sọ não thực chiến — nguyên lý MRI, khung đọc MRI sọ, giải phẫu sọ, bệnh lý mạch máu não, u nội sọ, nhiễm trùng – viêm não và sơ đồ tóm tắt (Phần 1–6)",
       org: "Brant WE (Diagnostic Imaging Methods, Ch.1 – chỉ phần MRI) · Mukundan S, Seidenwurm D (Introduction to Brain Imaging, Ch.2) · Watkins M (Cranial Anatomy) · Idowu O (Vascular Diseases of the Brain, Ch.3) · Chapman (Intracranial Neoplasms, Ch.2) · Buch K (Infectious and Noninfectious Inflammatory Disease of the Brain, Ch.5)", year: 2026, doi: "", status: 1,
       cat: "Dự án đang mở rộng · Bản dịch tiếng Việt · Trang chỉ mục 6 phần",
