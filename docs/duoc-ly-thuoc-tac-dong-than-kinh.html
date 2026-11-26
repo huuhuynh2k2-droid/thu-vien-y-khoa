@@ -81,7 +81,8 @@
     main{padding:28px 20px 100px; max-width:100%;}
     h1{font-size:25px;}
   }
-  main{overflow-wrap:anywhere;}
+  main{overflow-wrap:break-word;}
+  @media(max-width:700px){.tbl-wrap table{min-width:620px}.tbl-wrap{-webkit-overflow-scrolling:touch}}
 </style>
 </head>
 <body>
@@ -218,16 +219,181 @@
 
 <hr class="sect">
 
-<h2 id="h-ad">2. Thuốc chống trầm cảm</h2>
+<h2 id="h-sl">2. Sinh lý – sinh lý bệnh: vì sao thuốc nhắm vào đúng những đích đó?</h2>
 
-<h3 id="h-ad-cc">2.1. Cơ chế chung và vì sao phải chờ 2–4 tuần</h3>
+<div class="box">
+<p><strong>Ý chính của phần này.</strong> Thuốc thần kinh không "chữa" bệnh theo kiểu kháng sinh diệt vi khuẩn. Chúng <strong>chỉnh lại một bước trong dẫn truyền synap</strong> đang hoạt động quá mức hoặc quá yếu. Vì vậy, muốn hiểu thuốc phải trả lời ba câu: <strong>(1)</strong> ở người bình thường, bước đó vận hành ra sao; <strong>(2)</strong> trong bệnh, bước đó hỏng thế nào; <strong>(3)</strong> cùng đích đó còn nằm ở đâu khác trong cơ thể — chính chỗ "khác" này sinh ra tác dụng phụ. Phần này đi qua 7 cơ chế bệnh sinh, mỗi cơ chế giải thích một nhóm thuốc ở các phần sau.</p>
+</div>
+
+<h3 id="h-sl-synap">2.1. Synap hoá học: sáu bước, sáu điểm can thiệp</h3>
+<p>Mọi tín hiệu thần kinh giữa hai neuron đi qua cùng một chuỗi bước. <strong>Điện thế hoạt động</strong> lan dọc sợi trục nhờ kênh Na⁺ điện thế mở ra. Khi tới đầu tận cùng, khử cực làm mở <strong>kênh Ca²⁺ điện thế</strong> (loại N, P/Q); Ca²⁺ đi vào kích hoạt bộ máy hoà màng, trong đó <strong>SV2A</strong> là protein túi synap điều hoà mức sẵn sàng giải phóng của túi. Chất dẫn truyền gắn <strong>thụ thể sau synap</strong>: loại kênh ion (GABA-A, NMDA, AMPA — tác dụng trong mili giây) hoặc loại gắn protein G (D2, 5-HT, α2, muscarinic — tác dụng chậm hơn, khuếch đại qua chất truyền tin thứ hai). Cuối cùng, tín hiệu phải được <strong>tắt</strong>: chất dẫn truyền bị bơm ngược vào đầu tận cùng (SERT, NET, DAT) hoặc bị enzym phân huỷ (MAO, COMT, AChE). Ngoài ra, <strong>thụ thể tự điều hoà</strong> trên chính đầu tận cùng (α2, 5-HT1A) hoạt động như cái phanh: khi chất dẫn truyền nhiều, chúng hãm bớt giải phóng.</p>
+
+<figure style="margin:22px 0 18px;">
+<svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:#F7F3EA;border:1px solid var(--border);border-radius:10px" font-family="Inter, Arial, sans-serif" font-size="13">
+<defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6B6862"/></marker></defs>
+<text x="300" y="30" text-anchor="middle" font-weight="700" fill="#172447" font-size="15">Đầu tận cùng trước synap</text>
+<path d="M120 50 L480 50 Q520 50 520 90 L520 270 Q520 300 490 300 L110 300 Q80 300 80 270 L80 90 Q80 50 120 50 Z" fill="#E8EDF7" stroke="#2F4B8A" stroke-width="2"/>
+<rect x="20" y="150" width="62" height="40" fill="#E8EDF7" stroke="#2F4B8A" stroke-width="2"/>
+<text x="30" y="140" fill="#2F4B8A" font-size="12">sợi trục</text>
+<g fill="#FFFFFF" stroke="#6B3E06" stroke-width="1.5"><circle cx="230" cy="150" r="22"/><circle cx="290" cy="130" r="22"/><circle cx="350" cy="160" r="22"/><circle cx="300" cy="210" r="22"/><circle cx="380" cy="230" r="22"/></g>
+<g fill="#6B3E06"><circle cx="224" cy="146" r="3"/><circle cx="234" cy="155" r="3"/><circle cx="286" cy="126" r="3"/><circle cx="296" cy="135" r="3"/><circle cx="346" cy="156" r="3"/><circle cx="356" cy="165" r="3"/><circle cx="296" cy="206" r="3"/><circle cx="306" cy="215" r="3"/><circle cx="376" cy="226" r="3"/><circle cx="386" cy="235" r="3"/></g>
+<text x="300" y="98" text-anchor="middle" fill="#6B3E06" font-size="12">túi synap chứa chất dẫn truyền</text>
+<rect x="88" y="158" width="26" height="26" rx="4" fill="#FBEFE0" stroke="#B45309" stroke-width="2"/>
+<rect x="150" y="285" width="26" height="30" rx="4" fill="#FBEFE0" stroke="#B45309" stroke-width="2"/>
+<rect x="420" y="285" width="26" height="30" rx="4" fill="#E3F2EA" stroke="#14532D" stroke-width="2"/>
+<rect x="490" y="200" width="30" height="26" rx="4" fill="#F4E8F6" stroke="#5B2163" stroke-width="2"/>
+<g fill="#6B3E06"><circle cx="250" cy="335" r="3.5"/><circle cx="270" cy="345" r="3.5"/><circle cx="290" cy="332" r="3.5"/><circle cx="310" cy="348" r="3.5"/><circle cx="330" cy="336" r="3.5"/><circle cx="350" cy="350" r="3.5"/><circle cx="370" cy="338" r="3.5"/></g>
+<text x="96" y="345" fill="#6B6862" font-size="12">khe synap</text>
+<path d="M80 380 L520 380 L520 560 L80 560 Z" fill="#F4E8F6" stroke="#5B2163" stroke-width="2"/>
+<text x="300" y="545" text-anchor="middle" font-weight="700" fill="#5B2163" font-size="15">Neuron sau synap</text>
+<g fill="#FFFFFF" stroke="#5B2163" stroke-width="2"><rect x="200" y="368" width="34" height="26" rx="4"/><rect x="290" y="368" width="34" height="26" rx="4"/><rect x="380" y="368" width="34" height="26" rx="4"/></g>
+<g stroke="#6B6862" stroke-width="1.5" fill="none" marker-end="url(#ar3)"><path d="M310 272 L310 322"/><path d="M400 345 Q440 320 432 318"/></g>
+<g font-weight="700" fill="#fff" font-size="13">
+<circle cx="101" cy="215" r="13" fill="#B45309"/><text x="101" y="220" text-anchor="middle">1</text>
+<circle cx="163" cy="262" r="13" fill="#B45309"/><text x="163" y="267" text-anchor="middle">2</text>
+<circle cx="250" cy="225" r="13" fill="#B45309"/><text x="250" y="230" text-anchor="middle">3</text>
+<circle cx="307" cy="420" r="13" fill="#5B2163"/><text x="307" y="425" text-anchor="middle">4</text>
+<circle cx="433" cy="262" r="13" fill="#14532D"/><text x="433" y="267" text-anchor="middle">5</text>
+<circle cx="505" cy="250" r="13" fill="#5B2163"/><text x="505" y="255" text-anchor="middle">6</text>
+</g>
+<g font-size="12.5" fill="#211F1B">
+<text x="590" y="70" font-weight="700" fill="#B45309">① Kênh Na⁺ dẫn điện thế hoạt động</text>
+<text x="604" y="88" fill="#6B6862">carbamazepine, phenytoin, lamotrigine,</text>
+<text x="604" y="104" fill="#6B6862">lacosamide · TCA · lidocain</text>
+<text x="590" y="134" font-weight="700" fill="#B45309">② Kênh Ca²⁺ đầu tận cùng (α2δ)</text>
+<text x="604" y="152" fill="#6B6862">gabapentin, pregabalin</text>
+<text x="604" y="168" fill="#6B6862">(type T đồi thị: ethosuximide, valproate)</text>
+<text x="590" y="198" font-weight="700" fill="#B45309">③ Túi synap – SV2A</text>
+<text x="604" y="216" fill="#6B6862">levetiracetam, brivaracetam</text>
+<text x="590" y="246" font-weight="700" fill="#5B2163">④ Thụ thể sau synap</text>
+<text x="604" y="264" fill="#6B6862">GABA-A: BZD, barbiturat · D2: thuốc</text>
+<text x="604" y="280" fill="#6B6862">chống loạn thần · NMDA: memantine</text>
+<text x="604" y="296" fill="#6B6862">H1, M1, α1: tác dụng phụ của TCA</text>
+<text x="590" y="326" font-weight="700" fill="#14532D">⑤ Thu hồi và phân huỷ</text>
+<text x="604" y="344" fill="#6B6862">SERT/NET: SSRI, SNRI, TCA</text>
+<text x="604" y="360" fill="#6B6862">MAO-B: rasagiline · COMT: entacapone</text>
+<text x="604" y="376" fill="#6B6862">AChE: donepezil · GABA-T: valproate</text>
+<text x="590" y="406" font-weight="700" fill="#5B2163">⑥ Thụ thể tự điều hoà (phanh)</text>
+<text x="604" y="424" fill="#6B6862">α2: mirtazapine chẹn → nhả phanh</text>
+<text x="604" y="440" fill="#6B6862">5-HT1A: mất nhạy sau 2–4 tuần SSRI</text>
+<text x="590" y="476" font-weight="700" fill="#211F1B">Tiền chất</text>
+<text x="604" y="494" fill="#6B6862">levodopa → dopamin (cần DDC)</text>
+</g>
+</svg>
+<div class="fig-caption">Hình 2 (tự vẽ). Sáu điểm can thiệp trên một synap hoá học. Hầu như mọi thuốc thần kinh tác động vào một trong các điểm này. Cùng một đích (ví dụ kênh Na⁺, thụ thể H1, M1) có ở tim, ruột, mạch máu — đó là nguồn gốc tác dụng phụ.</div>
+</figure>
+
+<h3 id="h-sl-dk">2.2. Động kinh: mất cân bằng kích thích – ức chế</h3>
+<p><strong>Sinh lý.</strong> Vỏ não giữ ổn định nhờ cân bằng giữa <strong>glutamat</strong> (kích thích, qua thụ thể AMPA và NMDA cho Na⁺, Ca²⁺ đi vào) và <strong>GABA</strong> (ức chế, qua thụ thể GABA-A cho Cl⁻ đi vào làm tăng phân cực). Một neuron bình thường phóng điện rải rác, không đồng bộ với hàng xóm.</p>
+<p><strong>Sinh lý bệnh.</strong> Cơn động kinh là khi một quần thể neuron <strong>phóng điện tần số cao và đồng bộ</strong>. Ở mức tế bào, đó là hiện tượng <em>khử cực kịch phát</em> (paroxysmal depolarization shift): một đợt khử cực kéo dài kèm chuỗi điện thế hoạt động liên tiếp. Nguyên nhân có thể là tăng kích thích (sẹo thần kinh đệm, xơ cứng hải mã tạo vòng kích thích tái nhập), giảm ức chế (mất interneuron GABA), hoặc bệnh kênh ion di truyền (ví dụ đột biến kênh Na⁺ SCN1A trong hội chứng Dravet).</p>
+<p><strong>Vì vậy thuốc có hai chiến lược:</strong> <em>giảm kích thích</em> (chẹn kênh Na⁺, chẹn kênh Ca²⁺, giảm giải phóng glutamat qua SV2A hoặc α2δ, chẹn AMPA) hoặc <em>tăng ức chế</em> (tăng tác dụng GABA).</p>
+<div class="rec"><span class="num">Vì sao thuốc chẹn kênh Na⁺ không làm "tắt" não bình thường?</span> Kênh Na⁺ có ba trạng thái: nghỉ → mở → <strong>bất hoạt</strong>. Carbamazepine, phenytoin, lamotrigine gắn ưu tiên vào kênh ở trạng thái bất hoạt và kéo dài trạng thái này. Neuron phóng điện tần số cao (như trong cơn) có nhiều kênh ở trạng thái bất hoạt nhất nên bị chặn mạnh nhất; neuron phóng điện thưa thớt gần như không bị ảnh hưởng. Đây là <strong>chẹn phụ thuộc tần số</strong> (use-dependent block). Lacosamide khác một chút: tăng <em>bất hoạt chậm</em>. Cùng nguyên lý giải thích vì sao các thuốc này giảm đau dây V và đau thần kinh — nơi sợi thần kinh tổn thương cũng phóng điện tần số cao bất thường.</div>
+<p><strong>Cơn vắng có cơ chế khác.</strong> Cơn vắng sinh ra từ vòng dao động <strong>đồi thị – vỏ não</strong>, do kênh Ca²⁺ type T ở neuron đồi thị tạo ra nhịp phóng điện 3 Hz (chính là sóng gai – sóng 3 Hz trên EEG). Thuốc chẹn kênh Ca²⁺ type T (<strong>ethosuximide</strong>, một phần <strong>valproate</strong>) cắt được vòng này. Thuốc chẹn kênh Na⁺ không tác động vào vòng đồi thị – vỏ, và trên thực tế lâm sàng carbamazepine, phenytoin, oxcarbazepine có thể <strong>làm nặng cơn vắng và giật cơ</strong> — cơ chế chưa rõ hoàn toàn, có thể do làm tăng tính đồng bộ của dao động đồi thị – vỏ.</p>
+<p><strong>Trạng thái động kinh tự duy trì.</strong> Khi cơn kéo dài, thụ thể GABA-A trên màng sau synap bị <strong>nội hoá</strong> (kéo vào trong tế bào), còn thụ thể NMDA lại được đưa thêm ra màng. Ức chế giảm, kích thích tăng → cơn tự duy trì, và BZD (cần thụ thể GABA-A trên màng để tác dụng) mất dần hiệu lực theo từng phút. Đây là cơ sở sinh lý bệnh của nguyên tắc <strong>cho BZD sớm và đủ liều ngay từ đầu</strong>, và vì sao trạng thái động kinh kháng trị cần thuốc tác động theo đường khác (thuốc mê, ketamine chẹn NMDA).</p>
+<p><strong>Valproate là thuốc phổ rộng</strong> vì đánh vào cả ba: chẹn kênh Na⁺, chẹn kênh Ca²⁺ type T, và tăng GABA (ức chế GABA transaminase là enzym phân huỷ GABA). Cũng vì ức chế enzym mà valproate ức chế chuyển hoá thuốc khác và chu trình urê (→ tăng NH₃).</p>
+
+<h3 id="h-sl-dau">2.3. Đau thần kinh: dây thần kinh "phóng điện sai" và hệ phanh bị hỏng</h3>
+<p><strong>Sinh lý dẫn truyền đau.</strong> Kích thích đau được thụ thể cảm nhận đau ở ngoại biên biến thành điện thế hoạt động, đi theo sợi Aδ và C về <strong>sừng sau tuỷ</strong>, tiếp synap (giải phóng glutamat, chất P, CGRP), rồi lên đồi thị và vỏ não. Song song có một <strong>hệ ức chế đi xuống</strong>: từ chất xám quanh cống não (PAG) xuống hành não, rồi tới sừng sau qua hai đường — đường <strong>serotonin</strong> (nhân đường giữa) và đường <strong>noradrenalin</strong> (nhân lục, locus coeruleus). Noradrenalin gắn <strong>thụ thể α2</strong> ở sừng sau làm giảm giải phóng chất dẫn truyền đau. Đây là cái phanh tự nhiên của cơ thể.</p>
+<p><strong>Sinh lý bệnh sau tổn thương thần kinh</strong> (đái tháo đường, zona, chèn ép rễ):</p>
+<ul>
+<li><strong>Phóng điện lạc chỗ:</strong> sợi thần kinh tổn thương tích tụ kênh Na⁺ bất thường (Nav1.7, Nav1.8; tái biểu hiện Nav1.3) tại chỗ tổn thương và ở hạch rễ sau → tự phóng điện không cần kích thích → đau rát, đau như điện giật. → <strong>Thuốc chẹn kênh Na⁺</strong> (carbamazepine, TCA, lidocain tại chỗ).</li>
+<li><strong>Tăng α2δ-1:</strong> sau tổn thương, tiểu đơn vị α2δ-1 tăng mạnh ở hạch rễ sau và sừng sau, tăng vận chuyển kênh Ca²⁺ ra đầu tận cùng → giải phóng glutamat quá mức. → <strong>Gabapentin, pregabalin</strong> gắn α2δ-1 và giảm vận chuyển này. Vì α2δ-1 chủ yếu tăng ở neuron bị bệnh, gabapentinoid giảm đau thần kinh tốt nhưng gần như không có tác dụng với đau cấp thông thường.</li>
+<li><strong>Nhạy cảm hoá trung ương:</strong> kích thích lặp lại ở sừng sau hoạt hoá thụ thể NMDA → neuron sừng sau ngày càng đáp ứng mạnh (hiện tượng "wind-up") → dị cảm đau (allodynia: chạm nhẹ cũng đau).</li>
+<li><strong>Hỏng phanh đi xuống:</strong> hệ ức chế noradrenalin suy giảm. → <strong>TCA, SNRI</strong> chặn thu hồi noradrenalin, khôi phục phanh. Đây là lý do <strong>SSRI (chỉ tăng serotonin) gần như không giảm đau thần kinh</strong>, và vì sao liều giảm đau của amitriptyline thấp hơn liều chống trầm cảm (đích khác, cơ chế khác).</li>
+</ul>
+<p><strong>Đau dây V kinh điển</strong> thường do một quai mạch chèn vào rễ dây V gần thân não → <strong>mất myelin khu trú</strong>. Các sợi trần nằm sát nhau dẫn truyền "chạm mạch" (ephaptic) và phóng điện hàng loạt → cơn đau như điện giật vài giây, khởi phát khi chạm vùng cò súng. Bệnh sinh là phóng điện tần số cao của kênh Na⁺ → <strong>carbamazepine hiệu quả nhất</strong>, và giải phẫu thần kinh vi mạch (tách quai mạch) có thể chữa khỏi.</p>
+
+<h3 id="h-sl-td">2.4. Trầm cảm: từ giả thuyết monoamine đến tính mềm dẻo thần kinh</h3>
+<p><strong>Giả thuyết monoamine</strong> ra đời từ hai quan sát tình cờ những năm 1950: reserpine (làm cạn monoamine trong túi synap) gây trầm cảm, còn iproniazid (thuốc lao ức chế MAO) làm bệnh nhân hưng phấn. Từ đó: trầm cảm liên quan đến thiếu serotonin, noradrenalin, dopamin → thuốc làm tăng monoamine (chặn thu hồi, ức chế MAO).</p>
+<p><strong>Nhưng giả thuyết này không giải thích được độ trễ:</strong> SSRI làm tăng serotonin ở khe synap trong vài giờ, mà cần 2–4 tuần mới có hiệu quả. Giải thích hiện nay:</p>
+<ul>
+<li><strong>Thụ thể tự điều hoà 5-HT1A mất nhạy:</strong> lúc đầu, serotonin tăng ở thân neuron (nhân raphe) kích hoạt 5-HT1A tự điều hoà → neuron <em>giảm</em> phóng điện, bù trừ lại. Sau 2–4 tuần, thụ thể này mất nhạy → neuron phóng điện trở lại bình thường trong khi thu hồi vẫn bị chặn → serotonin ở vùng chiếu tới tăng thật sự.</li>
+<li><strong>Tính mềm dẻo thần kinh:</strong> trầm cảm kèm teo neuron ở hải mã và vỏ trán trước, liên quan stress mạn và tăng cortisol (trục dưới đồi – tuyến yên – thượng thận hoạt động quá mức). Điều trị kéo dài làm tăng <strong>BDNF</strong> và hình thành synap mới — quá trình cần nhiều tuần.</li>
+</ul>
+<p><strong>Hệ quả lâm sàng:</strong> tác dụng phụ (buồn nôn, bồn chồn qua thụ thể 5-HT3, 5-HT2 ở ruột và não) đến <strong>ngay</strong>, còn tác dụng điều trị đến <strong>sau</strong> → phải dặn bệnh nhân trước để không bỏ thuốc.</p>
+<p><strong>Mirtazapine theo một đường khác:</strong> chẹn <strong>thụ thể α2 tự điều hoà</strong> (nhả phanh) → tăng giải phóng noradrenalin và serotonin; đồng thời chẹn 5-HT2 và 5-HT3 (nên ít buồn nôn, ít rối loạn tình dục) và chẹn mạnh H1 (gây ngủ, ăn ngon).</p>
+<p><strong>Ba tác dụng phụ của SSRI giải thích được bằng sinh lý:</strong></p>
+<ul>
+<li><strong>Chảy máu:</strong> tiểu cầu không tự tổng hợp serotonin mà lấy từ huyết tương qua chính SERT. SSRI chặn SERT → serotonin trong tiểu cầu cạn → tiểu cầu kết tập kém. Phối hợp NSAID, aspirin, kháng đông cộng thêm nguy cơ.</li>
+<li><strong>Hạ Na⁺:</strong> serotonin kích thích vùng dưới đồi tiết ADH → hội chứng tiết ADH không thích hợp, rõ nhất ở người già có dự trữ thận kém.</li>
+<li><strong>Hội chứng serotonin:</strong> quá mức kích thích thụ thể 5-HT2A (và 5-HT1A) ở thân não, tuỷ sống → rung giật cơ, tăng phản xạ, tăng thân nhiệt — khác hẳn NMS (do chẹn D2, gây cứng cơ, phản xạ giảm).</li>
+</ul>
+
+<h3 id="h-sl-da">2.5. Bốn đường dopamin: một đích, bốn hệ quả</h3>
+<p>Phần lớn thuốc chống loạn thần và thuốc Parkinson được giải thích bằng bốn đường dopamin trong não. Thuốc không chọn được đường — <strong>chẹn D2 ở đường này thì cũng chẹn ở đường kia</strong>.</p>
+<div class="tbl-wrap"><table>
+<caption>Bảng 2. Bốn đường dopamin, bệnh lý tương ứng và hệ quả khi dùng thuốc</caption>
+<tr><th>Đường</th><th>Chức năng sinh lý</th><th>Bệnh lý khi rối loạn</th><th>Chẹn D2 gây gì</th><th>Kích thích dopamin gây gì</th></tr>
+<tr><td><strong>Viền – não giữa</strong> (mesolimbic)</td><td>phần thưởng, gán ý nghĩa cho kích thích</td><td>dopamin quá mức → hoang tưởng, ảo giác (triệu chứng dương tính)</td><td><strong>hiệu quả chống loạn thần</strong></td><td><strong>ảo giác, loạn thần</strong> (levodopa, đồng vận dopamin); rối loạn kiểm soát xung động</td></tr>
+<tr><td><strong>Vỏ – não giữa</strong> (mesocortical)</td><td>nhận thức, động lực, cảm xúc</td><td>dopamin thiếu → triệu chứng âm tính, suy giảm nhận thức</td><td>có thể làm nặng thờ ơ, chậm chạp</td><td>—</td></tr>
+<tr><td><strong>Thể vân – đen</strong> (nigrostriatal)</td><td>khởi động và điều chỉnh vận động</td><td><strong>bệnh Parkinson</strong>: mất neuron chất đen → thiếu dopamin thể vân</td><td><strong>hội chứng ngoại tháp</strong>: parkinson do thuốc, loạn trương lực cấp, bồn chồn ngồi không yên, loạn động muộn</td><td>cải thiện vận động; liều cao kéo dài → loạn động</td></tr>
+<tr><td><strong>Củ – phễu</strong> (tuberoinfundibular)</td><td>dopamin ức chế tiết prolactin</td><td>—</td><td><strong>tăng prolactin</strong>: tiết sữa, vô kinh, rối loạn tình dục</td><td>giảm prolactin (bromocriptine dùng chữa u tiết prolactin)</td></tr>
+</table></div>
+<p><strong>Ngưỡng chiếm thụ thể (nghiên cứu PET của Kapur, 2000):</strong> hiệu quả chống loạn thần khi chiếm khoảng <strong>65–78%</strong> thụ thể D2 thể vân; tăng prolactin từ khoảng 72%; <strong>ngoại tháp khi vượt khoảng 78–80%</strong>. Cửa sổ điều trị hẹp — đó là lý do haloperidol liều cao dễ gây ngoại tháp, và lý do dùng liều thấp nhất có hiệu quả.</p>
+<p><strong>Vì sao thuốc thế hệ 2 ít ngoại tháp hơn?</strong> Hai cơ chế: (1) chẹn thêm <strong>5-HT2A</strong> — serotonin qua 5-HT2A vốn hãm giải phóng dopamin ở thể vân, chẹn nó thì dopamin thể vân tăng lên, bù lại một phần; (2) một số thuốc (quetiapine, clozapine) gắn D2 <strong>lỏng và nhả nhanh</strong>, để dopamin nội sinh còn cạnh tranh được.</p>
+<p><strong>Bệnh Parkinson — vòng hạch nền mất cân bằng.</strong> Khi mất khoảng 60–80% neuron dopamin chất đen thì triệu chứng mới xuất hiện. Ở thể vân, dopamin và acetylcholin vốn cân bằng nhau; thiếu dopamin làm hệ cholinergic trội lên → đó là lý do <strong>thuốc kháng cholinergic</strong> (trihexyphenidyl) giảm run, và vì sao thuốc này lại gây lú lẫn ở người già (xem 2.6).</p>
+<p><strong>Dược động học của levodopa cũng xuất phát từ sinh lý:</strong></p>
+<ul>
+<li>Dopamin không qua được hàng rào máu não, còn levodopa qua được nhờ <strong>chất vận chuyển acid amin trung tính lớn</strong> — acid amin từ bữa ăn giàu đạm cạnh tranh cùng chất vận chuyển → dặn uống xa bữa ăn giàu đạm khi có dao động.</li>
+<li>Nếu dùng levodopa đơn độc, phần lớn bị men dopa-decarboxylase ở ngoại biên chuyển thành dopamin trước khi vào não → buồn nôn, hạ huyết áp. Carbidopa/benserazide ức chế men này nhưng <strong>không qua hàng rào máu não</strong> → chỉ chặn ở ngoại biên.</li>
+<li><strong>Vùng nhận cảm hoá học gây nôn (CTZ)</strong> nằm ngoài hàng rào máu não. Vì vậy <strong>domperidone</strong> (chẹn D2 nhưng không vào não) chống nôn được mà không làm nặng Parkinson; còn <strong>metoclopramide</strong> vào não nên làm Parkinson nặng hơn.</li>
+</ul>
+<p><strong>Loạn thần trong Parkinson và sa sút trí tuệ thể Lewy</strong> phát sinh từ kích thích dopamin quá mức ở đường viền (do thuốc), cộng với tổn thương serotonin và thiếu hụt cholinergic nặng. Bệnh nhân Lewy đã thiếu sẵn cả dopamin lẫn acetylcholin, nên chẹn D2 mạnh (haloperidol) có thể gây <strong>phản ứng quá mẫn với thuốc an thần</strong>: cứng đơ, lú lẫn nặng, có thể tử vong. Quetiapine và clozapine gắn D2 yếu nên dùng được.</p>
+<p><strong>NMS</strong> phát sinh khi dopamin bị chẹn đột ngột ở <strong>vùng dưới đồi</strong> (trung tâm điều nhiệt → sốt cao) và ở <strong>thể vân</strong> (→ cứng cơ). Ngưng levodopa đột ngột tạo ra tình trạng thiếu dopamin tương tự → cùng một bệnh cảnh.</p>
+
+<h3 id="h-sl-ach">2.6. Acetylcholin, glutamat và sa sút trí tuệ</h3>
+<p><strong>Giả thuyết cholinergic của bệnh Alzheimer:</strong> neuron cholinergic ở <strong>nhân nền Meynert</strong> (chiếu lên toàn bộ vỏ não và hải mã) thoái hoá sớm → thiếu acetylcholin ở vỏ → giảm trí nhớ, chú ý. Thuốc ức chế <strong>acetylcholinesterase</strong> (donepezil, rivastigmine, galantamine) làm chậm phân huỷ acetylcholin còn lại. Vì chỉ "tận dụng" lượng acetylcholin còn sót, hiệu quả khiêm tốn và giảm dần khi bệnh tiến triển.</p>
+<p><strong>Tác dụng phụ suy ra trực tiếp từ sinh lý:</strong> acetylcholin cũng là chất dẫn truyền của hệ phó giao cảm. Tăng acetylcholin ở ngoại biên → <strong>nút xoang và nút nhĩ thất chậm lại</strong> (nhịp chậm, block, ngất — nhất là khi phối hợp chẹn beta), dạ dày tăng tiết acid (loét), phế quản co thắt (hen, COPD), ruột tăng nhu động (tiêu chảy).</p>
+<p><strong>Gánh nặng kháng cholinergic ở người già:</strong> người già, đặc biệt người sa sút trí tuệ, đã có <strong>dự trữ cholinergic thấp</strong>. Thêm một thuốc chẹn muscarinic (TCA, paroxetine, trihexyphenidyl, kháng histamin thế hệ 1, thuốc chống co thắt bàng quang) có thể đẩy họ vào <strong>sảng</strong>. Đây là cơ sở sinh lý của khuyến cáo Beers.</p>
+<p><strong>Glutamat và độc tính kích thích:</strong> trong thoái hoá thần kinh, thụ thể NMDA bị hoạt hoá liên tục ở mức thấp → Ca²⁺ đi vào tế bào kéo dài → tổn thương neuron, đồng thời tạo "nhiễu nền" làm tín hiệu học tập khó nhận ra. <strong>Memantine</strong> chẹn kênh NMDA khi kênh đang mở, với ái lực thấp và phụ thuộc điện thế: chặn dòng rò rỉ bệnh lý kéo dài, nhưng nhả ra khi có tín hiệu sinh lý mạnh và ngắn → ít ảnh hưởng chức năng bình thường (khác với ketamine, chẹn mạnh hơn nhiều).</p>
+
+<h3 id="h-sl-gaba">2.7. Thụ thể GABA-A: vì sao BZD an toàn hơn barbiturat, và vì sao cai thuốc gây co giật</h3>
+<p><strong>Cấu trúc:</strong> thụ thể GABA-A là kênh Cl⁻ gồm 5 tiểu đơn vị (thường 2α, 2β, 1γ). GABA gắn giữa α và β; <strong>benzodiazepine gắn ở khe giữa α và γ</strong>; barbiturat, propofol, rượu gắn ở các vị trí khác.</p>
+<ul>
+<li><strong>Benzodiazepine</strong> không tự mở kênh: chúng làm GABA mở kênh <em>thường xuyên hơn</em>. Khi không có GABA, BZD không làm gì → có "trần" tác dụng → quá liều BZD đơn độc hiếm khi gây chết.</li>
+<li><strong>Barbiturat</strong> làm kênh mở <em>lâu hơn</em>, và ở liều cao <strong>tự mở kênh không cần GABA</strong> → không có trần → quá liều gây ngừng thở. Đây là lý do barbiturat bị BZD thay thế.</li>
+<li><strong>Tiểu đơn vị α quyết định tác dụng:</strong> α1 → an thần, quên, chống co giật; α2/α3 → giải lo âu, giãn cơ. <strong>Zolpidem</strong> chọn lọc α1 → chủ yếu gây ngủ, ít giải lo âu, ít giãn cơ.</li>
+<li><strong>Dung nạp và cai:</strong> dùng kéo dài, thụ thể GABA-A giảm số lượng và thay đổi thành phần tiểu đơn vị, hệ glutamat tăng bù. Ngưng đột ngột → mất ức chế, kích thích dư thừa → lo âu, run, <strong>co giật</strong>. Rượu tác động lên cùng thụ thể → <strong>dung nạp chéo</strong>: đó là lý do BZD là thuốc chính trong cai rượu.</li>
+<li><strong>Ức chế hô hấp hiệp đồng với opioid:</strong> hai thuốc ức chế neuron trung tâm hô hấp ở thân não theo hai cơ chế khác nhau (GABA-A và thụ thể μ) → cộng hưởng, nguy hiểm hơn tổng từng thuốc. Gabapentinoid cộng thêm một cơ chế thứ ba.</li>
+</ul>
+
+<h3 id="h-sl-bbb">2.8. Hàng rào máu não và cơ thể người già: vì sao cùng liều mà tác dụng khác</h3>
+<ul>
+<li><strong>Muốn tác động lên não, thuốc phải qua hàng rào máu não:</strong> thuốc tan trong mỡ, không bị bơm P-glycoprotein đẩy ra thì qua được. Domperidone bị P-gp đẩy ra nên không vào não; loperamide cũng vậy (opioid nhưng không gây ức chế thần kinh trung ương ở liều thường).</li>
+<li><strong>Gabapentin cần chất vận chuyển L-acid amin (LAT1)</strong> để hấp thu ở ruột và qua hàng rào máu não. Chất vận chuyển bão hoà → liều càng cao, tỷ lệ hấp thu càng thấp. Pregabalin dùng chất vận chuyển hiệu quả hơn nên hấp thu tuyến tính.</li>
+<li><strong>Người già:</strong> mức lọc cầu thận giảm (gabapentin, pregabalin, levetiracetam tích luỹ); tỷ lệ mỡ tăng, nên thuốc tan trong mỡ như diazepam có thể tích phân bố lớn và tích luỹ kéo dài; hàng rào máu não thấm hơn; dự trữ cholinergic và dopaminergic thấp. Kết quả là <strong>liều chuẩn của người trẻ thường là liều quá cao ở người già</strong> — nguyên tắc "khởi đầu thấp, tăng chậm".</li>
+<li><strong>Albumin thấp:</strong> phenytoin, valproate gắn mạnh vào albumin. Khi albumin giảm (suy dinh dưỡng, xơ gan, hội chứng thận hư), phần thuốc tự do (phần có tác dụng) tăng dù nồng độ toàn phần "bình thường" → phải hiệu chỉnh khi đọc nồng độ.</li>
+</ul>
+
+<div class="tbl-wrap"><table>
+<caption>Bảng 3. Tóm tắt: từ cơ chế bệnh sinh đến thuốc và tác dụng phụ suy ra được</caption>
+<tr><th>Cơ chế bệnh sinh</th><th>Đích can thiệp</th><th>Thuốc</th><th>Tác dụng phụ đoán được từ cùng đích</th></tr>
+<tr><td>Neuron phóng điện tần số cao (cơn cục bộ, đau dây V, đau thần kinh)</td><td>kênh Na⁺ ở trạng thái bất hoạt</td><td>carbamazepine, phenytoin, lamotrigine, lacosamide; TCA</td><td>chậm dẫn truyền tim (QRS, PR), chóng mặt, song thị, thất điều</td></tr>
+<tr><td>Dao động đồi thị – vỏ 3 Hz (cơn vắng)</td><td>kênh Ca²⁺ type T</td><td>ethosuximide, valproate</td><td>—</td></tr>
+<tr><td>Giải phóng glutamat quá mức ở sừng sau, tăng α2δ-1</td><td>α2δ-1</td><td>gabapentin, pregabalin</td><td>an thần, thất điều (α2δ ở tiểu não), phù</td></tr>
+<tr><td>Mất phanh noradrenalin đi xuống</td><td>NET</td><td>TCA, SNRI</td><td>tăng HA, nhịp nhanh, vã mồ hôi</td></tr>
+<tr><td>Thiếu monoamine, giảm mềm dẻo thần kinh (trầm cảm)</td><td>SERT, NET, α2</td><td>SSRI, SNRI, mirtazapine</td><td>chảy máu (SERT tiểu cầu), hạ Na⁺ (ADH), buồn nôn (5-HT3 ruột)</td></tr>
+<tr><td>Giảm ức chế GABA, kích thích dư (co giật, cai rượu, lo âu)</td><td>GABA-A</td><td>BZD, barbiturat</td><td>an thần, ức chế hô hấp, dung nạp, cai thuốc gây co giật</td></tr>
+<tr><td>Dopamin quá mức ở đường viền (loạn thần, sảng)</td><td>D2</td><td>haloperidol, thuốc thế hệ 2</td><td>ngoại tháp (thể vân), tăng prolactin (củ – phễu), NMS (dưới đồi)</td></tr>
+<tr><td>Thiếu dopamin thể vân (Parkinson)</td><td>tiền chất, thụ thể D2, MAO-B, COMT</td><td>levodopa, pramipexole, rasagiline, entacapone</td><td>ảo giác, rối loạn kiểm soát xung động (đường viền), buồn nôn (CTZ)</td></tr>
+<tr><td>Thiếu acetylcholin vỏ não (Alzheimer)</td><td>AChE</td><td>donepezil, rivastigmine, galantamine</td><td>nhịp chậm, ngất, loét, co thắt phế quản (phó giao cảm)</td></tr>
+<tr><td>Hoạt hoá NMDA kéo dài (thoái hoá thần kinh)</td><td>kênh NMDA</td><td>memantine</td><td>chóng mặt, lú lẫn nhẹ</td></tr>
+</table></div>
+
+
+<hr class="sect">
+
+<h2 id="h-ad">3. Thuốc chống trầm cảm</h2>
+<p style="font-size:14px;color:#6B6862;margin-top:-4px">↩ Vì sao thuốc tác động ở đây — xem <a href="#h-sl-td">2.4 Trầm cảm</a> · <a href="#h-sl-dau">2.3 Đau thần kinh</a></p>
+
+<h3 id="h-ad-cc">3.1. Cơ chế chung và vì sao phải chờ 2–4 tuần</h3>
 <p>Mọi thuốc chống trầm cảm hiện dùng đều làm <strong>tăng nồng độ monoamine</strong> ở khe synap (chặn tái hấp thu qua SERT/NET, chặn thụ thể tự điều hoà α2, hoặc ức chế MAO). Nồng độ tăng ngay trong vài giờ, nhưng tác dụng chống trầm cảm cần 2–4 tuần vì hiệu quả thật đến từ <strong>giảm điều hoà thụ thể</strong> (5-HT1A tự điều hoà mất nhạy) và tăng BDNF, tạo synap mới. Ngược lại, <strong>tác dụng phụ xuất hiện ngay</strong> (buồn nôn, bồn chồn, mất ngủ của SSRI) — cần dặn bệnh nhân điều này để tránh tự bỏ thuốc.</p>
 <p><strong>Tác dụng giảm đau thần kinh</strong> lại xuất hiện sớm hơn (1–2 tuần) và ở liều thấp hơn liều chống trầm cảm, vì cơ chế là tăng <em>noradrenalin</em> ở đường ức chế đau đi xuống (thân não → sừng sau tủy). Đây là lý do <strong>chỉ TCA và SNRI giảm đau thần kinh, SSRI thì gần như không</strong>.</p>
 
-<h3 id="h-ad-tca">2.2. Thuốc chống trầm cảm ba vòng (TCA)</h3>
+<h3 id="h-ad-tca">3.2. Thuốc chống trầm cảm ba vòng (TCA)</h3>
 <p>TCA (amitriptyline, nortriptyline, imipramine, clomipramine) chặn tái hấp thu 5-HT và NA, nhưng cùng lúc chẹn <strong>5 đích ngoài ý muốn</strong> — nhớ theo chữ <strong>"H-M-α-Na-QT"</strong>:</p>
 <div class="tbl-wrap"><table>
-<caption>Bảng 2. TCA: đích phụ → tác dụng phụ → hệ quả lâm sàng</caption>
+<caption>Bảng 4. TCA: đích phụ → tác dụng phụ → hệ quả lâm sàng</caption>
 <tr><th>Đích bị chẹn</th><th>Tác dụng phụ</th><th>Hệ quả trên khoa</th></tr>
 <tr><td>H1 (histamin)</td><td>an thần, tăng cân</td><td>dùng có chủ đích: uống buổi tối giúp ngủ</td></tr>
 <tr><td>M1 (muscarinic)</td><td>khô miệng, táo bón, <strong>bí tiểu</strong>, nhìn mờ, nhịp nhanh, <strong>lú lẫn/sảng</strong> ở người già</td><td>CCĐ tương đối: phì đại tiền liệt tuyến, glôcôm góc đóng, sa sút trí tuệ</td></tr>
@@ -237,7 +403,7 @@
 </table></div>
 
 <div class="tbl-wrap"><table>
-<caption>Bảng 3. Liều TCA thường dùng (BNF, SmPC amitriptyline, NICE CG173)</caption>
+<caption>Bảng 5. Liều TCA thường dùng (BNF, SmPC amitriptyline, NICE CG173)</caption>
 <tr><th>Thuốc</th><th>Chỉ định</th><th>Khởi đầu</th><th>Duy trì / tối đa</th><th>Ghi chú</th></tr>
 <tr><td><strong>Amitriptyline</strong></td><td>Đau thần kinh, dự phòng đau đầu căng cơ mạn, migraine</td><td><strong>10 mg buổi tối</strong> (10–25 mg)</td><td>tăng 10–25 mg mỗi 3–7 ngày; thường 25–75 mg/tối; <strong>tối đa 75 mg</strong> cho đau (cao hơn chỉ khi có chuyên khoa đau)</td><td>uống 1–2 giờ trước ngủ; đánh giá lại sau 6–8 tuần</td></tr>
 <tr><td></td><td>Trầm cảm</td><td>25 mg × 2 lần (người già, bệnh tim: 10–25 mg)</td><td>thường 75–150 mg/ngày; liều &gt; 100 mg cần thận trọng</td><td>ECG trước khi dùng (SmPC châu Âu) để loại QT dài bẩm sinh</td></tr>
@@ -249,9 +415,9 @@
 
 <div class="rec"><span class="num">Ngộ độc TCA — nhận diện và xử trí:</span> lơ mơ → hôn mê, co giật, hội chứng kháng cholinergic (da khô nóng đỏ, đồng tử giãn, bí tiểu), tụt HA, nhịp nhanh. ECG: <strong>QRS &gt; 100 ms</strong> (nguy cơ co giật), &gt; 160 ms (nguy cơ loạn nhịp thất), <strong>sóng R ở aVR &gt; 3 mm</strong>. Xử trí: <strong>Natri bicarbonate 8,4% 1–2 mEq/kg TM bolus</strong>, lặp lại tới khi QRS hẹp lại, đích pH máu 7,45–7,55; than hoạt khi đến sớm và bảo vệ được đường thở; co giật dùng BZD. <strong>Tránh</strong> flumazenil, physostigmine, phenytoin, thuốc chống loạn nhịp nhóm IA/IC.</div>
 
-<h3 id="h-ad-ssri">2.3. SSRI, SNRI và các thuốc chống trầm cảm khác</h3>
+<h3 id="h-ad-ssri">3.3. SSRI, SNRI và các thuốc chống trầm cảm khác</h3>
 <div class="tbl-wrap"><table>
-<caption>Bảng 4. Liều thuốc chống trầm cảm thế hệ mới (BNF, Maudsley 15e, nhãn FDA/MHRA)</caption>
+<caption>Bảng 6. Liều thuốc chống trầm cảm thế hệ mới (BNF, Maudsley 15e, nhãn FDA/MHRA)</caption>
 <tr><th>Thuốc</th><th>Khởi đầu</th><th>Liều thường / tối đa</th><th>Điểm khác biệt cần nhớ</th></tr>
 <tr><td><strong>Sertraline</strong></td><td>25–50 mg sáng</td><td>50–100 mg; tối đa 200 mg</td><td>lựa chọn an toàn sau nhồi máu cơ tim (SADHART); ít tương tác; tiêu chảy</td></tr>
 <tr><td><strong>Escitalopram</strong></td><td>5–10 mg</td><td>10–20 mg; <strong>≥ 65 tuổi tối đa 10 mg</strong></td><td>QT kéo dài phụ thuộc liều (MHRA 2011)</td></tr>
@@ -279,9 +445,9 @@
 
 <div class="rec"><span class="num">Hội chứng serotonin — tiêu chuẩn Hunter</span> (đang dùng thuốc serotonin và có 1 trong): rung giật cơ tự phát; rung giật cơ gây được + kích động hoặc vã mồ hôi; rung giật nhãn cầu + kích động hoặc vã mồ hôi; run + tăng phản xạ; tăng trương lực + nhiệt độ &gt; 38 °C + rung giật nhãn cầu hoặc rung giật cơ gây được. <strong>Xử trí:</strong> ngưng thuốc, BZD an thần, làm mát; nặng: <strong>cyproheptadine 12 mg uống</strong>, rồi 2 mg mỗi 2 giờ nếu còn triệu chứng; sốt &gt; 41 °C: an thần, đặt NKQ, liệt cơ. Phân biệt với hội chứng ác tính do thuốc an thần (NMS): khởi phát chậm (ngày), <strong>cứng cơ kiểu ống chì, phản xạ giảm</strong>, không rung giật cơ.</div>
 
-<h3 id="h-ad-chon">2.4. Chọn thuốc theo tình huống trên khoa thần kinh</h3>
+<h3 id="h-ad-chon">3.4. Chọn thuốc theo tình huống trên khoa thần kinh</h3>
 <div class="tbl-wrap"><table>
-<caption>Bảng 5. Chọn thuốc chống trầm cảm theo bệnh cảnh</caption>
+<caption>Bảng 7. Chọn thuốc chống trầm cảm theo bệnh cảnh</caption>
 <tr><th>Tình huống</th><th>Ưu tiên</th><th>Tránh</th></tr>
 <tr><td>Trầm cảm sau đột quỵ</td><td>sertraline, escitalopram (citalopram ≤ 20 mg ở người già)</td><td>TCA (tim mạch, ngã); thận trọng SSRI + kháng đông/kháng tiểu cầu kép</td></tr>
 <tr><td>Trầm cảm + đau thần kinh ĐTĐ</td><td>duloxetine</td><td>duloxetine khi CrCl &lt; 30</td></tr>
@@ -293,12 +459,13 @@
 
 <hr class="sect">
 
-<h2 id="h-asm">3. Thuốc chống động kinh (ASM)</h2>
+<h2 id="h-asm">4. Thuốc chống động kinh (ASM)</h2>
+<p style="font-size:14px;color:#6B6862;margin-top:-4px">↩ Vì sao thuốc tác động ở đây — xem <a href="#h-sl-dk">2.2 Động kinh</a> · <a href="#h-sl-synap">2.1 Synap</a></p>
 
-<h3 id="h-asm-cc">3.1. Phân loại theo cơ chế và theo cảm ứng men</h3>
+<h3 id="h-asm-cc">4.1. Phân loại theo cơ chế và theo cảm ứng men</h3>
 <p>Hai cách chia quyết định cách dùng: <strong>theo cơ chế</strong> (chọn thuốc theo loại cơn, đoán tác dụng phụ) và <strong>theo ảnh hưởng men gan</strong> (đoán tương tác — đây là nguồn sai sót lớn nhất trên khoa).</p>
 <div class="tbl-wrap"><table>
-<caption>Bảng 6. Cơ chế, phổ tác dụng và ảnh hưởng men gan</caption>
+<caption>Bảng 8. Cơ chế, phổ tác dụng và ảnh hưởng men gan</caption>
 <tr><th>Cơ chế</th><th>Thuốc</th><th>Phổ</th><th>Men gan</th></tr>
 <tr><td>Chẹn kênh Na⁺ điện thế</td><td>carbamazepine, oxcarbazepine, phenytoin, lamotrigine, lacosamide</td><td>cơn cục bộ (lamotrigine: cả toàn thể, cơn vắng); <strong>làm nặng cơn vắng, giật cơ</strong> (trừ lamotrigine với cơn vắng)</td><td><strong>Cảm ứng mạnh:</strong> carbamazepine, phenytoin; oxcarbazepine cảm ứng yếu</td></tr>
 <tr><td>Tăng GABA</td><td>phenobarbital, BZD</td><td>rộng</td><td>phenobarbital cảm ứng mạnh</td></tr>
@@ -309,7 +476,7 @@
 </table></div>
 <p><strong>Hệ quả thực hành của thuốc cảm ứng men</strong> (carbamazepine, phenytoin, phenobarbital): làm giảm nồng độ warfarin, thuốc tránh thai nội tiết, corticoid, nhiều thuốc kháng virus, statin, một số thuốc kháng đông đường uống trực tiếp (NOAC) — với NOAC nên tránh phối hợp. Ngưng thuốc cảm ứng thì nồng độ các thuốc kia tăng trở lại sau 2–3 tuần.</p>
 
-<h3 id="h-asm-tung">3.2. Từng thuốc: liều, theo dõi, chống chỉ định</h3>
+<h3 id="h-asm-tung">4.2. Từng thuốc: liều, theo dõi, chống chỉ định</h3>
 
 <h4 id="h-vpa">Valproate (Depakine) — thuốc phổ rộng, nhiều cạm bẫy nhất</h4>
 <ul>
@@ -343,11 +510,11 @@
 <ul>
 <li><strong>Liều:</strong> 500 mg × 2 lần/ngày, tăng 500 mg/lần mỗi 2 tuần; tối đa 1500 mg × 2 lần (3000 mg/ngày). Dạng TM dùng cùng liều, chuyển đổi 1:1. Trạng thái động kinh: 60 mg/kg TM (tối đa 4500 mg).</li>
 <li><strong>Ưu điểm:</strong> không chuyển hoá qua CYP, gần như không tương tác, không cần đo nồng độ, dùng được ở bệnh gan, có dạng TM.</li>
-<li><strong>Thải qua thận — bắt buộc chỉnh liều</strong> (bảng 7).</li>
+<li><strong>Thải qua thận — bắt buộc chỉnh liều</strong> (bảng 9).</li>
 <li><strong>Tác dụng phụ:</strong> cáu gắt, hung hăng, trầm cảm, hiếm loạn thần — hỏi gia đình về thay đổi hành vi; thận trọng ở người có tiền sử trầm cảm/tự sát.</li>
 </ul>
 <div class="tbl-wrap"><table>
-<caption>Bảng 7. Levetiracetam theo chức năng thận (nhãn FDA/EMA; CrCl hiệu chỉnh theo 1,73 m²)</caption>
+<caption>Bảng 9. Levetiracetam theo chức năng thận (nhãn FDA/EMA; CrCl hiệu chỉnh theo 1,73 m²)</caption>
 <tr><th>CrCl (mL/phút/1,73 m²)</th><th>Liều</th></tr>
 <tr><td>≥ 80</td><td>500–1500 mg mỗi 12 giờ</td></tr>
 <tr><td>50–79</td><td>500–1000 mg mỗi 12 giờ</td></tr>
@@ -359,7 +526,7 @@
 <h4 id="h-ltg">Lamotrigine (Lamictal) — tăng liều chậm là bắt buộc</h4>
 <p>Phổ rộng (cục bộ, toàn thể, cơn vắng; có thể làm nặng giật cơ), là lựa chọn ưu tiên cho <strong>nữ tuổi sinh đẻ</strong> cùng levetiracetam. Nguy cơ phát ban và <strong>SJS/TEN tăng khi tăng liều nhanh</strong> hoặc phối hợp valproate — vì vậy phác đồ phụ thuộc thuốc đi kèm:</p>
 <div class="tbl-wrap"><table>
-<caption>Bảng 8. Phác đồ tăng liều lamotrigine ở người lớn (BNF/SmPC)</caption>
+<caption>Bảng 10. Phác đồ tăng liều lamotrigine ở người lớn (BNF/SmPC)</caption>
 <tr><th>Bối cảnh</th><th>Tuần 1–2</th><th>Tuần 3–4</th><th>Duy trì thường dùng</th></tr>
 <tr><td>Đơn trị</td><td>25 mg × 1 lần/ngày</td><td>50 mg × 1 lần/ngày</td><td>tăng tối đa 50–100 mg mỗi 1–2 tuần → 100–200 mg/ngày (tối đa 500)</td></tr>
 <tr><td><strong>Có valproate</strong></td><td><strong>25 mg cách ngày</strong></td><td>25 mg × 1 lần/ngày</td><td>tăng tối đa 25–50 mg mỗi 1–2 tuần → 100–200 mg/ngày</td></tr>
@@ -369,7 +536,7 @@
 
 <h4 id="h-khac">Các thuốc khác</h4>
 <div class="tbl-wrap"><table>
-<caption>Bảng 9. Topiramate, lacosamide, clonazepam</caption>
+<caption>Bảng 11. Topiramate, lacosamide, clonazepam</caption>
 <tr><th>Thuốc</th><th>Liều</th><th>Tác dụng phụ / chống chỉ định đặc trưng</th></tr>
 <tr><td><strong>Topiramate</strong></td><td>25 mg tối, tăng 25–50 mg mỗi 1–2 tuần; động kinh 100–200 mg/ngày (tối đa 400); dự phòng migraine 50–100 mg/ngày</td><td>chậm chạp, khó tìm từ; sỏi thận; toan chuyển hoá; sụt cân; giảm tiết mồ hôi; <strong>glôcôm góc đóng cấp</strong>; quái thai (khe hở môi – vòm)</td></tr>
 <tr><td><strong>Lacosamide</strong></td><td>50 mg × 2 lần, tăng 50 mg × 2 lần mỗi tuần; tối đa 200 mg × 2 lần; có dạng TM</td><td><strong>kéo dài PR</strong> → thận trọng block AV, ECG trước khi dùng; chóng mặt</td></tr>
@@ -387,12 +554,13 @@
 
 <hr class="sect">
 
-<h2 id="h-gaba">4. Gabapentinoid và tiếp cận đau thần kinh</h2>
+<h2 id="h-gaba">5. Gabapentinoid và tiếp cận đau thần kinh</h2>
+<p style="font-size:14px;color:#6B6862;margin-top:-4px">↩ Vì sao thuốc tác động ở đây — xem <a href="#h-sl-dau">2.3 Đau thần kinh</a> · <a href="#h-sl-bbb">2.8 Hấp thu gabapentin</a></p>
 
-<h3 id="h-gaba-cc">4.1. Gabapentin (Neurontin) và pregabalin (Lyrica)</h3>
+<h3 id="h-gaba-cc">5.1. Gabapentin (Neurontin) và pregabalin (Lyrica)</h3>
 <p>Dù tên gọi giống GABA, hai thuốc này <strong>không tác động lên thụ thể GABA</strong>. Chúng gắn tiểu đơn vị <strong>α2δ-1</strong> của kênh Ca²⁺ điện thế ở đầu tận cùng trước synap → giảm Ca²⁺ đi vào → giảm giải phóng glutamat, chất P, CGRP ở sừng sau tủy. Không chuyển hoá ở gan, <strong>thải nguyên dạng qua thận</strong> → liều phụ thuộc hoàn toàn vào CrCl.</p>
 <div class="tbl-wrap"><table>
-<caption>Bảng 10. So sánh gabapentin và pregabalin</caption>
+<caption>Bảng 12. So sánh gabapentin và pregabalin</caption>
 <tr><th></th><th>Gabapentin</th><th>Pregabalin</th></tr>
 <tr><td>Hấp thu</td><td>bão hoà (vận chuyển L-amino acid) → sinh khả dụng giảm khi tăng liều (60% ở 900 mg, ~35% ở 3600 mg)</td><td>tuyến tính, sinh khả dụng ≥ 90%</td></tr>
 <tr><td>Chỉnh liều tới hiệu quả</td><td>chậm, chia 3 lần/ngày</td><td>nhanh hơn, chia 2 lần/ngày</td></tr>
@@ -401,7 +569,7 @@
 </table></div>
 
 <div class="tbl-wrap"><table>
-<caption>Bảng 11. Chỉnh liều theo chức năng thận — tổng liều/ngày (nhãn FDA Neurontin, Lyrica)</caption>
+<caption>Bảng 13. Chỉnh liều theo chức năng thận — tổng liều/ngày (nhãn FDA Neurontin, Lyrica)</caption>
 <tr><th>CrCl (mL/phút)</th><th>Gabapentin</th><th>Pregabalin</th></tr>
 <tr><td>≥ 60</td><td>900–3600 mg, chia 3 lần</td><td>150–600 mg, chia 2–3 lần</td></tr>
 <tr><td>30–59</td><td>400–1400 mg, chia 2 lần</td><td>75–300 mg, chia 2–3 lần</td></tr>
@@ -412,7 +580,7 @@
 
 <div class="warn"><strong>Tác dụng phụ và cảnh báo:</strong> chóng mặt, buồn ngủ, <strong>thất điều, ngã</strong>, phù ngoại biên, tăng cân, nhìn mờ; bệnh não ở người suy thận không chỉnh liều (lơ mơ, rung giật cơ). <strong>FDA 12/2019:</strong> ức chế hô hấp nặng khi phối hợp opioid, BZD, hoặc ở người có bệnh phổi (COPD), người già. Có nguy cơ <strong>lạm dụng, lệ thuộc</strong> (Anh xếp nhóm thuốc kiểm soát từ 2019) — hỏi tiền sử nghiện chất. Ngưng thuốc giảm dần trong ≥ 1 tuần. Chống chỉ định duy nhất trên nhãn: quá mẫn (pregabalin có thể gây phù mạch).</div>
 
-<h3 id="h-dau">4.2. Phác đồ đau thần kinh (NICE CG173)</h3>
+<h3 id="h-dau">5.2. Phác đồ đau thần kinh (NICE CG173)</h3>
 <figure style="margin:22px 0 18px;">
 <svg viewBox="0 0 900 470" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:#F7F3EA;border:1px solid var(--border);border-radius:10px" font-family="Inter, Arial, sans-serif" font-size="13">
 <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6B6862"/></marker></defs>
@@ -451,15 +619,16 @@
 <text x="70" y="420" fill="#6B6862">→ amitriptyline hoặc pregabalin tối</text>
 <text x="56" y="442" fill="#211F1B">• Đang dùng tramadol → tránh SSRI/SNRI</text>
 </svg>
-<div class="fig-caption">Hình 2 (tự vẽ theo NICE CG173, 2013, cập nhật 2020). NICE khuyến cáo chọn 1 trong 4 thuốc hàng đầu; không khởi đầu tramadol, opioid mạnh, capsaicin miếng dán, cannabis ở tuyến không chuyên. Hiệu quả theo phân tích gộp Finnerup (Lancet Neurol 2015): NNT amitriptyline ~3,6; SNRI ~6,4; gabapentin ~6,3; pregabalin ~7,7.</div>
+<div class="fig-caption">Hình 3 (tự vẽ theo NICE CG173, 2013, cập nhật 2020). NICE khuyến cáo chọn 1 trong 4 thuốc hàng đầu; không khởi đầu tramadol, opioid mạnh, capsaicin miếng dán, cannabis ở tuyến không chuyên. Hiệu quả theo phân tích gộp Finnerup (Lancet Neurol 2015): NNT amitriptyline ~3,6; SNRI ~6,4; gabapentin ~6,3; pregabalin ~7,7.</div>
 </figure>
 
 <hr class="sect">
 
-<h2 id="h-bzd">5. Benzodiazepine và thuốc ngủ Z</h2>
+<h2 id="h-bzd">6. Benzodiazepine và thuốc ngủ Z</h2>
+<p style="font-size:14px;color:#6B6862;margin-top:-4px">↩ Vì sao thuốc tác động ở đây — xem <a href="#h-sl-gaba">2.7 Thụ thể GABA-A</a></p>
 <p><strong>Cơ chế:</strong> gắn vị trí BZD trên thụ thể GABA-A → tăng <em>tần số</em> mở kênh Cl⁻ (barbiturat tăng <em>thời gian</em> mở, và liều cao mở kênh trực tiếp — vì vậy barbiturat dễ gây chết hơn khi quá liều). Tác dụng: an thần, giải lo âu, chống co giật, giãn cơ, quên thuận chiều.</p>
 <div class="tbl-wrap"><table>
-<caption>Bảng 12. Benzodiazepine thường dùng (BNF; bảng quy đổi Ashton/Maudsley)</caption>
+<caption>Bảng 14. Benzodiazepine thường dùng (BNF; bảng quy đổi Ashton/Maudsley)</caption>
 <tr><th>Thuốc</th><th>t½ (giờ)</th><th>Liều tương đương ~ diazepam 10 mg</th><th>Liều thường dùng</th><th>Điểm riêng</th></tr>
 <tr><td><strong>Diazepam</strong> (Seduxen)</td><td>20–100 (chất chuyển hoá có hoạt tính)</td><td>10 mg</td><td>lo âu 2 mg × 3, tối đa 30 mg/ngày; co giật 10 mg TM (0,15–0,2 mg/kg)</td><td>tích luỹ ở người già, suy gan; tái phát cơn sau 20–30 phút do phân bố vào mỡ</td></tr>
 <tr><td><strong>Lorazepam</strong></td><td>10–20</td><td>1 mg</td><td>1–4 mg/ngày; co giật 0,1 mg/kg TM (tối đa 4 mg)</td><td>glucuronid hoá trực tiếp → <strong>an toàn hơn khi suy gan</strong></td></tr>
@@ -474,10 +643,11 @@
 
 <hr class="sect">
 
-<h2 id="h-ap">6. Thuốc chống loạn thần (chẹn D2)</h2>
+<h2 id="h-ap">7. Thuốc chống loạn thần (chẹn D2)</h2>
+<p style="font-size:14px;color:#6B6862;margin-top:-4px">↩ Vì sao thuốc tác động ở đây — xem <a href="#h-sl-da">2.5 Bốn đường dopamin</a></p>
 <p><strong>Cơ chế:</strong> chẹn D2 ở đường viền – não giữa (giảm hoang tưởng, ảo giác, kích động). Chẹn D2 ở đường khác gây tác dụng phụ: <strong>thể vân</strong> → ngoại tháp; <strong>phễu – tuyến yên</strong> → tăng prolactin. Thế hệ 2 chẹn thêm 5-HT2A nên ít ngoại tháp hơn, nhưng nhiều tác dụng chuyển hoá hơn (olanzapine, clozapine). Trên khoa nội – thần kinh, chỉ định chính là <strong>sảng kích động gây nguy hiểm</strong>, loạn thần ở bệnh Parkinson / sa sút trí tuệ thể Lewy, và kích động nặng.</p>
 <div class="tbl-wrap"><table>
-<caption>Bảng 13. Thuốc chống loạn thần thường gặp</caption>
+<caption>Bảng 15. Thuốc chống loạn thần thường gặp</caption>
 <tr><th>Thuốc</th><th>Liều trên khoa nội</th><th>Ngoại tháp</th><th>An thần</th><th>QT</th><th>Ghi chú</th></tr>
 <tr><td><strong>Haloperidol</strong> (Haldol)</td><td>sảng: 0,5–1 mg uống/tiêm bắp, lặp sau 2 giờ nếu cần; người già tổng liều thường ≤ 5 mg/ngày; loạn thần 2–10 mg/ngày</td><td>+++</td><td>+</td><td>++ (TM nhiều hơn)</td><td>ECG trước khi dùng; <strong>CCĐ Parkinson, sa sút trí tuệ Lewy</strong></td></tr>
 <tr><td><strong>Risperidone</strong></td><td>0,25–0,5 mg × 1–2; loạn thần 2–6 mg/ngày</td><td>++ (liều &gt; 6 mg)</td><td>+</td><td>+</td><td>tăng prolactin; giảm liều khi suy thận</td></tr>
@@ -498,9 +668,10 @@
 
 <hr class="sect">
 
-<h2 id="h-pd">7. Thuốc Parkinson và thuốc điều trị sa sút trí tuệ</h2>
+<h2 id="h-pd">8. Thuốc Parkinson và thuốc điều trị sa sút trí tuệ</h2>
+<p style="font-size:14px;color:#6B6862;margin-top:-4px">↩ Vì sao thuốc tác động ở đây — xem <a href="#h-sl-da">2.5 Dopamin và Parkinson</a> · <a href="#h-sl-ach">2.6 Acetylcholin – glutamat</a></p>
 <div class="tbl-wrap"><table>
-<caption>Bảng 14. Thuốc Parkinson (BNF; MDS evidence-based review)</caption>
+<caption>Bảng 16. Thuốc Parkinson (BNF; MDS evidence-based review)</caption>
 <tr><th>Nhóm / thuốc</th><th>Liều</th><th>Tác dụng phụ / lưu ý</th></tr>
 <tr><td><strong>Levodopa + chất ức chế dopa-decarboxylase</strong> (Madopar, Sinemet)</td><td>khởi đầu levodopa 50 mg × 3, tăng dần; thường 300–600 mg levodopa/ngày chia 3–4 lần; uống xa bữa ăn giàu đạm</td><td>buồn nôn, hạ HA tư thế, ảo giác, loạn động muộn, dao động "on-off". <strong>Không ngưng đột ngột</strong> (hội chứng tăng thân nhiệt – cứng cơ giống NMS) — bệnh nhân nhịn ăn, mổ: chuyển sonde hoặc dạng thay thế</td></tr>
 <tr><td><strong>Đồng vận dopamin:</strong> pramipexole, ropinirole</td><td>pramipexole 0,125 mg (dạng muối) × 3, tăng tuần; tối đa 4,5 mg muối/ngày; giảm liều khi suy thận. Ropinirole 0,25 mg × 3, tối đa 24 mg</td><td><strong>rối loạn kiểm soát xung động</strong> (cờ bạc, mua sắm, hành vi tình dục), cơn ngủ đột ngột, phù chân, ảo giác ở người già</td></tr>
@@ -510,7 +681,7 @@
 <tr><td><strong>Kháng cholinergic:</strong> trihexyphenidyl</td><td>1 mg, tăng tới 6–10 mg/ngày</td><td>chủ yếu cho run ở người trẻ; <strong>tránh ở người già</strong> (lú lẫn, bí tiểu, táo bón); dùng điều trị ngoại tháp do thuốc</td></tr>
 </table></div>
 <div class="tbl-wrap"><table>
-<caption>Bảng 15. Thuốc điều trị sa sút trí tuệ (NICE NG97; BNF)</caption>
+<caption>Bảng 17. Thuốc điều trị sa sút trí tuệ (NICE NG97; BNF)</caption>
 <tr><th>Thuốc</th><th>Liều</th><th>Lưu ý</th></tr>
 <tr><td><strong>Donepezil</strong> (Aricept)</td><td>5 mg tối × 4–6 tuần → 10 mg</td><td>Nhóm ức chế AChE: <strong>nhịp chậm, block AV, ngất</strong> (thận trọng hội chứng nút xoang, đang dùng chẹn beta), buồn nôn, tiêu chảy, ác mộng (uống sáng nếu bị), loét dạ dày, co thắt phế quản ở hen/COPD</td></tr>
 <tr><td><strong>Rivastigmine</strong></td><td>uống 1,5 mg × 2, tăng mỗi 2 tuần tới 3–6 mg × 2; miếng dán 4,6 → 9,5 mg/24 giờ (tối đa 13,3)</td><td>miếng dán ít tác dụng phụ tiêu hoá hơn; có chỉ định sa sút trí tuệ trong Parkinson</td></tr>
@@ -520,10 +691,10 @@
 
 <hr class="sect">
 
-<h2 id="h-bonao">8. Nhóm "bổ não", chống chóng mặt, giãn cơ hay gặp ở Việt Nam</h2>
+<h2 id="h-bonao">9. Nhóm "bổ não", chống chóng mặt, giãn cơ hay gặp ở Việt Nam</h2>
 <p>Nhóm này chiếm phần lớn y lệnh ở nhiều khoa nhưng <strong>bằng chứng lợi ích lâm sàng rất hạn chế</strong>. Cần biết rõ để không kê thay cho điều trị có bằng chứng, và để nhận diện tác dụng phụ.</p>
 <div class="tbl-wrap"><table>
-<caption>Bảng 16. Bằng chứng và an toàn của các thuốc "dinh dưỡng thần kinh", chống chóng mặt, giãn cơ</caption>
+<caption>Bảng 18. Bằng chứng và an toàn của các thuốc "dinh dưỡng thần kinh", chống chóng mặt, giãn cơ</caption>
 <tr><th>Thuốc</th><th>Bằng chứng</th><th>Liều / chống chỉ định / tác dụng phụ</th></tr>
 <tr><td><strong>Piracetam</strong> (Nootropil)</td><td>Chỉ có bằng chứng cho <strong>rung giật cơ nguồn gốc vỏ não</strong>. Cochrane: không cải thiện tử vong hay phụ thuộc sau nhồi máu não cấp; không đủ bằng chứng cho sa sút trí tuệ</td><td>rung giật cơ: 7,2 g/ngày, tăng 4,8 g mỗi 3–4 ngày, tối đa 24 g. CCĐ: <strong>xuất huyết não</strong>, suy thận giai đoạn cuối (CrCl &lt; 20), múa giật Huntington; có tác dụng chống kết tập tiểu cầu</td></tr>
 <tr><td><strong>Citicoline</strong> (Somazina)</td><td>Thử nghiệm ICTUS (Lancet 2012, 2298 bệnh nhân nhồi máu não cấp) dừng vì vô ích; Cochrane 2020 không thấy lợi ích rõ</td><td>an toàn, nhưng không thay thế tiêu sợi huyết/lấy huyết khối, phục hồi chức năng</td></tr>
@@ -538,9 +709,9 @@
 
 <hr class="sect">
 
-<h2 id="h-tt">9. Tương tác thuốc cần thuộc lòng</h2>
+<h2 id="h-tt">10. Tương tác thuốc cần thuộc lòng</h2>
 <div class="tbl-wrap"><table>
-<caption>Bảng 17. Tương tác nguy hiểm thường gặp trên khoa</caption>
+<caption>Bảng 19. Tương tác nguy hiểm thường gặp trên khoa</caption>
 <tr><th>Phối hợp</th><th>Hậu quả</th><th>Xử lý</th></tr>
 <tr><td>SSRI/SNRI/TCA + tramadol, fentanyl, pethidine, linezolid, xanh methylen, IMAO-B, triptan</td><td>hội chứng serotonin; tramadol còn giảm ngưỡng co giật</td><td>chọn giảm đau khác; nếu buộc dùng linezolid thì ngưng thuốc serotonin và theo dõi</td></tr>
 <tr><td>Opioid + BZD + gabapentinoid</td><td>ức chế hô hấp, tử vong</td><td>tránh; liều thấp nhất, theo dõi SpO₂, nhịp thở</td></tr>
@@ -556,9 +727,9 @@
 
 <hr class="sect">
 
-<h2 id="h-dacbiet">10. Người cao tuổi, suy thận, suy gan, thai kỳ</h2>
+<h2 id="h-dacbiet">11. Người cao tuổi, suy thận, suy gan, thai kỳ</h2>
 <div class="tbl-wrap"><table>
-<caption>Bảng 18. Chọn thuốc theo nhóm bệnh nhân đặc biệt</caption>
+<caption>Bảng 20. Chọn thuốc theo nhóm bệnh nhân đặc biệt</caption>
 <tr><th>Đối tượng</th><th>Tránh / thận trọng</th><th>Ưu tiên</th></tr>
 <tr><td><strong>≥ 65 tuổi</strong> (Beers 2023)</td><td>TCA, paroxetine, BZD, Z-drug, thuốc chống loạn thần (trừ chỉ định tâm thần), trihexyphenidyl, phenobarbital; tổng "gánh nặng kháng cholinergic"</td><td>sertraline, mirtazapine liều thấp; gabapentinoid liều thấp có chỉnh theo thận; levetiracetam/lamotrigine</td></tr>
 <tr><td><strong>Suy thận</strong></td><td>chỉnh liều: gabapentin, pregabalin, levetiracetam, topiramate, lacosamide, amantadine, memantine, pramipexole, venlafaxine, risperidone; tránh duloxetine khi CrCl &lt; 30, piracetam khi CrCl &lt; 20</td><td>valproate, lamotrigine, carbamazepine (chuyển hoá gan); sertraline</td></tr>
@@ -568,7 +739,7 @@
 
 <hr class="sect">
 
-<h2 id="h-bay">11. Bẫy thường gặp (thi và thực hành)</h2>
+<h2 id="h-bay">12. Bẫy thường gặp (thi và thực hành)</h2>
 <ol>
 <li><strong>SSRI không giảm đau thần kinh</strong> có ý nghĩa — giảm đau cần tăng noradrenalin (TCA, SNRI).</li>
 <li>Amitriptyline cho đau: khởi đầu <strong>10 mg</strong>, tối đa <strong>75 mg</strong> — không phải liều chống trầm cảm 150 mg.</li>
@@ -590,7 +761,7 @@
 <li>MHRA 2024: không khởi trị valproate cho người &lt; 55 tuổi (cả nam) trừ khi 2 bác sĩ chuyên khoa xác nhận.</li>
 </ol>
 
-<h2 id="h-tomtat">12. Tóm tắt một trang</h2>
+<h2 id="h-tomtat">13. Tóm tắt một trang</h2>
 <div class="tbl-wrap"><table>
 <tr><th>Nhóm</th><th>Nhớ 1 câu</th></tr>
 <tr><td>TCA</td><td>Đau: 10 → 75 mg tối. Chẹn H1, M1, α1, Na⁺, K⁺. CCĐ NMCT mới, block tim, IMAO 14 ngày. Ngộ độc → NaHCO₃.</td></tr>
@@ -609,7 +780,7 @@
 <tr><td>"Bổ não"</td><td>Piracetam chỉ cho rung giật cơ vỏ não; citicoline, cerebrolysin không lợi ích ở nhồi máu não; flunarizine gây parkinson.</td></tr>
 </table></div>
 
-<h2 id="h-nguon">13. Nguồn tài liệu</h2>
+<h2 id="h-nguon">14. Nguồn tài liệu</h2>
 <ul style="font-size:14px">
 <li>Stahl SM. <em>Stahl's Essential Psychopharmacology</em>, 5th ed. Cambridge University Press, 2021.</li>
 <li>Brunton LL, Knollmann BC (eds). <em>Goodman &amp; Gilman's The Pharmacological Basis of Therapeutics</em>, 14th ed. McGraw-Hill, 2023 — các chương thuốc chống trầm cảm, chống động kinh, chống loạn thần, an thần – gây ngủ.</li>
@@ -623,6 +794,11 @@
 <li>Dávalos A, et al. Citicoline in the treatment of acute ischaemic stroke (ICTUS). Lancet 2012;380:349–357. Cochrane: Martí-Carvajal AJ, et al. Citicoline for treating people with acute ischemic stroke (2020); Ricci S, et al. Piracetam for acute ischaemic stroke (2012); Cerebrolysin for acute ischaemic stroke (cập nhật 2023).</li>
 <li>Dunkley EJC, et al. The Hunter Serotonin Toxicity Criteria. QJM 2003;96:635–642.</li>
 <li>Glauser T, et al. Treatment of convulsive status epilepticus in children and adults (AES 2016). Epilepsy Curr 2016;16:48–61. Kapur J, et al. ESETT. N Engl J Med 2019;381:2103–2113.</li>
+<li>Kandel ER, et al. <em>Principles of Neural Science</em>, 6th ed. McGraw-Hill, 2021 — synap hoá học, kênh ion, hạch nền, hệ cảm giác đau.</li>
+<li>Rogawski MA, Löscher W. The neurobiology of antiepileptic drugs. Nat Rev Neurosci 2004;5:553–564. Naylor DE, et al. Trafficking of GABA-A receptors, loss of inhibition, and a mechanism for pharmacoresistance in status epilepticus. J Neurosci 2005;25:7724–7733.</li>
+<li>Luo ZD, et al. Upregulation of dorsal root ganglion α2δ calcium channel subunit and its correlation with allodynia in spinal nerve-injured rats. J Neurosci 2001;21:1868–1875. Millan MJ. Descending control of pain. Prog Neurobiol 2002;66:355–474. Colloca L, et al. Neuropathic pain. Nat Rev Dis Primers 2017;3:17002.</li>
+<li>Kapur S, et al. Relationship between dopamine D2 occupancy, clinical response, and side effects: a double-blind PET study of first-episode schizophrenia. Am J Psychiatry 2000;157:514–520.</li>
+<li>Duman RS, Monteggia LM. A neurotrophic model for stress-related mood disorders. Biol Psychiatry 2006;59:1116–1127. Lipton SA. Paradigm shift in neuroprotection by NMDA receptor blockade: memantine and beyond. Nat Rev Drug Discov 2006;5:160–170.</li>
 <li>Adrion C, et al. BEMED trial: betahistine in Ménière's disease. BMJ 2016;352:h6816. DeKosky ST, et al. GEM study: Ginkgo biloba for prevention of dementia. JAMA 2008;300:2253–2262.</li>
 </ul>
 
